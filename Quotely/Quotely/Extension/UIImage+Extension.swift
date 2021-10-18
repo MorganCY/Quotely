@@ -24,6 +24,8 @@ enum SFSymbol: String {
     case cameraNormal = "camera"
 
     case photo = "photo"
+
+    case person = "person"
 }
 
 extension UIImage {

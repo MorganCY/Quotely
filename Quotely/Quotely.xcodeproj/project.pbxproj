@@ -28,6 +28,7 @@
 		5C582105271D791B002E21C9 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582104271D791A002E21C9 /* ExploreViewController.swift */; };
 		5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */; };
 		5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */; };
+		5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */; };
 		5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */; };
 		5CA65BF6271D4EDB00B877FB /* EditOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF5271D4EDB00B877FB /* EditOptionView.swift */; };
 		5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */; };
@@ -59,6 +60,7 @@
 		5C582104271D791A002E21C9 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreTableViewCell.xib; sourceTree = "<group>"; };
+		5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		5CA65BF5271D4EDB00B877FB /* EditOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOptionView.swift; sourceTree = "<group>"; };
 		5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */,
 				5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */,
 				5C582102271D71CC002E21C9 /* Date+Extension.swift */,
+				5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				5C2C7316271D19AD00F8B9EC /* WriteViewController.swift in Sources */,
 				5C2C72FB271D12E100F8B9EC /* SceneDelegate.swift in Sources */,
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,
+				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,
 				5C582105271D791B002E21C9 /* ExploreViewController.swift in Sources */,
 				5C5820FF271D6D80002E21C9 /* PostProvider.swift in Sources */,
 				5C582101271D6FBE002E21C9 /* PostObject.swift in Sources */,

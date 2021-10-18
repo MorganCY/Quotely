@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import FirebaseFirestore
+import Firebase
+import FirebaseFirestoreSwift
 
 class PostProvider {
 
@@ -25,6 +26,37 @@ class PostProvider {
             } else {
 
                 completion(.success("Success"))
+            }
+        }
+    }
+
+    func fetchPost(completion: @escaping (Result<[Post], Error>) -> Void) {
+
+        posts.order(by: "createdTime", descending: true).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                var posts = [Post]()
+
+                for document in querySnapshot!.documents {
+
+                    do {
+                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()) {
+                            
+                            posts.append(post)
+                        }
+
+                    } catch {
+
+                        completion(.failure(error))
+                    }
+                }
+
+                completion(.success(posts))
             }
         }
     }
