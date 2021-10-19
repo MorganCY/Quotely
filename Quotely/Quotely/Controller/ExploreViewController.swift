@@ -16,7 +16,8 @@ class ExploreViewController: UIViewController {
 
         didSet {
 
-            tableView.reloadData()        }
+            tableView.reloadData()
+        }
     }
 
     @IBOutlet weak var tableView: UITableView!
@@ -76,9 +77,10 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             name: "Morgan Yu",
             time: Date.dateFormatter.string(from: Date.init(milliseconds: postList[row].createdTime)),
             content: postList[row].content,
-            postImage: nil,
+            imageUrl: postList[row].imageUrl,
             likeNumber: nil,
-            commentNumber: nil)
+            commentNumber: nil
+        )
 
         return cell
     }

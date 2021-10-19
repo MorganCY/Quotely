@@ -13,7 +13,7 @@ struct Post: Codable {
     var createdTime: Int64
     var editTime: Int64?
     var content: String
-    var photoUrl: String?
+    var imageUrl: String?
     var hashtag: [String]?
     var likeNumber: Int?
     var likeUser: [String]?
@@ -26,7 +26,7 @@ struct Post: Codable {
             "createdTime": createdTime as Any,
             "editTime": editTime as Any,
             "content": content as Any,
-            "photoUrl": photoUrl as Any,
+            "imageUrl": imageUrl as Any,
             "hashtag": hashtag as Any,
             "likeNumber": likeNumber as Any,
             "likeUser": likeUser as Any,

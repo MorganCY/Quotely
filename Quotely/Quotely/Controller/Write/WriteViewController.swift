@@ -94,7 +94,7 @@ class WriteViewController: UIViewController {
                     createdTime: Date().millisecondsSince1970,
                     editTime: nil,
                     content: content,
-                    photoUrl: url,
+                    imageUrl: url,
                     hashtag: nil,
                     likeNumber: nil,
                     likeUser: nil,
