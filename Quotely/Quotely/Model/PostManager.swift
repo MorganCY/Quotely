@@ -7,9 +7,13 @@
 
 import Foundation
 import Firebase
+import FirebaseStorage
+import FirebaseDatabase
 import FirebaseFirestoreSwift
 
-class PostProvider {
+class PostManager {
+
+    let imagePath = Storage.storage().reference().child("posts")
 
     let posts = Firestore.firestore().collection("posts")
 
@@ -46,7 +50,7 @@ class PostProvider {
 
                     do {
                         if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()) {
-                            
+
                             posts.append(post)
                         }
 

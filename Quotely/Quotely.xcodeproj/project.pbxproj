@@ -22,16 +22,17 @@
 		5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7322271D3D5C00F8B9EC /* Write.storyboard */; };
 		5C2C7325271D3D6400F8B9EC /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7324271D3D6400F8B9EC /* Map.storyboard */; };
 		5C2C7327271D3D6E00F8B9EC /* MyAccount.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7326271D3D6E00F8B9EC /* MyAccount.storyboard */; };
-		5C5820FF271D6D80002E21C9 /* PostProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5820FE271D6D80002E21C9 /* PostProvider.swift */; };
+		5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5820FE271D6D80002E21C9 /* PostManager.swift */; };
 		5C582101271D6FBE002E21C9 /* PostObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582100271D6FBE002E21C9 /* PostObject.swift */; };
 		5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582102271D71CC002E21C9 /* Date+Extension.swift */; };
 		5C582105271D791B002E21C9 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582104271D791A002E21C9 /* ExploreViewController.swift */; };
 		5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */; };
 		5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */; };
 		5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */; };
+		5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210F271E8997002E21C9 /* VerticalButton.swift */; };
 		5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */; };
-		5CA65BF6271D4EDB00B877FB /* EditOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF5271D4EDB00B877FB /* EditOptionView.swift */; };
 		5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */; };
+		5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765F9271EAE24008E8D00 /* ImageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,16 +55,17 @@
 		5C2C7322271D3D5C00F8B9EC /* Write.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Write.storyboard; sourceTree = "<group>"; };
 		5C2C7324271D3D6400F8B9EC /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		5C2C7326271D3D6E00F8B9EC /* MyAccount.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyAccount.storyboard; sourceTree = "<group>"; };
-		5C5820FE271D6D80002E21C9 /* PostProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProvider.swift; sourceTree = "<group>"; };
+		5C5820FE271D6D80002E21C9 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		5C582100271D6FBE002E21C9 /* PostObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostObject.swift; sourceTree = "<group>"; };
 		5C582102271D71CC002E21C9 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		5C582104271D791A002E21C9 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreTableViewCell.xib; sourceTree = "<group>"; };
 		5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		5C58210F271E8997002E21C9 /* VerticalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalButton.swift; sourceTree = "<group>"; };
 		5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		5CA65BF5271D4EDB00B877FB /* EditOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOptionView.swift; sourceTree = "<group>"; };
 		5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5CD765F9271EAE24008E8D00 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +126,9 @@
 		5C2C730E271D17A100F8B9EC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5C5820FE271D6D80002E21C9 /* PostProvider.swift */,
+				5C5820FE271D6D80002E21C9 /* PostManager.swift */,
 				5C582100271D6FBE002E21C9 /* PostObject.swift */,
+				5CD765F9271EAE24008E8D00 /* ImageManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -149,7 +152,7 @@
 				5C2C7322271D3D5C00F8B9EC /* Write.storyboard */,
 				5C2C7324271D3D6400F8B9EC /* Map.storyboard */,
 				5C2C7326271D3D6E00F8B9EC /* MyAccount.storyboard */,
-				5CA65BF5271D4EDB00B877FB /* EditOptionView.swift */,
+				5C58210F271E8997002E21C9 /* VerticalButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -335,16 +338,17 @@
 			files = (
 				5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */,
 				5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */,
-				5CA65BF6271D4EDB00B877FB /* EditOptionView.swift in Sources */,
 				5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */,
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
 				5C2C7316271D19AD00F8B9EC /* WriteViewController.swift in Sources */,
+				5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */,
 				5C2C72FB271D12E100F8B9EC /* SceneDelegate.swift in Sources */,
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,
 				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,
 				5C582105271D791B002E21C9 /* ExploreViewController.swift in Sources */,
-				5C5820FF271D6D80002E21C9 /* PostProvider.swift in Sources */,
+				5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */,
+				5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */,
 				5C582101271D6FBE002E21C9 /* PostObject.swift in Sources */,
 				5C2C731B271D1DB200F8B9EC /* BaseTabBarViewController.swift in Sources */,
 			);

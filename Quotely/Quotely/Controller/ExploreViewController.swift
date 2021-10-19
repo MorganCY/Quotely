@@ -10,7 +10,7 @@ import UIKit
 
 class ExploreViewController: UIViewController {
 
-    let postProvider = PostProvider()
+    let postProvider = PostManager()
 
     var postList: [Post] = [] {
 
@@ -20,8 +20,6 @@ class ExploreViewController: UIViewController {
     }
 
     @IBOutlet weak var tableView: UITableView!
-
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
