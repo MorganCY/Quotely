@@ -16,11 +16,12 @@ class ExploreViewController: UIViewController {
 
         didSet {
 
-            tableView.reloadData()
-        }
+            tableView.reloadData()        }
     }
 
     @IBOutlet weak var tableView: UITableView!
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,11 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         postList.count
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        UITableView.automaticDimension
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
@@ -77,10 +83,5 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             commentNumber: nil)
 
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        UITableView.automaticDimension
     }
 }

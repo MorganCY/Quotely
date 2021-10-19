@@ -58,13 +58,11 @@ class ExploreTableViewCell: UITableViewCell {
 
         if let postImage = postImage {
 
+            postImageView.isHidden = false
+
             postImageView.image = postImage
 
             stackViewTopAnchor.constant += postImageView.frame.height
-
-        } else {
-
-            postImageViewHeightAnchor.constant = 0
         }
 
         if let likeNumber = likeNumber,
