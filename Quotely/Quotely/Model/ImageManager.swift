@@ -12,11 +12,15 @@ import FirebaseStorage
 
 class ImageManager {
 
+    static let shared = ImageManager()
+
+    private init() {}
+
     let imagePath = Storage.storage().reference()
 
     func uploadImage(image: UIImage, postHandler: @escaping (Result<String, Error>) -> Void) {
 
-        let scaledImage = image.scale(newWidth: 640.0)
+        let scaledImage = image.scale(newWidth: 320.0)
 
         let imageStorageRef = imagePath.child("\(Date().millisecondsSince1970).jpg")
 
@@ -33,9 +37,12 @@ class ImageManager {
 
         uploadTask.observe(.success) { (snapshot) in
 
-//            guard let uid = Auth.auth().currentUser?.uid else {
-//                return
-//            }
+            // Enable this after implementing firestore Auth
+            /*
+            guard let uid = Auth.auth().currentUser?.uid else {
+                return
+            }
+             */
 
             snapshot.reference.downloadURL(completion: { (url, error) in
 

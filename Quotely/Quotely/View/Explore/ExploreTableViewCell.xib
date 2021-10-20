@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,7 +23,7 @@
                         <constraint firstAttribute="width" secondItem="V06-TB-5VX" secondAttribute="height" multiplier="1:1" id="awT-os-zaA"/>
                     </constraints>
                 </imageView>
-                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="equalSpacing" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="0ng-X0-QBX">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="0ng-X0-QBX">
                     <rect key="frame" x="90" y="10" width="207" height="329"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REG-jv-IH2">
@@ -95,8 +96,8 @@
                 <outlet property="contentLabel" destination="oij-aC-IwR" id="CPf-4n-qfQ"/>
                 <outlet property="likeButton" destination="hy4-Kz-RvS" id="h1l-Cj-2yi"/>
                 <outlet property="postImageView" destination="kvo-5i-dXf" id="OMz-wd-Cwg"/>
-                <outlet property="profileImageView" destination="V06-TB-5VX" id="CbL-aS-oY7"/>
                 <outlet property="timeLabel" destination="8lZ-sK-zid" id="BAD-Q3-Fuj"/>
+                <outlet property="userImageView" destination="V06-TB-5VX" id="CbL-aS-oY7"/>
                 <outlet property="userNameLabel" destination="REG-jv-IH2" id="iXr-c9-sUr"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="138.61607142857142"/>

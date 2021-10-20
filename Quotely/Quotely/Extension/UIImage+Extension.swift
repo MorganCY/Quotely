@@ -26,6 +26,10 @@ enum SFSymbol: String {
     case photo = "photo"
 
     case person = "person"
+
+    case heartNormal = "heart"
+
+    case heartSelected = "heart.fill"
 }
 
 extension UIImage {
@@ -56,7 +60,11 @@ extension UIImage {
 
         let newSize = CGSize(width: newWidth, height: newHeight)
 
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0); self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        UIGraphicsBeginImageContextWithOptions(
+            newSize, false, 0.0
+        ); self.draw(in: CGRect(
+            x: 0, y: 0, width: newWidth, height: newHeight
+        ))
 
         let newImage: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
 

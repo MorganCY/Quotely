@@ -6,20 +6,21 @@
 //
 
 import Foundation
-import Firebase
-import FirebaseStorage
-import FirebaseDatabase
+import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class PostManager {
 
-    let imagePath = Storage.storage().reference().child("posts")
+    static let shared = PostManager()
+
+    private init() {}
 
     let posts = Firestore.firestore().collection("posts")
 
-    func publishPost(post: Post, completion: @escaping (Result<String, Error>) -> Void) {
+    func publishPost(post: inout Post, completion: @escaping (Result<String, Error>) -> Void) {
 
         let document = posts.document()
+        post.postID = document.documentID
 
         document.setData(post.toDict) { error in
 
@@ -49,7 +50,9 @@ class PostManager {
                 for document in querySnapshot!.documents {
 
                     do {
-                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()) {
+                        if let post = try document.data(
+                            as: Post.self, decoder: Firestore.Decoder()
+                        ) {
 
                             posts.append(post)
                         }

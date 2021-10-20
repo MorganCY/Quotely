@@ -9,6 +9,7 @@ import Foundation
 
 struct Post: Codable {
 
+    var postID: String?
     var uid: String
     var createdTime: Int64
     var editTime: Int64?
@@ -22,6 +23,7 @@ struct Post: Codable {
     var toDict: [String: Any] {
 
         return [
+            "postID": postID as Any,
             "uid": uid as Any,
             "createdTime": createdTime as Any,
             "editTime": editTime as Any,

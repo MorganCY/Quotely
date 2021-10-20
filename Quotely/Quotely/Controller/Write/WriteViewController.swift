@@ -10,49 +10,46 @@ import UIKit
 
 class WriteViewController: UIViewController {
 
+    // MARK: ViewControls
     private let contentTextView = UITextView()
-
     private let hashtagLabel = UILabel()
-
-    private let socialShareButton = VerticalButton(title: "社群分享", image: UIImage.sfsymbol(.shareNormal), padding: 4.0)
-
+    private let socialShareButton = UIButton()
     private let cameraScanButton = UIButton()
-
     private let photoUploadButton = UIButton()
-
     private let buttonStackView = UIStackView()
-
     private let postImageView = UIImageView()
 
     var imagePicker = UIImagePickerController()
 
-    let postManager = PostManager()
-
-    let imageManager = ImageManager()
-
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "撰寫摘語"
-
         contentTextView.delegate = self
+        imagePicker.delegate = self
 
         layoutButtons()
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "分享", style: .plain, target: self, action: #selector(publish(_:)))
-
         activateButtons()
 
-        imagePicker.delegate = self
+        navigationItem.title = "撰寫摘語"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "分享", style: .plain,
+            target: self, action: #selector(onPublish(_:))
+        )
     }
 
     override func viewDidLayoutSubviews() {
 
         layoutViews()
-
         layoutButtonIcons()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+
+        tabBarController?.tabBar.isHidden = false
+    }
+
+    // MARK: Action
     @objc func uploadImage(_ sender: UIButton) {
 
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
@@ -72,38 +69,22 @@ class WriteViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-    @objc func publish(_ sender: UIBarButtonItem) {
+    @objc func onPublish(_ sender: UIBarButtonItem) {
 
-        guard let image = postImageView.image else { return }
+        guard let image = postImageView.image else {
 
-        imageManager.uploadImage(image: image) { result in
+            publishPost(imageUrl: nil)
+
+            return
+        }
+
+        ImageManager.shared.uploadImage(image: image) { result in
 
             switch result {
 
             case .success(let url):
 
-                guard let content = self.contentTextView.text else {
-
-                    self.present(UIAlertController(title: "請輸入內容", message: nil, preferredStyle: .alert), animated: true)
-
-                    return
-                }
-
-                let post = Post(
-                    uid: "test123456",
-                    createdTime: Date().millisecondsSince1970,
-                    editTime: nil,
-                    content: content,
-                    imageUrl: url,
-                    hashtag: nil,
-                    likeNumber: nil,
-                    likeUser: nil,
-                    commentNumber: nil)
-
-                self.postManager.publishPost(post: post) { _ in
-
-                    self.dismiss(animated: true, completion: nil)
-                }
+                self.publishPost(imageUrl: url)
 
             case .failure(let error):
 
@@ -112,6 +93,43 @@ class WriteViewController: UIViewController {
         }
     }
 
+    func publishPost(imageUrl: String?) {
+
+        guard let content = self.contentTextView.text else {
+
+            self.present(
+                UIAlertController(
+                    title: "請輸入內容", message: nil, preferredStyle: .alert
+                ), animated: true
+            )
+
+            return
+        }
+
+        var post = Post(
+            uid: "test123456",
+            createdTime: Date().millisecondsSince1970,
+            editTime: nil,
+            content: content,
+            imageUrl: imageUrl,
+            hashtag: nil,
+            likeNumber: nil,
+            likeUser: nil,
+            commentNumber: nil)
+
+        PostManager.shared.publishPost(post: &post) { _ in
+
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    // MARK: ButtonActions
+    func activateButtons() {
+
+        photoUploadButton.addTarget(self, action: #selector(uploadImage(_:)), for: .touchUpInside)
+    }
+
+    // MARK: ImagePickerActions
     func openCamera() {
 
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
@@ -135,12 +153,8 @@ class WriteViewController: UIViewController {
         self.present(imagePicker, animated: true, completion: nil)
     }
 
-    func activateButtons() {
-
-        photoUploadButton.addTarget(self, action: #selector(uploadImage(_:)), for: .touchUpInside)
-    }
-
-    private func layoutViews() {
+    // MARK: SetupViews
+    func layoutViews() {
 
         self.view.addSubview(contentTextView)
         self.view.addSubview(hashtagLabel)
@@ -197,9 +211,9 @@ class WriteViewController: UIViewController {
             $0.imageView?.contentMode = .scaleAspectFit
         }
 
-//        socialShareButton.setTitle("社群分享", for: .normal)
-//        socialShareButton.setTitleColor(.gray, for: .normal)
-//        socialShareButton.titleLabel?.text = "社群分享"
+        socialShareButton.setTitle("社群分享", for: .normal)
+        socialShareButton.setTitleColor(.gray, for: .normal)
+        socialShareButton.titleLabel?.text = "社群分享"
 
         NSLayoutConstraint.activate([
 
@@ -217,7 +231,10 @@ class WriteViewController: UIViewController {
 
     func layoutButtonIcons() {
 
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: socialShareButton.frame.width, weight: .regular, scale: .large)
+        let symbolConfig = UIImage.SymbolConfiguration(
+            pointSize: socialShareButton.frame.width,
+            weight: .regular, scale: .large
+        )
 
 //        socialShareButton.setImage(UIImage.sfsymbol(.shareNormal)?.withConfiguration(symbolConfig), for: .normal)
 
@@ -261,7 +278,10 @@ extension WriteViewController: UITextViewDelegate {
 
 extension WriteViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 

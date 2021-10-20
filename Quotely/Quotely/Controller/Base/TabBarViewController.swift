@@ -86,7 +86,7 @@ private enum Tab {
     }
 }
 
-class BaseTabBarViewController: UITabBarController, UITabBarControllerDelegate {
+class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
     private let tabs: [Tab] = [.browse, .explore, .write, .map, .myAccount]
 
@@ -98,7 +98,10 @@ class BaseTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         delegate = self
     }
 
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    func tabBarController(
+        _ tabBarController: UITabBarController,
+        shouldSelect viewController: UIViewController
+    ) -> Bool {
 
         guard let navVC = viewController as? UINavigationController,
               navVC.viewControllers.first is WriteViewController

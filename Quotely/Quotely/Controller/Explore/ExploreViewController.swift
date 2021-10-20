@@ -10,8 +10,6 @@ import UIKit
 
 class ExploreViewController: UIViewController {
 
-    let postProvider = PostManager()
-
     var postList: [Post] = [] {
 
         didSet {
@@ -22,6 +20,7 @@ class ExploreViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
+    // MARK: LiftCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,7 +32,7 @@ class ExploreViewController: UIViewController {
 
         tableView.delegate = self
 
-        postProvider.fetchPost { result in
+        PostManager.shared.fetchPost { result in
 
             switch result {
 
@@ -46,6 +45,8 @@ class ExploreViewController: UIViewController {
                 print("fetchData.failure: \(error)")
             }
         }
+
+        navigationItem.title = "探索"
     }
 }
 
@@ -74,7 +75,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.layoutCell(
             userImage: nil,
-            name: "Morgan Yu",
+            userName: "Morgan Yu",
             time: Date.dateFormatter.string(from: Date.init(milliseconds: postList[row].createdTime)),
             content: postList[row].content,
             imageUrl: postList[row].imageUrl,
@@ -83,5 +84,29 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         )
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        guard let detailVC =
+                UIStoryboard.explore
+                .instantiateViewController(
+                    withIdentifier: String(describing: PostDetailViewController.self)
+                ) as? PostDetailViewController else {
+
+            return
+        }
+
+        let row = indexPath.row
+
+        detailVC.postID = postList[row].postID
+        detailVC.userImage = UIImage.sfsymbol(.person)
+        detailVC.userName = "Morgan Yu"
+        detailVC.time = postList[row].createdTime
+        detailVC.content = postList[row].content
+        detailVC.imageUrl = postList[row].imageUrl
+        detailVC.likeNumber = nil
+
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

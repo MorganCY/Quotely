@@ -1,0 +1,96 @@
+//
+//  PostDetailViewController.swift
+//  Quotely
+//
+//  Created by Zheng-Yuan Yu on 2021/10/19.
+//
+
+import Foundation
+import UIKit
+
+class PostDetailViewController: BaseDetailViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        tableView.backgroundColor = UIColor(hex: "767e66")
+
+        tableView.separatorStyle = .none
+
+        fetchComments()
+    }
+
+    override func addComment(_ sender: UIButton) {
+
+        if let message = commentTextField.text {
+
+            let comment = Comment(
+                uid: "test123456",
+                content: message,
+                createdTime: Date().millisecondsSince1970,
+                editTime: nil,
+                articleID: nil,
+                postID: postID
+            )
+
+            CommentManager.shared.addComment(
+                comment: comment
+            ) { _ in
+
+                ProgressHUD.showSuccess(text: "已發布")
+            }
+
+        } else {
+
+            self.present(
+                UIAlertController(
+                    title: "請輸入內容", message: nil, preferredStyle: .alert
+                ), animated: true
+            )
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
+        ) as? BaseDetailCommentCell else {
+
+            fatalError("Cannot create cell.")
+        }
+
+        let row = indexPath.row
+
+        cell.layoutCell(
+            userImage: UIImage.sfsymbol(.person),
+            userName: "Morgan Yu",
+            time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
+            content: comments[row].content
+        )
+
+        return cell
+    }
+
+    func fetchComments() {
+
+        guard let postID = postID else { return }
+
+        CommentManager.shared.fetchComment(postID: postID) { result in
+
+            switch result {
+
+            case .success(let comments):
+
+                self.comments = comments
+
+            case .failure(let error):
+
+                print("fetchData.failure: \(error)")
+            }
+        }
+    }
+}
