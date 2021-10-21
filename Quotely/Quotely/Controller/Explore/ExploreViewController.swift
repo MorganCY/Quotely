@@ -92,14 +92,20 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let row = indexPath.row
 
+        if let likeUserList = postList[row].likeUser {
+
+            likedPost = likeUserList.contains("test123456") ? true : false
+        }
+
         cell.layoutCell(
             userImage: UIImage.asset(.testProfile),
             userName: "Morgan Yu",
             time: Date.dateFormatter.string(from: Date.init(milliseconds: postList[row].createdTime)),
             content: postList[row].content,
-            imageUrl: postList[row].imageUrl,
+            postImageUrl: postList[row].imageUrl,
             likeNumber: nil,
-            commentNumber: nil
+            commentNumber: nil,
+            hasLiked: likedPost
         )
 
         cell.selectionStyle = .none

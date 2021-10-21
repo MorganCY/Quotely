@@ -26,13 +26,6 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
 
-//    var clickLike: (() -> Void) = {}
-//
-//    @IBAction func clickLike(_ sender: UIButton) {
-//
-//        clickLike()
-//    }
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -50,20 +43,21 @@ class ExploreTableViewCell: UITableViewCell {
         userName: String,
         time: String,
         content: String,
-        imageUrl: String?,
+        postImageUrl: String?,
         likeNumber: Int?,
-        commentNumber: Int?
+        commentNumber: Int?,
+        hasLiked: Bool
     ) {
+
+        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
+        let buttonColor: UIColor = hasLiked ?  .red : .gray
+
+        likeButton.setBackgroundImage(buttonImage, for: .normal)
+        likeButton.tintColor = buttonColor
 
         userNameLabel.text = userName
         timeLabel.text = time
         contentLabel.text = content
-
-        if let imageUrl = imageUrl {
-
-            postImageView.loadImage(imageUrl, placeHolder: nil)
-            postImageView.isHidden = false
-        }
 
         if let userImage = userImage {
 
@@ -73,6 +67,12 @@ class ExploreTableViewCell: UITableViewCell {
         } else {
 
             userImageView.image = UIImage.sfsymbol(.person)
+        }
+
+        if let postImageUrl = postImageUrl {
+
+            postImageView.loadImage(postImageUrl, placeHolder: nil)
+            postImageView.isHidden = false
         }
 
         if let likeNumber = likeNumber,

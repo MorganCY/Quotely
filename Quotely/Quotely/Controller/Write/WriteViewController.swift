@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import PhotosUI
 
 class WriteViewController: UIViewController {
 
@@ -17,6 +18,7 @@ class WriteViewController: UIViewController {
     private let postImageView = UIImageView()
 
     var imagePicker = UIImagePickerController()
+    var imageConfiguration = PHPickerConfiguration()
 
     @IBOutlet weak var optionPanel: UIView!
 
@@ -144,9 +146,13 @@ class WriteViewController: UIViewController {
 
     func openGallary() {
 
-        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-        imagePicker.allowsEditing = true
-        self.present(imagePicker, animated: true, completion: nil)
+        imageConfiguration.filter = PHPickerFilter.images
+
+        let picker = PHPickerViewController(configuration: imageConfiguration)
+
+        picker.delegate = self
+
+        self.present(picker, animated: true, completion: nil)
     }
 
     // MARK: SetupViews
@@ -233,5 +239,33 @@ extension WriteViewController: UIImagePickerControllerDelegate, UINavigationCont
         postImageView.image = selectedImage
 
         dismiss(animated: true)
+    }
+}
+
+extension WriteViewController: PHPickerViewControllerDelegate {
+
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+
+        picker.dismiss(animated: true)
+
+        guard !results.isEmpty else { return }
+
+        for result in results {
+
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+
+                if let image = image as? UIImage {
+
+                    DispatchQueue.main.async {
+
+                        self.postImageView.image = image
+                    }
+
+                } else {
+
+                    print(String(describing: error))
+                }
+            })
+        }
     }
 }

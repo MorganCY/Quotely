@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Please allow access to take picture.</string>
+	<string>請允許訪問以便拍照。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow access to upload photos.</string>
+	<string>請允許訪問以便選取照片。</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
