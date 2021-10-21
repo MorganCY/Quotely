@@ -18,6 +18,8 @@ class ExploreViewController: UIViewController {
         }
     }
 
+    var likedPost = false
+
     @IBOutlet weak var tableView: UITableView!
 
     // MARK: LiftCycle
@@ -32,6 +34,14 @@ class ExploreViewController: UIViewController {
 
         tableView.delegate = self
 
+        tableView.separatorStyle = .none
+
+        navigationItem.title = "探索"
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         PostManager.shared.fetchPost { result in
 
             switch result {
@@ -45,8 +55,6 @@ class ExploreViewController: UIViewController {
                 print("fetchData.failure: \(error)")
             }
         }
-
-        navigationItem.title = "探索"
     }
 }
 
@@ -74,7 +82,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         let row = indexPath.row
 
         cell.layoutCell(
-            userImage: nil,
+            userImage: UIImage.asset(.testProfile),
             userName: "Morgan Yu",
             time: Date.dateFormatter.string(from: Date.init(milliseconds: postList[row].createdTime)),
             content: postList[row].content,
@@ -82,6 +90,30 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             likeNumber: nil,
             commentNumber: nil
         )
+
+        cell.selectionStyle = .none
+
+//        cell.clickLike = {
+//
+//            guard let postID = self.postList[self.tappedCell].postID else { return }
+//
+//            PostManager.shared.updateLikes(
+//                postID: postID
+//            ) { result in
+//
+//                switch result {
+//
+//                case .success():
+//
+//                    cell.likeButton.setImage(UIImage.sfsymbol(.heartSelected), for: .normal)
+//                    cell.likeButton.tintColor = .red
+//
+//                case .failure(let error):
+//
+//                    print(error)
+//                }
+//            }
+//        }
 
         return cell
     }
@@ -94,18 +126,23 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                     withIdentifier: String(describing: PostDetailViewController.self)
                 ) as? PostDetailViewController else {
 
-            return
-        }
+                    return
+                }
 
         let row = indexPath.row
 
         detailVC.postID = postList[row].postID
-        detailVC.userImage = UIImage.sfsymbol(.person)
+        detailVC.userImage = UIImage.asset(.testProfile)
         detailVC.userName = "Morgan Yu"
         detailVC.time = postList[row].createdTime
         detailVC.content = postList[row].content
         detailVC.imageUrl = postList[row].imageUrl
         detailVC.likeNumber = nil
+
+        if let likeUserList = postList[row].likeUser {
+
+            detailVC.hasLiked = likeUserList.contains("test123456") ? true : false
+        }
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

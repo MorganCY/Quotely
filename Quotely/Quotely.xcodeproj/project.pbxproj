@@ -30,6 +30,8 @@
 		5C4B9697271FBF4C008B21C7 /* CommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9696271FBF4C008B21C7 /* CommentManager.swift */; };
 		5C4B9699271FC0D3008B21C7 /* CommentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9698271FC0D3008B21C7 /* CommentObject.swift */; };
 		5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */; };
+		5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969C2721575B008B21C7 /* CommentTextField.swift */; };
+		5C4B969F27216007008B21C7 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969E27216007008B21C7 /* IconButton.swift */; };
 		5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5820FE271D6D80002E21C9 /* PostManager.swift */; };
 		5C582101271D6FBE002E21C9 /* PostObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582100271D6FBE002E21C9 /* PostObject.swift */; };
 		5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582102271D71CC002E21C9 /* Date+Extension.swift */; };
@@ -74,6 +76,8 @@
 		5C4B9696271FBF4C008B21C7 /* CommentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentManager.swift; sourceTree = "<group>"; };
 		5C4B9698271FC0D3008B21C7 /* CommentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentObject.swift; sourceTree = "<group>"; };
 		5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUD.swift; sourceTree = "<group>"; };
+		5C4B969C2721575B008B21C7 /* CommentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTextField.swift; sourceTree = "<group>"; };
+		5C4B969E27216007008B21C7 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		5C5820FE271D6D80002E21C9 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		5C582100271D6FBE002E21C9 /* PostObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostObject.swift; sourceTree = "<group>"; };
 		5C582102271D71CC002E21C9 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -229,6 +233,8 @@
 				5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */,
 				5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */,
 				5C4B9694271FBCCF008B21C7 /* BaseDetailCommentCell.xib */,
+				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
+				5C4B969E27216007008B21C7 /* IconButton.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */,
 				5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */,
 				5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */,
+				5C4B969F27216007008B21C7 /* IconButton.swift in Sources */,
 				5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */,
 				5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */,
 				5C4B9693271FBCC1008B21C7 /* BaseDetailCommentCell.swift in Sources */,
@@ -424,6 +431,7 @@
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
 				5C4B9697271FBF4C008B21C7 /* CommentManager.swift in Sources */,
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,
+				5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */,
 				5C2C7316271D19AD00F8B9EC /* WriteViewController.swift in Sources */,
 				5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */,
 				5C2C72FB271D12E100F8B9EC /* SceneDelegate.swift in Sources */,

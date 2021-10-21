@@ -9,7 +9,14 @@ import Foundation
 import UIKit
 import Kingfisher
 
+protocol ExploreTableViewCellDelegate: AnyObject {
+
+    func getTableViewCell(_ cell: ExploreTableViewCell)
+}
+
 class ExploreTableViewCell: UITableViewCell {
+
+    weak var delegate: ExploreTableViewCellDelegate?
 
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -19,20 +26,23 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
 
-    var hasUserInfo = false {
-
-        didSet {
-
-            postImageView.isHidden = !hasUserInfo
-        }
-    }
+//    var clickLike: (() -> Void) = {}
+//
+//    @IBAction func clickLike(_ sender: UIButton) {
+//
+//        clickLike()
+//    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
         postImageView.contentMode = .scaleAspectFill
 
-        postImageView.layer.cornerRadius = 10
+        postImageView.cornerRadius = CornerRadius.standard.rawValue
+
+        postImageView.isHidden = true
+
+        likeButton.isEnabled = true
     }
 
     func layoutCell(
@@ -51,14 +61,14 @@ class ExploreTableViewCell: UITableViewCell {
 
         if let imageUrl = imageUrl {
 
-            hasUserInfo = true
-
             postImageView.loadImage(imageUrl, placeHolder: nil)
+            postImageView.isHidden = false
         }
 
         if let userImage = userImage {
 
             userImageView.image = userImage
+            userImageView.cornerRadius = userImageView.frame.width / 2
 
         } else {
 

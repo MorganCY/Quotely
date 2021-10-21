@@ -9,6 +9,13 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+enum LikeAction: Int64 {
+
+    case like = 1
+
+    case dislike = -1
+}
+
 class PostManager {
 
     static let shared = PostManager()
@@ -64,6 +71,40 @@ class PostManager {
                 }
 
                 completion(.success(posts))
+            }
+        }
+    }
+
+    func updateLikes(postID: String, likeAction: LikeAction, completion: @escaping (Result<String, Error>) -> Void) {
+
+        posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetPost = querySnapshot?.documents.first
+
+                switch likeAction {
+
+                case .like:
+
+                    targetPost?.reference.updateData(
+                        ["likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
+                         "likeUser": FieldValue.arrayUnion(["test123456"] as [Any])
+                        ])
+
+                case .dislike:
+
+                    targetPost?.reference.updateData(
+                        ["likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
+                         "likeUser": FieldValue.arrayRemove(["test123456"] as [Any])
+                        ])
+                }
+
+                completion(.success("changed like number"))
             }
         }
     }

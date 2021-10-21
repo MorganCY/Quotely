@@ -12,40 +12,40 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BaseDetailTableViewHeader" customModule="Quotely" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="350"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="400"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="TJc-dZ-LO1">
-                    <rect key="frame" x="16" y="21.5" width="50" height="47.5"/>
+                    <rect key="frame" x="16" y="17.5" width="50" height="47.5"/>
                     <color key="tintColor" systemColor="secondaryLabelColor"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="TKC-Eh-Su7"/>
                         <constraint firstAttribute="width" secondItem="TJc-dZ-LO1" secondAttribute="height" multiplier="1:1" id="oCX-dg-B6Q"/>
                     </constraints>
                 </imageView>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="SZA-En-EOn">
-                    <rect key="frame" x="86" y="20" width="207" height="304.5"/>
+                <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="SZA-En-EOn">
+                    <rect key="frame" x="86" y="16" width="248.5" height="352"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LeQ-xT-ol0">
-                            <rect key="frame" x="0.0" y="0.0" width="44" height="21.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <rect key="frame" x="0.0" y="0.0" width="47" height="22"/>
+                            <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63T-4b-AaH">
-                            <rect key="frame" x="0.0" y="33.5" width="40.5" height="19.5"/>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63T-4b-AaH">
+                            <rect key="frame" x="0.0" y="34" width="35.5" height="20"/>
+                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhO-kH-7M5">
-                            <rect key="frame" x="0.0" y="65" width="41.5" height="20.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhO-kH-7M5">
+                            <rect key="frame" x="0.0" y="66" width="45.5" height="25.5"/>
+                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="odH-F0-2Ix">
-                            <rect key="frame" x="0.0" y="97.5" width="207" height="207"/>
+                            <rect key="frame" x="0.0" y="103.5" width="248.5" height="248.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="odH-F0-2Ix" secondAttribute="height" multiplier="1:1" id="Plv-Cf-daG"/>
                             </constraints>
@@ -55,19 +55,20 @@
                         <constraint firstItem="63T-4b-AaH" firstAttribute="leading" secondItem="LeQ-xT-ol0" secondAttribute="leading" id="7E7-pC-t9S"/>
                         <constraint firstItem="odH-F0-2Ix" firstAttribute="top" secondItem="DhO-kH-7M5" secondAttribute="bottom" constant="12" id="Jlm-w4-rlC"/>
                         <constraint firstItem="DhO-kH-7M5" firstAttribute="leading" secondItem="63T-4b-AaH" secondAttribute="leading" id="PAe-Sh-Bo9"/>
+                        <constraint firstItem="DhO-kH-7M5" firstAttribute="top" secondItem="63T-4b-AaH" secondAttribute="bottom" constant="12" id="bUR-Rk-3sv"/>
                     </constraints>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="SZA-En-EOn" secondAttribute="bottom" constant="25.5" id="ApG-pT-kbX"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="top" secondItem="SZA-En-EOn" secondAttribute="top" id="Fk3-Lc-TPx"/>
-                <constraint firstItem="odH-F0-2Ix" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.5" id="ILd-rV-1u1"/>
+                <constraint firstItem="odH-F0-2Ix" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.6" id="ILd-rV-1u1"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Lcy-Pq-0y3"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="SZA-En-EOn" secondAttribute="bottom" constant="32" id="RdF-ew-xiv"/>
                 <constraint firstItem="SZA-En-EOn" firstAttribute="leading" secondItem="TJc-dZ-LO1" secondAttribute="trailing" constant="20" id="Xhl-rA-6cJ"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="width" secondItem="TJc-dZ-LO1" secondAttribute="height" multiplier="1:1" id="Yoc-i5-6S5"/>
-                <constraint firstItem="SZA-En-EOn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="vYB-34-NFX"/>
+                <constraint firstItem="SZA-En-EOn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="vYB-34-NFX"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

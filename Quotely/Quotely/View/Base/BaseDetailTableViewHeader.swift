@@ -30,7 +30,7 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         super.awakeFromNib()
 
         postImageView.contentMode = .scaleAspectFill
-        postImageView.layer.cornerRadius = 10
+        postImageView.cornerRadius = CornerRadius.standard.rawValue
         postImageView.isHidden = true
     }
 
@@ -53,6 +53,8 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
             userImageView.image = userImage
             userNameLabel.text = name
             timeLabel.text = Date.dateFormatter.string(from: Date.init(milliseconds: time))
+
+            userImageView.cornerRadius = userImageView.frame.width / 2
         }
 
         if let imageUrl = imageUrl {

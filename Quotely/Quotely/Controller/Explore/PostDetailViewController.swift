@@ -10,18 +10,62 @@ import UIKit
 
 class PostDetailViewController: BaseDetailViewController {
 
+    var hasLiked = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.title = "摘語"
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        tableView.backgroundColor = UIColor(hex: "767e66")
-
-        tableView.separatorStyle = .none
-
         fetchComments()
+
+        setupLikeButtonState()
+    }
+
+    override func like(_ sender: UIButton) {
+
+        let likeAction: LikeAction = hasLiked ? .dislike : .like
+        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartNormal)! : UIImage.sfsymbol(.heartSelected)!
+        let buttonColor: UIColor = hasLiked ? .gray : .red
+
+        hasLiked.toggle()
+
+        guard let postID = postID else { return }
+
+        PostManager.shared.updateLikes(postID: postID, likeAction: likeAction) { result in
+
+            switch result {
+
+            case .success(let action):
+
+                print(action)
+
+                UIView.animate(
+                    withDuration: 1 / 3, delay: 0,
+                    options: .curveEaseIn) { [weak self] in
+
+                        self?.likeButton.setBackgroundImage(buttonImage, for: .normal)
+                        self?.likeButton.tintColor = buttonColor
+                    }
+
+            case .failure(let error):
+
+                print("updateData.failure: \(error)")
+            }
+        }
+    }
+
+    func setupLikeButtonState() {
+
+        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
+        let buttonColor: UIColor = hasLiked ?  .red : .gray
+
+        likeButton.setBackgroundImage(buttonImage, for: .normal)
+        likeButton.tintColor = buttonColor
     }
 
     override func addComment(_ sender: UIButton) {
@@ -66,11 +110,13 @@ class PostDetailViewController: BaseDetailViewController {
         let row = indexPath.row
 
         cell.layoutCell(
-            userImage: UIImage.sfsymbol(.person),
+            userImage: UIImage.asset(.testProfile),
             userName: "Morgan Yu",
             time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
             content: comments[row].content
         )
+
+        cell.noSelectionStyle()
 
         return cell
     }

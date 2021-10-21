@@ -9,8 +9,7 @@ import UIKit
 
 enum ImageAsset: String {
 
-    // Profile tab - Tab
-    case none
+    case testProfile = "test_profile"
 }
 
 enum SFSymbol: String {
@@ -30,6 +29,8 @@ enum SFSymbol: String {
     case heartNormal = "heart"
 
     case heartSelected = "heart.fill"
+
+    case send = "paperplane.fill"
 }
 
 extension UIImage {

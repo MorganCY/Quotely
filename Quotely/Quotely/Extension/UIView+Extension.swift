@@ -7,31 +7,75 @@
 
 import UIKit
 
+enum CornerRadius: CGFloat {
+
+    case standard = 10.0
+}
+
 extension UIView {
 
-    enum Side {
+    // Border Color
+    @IBInspectable var borderColor: UIColor? {
+        get {
 
-        case left, right, top, bottom
+            guard let borderColor = layer.borderColor else {
+
+                return nil
+            }
+
+            return UIColor(cgColor: borderColor)
+        }
+        set {
+            layer.borderColor = newValue?.cgColor
+        }
     }
 
-    func addBorder(toSide side: Side, withColor color: CGColor, width: CGFloat) {
-
-        let border = CALayer()
-
-        border.backgroundColor = color
-
-        switch side {
-
-        case .left: border.frame = CGRect(x: frame.minX, y: frame.minY, width: width, height: frame.height)
-
-        case .right: border.frame = CGRect(x: frame.maxX, y: frame.minY, width: width, height: frame.height)
-
-        case .top: border.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: width)
-
-        case .bottom: border.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: width)
+    // Border width
+    @IBInspectable var borderWidth: CGFloat {
+        get {
+            return layer.borderWidth
         }
+        set {
+            layer.borderWidth = newValue
+        }
+    }
 
-        layer.addSublayer(border)
+    // Corner radius
+    @IBInspectable var cornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        }
+        set {
+            layer.cornerRadius = newValue
+        }
+    }
+
+    // Shadow settings
+    @IBInspectable var shadowColor: CGColor? {
+        get {
+            return layer.shadowColor
+        }
+        set {
+            layer.shadowColor = newValue
+        }
+    }
+
+    @IBInspectable var shadowOpacity: Float {
+        get {
+            return layer.shadowOpacity
+        }
+        set {
+            layer.shadowOpacity = newValue
+        }
+    }
+
+    @IBInspectable var shadowOffset: CGSize {
+        get {
+            return CGSize()
+        }
+        set {
+            layer.shadowOffset = newValue
+        }
     }
 }
 
@@ -45,12 +89,12 @@ extension UIView {
 
         objectView.translatesAutoresizingMaskIntoConstraints = false
 
-        objectView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        objectView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
 
         objectView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
 
         objectView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
 
-        objectView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        objectView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100).isActive = true
     }
 }

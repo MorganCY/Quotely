@@ -13,13 +13,12 @@ class WriteViewController: UIViewController {
     // MARK: ViewControls
     private let contentTextView = UITextView()
     private let hashtagLabel = UILabel()
-    private let socialShareButton = UIButton()
-    private let cameraScanButton = UIButton()
-    private let photoUploadButton = UIButton()
     private let buttonStackView = UIStackView()
     private let postImageView = UIImageView()
 
     var imagePicker = UIImagePickerController()
+
+    @IBOutlet weak var optionPanel: UIView!
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -27,9 +26,6 @@ class WriteViewController: UIViewController {
 
         contentTextView.delegate = self
         imagePicker.delegate = self
-
-        layoutButtons()
-        activateButtons()
 
         navigationItem.title = "撰寫摘語"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -41,7 +37,13 @@ class WriteViewController: UIViewController {
     override func viewDidLayoutSubviews() {
 
         layoutViews()
-        layoutButtonIcons()
+
+        optionPanel.shadowColor = UIColor.gray.cgColor
+        optionPanel.shadowOpacity = 0.3
+        optionPanel.shadowOffset = CGSize(width: 6, height: 8)
+        optionPanel.cornerRadius = CornerRadius.standard.rawValue
+        optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
+        optionPanel.borderWidth = 1
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +52,7 @@ class WriteViewController: UIViewController {
     }
 
     // MARK: Action
-    @objc func uploadImage(_ sender: UIButton) {
+    @IBAction func uploadImage(_ sender: Any) {
 
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
 
@@ -123,12 +125,6 @@ class WriteViewController: UIViewController {
         }
     }
 
-    // MARK: ButtonActions
-    func activateButtons() {
-
-        photoUploadButton.addTarget(self, action: #selector(uploadImage(_:)), for: .touchUpInside)
-    }
-
     // MARK: ImagePickerActions
     func openCamera() {
 
@@ -191,60 +187,6 @@ class WriteViewController: UIViewController {
             postImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
             postImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
         ])
-    }
-
-    func layoutButtons() {
-
-        let buttons = [socialShareButton, cameraScanButton, photoUploadButton]
-
-        self.view.addSubview(buttonStackView)
-        buttonStackView.axis = .horizontal
-        buttonStackView.alignment = .center
-        buttonStackView.distribution = .fillEqually
-        buttonStackView.spacing = 30
-        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
-
-        buttons.forEach {
-
-            buttonStackView.addArrangedSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.imageView?.contentMode = .scaleAspectFit
-        }
-
-        socialShareButton.setTitle("社群分享", for: .normal)
-        socialShareButton.setTitleColor(.gray, for: .normal)
-        socialShareButton.titleLabel?.text = "社群分享"
-
-        NSLayoutConstraint.activate([
-
-            buttonStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            buttonStackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-
-            socialShareButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.08),
-            socialShareButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2),
-            cameraScanButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.08),
-            cameraScanButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2),
-            photoUploadButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.08),
-            photoUploadButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2)
-        ])
-    }
-
-    func layoutButtonIcons() {
-
-        let symbolConfig = UIImage.SymbolConfiguration(
-            pointSize: socialShareButton.frame.width,
-            weight: .regular, scale: .large
-        )
-
-//        socialShareButton.setImage(UIImage.sfsymbol(.shareNormal)?.withConfiguration(symbolConfig), for: .normal)
-
-        cameraScanButton.setImage(UIImage.sfsymbol(.cameraNormal)?.withConfiguration(symbolConfig), for: .normal)
-        cameraScanButton.setTitle("掃描文字", for: .normal)
-        cameraScanButton.setTitleColor(.gray, for: .normal)
-
-        photoUploadButton.setImage(UIImage.sfsymbol(.photo)?.withConfiguration(symbolConfig), for: .normal)
-        photoUploadButton.setTitle("上傳照片", for: .normal)
-        photoUploadButton.setTitleColor(.gray, for: .normal)
     }
 }
 

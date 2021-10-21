@@ -13,14 +13,9 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: ViewControls
     let commentPanel = UIView()
     let userImageView = UIImageView()
-    let commentTextField = UITextField()
-    let likeButton = UIButton()
-    let likeNumberLabel = UILabel()
-    let submitButton: UIButton = {
-        let submitButton = UIButton()
-        submitButton.isHidden = true
-        return submitButton
-    }()
+    let commentTextField = CommentTextField()
+    let likeButton = IconButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
+    let submitButton = IconButton(image: UIImage.sfsymbol(.send)!, color: .blue)
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -39,29 +34,32 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
 
+    var hasTabBar = false
+
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupTableVIew()
 
-        setupCommentPanel()
+        layoutCommentPanel()
+
+        if #available(iOS 15.0, *) {
+
+          tableView.sectionHeaderTopPadding = 0
+        }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        userImageView.layer.cornerRadius = userImageView.frame.width / 2
-
-        commentTextField.layer.cornerRadius = commentTextField.frame.height / 2
+        userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.tabBarController?.tabBar.isHidden = true
-
-        commentPanel.addBorder(toSide: .top, withColor: UIColor.gray.cgColor, width: 10)
+        tabBarController?.tabBar.isHidden = !hasTabBar
 
         tableView.registerHeaderWithNib(
             identifier: BaseDetailTableViewHeader.identifier,
@@ -73,8 +71,14 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         )
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+
+        tabBarController?.tabBar.isHidden = hasTabBar
+    }
+
     // MARK: Action
     // Should be properly overridden by subclasses
+    @objc func like(_ sender: UIButton) {}
     @objc func addComment(_ sender: UIButton) {}
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -82,7 +86,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         let textFieldOpened = commentTextField.isFirstResponder
 
         likeButton.isHidden = textFieldOpened
-        likeNumberLabel.isHidden = textFieldOpened
         submitButton.isHidden = !textFieldOpened
     }
 
@@ -91,7 +94,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         let textFieldOpened = commentTextField.isFirstResponder
 
         likeButton.isHidden = textFieldOpened
-        likeNumberLabel.isHidden = textFieldOpened
         submitButton.isHidden = !textFieldOpened
     }
 
@@ -112,10 +114,10 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.delegate = self
     }
 
-    func setupCommentPanel() {
+    func layoutCommentPanel() {
 
         let commentPanelObject = [
-            commentPanel, userImageView, commentTextField, likeButton, likeNumberLabel, submitButton
+            commentPanel, userImageView, commentTextField, likeButton, submitButton
         ]
 
         commentPanelObject.forEach {
@@ -140,33 +142,29 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
             commentTextField.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentTextField.heightAnchor.constraint(equalTo: userImageView.heightAnchor),
-            commentTextField.widthAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.6),
+            commentTextField.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -10),
             commentTextField.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
 
-            likeButton.leadingAnchor.constraint(equalTo: commentTextField.trailingAnchor, constant: 10),
+            likeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
             likeButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
-            likeButton.heightAnchor.constraint(equalTo: userImageView.heightAnchor),
-            likeButton.widthAnchor.constraint(equalTo: likeButton.heightAnchor),
+            likeButton.widthAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1),
+            likeButton.heightAnchor.constraint(equalTo: likeButton.widthAnchor),
 
-            likeNumberLabel.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 10),
-            likeNumberLabel.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
-
-            submitButton.leadingAnchor.constraint(equalTo: commentTextField.trailingAnchor, constant: 10),
-            submitButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor)
+            submitButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            submitButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
+            submitButton.widthAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1),
+            submitButton.heightAnchor.constraint(equalTo: likeButton.widthAnchor)
         ])
 
         commentPanel.backgroundColor = .white
 
         userImageView.backgroundColor = .gray
         userImageView.image = userImage
-        commentTextField.backgroundColor = .gray
         commentTextField.delegate = self
-        likeButton.setImage(UIImage.sfsymbol(.heartNormal), for: .normal)
-        likeNumberLabel.textColor = .gray
-        likeNumberLabel.text = String(describing: likeNumber)
-        submitButton.setTitle("送出", for: .normal)
-        submitButton.setTitleColor(.blue, for: .normal)
+        submitButton.isHidden = true
 
+        likeButton.addTarget(
+            self, action: #selector(like(_:)), for: .touchUpInside)
         submitButton.addTarget(
             self, action: #selector(addComment(_:)),
             for: .touchUpInside
@@ -193,6 +191,10 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             imageUrl: imageUrl
         )
 
+        header.shadowColor = UIColor.gray.cgColor
+        header.shadowOpacity = 0.1
+        header.shadowOffset = CGSize(width: 2, height: 8)
+
         return header
     }
 
@@ -209,11 +211,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         UITableView.automaticDimension
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-
-        return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

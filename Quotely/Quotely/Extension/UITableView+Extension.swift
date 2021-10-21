@@ -30,6 +30,11 @@ extension UITableViewCell {
 
         return String(describing: self)
     }
+
+    func noSelectionStyle() {
+
+        self.selectionStyle = .none
+    }
 }
 
 extension UITableViewHeaderFooterView {

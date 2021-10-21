@@ -21,6 +21,8 @@ class BaseDetailCommentCell: UITableViewCell {
         super.awakeFromNib()
 
         self.backgroundColor = .clear
+
+        userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
     func layoutCell(
