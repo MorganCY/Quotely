@@ -37,10 +37,21 @@ class ExploreViewController: UIViewController {
         tableView.separatorStyle = .none
 
         navigationItem.title = "探索"
+
+        fetchPost()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+
+        fetchPost()
+    }
+
+    func fetchPost() {
 
         PostManager.shared.fetchPost { result in
 

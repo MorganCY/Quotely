@@ -79,22 +79,22 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: Action
     // Should be properly overridden by subclasses
     @objc func like(_ sender: UIButton) {}
-    @objc func addComment(_ sender: UIButton) {}
+
+    @objc func addComment(_ sender: UIButton) {
+
+        commentTextField.resignFirstResponder()
+
+        displayButtons()
+    }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
 
-        let textFieldOpened = commentTextField.isFirstResponder
-
-        likeButton.isHidden = textFieldOpened
-        submitButton.isHidden = !textFieldOpened
+        displayButtons()
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
 
-        let textFieldOpened = commentTextField.isFirstResponder
-
-        likeButton.isHidden = textFieldOpened
-        submitButton.isHidden = !textFieldOpened
+        displayButtons()
     }
 
     // MARK: SetupViews
@@ -102,7 +102,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         if tableView == nil {
 
-            let tableView = UITableView()
+            let tableView = UITableView(frame: .zero, style: .grouped)
 
             view.stickSubView(tableView)
 
@@ -112,6 +112,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.dataSource = self
 
         tableView.delegate = self
+
+        tableView.backgroundColor = .white
     }
 
     func layoutCommentPanel() {
@@ -171,6 +173,13 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         )
     }
 
+    func displayButtons() {
+
+        likeButton.isHidden = commentTextField.isFirstResponder
+        ? true : false
+        submitButton.isHidden = commentTextField.isFirstResponder ? false : true
+    }
+
     // MARK: TableView
     // Should be properly edited by subclasses
 
@@ -190,10 +199,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             content: content,
             imageUrl: imageUrl
         )
-
-        header.shadowColor = UIColor.gray.cgColor
-        header.shadowOpacity = 0.1
-        header.shadowOffset = CGSize(width: 2, height: 8)
 
         return header
     }

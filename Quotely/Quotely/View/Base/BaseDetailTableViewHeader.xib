@@ -24,28 +24,28 @@
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="SZA-En-EOn">
-                    <rect key="frame" x="86" y="16" width="248.5" height="352"/>
+                    <rect key="frame" x="86" y="16" width="248.5" height="346"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LeQ-xT-ol0">
-                            <rect key="frame" x="0.0" y="0.0" width="47" height="22"/>
+                            <rect key="frame" x="0.0" y="0.0" width="47" height="16"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63T-4b-AaH">
-                            <rect key="frame" x="0.0" y="34" width="35.5" height="20"/>
+                            <rect key="frame" x="0.0" y="28" width="35.5" height="20"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhO-kH-7M5">
-                            <rect key="frame" x="0.0" y="66" width="45.5" height="25.5"/>
+                            <rect key="frame" x="0.0" y="60" width="45.5" height="25.5"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="odH-F0-2Ix">
-                            <rect key="frame" x="0.0" y="103.5" width="248.5" height="248.5"/>
+                            <rect key="frame" x="0.0" y="97.5" width="248.5" height="248.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="odH-F0-2Ix" secondAttribute="height" multiplier="1:1" id="Plv-Cf-daG"/>
                             </constraints>
@@ -58,17 +58,28 @@
                         <constraint firstItem="DhO-kH-7M5" firstAttribute="top" secondItem="63T-4b-AaH" secondAttribute="bottom" constant="12" id="bUR-Rk-3sv"/>
                     </constraints>
                 </stackView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uzi-If-l2e">
+                    <rect key="frame" x="0.0" y="394" width="414" height="6"/>
+                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="6" id="gQ0-f6-xnf"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="6" id="riK-pO-R19"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="Uzi-If-l2e" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="4s8-j8-zqV"/>
+                <constraint firstItem="Uzi-If-l2e" firstAttribute="top" secondItem="SZA-En-EOn" secondAttribute="bottom" constant="32" id="7V7-qC-QrX"/>
+                <constraint firstAttribute="trailing" secondItem="Uzi-If-l2e" secondAttribute="trailing" id="F1D-C9-YSZ"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="top" secondItem="SZA-En-EOn" secondAttribute="top" id="Fk3-Lc-TPx"/>
                 <constraint firstItem="odH-F0-2Ix" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.6" id="ILd-rV-1u1"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Lcy-Pq-0y3"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="SZA-En-EOn" secondAttribute="bottom" constant="32" id="RdF-ew-xiv"/>
                 <constraint firstItem="SZA-En-EOn" firstAttribute="leading" secondItem="TJc-dZ-LO1" secondAttribute="trailing" constant="20" id="Xhl-rA-6cJ"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="width" secondItem="TJc-dZ-LO1" secondAttribute="height" multiplier="1:1" id="Yoc-i5-6S5"/>
                 <constraint firstItem="SZA-En-EOn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="vYB-34-NFX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Uzi-If-l2e" secondAttribute="bottom" id="wa4-ZI-mVv"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -85,6 +96,9 @@
         <image name="person" catalog="system" width="128" height="117"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

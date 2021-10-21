@@ -69,6 +69,7 @@ class PostDetailViewController: BaseDetailViewController {
     }
 
     override func addComment(_ sender: UIButton) {
+        super.addComment(sender)
 
         if let message = commentTextField.text {
 
@@ -86,6 +87,8 @@ class PostDetailViewController: BaseDetailViewController {
             ) { _ in
 
                 ProgressHUD.showSuccess(text: "已發布")
+
+                self.commentTextField.text = ""
             }
 
         } else {
