@@ -88,6 +88,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let likeUser = postList[row].likeUser
 
+        // When displaying the reusable cell, check if the user has likedPost
         likedPost = likeUser.contains("test123456") ?
         true : false
 
@@ -105,6 +106,10 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
 
         cell.likeHandler = {
+
+            // When tapping on the like button, check if the user has likedPost
+            self.likedPost = likeUser.contains("test123456") ?
+            true : false
 
             guard let postID = self.postList[row].postID else { return }
 
