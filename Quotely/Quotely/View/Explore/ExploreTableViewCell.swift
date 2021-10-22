@@ -9,14 +9,7 @@ import Foundation
 import UIKit
 import Kingfisher
 
-protocol ExploreTableViewCellDelegate: AnyObject {
-
-    func getTableViewCell(_ cell: ExploreTableViewCell)
-}
-
 class ExploreTableViewCell: UITableViewCell {
-
-    weak var delegate: ExploreTableViewCellDelegate?
 
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -33,9 +26,14 @@ class ExploreTableViewCell: UITableViewCell {
 
         postImageView.cornerRadius = CornerRadius.standard.rawValue
 
-        postImageView.isHidden = true
-
         likeButton.isEnabled = true
+    }
+
+    var likeHandler: (() -> Void) = {}
+
+    @IBAction func like(_ sender: UIButton) {
+
+        likeHandler()
     }
 
     func layoutCell(
@@ -50,14 +48,25 @@ class ExploreTableViewCell: UITableViewCell {
     ) {
 
         let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = hasLiked ?  .red : .gray
+        let buttonColor: UIColor = hasLiked ? .red : .gray
 
-        likeButton.setBackgroundImage(buttonImage, for: .normal)
+        likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
 
         userNameLabel.text = userName
         timeLabel.text = time
         contentLabel.text = content
+
+        if let postImageUrl = postImageUrl {
+
+            // Define postImageView display state in case of wrongly reusing cell
+            postImageView.isHidden = false
+            postImageView.loadImage(postImageUrl, placeHolder: nil)
+
+        } else {
+
+            postImageView.isHidden = true
+        }
 
         if let userImage = userImage {
 
@@ -67,12 +76,6 @@ class ExploreTableViewCell: UITableViewCell {
         } else {
 
             userImageView.image = UIImage.sfsymbol(.person)
-        }
-
-        if let postImageUrl = postImageUrl {
-
-            postImageView.loadImage(postImageUrl, placeHolder: nil)
-            postImageView.isHidden = false
         }
 
         if let likeNumber = likeNumber,

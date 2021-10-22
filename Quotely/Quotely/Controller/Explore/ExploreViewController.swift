@@ -37,16 +37,10 @@ class ExploreViewController: UIViewController {
         tableView.separatorStyle = .none
 
         navigationItem.title = "探索"
-
-        fetchPost()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
 
         fetchPost()
     }
@@ -92,10 +86,10 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let row = indexPath.row
 
-        if let likeUserList = postList[row].likeUser {
+        let likeUser = postList[row].likeUser
 
-            likedPost = likeUserList.contains("test123456") ? true : false
-        }
+        likedPost = likeUser.contains("test123456") ?
+        true : false
 
         cell.layoutCell(
             userImage: UIImage.asset(.testProfile),
@@ -110,27 +104,31 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.selectionStyle = .none
 
-//        cell.clickLike = {
-//
-//            guard let postID = self.postList[self.tappedCell].postID else { return }
-//
-//            PostManager.shared.updateLikes(
-//                postID: postID
-//            ) { result in
-//
-//                switch result {
-//
-//                case .success():
-//
-//                    cell.likeButton.setImage(UIImage.sfsymbol(.heartSelected), for: .normal)
-//                    cell.likeButton.tintColor = .red
-//
-//                case .failure(let error):
-//
-//                    print(error)
-//                }
-//            }
-//        }
+        cell.likeHandler = {
+
+            guard let postID = self.postList[row].postID else { return }
+
+            let likeAction: LikeAction = self.likedPost
+            ? .dislike : .like
+
+            PostManager.shared.updateLikes(
+                postID: postID, likeAction: likeAction
+            ) { result in
+
+                switch result {
+
+                case .success(let action):
+
+                    print(action)
+
+                    self.fetchPost()
+
+                case .failure(let error):
+
+                    print(error)
+                }
+            }
+        }
 
         return cell
     }
@@ -156,10 +154,9 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         detailVC.imageUrl = postList[row].imageUrl
         detailVC.likeNumber = nil
 
-        if let likeUserList = postList[row].likeUser {
+        let likeUserList = postList[row].likeUser
 
-            detailVC.hasLiked = likeUserList.contains("test123456") ? true : false
-        }
+        detailVC.hasLiked = likeUserList.contains("test123456") ? true : false
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

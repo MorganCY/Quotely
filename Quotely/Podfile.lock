@@ -429,6 +429,7 @@ PODS:
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.0.0)
   - SwiftLint (0.44.0)
+  - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
   - Firebase/Database
@@ -439,6 +440,7 @@ DEPENDENCIES:
   - JGProgressHUD
   - Kingfisher
   - SwiftLint
+  - "UITextView+Placeholder"
 
 SPEC REPOS:
   trunk:
@@ -463,6 +465,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SwiftLint
+    - "UITextView+Placeholder"
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -486,7 +489,8 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SwiftLint: e96c0a8c770c7ebbc4d36c55baf9096bb65c4584
+  "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: f62ae99dcf39f8889a6317536db4e5c6aaf119a5
+PODFILE CHECKSUM: 6b663eb9bce69a3d3b0c9ccf711e27f11b3d3d74
 
 COCOAPODS: 1.11.2

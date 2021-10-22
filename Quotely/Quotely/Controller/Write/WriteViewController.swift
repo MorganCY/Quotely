@@ -8,11 +8,17 @@
 import Foundation
 import UIKit
 import PhotosUI
+import UITextView_Placeholder
 
 class WriteViewController: UIViewController {
 
     // MARK: ViewControls
-    private let contentTextView = UITextView()
+    private var contentTextView: UITextView = {
+        let textView = UITextView()
+        textView.placeholder = "有什麼感觸...?"
+        textView.placeholderColor = UIColor.lightGray
+        return textView
+    }()
     private let hashtagLabel = UILabel()
     private let buttonStackView = UIStackView()
     private let postImageView = UIImageView()
@@ -26,7 +32,6 @@ class WriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        contentTextView.delegate = self
         imagePicker.delegate = self
 
         navigationItem.title = "撰寫摘語"
@@ -40,12 +45,7 @@ class WriteViewController: UIViewController {
 
         layoutViews()
 
-        optionPanel.shadowColor = UIColor.gray.cgColor
-        optionPanel.shadowOpacity = 0.3
-        optionPanel.shadowOffset = CGSize(width: 6, height: 8)
-        optionPanel.cornerRadius = CornerRadius.standard.rawValue
-        optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
-        optionPanel.borderWidth = 1
+        setupViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -118,7 +118,7 @@ class WriteViewController: UIViewController {
             imageUrl: imageUrl,
             hashtag: nil,
             likeNumber: nil,
-            likeUser: nil,
+            likeUser: [""],
             commentNumber: nil)
 
         PostManager.shared.publishPost(post: &post) { _ in
@@ -166,22 +166,11 @@ class WriteViewController: UIViewController {
         hashtagLabel.translatesAutoresizingMaskIntoConstraints = false
         postImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        hashtagLabel.text = "新增標籤"
-        contentTextView.text = "有什麼感觸...?"
-        contentTextView.textColor = .gray
-        hashtagLabel.textColor = .black
-        contentTextView.font = UIFont.systemFont(ofSize: 18)
-        hashtagLabel.font = UIFont.systemFont(ofSize: 18)
-
-        postImageView.contentMode = .scaleAspectFill
-        postImageView.clipsToBounds = true
-        postImageView.layer.cornerRadius = 10
-
         NSLayoutConstraint.activate([
 
             contentTextView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             contentTextView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
-            contentTextView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            contentTextView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant:  -16),
             contentTextView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.25),
 
             hashtagLabel.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
@@ -194,33 +183,26 @@ class WriteViewController: UIViewController {
             postImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
         ])
     }
-}
 
-extension WriteViewController: UITextViewDelegate {
+    func setupViews() {
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
+        hashtagLabel.text = "新增標籤"
+        hashtagLabel.textColor = .black
+        contentTextView.font = UIFont.systemFont(ofSize: 18)
+        contentTextView.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
+        contentTextView.cornerRadius = CornerRadius.standard.rawValue
+        hashtagLabel.font = UIFont.systemFont(ofSize: 18)
 
-        contentTextView.text = ""
+        postImageView.contentMode = .scaleAspectFill
+        postImageView.clipsToBounds = true
+        postImageView.layer.cornerRadius = 10
 
-        contentTextView.textColor = UIColor.black
-
-        if !contentTextView.text!.isEmpty && contentTextView.text! == "有什麼感觸...?" {
-
-            contentTextView.text = ""
-
-            contentTextView.textColor = UIColor.black
-        }
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-
-        if contentTextView.text.isEmpty {
-
-            contentTextView.text = "有什麼感觸...?"
-
-            contentTextView.textColor = UIColor.lightGray
-
-        }
+        optionPanel.shadowColor = UIColor.gray.cgColor
+        optionPanel.shadowOpacity = 0.3
+        optionPanel.shadowOffset = CGSize(width: 6, height: 8)
+        optionPanel.cornerRadius = CornerRadius.standard.rawValue
+        optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
+        optionPanel.borderWidth = 1
     }
 }
 

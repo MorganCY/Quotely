@@ -29,8 +29,14 @@ class PostDetailViewController: BaseDetailViewController {
     override func like(_ sender: UIButton) {
 
         let likeAction: LikeAction = hasLiked ? .dislike : .like
-        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartNormal)! : UIImage.sfsymbol(.heartSelected)!
-        let buttonColor: UIColor = hasLiked ? .gray : .red
+
+        let buttonImage: UIImage = hasLiked
+        ?
+        UIImage.sfsymbol(.heartNormal)! :
+        UIImage.sfsymbol(.heartSelected)!
+
+        let buttonColor: UIColor = hasLiked
+        ? .gray : .red
 
         hasLiked.toggle()
 
