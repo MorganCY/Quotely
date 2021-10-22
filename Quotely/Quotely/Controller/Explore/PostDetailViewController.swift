@@ -79,7 +79,7 @@ class PostDetailViewController: BaseDetailViewController {
 
         if let message = commentTextField.text {
 
-            let comment = Comment(
+            var comment = Comment(
                 uid: "test123456",
                 content: message,
                 createdTime: Date().millisecondsSince1970,
@@ -89,7 +89,7 @@ class PostDetailViewController: BaseDetailViewController {
             )
 
             CommentManager.shared.addComment(
-                comment: comment
+                comment: &comment
             ) { _ in
 
                 Toast.showSuccess(text: "已發布")
@@ -117,15 +117,41 @@ class PostDetailViewController: BaseDetailViewController {
         }
 
         let row = indexPath.row
+        var isAuthor = false
+
+        isAuthor = comments[row].uid == "test123456"
+        ? true : false
 
         cell.layoutCell(
             userImage: UIImage.asset(.testProfile)!,
             userName: "Morgan Yu",
             time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
-            content: comments[row].content
+            content: comments[row].content,
+            isAuthor: isAuthor
         )
 
         cell.noSelectionStyle()
+
+        cell.editHandler = { text in
+
+            guard let postCommentID = self.comments[row].postCommentID else { return }
+
+            CommentManager.shared.updateComments(
+                postCommentID: postCommentID,
+                newContent: text) { result in
+
+                    switch result {
+
+                    case .success(let success):
+                        print(success)
+
+                        self.fetchComments()
+
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+        }
 
         return cell
     }

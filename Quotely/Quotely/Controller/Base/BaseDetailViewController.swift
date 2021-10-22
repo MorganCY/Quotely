@@ -28,6 +28,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var likeNumber: Int?
     var articleID: String?
     var postID: String?
+    var postCommentID: String?
+
     var comments: [Comment] = [] {
         didSet {
             tableView.reloadData()

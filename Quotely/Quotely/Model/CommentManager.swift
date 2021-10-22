@@ -19,9 +19,10 @@ class CommentManager {
 
     let postComments = Firestore.firestore().collection("postComments")
 
-    func addComment(comment: Comment, completion: @escaping (Result<String, Error>) -> Void) {
+    func addComment(comment: inout Comment, completion: @escaping (Result<String, Error>) -> Void) {
 
         let document = postComments.document()
+        comment.postCommentID = document.documentID
 
         document.setData(comment.toDict) { error in
 
@@ -68,6 +69,28 @@ class CommentManager {
                 }
 
                 completion(.success(comments))
+            }
+        }
+    }
+
+    func updateComments(postCommentID: String, newContent: String, completion: @escaping (Result<String, Error>) -> Void) {
+
+        postComments.whereField("postCommentID", isEqualTo: postCommentID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetComment = querySnapshot?.documents.first
+
+                targetComment?.reference.updateData([
+                    "content": newContent,
+                    "editTime": Date().millisecondsSince1970
+                ])
+
+                completion(.success("changed content"))
             }
         }
     }

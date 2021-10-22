@@ -15,6 +15,7 @@ struct Comment: Codable {
     var editTime: Int64?
     var articleID: String?
     var postID: String?
+    var postCommentID: String?
 
     var toDict: [String: Any] {
 
@@ -24,7 +25,8 @@ struct Comment: Codable {
             "editTime": editTime as Any,
             "content": content as Any,
             "articleID": articleID as Any,
-            "postID": postID as Any
+            "postID": postID as Any,
+            "postCommentID": postCommentID as Any
         ]
     }
 }
