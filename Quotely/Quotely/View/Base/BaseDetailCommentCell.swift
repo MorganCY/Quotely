@@ -15,8 +15,6 @@ class BaseDetailCommentCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
 
-    @IBOutlet weak var whiteBackground: UIView!
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -26,7 +24,7 @@ class BaseDetailCommentCell: UITableViewCell {
     }
 
     func layoutCell(
-        userImage: UIImage!,
+        userImage: UIImage,
         userName: String,
         time: String,
         content: String

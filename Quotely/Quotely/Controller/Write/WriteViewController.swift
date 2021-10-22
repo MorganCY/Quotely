@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import PhotosUI
 import UITextView_Placeholder
+import JGProgressHUD
 
 class WriteViewController: UIViewController {
 
@@ -22,9 +23,12 @@ class WriteViewController: UIViewController {
     private let hashtagLabel = UILabel()
     private let buttonStackView = UIStackView()
     private let postImageView = UIImageView()
+    private let deleteImageButton = DeleteButton()
 
+    var hasImage = false
     var imagePicker = UIImagePickerController()
     var imageConfiguration = PHPickerConfiguration()
+    var imageUrl: String?
 
     @IBOutlet weak var optionPanel: UIView!
 
@@ -75,26 +79,14 @@ class WriteViewController: UIViewController {
 
     @objc func onPublish(_ sender: UIBarButtonItem) {
 
-        guard let image = postImageView.image else {
+        guard let imageUrl = imageUrl else {
 
             publishPost(imageUrl: nil)
 
             return
         }
 
-        ImageManager.shared.uploadImage(image: image) { result in
-
-            switch result {
-
-            case .success(let url):
-
-                self.publishPost(imageUrl: url)
-
-            case .failure(let error):
-
-                print(error)
-            }
-        }
+        self.publishPost(imageUrl: imageUrl)
     }
 
     func publishPost(imageUrl: String?) {
@@ -155,22 +147,35 @@ class WriteViewController: UIViewController {
         self.present(picker, animated: true, completion: nil)
     }
 
+    @objc func deleteImage(_ sender: UIButton) {
+
+        guard let imageUrl = imageUrl else { return }
+
+        ImageManager.shared.deleteImage(imageUrl: imageUrl)
+
+        postImageView.image?.remove(from: postImageView)
+
+        hasImage = false
+    }
+
     // MARK: SetupViews
     func layoutViews() {
 
         self.view.addSubview(contentTextView)
         self.view.addSubview(hashtagLabel)
         self.view.addSubview(postImageView)
+        self.view.addSubview(deleteImageButton)
 
         contentTextView.translatesAutoresizingMaskIntoConstraints = false
         hashtagLabel.translatesAutoresizingMaskIntoConstraints = false
         postImageView.translatesAutoresizingMaskIntoConstraints = false
+        deleteImageButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
 
             contentTextView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             contentTextView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
-            contentTextView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant:  -16),
+            contentTextView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
             contentTextView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.25),
 
             hashtagLabel.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
@@ -180,7 +185,12 @@ class WriteViewController: UIViewController {
             postImageView.topAnchor.constraint(equalTo: hashtagLabel.bottomAnchor, constant: 32),
             postImageView.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
             postImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
-            postImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
+            postImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
+
+            deleteImageButton.centerXAnchor.constraint(equalTo: postImageView.trailingAnchor),
+            deleteImageButton.centerYAnchor.constraint(equalTo: postImageView.topAnchor),
+            deleteImageButton.widthAnchor.constraint(equalTo: postImageView.widthAnchor, multiplier: 0.15),
+            deleteImageButton.heightAnchor.constraint(equalTo: deleteImageButton.widthAnchor)
         ])
     }
 
@@ -196,6 +206,10 @@ class WriteViewController: UIViewController {
         postImageView.contentMode = .scaleAspectFill
         postImageView.clipsToBounds = true
         postImageView.layer.cornerRadius = 10
+
+        deleteImageButton.isHidden = !hasImage
+        deleteImageButton.cornerRadius = deleteImageButton.frame.width / 2
+        deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
 
         optionPanel.shadowColor = UIColor.gray.cgColor
         optionPanel.shadowOpacity = 0.3
@@ -228,7 +242,9 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
-        picker.dismiss(animated: true)
+        picker.dismiss(animated: true) {
+            Toast.showLoading(text: "載入圖片中")
+        }
 
         guard !results.isEmpty else { return }
 
@@ -238,9 +254,37 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
                 if let image = image as? UIImage {
 
-                    DispatchQueue.main.async {
+                    self.hasImage = true
 
-                        self.postImageView.image = image
+                    ImageManager.shared.uploadImage(image: image) { result in
+
+                        switch result {
+
+                        case .success(let url):
+
+                            self.imageUrl = url
+
+                            Toast.shared.hud.dismiss()
+
+                            DispatchQueue.main.async {
+
+                                self.postImageView.image = image
+                            }
+
+                        case .failure(let error):
+
+                            print(error)
+
+                            self.present(
+                                UIAlertController(
+                                    title: "上傳失敗",
+                                    message: nil,
+                                    preferredStyle: .alert
+                                ), animated: true, completion: nil
+                            )
+
+                            picker.dismiss(animated: true)
+                        }
                     }
 
                 } else {

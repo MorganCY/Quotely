@@ -92,7 +92,7 @@ class PostDetailViewController: BaseDetailViewController {
                 comment: comment
             ) { _ in
 
-                ProgressHUD.showSuccess(text: "已發布")
+                Toast.showSuccess(text: "已發布")
 
                 self.commentTextField.text = ""
             }
@@ -119,7 +119,7 @@ class PostDetailViewController: BaseDetailViewController {
         let row = indexPath.row
 
         cell.layoutCell(
-            userImage: UIImage.asset(.testProfile),
+            userImage: UIImage.asset(.testProfile)!,
             userName: "Morgan Yu",
             time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
             content: comments[row].content

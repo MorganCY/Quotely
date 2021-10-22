@@ -39,9 +39,9 @@ class ImageManager {
 
             // Enable this after implementing firestore Auth
             /*
-            guard let uid = Auth.auth().currentUser?.uid else {
-                return
-            }
+             guard let uid = Auth.auth().currentUser?.uid else {
+             return
+             }
              */
 
             snapshot.reference.downloadURL(completion: { (url, error) in
@@ -67,6 +67,23 @@ class ImageManager {
             if let error = snapshot.error {
 
                 print(error.localizedDescription)
+            }
+        }
+    }
+
+    func deleteImage(imageUrl: String) {
+
+        let reference = imagePath.storage.reference(forURL: imageUrl)
+
+        reference.delete { error in
+
+            if let error = error {
+
+                print(error.localizedDescription)
+
+            } else {
+
+                print("Delete image successfully")
             }
         }
     }

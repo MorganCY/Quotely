@@ -22,7 +22,7 @@
                                 <rect key="frame" x="16" y="729.5" width="382" height="134.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yZo-3c-SMB">
-                                        <rect key="frame" x="144" y="20.5" width="94" height="94"/>
+                                        <rect key="frame" x="157.5" y="33.5" width="67" height="67.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="yZo-3c-SMB" secondAttribute="height" multiplier="1:1" id="j1L-tr-T0w"/>
                                         </constraints>
@@ -32,12 +32,12 @@
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="50"/>
                                             </preferredSymbolConfiguration>
-                                            <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                            <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
                                             <color key="baseForegroundColor" systemColor="systemGrayColor"/>
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGK-Hh-LeS">
-                                        <rect key="frame" x="270" y="20.5" width="94" height="94"/>
+                                        <rect key="frame" x="256.5" y="33.5" width="67.5" height="67.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="wGK-Hh-LeS" secondAttribute="height" multiplier="1:1" id="n1H-bj-sfV"/>
                                         </constraints>
@@ -47,7 +47,7 @@
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="50"/>
                                             </preferredSymbolConfiguration>
-                                            <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                            <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
                                             <color key="baseForegroundColor" systemColor="systemGrayColor"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -55,7 +55,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="npE-NP-SlB">
-                                        <rect key="frame" x="18" y="20.5" width="94" height="94"/>
+                                        <rect key="frame" x="58" y="33.5" width="67.5" height="67.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="npE-NP-SlB" secondAttribute="height" multiplier="1:1" id="hhl-lO-vI9"/>
                                         </constraints>
@@ -65,7 +65,7 @@
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="50"/>
                                             </preferredSymbolConfiguration>
-                                            <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                            <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
                                             <color key="baseForegroundColor" systemColor="systemGrayColor"/>
                                         </buttonConfiguration>
                                     </button>
@@ -74,11 +74,11 @@
                                 <constraints>
                                     <constraint firstItem="yZo-3c-SMB" firstAttribute="leading" secondItem="npE-NP-SlB" secondAttribute="trailing" constant="32" id="0cV-EN-lc2"/>
                                     <constraint firstItem="wGK-Hh-LeS" firstAttribute="centerY" secondItem="yZo-3c-SMB" secondAttribute="centerY" id="34Y-eF-pfl"/>
-                                    <constraint firstItem="yZo-3c-SMB" firstAttribute="height" secondItem="mgT-2W-J1F" secondAttribute="height" multiplier="0.7" id="6DZ-qa-XUn"/>
-                                    <constraint firstItem="npE-NP-SlB" firstAttribute="height" secondItem="mgT-2W-J1F" secondAttribute="height" multiplier="0.7" id="8xi-k8-yH4"/>
+                                    <constraint firstItem="yZo-3c-SMB" firstAttribute="height" secondItem="mgT-2W-J1F" secondAttribute="height" multiplier="0.5" id="6DZ-qa-XUn"/>
+                                    <constraint firstItem="npE-NP-SlB" firstAttribute="height" secondItem="mgT-2W-J1F" secondAttribute="height" multiplier="0.5" id="8xi-k8-yH4"/>
                                     <constraint firstItem="yZo-3c-SMB" firstAttribute="centerY" secondItem="mgT-2W-J1F" secondAttribute="centerY" id="hQZ-vr-HK0"/>
                                     <constraint firstItem="npE-NP-SlB" firstAttribute="centerY" secondItem="yZo-3c-SMB" secondAttribute="centerY" id="nLo-fB-fVd"/>
-                                    <constraint firstItem="wGK-Hh-LeS" firstAttribute="height" secondItem="mgT-2W-J1F" secondAttribute="height" multiplier="0.7" id="u0Q-mQ-97y"/>
+                                    <constraint firstItem="wGK-Hh-LeS" firstAttribute="height" secondItem="mgT-2W-J1F" secondAttribute="height" multiplier="0.5" id="u0Q-mQ-97y"/>
                                     <constraint firstItem="wGK-Hh-LeS" firstAttribute="leading" secondItem="yZo-3c-SMB" secondAttribute="trailing" constant="32" id="vuq-dQ-7Eh"/>
                                     <constraint firstItem="yZo-3c-SMB" firstAttribute="centerX" secondItem="mgT-2W-J1F" secondAttribute="centerX" id="yo7-VL-OX7"/>
                                 </constraints>

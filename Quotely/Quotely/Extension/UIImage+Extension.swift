@@ -31,6 +31,8 @@ enum SFSymbol: String {
     case heartSelected = "heart.fill"
 
     case send = "paperplane.fill"
+
+    case closeButton = "xmark.circle.fill"
 }
 
 extension UIImage {

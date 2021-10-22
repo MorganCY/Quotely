@@ -8,18 +8,15 @@
 import Foundation
 import JGProgressHUD
 
-class ProgressHUD {
+class Toast {
 
-    static let shared = ProgressHUD()
+    static let shared = Toast()
 
     private init() { }
 
     let hud = JGProgressHUD(style: .dark)
 
-//    var view: UIView {
-//
-//        return AppDelegate.shared.window!.rootViewController!.view
-//    }
+    var view = UIViewController.getLastPresentedViewController()?.view
 
     static func showSuccess(text: String) {
 
@@ -36,8 +33,26 @@ class ProgressHUD {
 
         shared.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
 
-//        shared.hud.show(in: shared.view)
+        shared.hud.show(in: shared.view ?? UIView())
 
         shared.hud.dismiss(afterDelay: 1.5)
+    }
+
+    static func showLoading(text: String) {
+
+        if !Thread.isMainThread {
+
+            DispatchQueue.main.async {
+                showLoading(text: text)
+            }
+
+            return
+        }
+
+        shared.hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
+
+        shared.hud.textLabel.text = text
+
+        shared.hud.show(in: shared.view ?? UIView())
     }
 }
