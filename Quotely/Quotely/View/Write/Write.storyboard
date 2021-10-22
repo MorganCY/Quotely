@@ -13,7 +13,7 @@
         <!--Write View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="WriteViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WriteViewController" id="Y6W-OH-hqX" customClass="WriteViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -96,6 +96,9 @@
                     <navigationItem key="navigationItem" id="QUQ-SR-hzI"/>
                     <connections>
                         <outlet property="optionPanel" destination="mgT-2W-J1F" id="k8M-1g-nsj"/>
+                        <outlet property="photoButton" destination="wGK-Hh-LeS" id="mZl-Da-Anh"/>
+                        <outlet property="scanButton" destination="yZo-3c-SMB" id="K8a-46-qS7"/>
+                        <outlet property="shareButton" destination="npE-NP-SlB" id="Z5z-yh-BRC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

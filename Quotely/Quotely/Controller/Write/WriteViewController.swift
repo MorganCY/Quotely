@@ -10,49 +10,69 @@ import UIKit
 import PhotosUI
 import UITextView_Placeholder
 import JGProgressHUD
+import SwiftUI
 
 class WriteViewController: UIViewController {
 
     // MARK: ViewControls
-    private var contentTextView: UITextView = {
+    var contentTextView: UITextView = {
         let textView = UITextView()
         textView.placeholder = "有什麼感觸...?"
         textView.placeholderColor = UIColor.lightGray
         return textView
     }()
-    private let hashtagLabel = UILabel()
-    private let buttonStackView = UIStackView()
-    private let postImageView = UIImageView()
+    let hashtagLabel = UILabel()
+    var postImageView = UIImageView()
     private let deleteImageButton = DeleteButton()
 
-    var hasImage = false
+    var hasImage = false {
+        didSet {
+            DispatchQueue.main.async {
+                self.deleteImageButton.isHidden = !self.hasImage
+            }
+        }
+    }
+    var navTitle = "撰寫摘語"
+    var navButtonTitle = "分享"
     var imagePicker = UIImagePickerController()
     var imageConfiguration = PHPickerConfiguration()
-    var imageUrl: String?
+    var imageUrl: String? {
+        didSet {
+            self.postImageView.loadImage(imageUrl ?? "", placeHolder: nil)
+        }
+    }
+    var postID: String? {
+        didSet {
+            guard postID != nil else { return }
+            navTitle = "編輯摘語"
+            navButtonTitle = "更新"
+        }
+    }
 
     @IBOutlet weak var optionPanel: UIView!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var scanButton: UIButton!
+    @IBOutlet weak var photoButton: UIButton!
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         imagePicker.delegate = self
-
-        navigationItem.title = "撰寫摘語"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "分享", style: .plain,
-            target: self, action: #selector(onPublish(_:))
-        )
     }
 
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
         layoutViews()
-
-        setupViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        setupViews()
+
+        setupNavigation()
 
         tabBarController?.tabBar.isHidden = false
     }
@@ -79,43 +99,68 @@ class WriteViewController: UIViewController {
 
     @objc func onPublish(_ sender: UIBarButtonItem) {
 
-        guard let imageUrl = imageUrl else {
+        if let postID = postID {
 
-            publishPost(imageUrl: nil)
+            PostManager.shared.updatePost(
+                postID: postID,
+                content: contentTextView.text,
+                imageUrl: imageUrl) { result in
 
-            return
+                    switch result {
+
+                    case .success(let success):
+
+                        print(success)
+
+                        self.dismiss(animated: true) {
+
+                            Toast.showSuccess(text: "更新成功")
+                        }
+
+                    case .failure(let error):
+
+                        Toast.showFailure(text: "更新失敗")
+
+                        print(error)
+                    }
+            }
+
+        } else {
+
+            guard let imageUrl = imageUrl else {
+
+                publishPost(imageUrl: nil)
+
+                return
+            }
+
+            self.publishPost(imageUrl: imageUrl)
         }
-
-        self.publishPost(imageUrl: imageUrl)
     }
 
     func publishPost(imageUrl: String?) {
 
-        guard let content = self.contentTextView.text else {
+        if !contentTextView.text.isEmpty || hasImage == true {
 
-            self.present(
-                UIAlertController(
-                    title: "請輸入內容", message: nil, preferredStyle: .alert
-                ), animated: true
-            )
+            var post = Post(
+                uid: "test123456",
+                createdTime: Date().millisecondsSince1970,
+                editTime: nil,
+                content: contentTextView.text   ,
+                imageUrl: imageUrl,
+                hashtag: nil,
+                likeNumber: nil,
+                likeUser: [""],
+                commentNumber: nil)
 
-            return
-        }
+            PostManager.shared.publishPost(post: &post) { _ in
 
-        var post = Post(
-            uid: "test123456",
-            createdTime: Date().millisecondsSince1970,
-            editTime: nil,
-            content: content,
-            imageUrl: imageUrl,
-            hashtag: nil,
-            likeNumber: nil,
-            likeUser: [""],
-            commentNumber: nil)
+                self.dismiss(animated: true, completion: nil)
+            }
 
-        PostManager.shared.publishPost(post: &post) { _ in
+        } else {
 
-            self.dismiss(animated: true, completion: nil)
+            Toast.showFailure(text: "請輸入內容")
         }
     }
 
@@ -159,6 +204,16 @@ class WriteViewController: UIViewController {
     }
 
     // MARK: SetupViews
+    func setupNavigation() {
+
+        navigationItem.title = navTitle
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: navButtonTitle, style: .plain,
+            target: self, action: #selector(onPublish(_:))
+        )
+    }
+
     func layoutViews() {
 
         self.view.addSubview(contentTextView)
@@ -268,7 +323,7 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
                             DispatchQueue.main.async {
 
-                                self.postImageView.image = image
+                                self.postImageView.loadImage(url, placeHolder: nil)
                             }
 
                         case .failure(let error):

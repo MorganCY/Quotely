@@ -158,6 +158,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         detailVC.content = postList[row].content
         detailVC.imageUrl = postList[row].imageUrl
         detailVC.likeNumber = nil
+        detailVC.uid = postList[row].uid
 
         let likeUserList = postList[row].likeUser
 

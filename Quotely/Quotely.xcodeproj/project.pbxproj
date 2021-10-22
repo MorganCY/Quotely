@@ -41,6 +41,7 @@
 		5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210F271E8997002E21C9 /* VerticalButton.swift */; };
 		5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8A04B52722911800289431 /* SceneDelegate.swift */; };
 		5C8A04B82722991800289431 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8A04B72722991800289431 /* UIViewController+Extension.swift */; };
+		5C933A9C2722FF96009FFA04 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C933A9B2722FF96009FFA04 /* UINavigationController+Extension.swift */; };
 		5C9A15C7272280FD00A13CC7 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */; };
 		5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */; };
 		5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */; };
@@ -89,6 +90,7 @@
 		5C58210F271E8997002E21C9 /* VerticalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalButton.swift; sourceTree = "<group>"; };
 		5C8A04B52722911800289431 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5C8A04B72722991800289431 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		5C933A9B2722FF96009FFA04 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */,
 				5C4B9690271FBBA3008B21C7 /* UIColor+Extension.swift */,
 				5C8A04B72722991800289431 /* UIViewController+Extension.swift */,
+				5C933A9B2722FF96009FFA04 /* UINavigationController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,
 				5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */,
 				5C2C7316271D19AD00F8B9EC /* WriteViewController.swift in Sources */,
+				5C933A9C2722FF96009FFA04 /* UINavigationController+Extension.swift in Sources */,
 				5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */,
 				5C4B9699271FC0D3008B21C7 /* CommentObject.swift in Sources */,
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,

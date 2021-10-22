@@ -15,6 +15,8 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
 
     var hasUserInfo = false {
 
@@ -26,12 +28,21 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         }
     }
 
+    var isEnableEdit = false
+
+    var editHandler: () -> Void = {}
+
+    var deleteHandler: () -> Void = {}
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         postImageView.contentMode = .scaleAspectFill
         postImageView.cornerRadius = CornerRadius.standard.rawValue
         postImageView.isHidden = true
+
+        editButton.tintColor = .gray
+        deleteButton.tintColor = .gray
     }
 
     func layoutHeader(
@@ -39,10 +50,13 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         userName: String?,
         time: Int64?,
         content: String,
-        imageUrl: String?
+        imageUrl: String?,
+        isAuthor: Bool
     ) {
 
         contentLabel.text = content
+        editButton.isHidden = !isAuthor
+        deleteButton.isHidden = !isAuthor
 
         if let userImage = userImage,
            let name = userName,
@@ -62,5 +76,15 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
             postImageView.loadImage(imageUrl, placeHolder: nil)
             postImageView.isHidden = false
         }
+    }
+
+    @IBAction func edit(_ sender: UIButton) {
+
+        editHandler()
+    }
+
+    @IBAction func deleteComment(_ sender: UIButton) {
+
+        deleteHandler()
     }
 }

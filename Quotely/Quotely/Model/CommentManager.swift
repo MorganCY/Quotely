@@ -19,7 +19,10 @@ class CommentManager {
 
     let postComments = Firestore.firestore().collection("postComments")
 
-    func addComment(comment: inout Comment, completion: @escaping (Result<String, Error>) -> Void) {
+    func addComment(
+        comment: inout Comment,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
 
         let document = postComments.document()
         comment.postCommentID = document.documentID
@@ -37,7 +40,10 @@ class CommentManager {
         }
     }
 
-    func fetchComment(postID: String, completion: @escaping (Result<[Comment], Error>) -> Void) {
+    func fetchComment(
+        postID: String,
+        completion: @escaping (Result<[Comment], Error>) -> Void
+    ) {
 
         postComments
             .whereField("postID", isEqualTo: postID)
@@ -73,9 +79,13 @@ class CommentManager {
         }
     }
 
-    func updateComments(postCommentID: String, newContent: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func updateComment(
+        postCommentID: String,
+        newContent: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
 
-        postComments.whereField("postCommentID", isEqualTo: postCommentID).getDocuments { (querySnapshot, error) in
+        postComments.whereField("postCommentID", isEqualTo: postCommentID).getDocuments { querySnapshot, error in
 
             if let error = error {
 
@@ -90,7 +100,29 @@ class CommentManager {
                     "editTime": Date().millisecondsSince1970
                 ])
 
-                completion(.success("changed content"))
+                completion(.success("Changed content"))
+            }
+        }
+    }
+
+    func deleteComment(
+        postCommentID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        postComments.whereField("postCommentID", isEqualTo: postCommentID).getDocuments { querySnapshot, error in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetComment = querySnapshot?.documents.first
+
+                targetComment?.reference.delete()
+
+                completion(.success("Deleted content"))
             }
         }
     }

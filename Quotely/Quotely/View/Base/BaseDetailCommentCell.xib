@@ -70,11 +70,27 @@
                         <action selector="doneEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="tTq-Fk-auM"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O4c-Yl-bEP">
+                    <rect key="frame" x="273" y="8" width="57.5" height="28"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system" title="刪除">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
+                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
+                        </preferredSymbolConfiguration>
+                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
+                        <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="deleteComment:" destination="iN0-l3-epB" eventType="touchUpInside" id="FgI-uW-B6Z"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="kRa-XF-aC5" firstAttribute="centerY" secondItem="Yaq-N3-3Xi" secondAttribute="centerY" id="5h2-Ui-gY7"/>
+                <constraint firstItem="O4c-Yl-bEP" firstAttribute="centerY" secondItem="Yd0-Dd-P4T" secondAttribute="centerY" id="6iJ-44-h9i"/>
+                <constraint firstItem="Yd0-Dd-P4T" firstAttribute="leading" secondItem="O4c-Yl-bEP" secondAttribute="trailing" constant="8" id="7Cf-nf-FaQ"/>
                 <constraint firstItem="SgV-B3-cc4" firstAttribute="top" secondItem="g4a-QK-DKQ" secondAttribute="bottom" constant="2" id="9qg-pp-FCs"/>
                 <constraint firstItem="Yd0-Dd-P4T" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="top" id="BGE-bU-GO8"/>
                 <constraint firstItem="Yaq-N3-3Xi" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="6" id="Cvg-BY-DhV"/>
@@ -95,6 +111,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="contentLabel" destination="g4a-QK-DKQ" id="fri-c9-pmg"/>
+                <outlet property="deleteButton" destination="O4c-Yl-bEP" id="ChT-mr-ho0"/>
                 <outlet property="doneEditingButton" destination="kRa-XF-aC5" id="Pua-F6-976"/>
                 <outlet property="editButton" destination="Yd0-Dd-P4T" id="SdB-uO-p1n"/>
                 <outlet property="editTextField" destination="Yaq-N3-3Xi" id="fP7-j0-kmg"/>
@@ -108,6 +125,7 @@
     <resources>
         <image name="highlighter" catalog="system" width="128" height="119"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

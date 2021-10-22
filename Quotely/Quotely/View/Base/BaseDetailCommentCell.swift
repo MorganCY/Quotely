@@ -17,6 +17,7 @@ class BaseDetailCommentCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var editTextField: UITextField!
     @IBOutlet weak var doneEditingButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
 
     var isEnableEdit = false
 
@@ -26,6 +27,9 @@ class BaseDetailCommentCell: UITableViewCell {
         self.backgroundColor = .clear
 
         userImageView.cornerRadius = userImageView.frame.width / 2
+
+        editButton.tintColor = .gray
+        deleteButton.tintColor = .gray
     }
 
     func layoutCell(
@@ -46,6 +50,7 @@ class BaseDetailCommentCell: UITableViewCell {
         editButton.isHidden = !isAuthor
         editTextField.isHidden = !isEnableEdit
         doneEditingButton.isHidden = !isEnableEdit
+        deleteButton.isHidden = !isAuthor
 
         guard let editTime = editTime else { return }
 
@@ -53,6 +58,8 @@ class BaseDetailCommentCell: UITableViewCell {
     }
 
     var editHandler: (String) -> Void = {_ in}
+
+    var deleteHandler: () -> Void = {}
 
     @IBAction func edit(_ sender: UIButton) {
 
@@ -73,5 +80,10 @@ class BaseDetailCommentCell: UITableViewCell {
 
         editTextField.isHidden = !isEnableEdit
         doneEditingButton.isHidden = !isEnableEdit
+    }
+
+    @IBAction func deleteComment(_ sender: UIButton) {
+
+        deleteHandler()
     }
 }

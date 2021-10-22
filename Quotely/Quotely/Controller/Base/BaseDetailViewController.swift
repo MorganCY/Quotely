@@ -29,6 +29,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var articleID: String?
     var postID: String?
     var postCommentID: String?
+    var uid = ""
 
     var comments: [Comment] = [] {
         didSet {
@@ -184,25 +185,9 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     // MARK: TableView
     // Should be properly edited by subclasses
-
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        guard let header = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: BaseDetailTableViewHeader.identifier
-        ) as? BaseDetailTableViewHeader else {
-
-            fatalError("Cannot load header view.")
-        }
-
-        header.layoutHeader(
-            userImage: userImage,
-            userName: userName,
-            time: time,
-            content: content,
-            imageUrl: imageUrl
-        )
-
-        return header
+        return UIView()
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -55,4 +55,24 @@ class Toast {
 
         shared.hud.show(in: shared.view ?? UIView())
     }
+
+    static func showFailure(text: String) {
+
+        if !Thread.isMainThread {
+
+            DispatchQueue.main.async {
+                showFailure(text: text)
+            }
+
+            return
+        }
+
+        shared.hud.textLabel.text = text
+
+        shared.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+
+        shared.hud.show(in: shared.view ?? UIView())
+
+        shared.hud.dismiss(afterDelay: 1.5)
+    }
 }

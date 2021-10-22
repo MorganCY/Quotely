@@ -41,6 +41,33 @@ class PostManager {
         }
     }
 
+    func updatePost(
+        postID: String,
+        content: String,
+        imageUrl: String?,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetPost = querySnapshot?.documents.first
+
+                targetPost?.reference.updateData([
+                    "content": content,
+                    "imageUrl": imageUrl as Any
+                ])
+
+                completion(.success("Updated post content"))
+            }
+        }
+    }
+
     func fetchPost(completion: @escaping (Result<[Post], Error>) -> Void) {
 
         posts.order(by: "createdTime", descending: true).getDocuments { (querySnapshot, error) in
@@ -104,6 +131,28 @@ class PostManager {
                 }
 
                 completion(.success("changed like number"))
+            }
+        }
+    }
+
+    func deletePost(
+        postID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        posts.whereField("postID", isEqualTo: postID).getDocuments { querySnapshot, error in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetPost = querySnapshot?.documents.first
+
+                targetPost?.reference.delete()
+
+                completion(.success("Deleted post"))
             }
         }
     }

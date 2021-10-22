@@ -68,10 +68,39 @@
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="6" id="riK-pO-R19"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yGW-Di-0ss">
+                    <rect key="frame" x="338.5" y="16" width="59.5" height="28"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="highlighter" catalog="system" title="編輯">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
+                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
+                        </preferredSymbolConfiguration>
+                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
+                        <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="edit:" destination="iN0-l3-epB" eventType="touchUpInside" id="HIk-fU-5lL"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d55-xn-7rn">
+                    <rect key="frame" x="273" y="16" width="57.5" height="28"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system" title="刪除">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
+                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
+                        </preferredSymbolConfiguration>
+                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
+                        <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="deleteComment:" destination="iN0-l3-epB" eventType="touchUpInside" id="NxX-15-2bD"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="d55-xn-7rn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="0Re-nT-0hx"/>
                 <constraint firstItem="Uzi-If-l2e" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="4s8-j8-zqV"/>
                 <constraint firstAttribute="trailing" secondItem="Uzi-If-l2e" secondAttribute="trailing" id="F1D-C9-YSZ"/>
                 <constraint firstItem="W4G-Pw-PHd" firstAttribute="top" secondItem="cwf-dh-meA" secondAttribute="bottom" constant="16" id="JJZ-CD-cGr"/>
@@ -80,15 +109,21 @@
                 <constraint firstItem="cwf-dh-meA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Wp0-dI-NSC"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="width" secondItem="TJc-dZ-LO1" secondAttribute="height" multiplier="1:1" id="Yoc-i5-6S5"/>
                 <constraint firstItem="TJc-dZ-LO1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Z8V-oT-bMe"/>
+                <constraint firstItem="d55-xn-7rn" firstAttribute="centerY" secondItem="yGW-Di-0ss" secondAttribute="centerY" id="ZJT-7U-sZd"/>
                 <constraint firstItem="odH-F0-2Ix" firstAttribute="leading" secondItem="cwf-dh-meA" secondAttribute="leading" id="cPv-41-02q"/>
                 <constraint firstItem="cwf-dh-meA" firstAttribute="leading" secondItem="TJc-dZ-LO1" secondAttribute="trailing" constant="16" id="hVo-Kl-cXK"/>
                 <constraint firstItem="odH-F0-2Ix" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.45" id="it7-sl-7pW"/>
+                <constraint firstItem="yGW-Di-0ss" firstAttribute="leading" secondItem="d55-xn-7rn" secondAttribute="trailing" constant="8" id="nH0-b7-DXo"/>
+                <constraint firstAttribute="trailing" secondItem="yGW-Di-0ss" secondAttribute="trailing" constant="16" id="nmD-YC-bY1"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Uzi-If-l2e" secondAttribute="bottom" id="wa4-ZI-mVv"/>
                 <constraint firstItem="W4G-Pw-PHd" firstAttribute="leading" secondItem="cwf-dh-meA" secondAttribute="leading" id="xeL-d9-uyf"/>
+                <constraint firstItem="yGW-Di-0ss" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="zAn-fV-cor"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="contentLabel" destination="DhO-kH-7M5" id="yKr-gS-Imq"/>
+                <outlet property="deleteButton" destination="d55-xn-7rn" id="qz4-7U-E0Z"/>
+                <outlet property="editButton" destination="yGW-Di-0ss" id="Yd6-Wm-iYS"/>
                 <outlet property="postImageView" destination="odH-F0-2Ix" id="ZCx-Kg-9wO"/>
                 <outlet property="timeLabel" destination="63T-4b-AaH" id="V5Q-vl-5PF"/>
                 <outlet property="userImageView" destination="TJc-dZ-LO1" id="tNI-ua-ifO"/>
@@ -98,7 +133,9 @@
         </view>
     </objects>
     <resources>
+        <image name="highlighter" catalog="system" width="128" height="119"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
