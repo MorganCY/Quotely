@@ -33,7 +33,8 @@ class BaseDetailCommentCell: UITableViewCell {
         userName: String,
         time: String,
         content: String,
-        isAuthor: Bool
+        isAuthor: Bool,
+        editTime: String?
     ) {
 
         userImageView.image = userImage
@@ -45,6 +46,10 @@ class BaseDetailCommentCell: UITableViewCell {
         editButton.isHidden = !isAuthor
         editTextField.isHidden = !isEnableEdit
         doneEditingButton.isHidden = !isEnableEdit
+
+        guard let editTime = editTime else { return }
+
+        timeLabel.text = "已編輯 \(editTime)"
     }
 
     var editHandler: (String) -> Void = {_ in}
@@ -63,6 +68,7 @@ class BaseDetailCommentCell: UITableViewCell {
         guard let text = editTextField.text else { return }
 
         editHandler(text)
+        contentLabel.text = text
         isEnableEdit.toggle()
 
         editTextField.isHidden = !isEnableEdit

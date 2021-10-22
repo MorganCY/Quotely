@@ -95,6 +95,8 @@ class PostDetailViewController: BaseDetailViewController {
                 Toast.showSuccess(text: "已發布")
 
                 self.commentTextField.text = ""
+
+                self.fetchComments()
             }
 
         } else {
@@ -122,13 +124,28 @@ class PostDetailViewController: BaseDetailViewController {
         isAuthor = comments[row].uid == "test123456"
         ? true : false
 
-        cell.layoutCell(
-            userImage: UIImage.asset(.testProfile)!,
-            userName: "Morgan Yu",
-            time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
-            content: comments[row].content,
-            isAuthor: isAuthor
-        )
+        if let editTime = comments[row].editTime {
+
+            cell.layoutCell(
+                userImage: UIImage.asset(.testProfile)!,
+                userName: "Morgan Yu",
+                time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
+                content: comments[row].content,
+                isAuthor: isAuthor,
+                editTime: Date.dateFormatter.string(from: Date.init(milliseconds: editTime))
+            )
+
+        } else {
+
+            cell.layoutCell(
+                userImage: UIImage.asset(.testProfile)!,
+                userName: "Morgan Yu",
+                time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
+                content: comments[row].content,
+                isAuthor: isAuthor,
+                editTime: nil
+            )
+        }
 
         cell.noSelectionStyle()
 
