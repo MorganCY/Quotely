@@ -71,7 +71,7 @@ class ImageManager {
         }
     }
 
-    func deleteImage(imageUrl: String) {
+    func deleteImage(imageUrl: String, removeUrlHandler: @escaping () -> Void) {
 
         let reference = imagePath.storage.reference(forURL: imageUrl)
 
@@ -84,6 +84,8 @@ class ImageManager {
             } else {
 
                 print("Delete image successfully")
+
+                removeUrlHandler()
             }
         }
     }

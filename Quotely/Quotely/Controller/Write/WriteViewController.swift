@@ -78,7 +78,7 @@ class WriteViewController: UIViewController {
     }
 
     // MARK: Action
-    @IBAction func uploadImage(_ sender: Any) {
+    @IBAction func uploadImage(_ sender: UIButton) {
 
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
 
@@ -104,7 +104,7 @@ class WriteViewController: UIViewController {
             PostManager.shared.updatePost(
                 postID: postID,
                 content: contentTextView.text,
-                imageUrl: imageUrl) { result in
+                imageUrl: imageUrl ?? nil) { result in
 
                     switch result {
 
@@ -196,9 +196,12 @@ class WriteViewController: UIViewController {
 
         guard let imageUrl = imageUrl else { return }
 
-        ImageManager.shared.deleteImage(imageUrl: imageUrl)
+        ImageManager.shared.deleteImage(imageUrl: imageUrl, removeUrlHandler: { [weak self] in
 
-        postImageView.image?.remove(from: postImageView)
+            self?.postImageView.image = nil
+
+            self?.imageUrl = nil
+        })
 
         hasImage = false
     }

@@ -51,7 +51,7 @@
                                             <color key="baseForegroundColor" systemColor="systemGrayColor"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="uploadImage:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="J1a-xY-zUw"/>
+                                            <action selector="uploadImage:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="0HO-92-zXI"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="npE-NP-SlB">
