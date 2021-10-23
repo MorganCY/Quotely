@@ -156,7 +156,7 @@ class WriteViewController: UIViewController {
                 imageUrl: imageUrl,
                 hashtag: nil,
                 likeNumber: nil,
-                likeUser: [""],
+                likeUser: nil,
                 commentNumber: nil)
 
             PostManager.shared.publishPost(post: &post) { _ in

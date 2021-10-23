@@ -17,6 +17,6 @@ struct Post: Codable {
     var imageUrl: String?
     var hashtag: [String]?
     var likeNumber: Int?
-    var likeUser: [String]
+    var likeUser: [String]?
     var commentNumber: Int?
 }
