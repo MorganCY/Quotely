@@ -19,6 +19,7 @@ class ExploreViewController: UIViewController {
     var likedPost = false
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addPostButton: UIButton!
 
     // MARK: LiftCycle
     override func viewDidLoad() {
@@ -35,6 +36,11 @@ class ExploreViewController: UIViewController {
         tableView.separatorStyle = .none
 
         navigationItem.title = "探索"
+    }
+
+    override func viewDidLayoutSubviews() {
+
+        setupAddPostButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -164,5 +170,32 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         detailVC.hasLiked = likeUserList.contains("test123456") ? true : false
 
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+
+    // MARK: SetupViews
+    func setupAddPostButton() {
+
+        addPostButton.layer.cornerRadius = addPostButton.frame.width / 2
+
+        addPostButton.layer.shadowColor = UIColor.gray.cgColor
+
+        addPostButton.layer.shadowOpacity = 0.7
+
+        addPostButton.layer.shadowOffset = CGSize(width: 3, height: 3)
+
+        addPostButton.addTarget(self, action: #selector(addArticle(_:)), for: .touchUpInside)
+    }
+
+    @objc func addArticle(_ sender: UIButton) {
+
+        guard let writeVC = UIStoryboard.write.instantiateViewController(
+            withIdentifier: String(describing: WriteViewController.self)
+        ) as? WriteViewController else { return }
+
+        let nav = UINavigationController(rootViewController: writeVC)
+
+        nav.modalPresentationStyle = .automatic
+
+        self.navigationController?.present(nav, animated: true)
     }
 }
