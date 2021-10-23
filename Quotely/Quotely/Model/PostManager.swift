@@ -26,19 +26,42 @@ class PostManager {
     func publishPost(post: inout Post, completion: @escaping (Result<String, Error>) -> Void) {
 
         let document = posts.document()
+
         post.postID = document.documentID
 
-        document.setData(post.toDict) { error in
+        do {
 
-            if let error = error {
+            _ = try posts.addDocument(from: post, encoder: Firestore.Encoder(), completion: { error in
 
-                completion(.failure(error))
+                if let error = error {
 
-            } else {
+                    completion(.failure(error))
 
-                completion(.success("Success"))
-            }
+                } else {
+
+                    completion(.success("Success"))
+                }
+            })
+
+        } catch {
+
+            completion(.failure(error))
         }
+
+//        let document = posts.document()
+//        post.postID = document.documentID
+//
+//        document.setData(post.toDict) { error in
+//
+//            if let error = error {
+//
+//                completion(.failure(error))
+//
+//            } else {
+//
+//                completion(.success("Success"))
+//            }
+//        }
     }
 
     func updatePost(

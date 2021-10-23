@@ -76,6 +76,11 @@ class PostDetailViewController: BaseDetailViewController {
         likeButton.tintColor = buttonColor
     }
 
+    func fetchPost() {
+
+        
+    }
+
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
 

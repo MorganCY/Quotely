@@ -19,20 +19,4 @@ struct Post: Codable {
     var likeNumber: Int?
     var likeUser: [String]
     var commentNumber: Int?
-
-    var toDict: [String: Any] {
-
-        return [
-            "postID": postID as Any,
-            "uid": uid as Any,
-            "createdTime": createdTime as Any,
-            "editTime": editTime as Any,
-            "content": content as Any,
-            "imageUrl": imageUrl as Any,
-            "hashtag": hashtag as Any,
-            "likeNumber": likeNumber as Any,
-            "likeUser": likeUser as Any,
-            "commentNumber": commentNumber as Any
-        ]
-    }
 }

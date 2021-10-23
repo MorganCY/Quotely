@@ -25,18 +25,26 @@ class CommentManager {
     ) {
 
         let document = postComments.document()
+
         comment.postCommentID = document.documentID
 
-        document.setData(comment.toDict) { error in
+        do {
 
-            if let error = error {
+            _ = try postComments.addDocument(from: comment, encoder: Firestore.Encoder(), completion: { error in
 
-                completion(.failure(error))
+                if let error = error {
 
-            } else {
+                    completion(.failure(error))
 
-                completion(.success("Success"))
-            }
+                } else {
+
+                    completion(.success("Success"))
+                }
+            })
+
+        } catch {
+
+            completion(.failure(error))
         }
     }
 
