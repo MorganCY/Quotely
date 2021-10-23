@@ -361,5 +361,6 @@ extension WriteViewController {
         optionPanel.cornerRadius = CornerRadius.standard.rawValue
         optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
         optionPanel.borderWidth = 1
+        optionPanel.layer.shouldRasterize = true
     }
 }

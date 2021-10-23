@@ -10,6 +10,12 @@ import UIKit
 enum ImageAsset: String {
 
     case testProfile = "test_profile"
+
+    case like
+
+    case dislike
+
+    case testCardBackground
 }
 
 enum SFSymbol: String {
