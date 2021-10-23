@@ -11,9 +11,7 @@ import UIKit
 class ExploreViewController: UIViewController {
 
     var postList: [Post] = [] {
-
         didSet {
-
             tableView.reloadData()
         }
     }
@@ -45,6 +43,7 @@ class ExploreViewController: UIViewController {
         fetchPost()
     }
 
+    // MARK: Data
     func fetchPost() {
 
         PostManager.shared.fetchPost { result in
@@ -63,6 +62,7 @@ class ExploreViewController: UIViewController {
     }
 }
 
+// MARK: TableView
 extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,13 +151,12 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let row = indexPath.row
 
-        detailVC.postID = postList[row].postID
+        detailVC.postID = postList[row].postID ?? ""
         detailVC.userImage = UIImage.asset(.testProfile)
         detailVC.userName = "Morgan Yu"
         detailVC.time = postList[row].createdTime
         detailVC.content = postList[row].content
         detailVC.imageUrl = postList[row].imageUrl
-        detailVC.likeNumber = nil
         detailVC.uid = postList[row].uid
 
         let likeUserList = postList[row].likeUser

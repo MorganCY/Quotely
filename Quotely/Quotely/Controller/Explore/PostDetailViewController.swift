@@ -10,6 +10,8 @@ import UIKit
 
 class PostDetailViewController: BaseDetailViewController {
 
+    var post: Post?
+
     var hasLiked = false
 
     var isAuthor = false
@@ -20,6 +22,7 @@ class PostDetailViewController: BaseDetailViewController {
         navigationItem.title = "摘語"
     }
 
+    // MARK: LiftCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -28,6 +31,7 @@ class PostDetailViewController: BaseDetailViewController {
         setupLikeButtonState()
     }
 
+    // MARK: Action
     override func like(_ sender: UIButton) {
 
         let likeAction: LikeAction = hasLiked ? .dislike : .like
@@ -41,8 +45,6 @@ class PostDetailViewController: BaseDetailViewController {
         ? .gray : .red
 
         hasLiked.toggle()
-
-        guard let postID = postID else { return }
 
         PostManager.shared.updateLikes(postID: postID, likeAction: likeAction) { result in
 
@@ -74,11 +76,6 @@ class PostDetailViewController: BaseDetailViewController {
 
         likeButton.setBackgroundImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
-    }
-
-    func fetchPost() {
-
-        
     }
 
     override func addComment(_ sender: UIButton) {
@@ -116,103 +113,8 @@ class PostDetailViewController: BaseDetailViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
-        ) as? BaseDetailCommentCell else {
-
-            fatalError("Cannot create cell.")
-        }
-
-        let row = indexPath.row
-
-        isAuthor = uid == "test123456"
-        ? true : false
-
-        if let editTime = comments[row].editTime {
-
-            cell.layoutCell(
-                userImage: UIImage.asset(.testProfile)!,
-                userName: "Morgan Yu",
-                time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
-                content: comments[row].content,
-                isAuthor: isAuthor,
-                editTime: Date.dateFormatter.string(from: Date.init(milliseconds: editTime))
-            )
-
-        } else {
-
-            cell.layoutCell(
-                userImage: UIImage.asset(.testProfile)!,
-                userName: "Morgan Yu",
-                time: Date.dateFormatter.string(from: Date.init(milliseconds: comments[row].createdTime)),
-                content: comments[row].content,
-                isAuthor: isAuthor,
-                editTime: nil
-            )
-        }
-
-        cell.noSelectionStyle()
-
-        cell.editHandler = { text in
-
-            guard let postCommentID = self.comments[row].postCommentID else { return }
-
-            CommentManager.shared.updateComment(
-                postCommentID: postCommentID,
-                newContent: text) { result in
-
-                    switch result {
-
-                    case .success(let success):
-
-                        print(success)
-
-                        self.comments[row].content = text
-
-                    case .failure(let error):
-
-                        print(error)
-                    }
-                }
-        }
-
-        cell.deleteHandler = {
-
-            guard let postCommentID = self.comments[row].postCommentID else { return }
-
-            let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
-
-            let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
-
-                CommentManager.shared.deleteComment(
-                    postCommentID: postCommentID) { result in
-
-                        switch result {
-
-                        case .success(let success):
-                            print(success)
-
-                            self.comments.remove(at: row)
-
-                        case .failure(let error):
-
-                            print(error)
-                        }
-                    }
-            }
-
-            let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
-
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            self.present(alert, animated: true, completion: nil)
-        }
-
-        return cell
-    }
-
+    // MARK: TableView
+    // Header: post content
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         guard let header = tableView.dequeueReusableHeaderFooterView(
@@ -234,15 +136,16 @@ class PostDetailViewController: BaseDetailViewController {
             isAuthor: isAuthor
         )
 
+        // Pass data from Post Detail page to Write page
         header.editHandler = {
 
             guard let writeVC = UIStoryboard.write.instantiateViewController(
                 withIdentifier: String(describing: WriteViewController.self)
             ) as? WriteViewController else { return }
 
-            writeVC.modalPresentationStyle = .popover
-
             let nav = UINavigationController(rootViewController: writeVC)
+
+            nav.modalPresentationStyle = .automatic
 
             self.navigationController?.present(nav, animated: true) {
 
@@ -257,21 +160,22 @@ class PostDetailViewController: BaseDetailViewController {
                     writeVC.hasImage = true
                 }
 
-                writeVC.navigationItem.title = "編輯摘語"
+                writeVC.contentHandler = { content in
 
-                writeVC.navigationItem.rightBarButtonItem?.title = "更新"
+                    self.content = content
+
+                    tableView.reloadData()
+                }
             }
         }
 
         header.deleteHandler = {
 
-            guard let postID = self.postID else { return }
-
             let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
 
             let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
 
-                PostManager.shared.deletePost(postID: postID) { result in
+                PostManager.shared.deletePost(postID: self.postID) { result in
 
                     switch result {
 
@@ -304,9 +208,88 @@ class PostDetailViewController: BaseDetailViewController {
         return header
     }
 
-    func fetchComments() {
+    // Cells: comments
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let postID = postID else { return }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
+        ) as? BaseDetailCommentCell else {
+            fatalError("Cannot create cell.")
+        }
+
+        let row = indexPath.row
+
+        isAuthor = uid == "test123456" ? true : false
+
+        cell.layoutCell(
+            userImage: UIImage.asset(.testProfile)!,
+            userName: "Morgan Yu",
+            createdTime: comments[row].createdTime,
+            content: comments[row].content,
+            isAuthor: isAuthor,
+            editTime: comments[row].editTime)
+
+        cell.noSelectionStyle()
+
+        cell.editHandler = { text in
+
+            guard let postCommentID = self.comments[row].postCommentID else { return }
+
+            CommentManager.shared.updateComment( postCommentID: postCommentID, newContent: text) { result in
+
+                    switch result {
+
+                    case .success(let success):
+
+                        print(success)
+
+                        self.comments[row].content = text
+
+                    case .failure(let error):
+
+                        print(error)
+                    }
+                }
+        }
+
+        cell.deleteHandler = {
+
+            guard let postCommentID = self.comments[row].postCommentID else { return }
+
+            let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
+
+            let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
+
+                CommentManager.shared.deleteComment(
+                    postCommentID: postCommentID) { result in
+
+                        switch result {
+
+                        case .success(let success):
+
+                            print(success)
+
+                            self.comments.remove(at: row)
+
+                        case .failure(let error):
+
+                            print(error)
+                        }
+                    }
+            }
+
+            let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
+
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+
+        return cell
+    }
+
+    // MARK: Data
+    func fetchComments() {
 
         CommentManager.shared.fetchComment(postID: postID) { result in
 

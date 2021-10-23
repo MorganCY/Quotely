@@ -49,6 +49,8 @@ class WriteViewController: UIViewController {
         }
     }
 
+    var contentHandler: ((String) -> Void) = {_ in}
+
     @IBOutlet weak var optionPanel: UIView!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var scanButton: UIButton!
@@ -77,7 +79,7 @@ class WriteViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
-    // MARK: Action
+    // MARK: Actions
     @IBAction func uploadImage(_ sender: UIButton) {
 
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
@@ -99,6 +101,10 @@ class WriteViewController: UIViewController {
 
     @objc func onPublish(_ sender: UIBarButtonItem) {
 
+        // Pass edited content to post detail page
+        self.contentHandler(self.contentTextView.text)
+
+        // Check if the page is under edit state
         if let postID = postID {
 
             PostManager.shared.updatePost(
@@ -163,6 +169,25 @@ class WriteViewController: UIViewController {
             Toast.showFailure(text: "請輸入內容")
         }
     }
+}
+
+// MARK: Image
+extension WriteViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+
+        guard let selectedImage = info[.editedImage] as? UIImage else {
+
+            return
+        }
+
+        postImageView.image = selectedImage
+
+        dismiss(animated: true)
+    }
 
     // MARK: ImagePickerActions
     func openCamera() {
@@ -205,8 +230,69 @@ class WriteViewController: UIViewController {
 
         hasImage = false
     }
+}
 
-    // MARK: SetupViews
+extension WriteViewController: PHPickerViewControllerDelegate {
+
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+
+        picker.dismiss(animated: true) {
+            Toast.showLoading(text: "載入圖片中")
+        }
+
+        guard !results.isEmpty else { return }
+
+        for result in results {
+
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+
+                if let image = image as? UIImage {
+
+                    self.hasImage = true
+
+                    ImageManager.shared.uploadImage(image: image) { result in
+
+                        switch result {
+
+                        case .success(let url):
+
+                            self.imageUrl = url
+
+                            Toast.shared.hud.dismiss()
+
+                            DispatchQueue.main.async {
+
+                                self.postImageView.loadImage(url, placeHolder: nil)
+                            }
+
+                        case .failure(let error):
+
+                            print(error)
+
+                            self.present(
+                                UIAlertController(
+                                    title: "上傳失敗",
+                                    message: nil,
+                                    preferredStyle: .alert
+                                ), animated: true, completion: nil
+                            )
+
+                            picker.dismiss(animated: true)
+                        }
+                    }
+
+                } else {
+
+                    print(String(describing: error))
+                }
+            })
+        }
+    }
+}
+
+// MARK: SetupViews
+extension WriteViewController {
+
     func setupNavigation() {
 
         navigationItem.title = navTitle
@@ -275,81 +361,5 @@ class WriteViewController: UIViewController {
         optionPanel.cornerRadius = CornerRadius.standard.rawValue
         optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
         optionPanel.borderWidth = 1
-    }
-}
-
-extension WriteViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    func imagePickerController(
-        _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {
-
-        guard let selectedImage = info[.editedImage] as? UIImage else {
-
-            return
-        }
-
-        postImageView.image = selectedImage
-
-        dismiss(animated: true)
-    }
-}
-
-extension WriteViewController: PHPickerViewControllerDelegate {
-
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-
-        picker.dismiss(animated: true) {
-            Toast.showLoading(text: "載入圖片中")
-        }
-
-        guard !results.isEmpty else { return }
-
-        for result in results {
-
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
-
-                if let image = image as? UIImage {
-
-                    self.hasImage = true
-
-                    ImageManager.shared.uploadImage(image: image) { result in
-
-                        switch result {
-
-                        case .success(let url):
-
-                            self.imageUrl = url
-
-                            Toast.shared.hud.dismiss()
-
-                            DispatchQueue.main.async {
-
-                                self.postImageView.loadImage(url, placeHolder: nil)
-                            }
-
-                        case .failure(let error):
-
-                            print(error)
-
-                            self.present(
-                                UIAlertController(
-                                    title: "上傳失敗",
-                                    message: nil,
-                                    preferredStyle: .alert
-                                ), animated: true, completion: nil
-                            )
-
-                            picker.dismiss(animated: true)
-                        }
-                    }
-
-                } else {
-
-                    print(String(describing: error))
-                }
-            })
-        }
     }
 }

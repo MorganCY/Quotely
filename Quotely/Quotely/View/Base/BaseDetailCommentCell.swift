@@ -35,15 +35,15 @@ class BaseDetailCommentCell: UITableViewCell {
     func layoutCell(
         userImage: UIImage,
         userName: String,
-        time: String,
+        createdTime: Int64,
         content: String,
         isAuthor: Bool,
-        editTime: String?
+        editTime: Int64?
     ) {
 
         userImageView.image = userImage
         nameLabel.text = userName
-        timeLabel.text = time
+        timeLabel.text = Date.dateFormatter.string(from: Date.init(milliseconds: createdTime))
         contentLabel.text = content
 
         contentLabel.isHidden = isEnableEdit
@@ -54,7 +54,7 @@ class BaseDetailCommentCell: UITableViewCell {
 
         guard let editTime = editTime else { return }
 
-        timeLabel.text = "已編輯 \(editTime)"
+        timeLabel.text = "已編輯 \(Date.dateFormatter.string(from: Date.init(milliseconds: editTime)))"
     }
 
     var editHandler: (String) -> Void = {_ in}

@@ -23,11 +23,9 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var userImage: UIImage?
     var userName: String?
     var time: Int64?
-    var content: String = ""
-    var imageUrl: String?
     var likeNumber: Int?
     var articleID: String?
-    var postID: String?
+    var postID: String = ""
     var postCommentID: String?
     var uid = ""
 
@@ -36,6 +34,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             tableView.reloadData()
         }
     }
+    var content: String = ""
+    var imageUrl: String?
 
     var hasTabBar = false
 

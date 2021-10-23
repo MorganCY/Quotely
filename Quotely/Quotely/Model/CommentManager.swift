@@ -25,7 +25,7 @@ class CommentManager {
     ) {
 
         let document = postComments.document()
-
+        
         comment.postCommentID = document.documentID
 
         do {
@@ -76,6 +76,7 @@ class CommentManager {
 
                             comments.append(comment)
                         }
+
                     } catch {
 
                         completion(.failure(error))

@@ -47,21 +47,6 @@ class PostManager {
 
             completion(.failure(error))
         }
-
-//        let document = posts.document()
-//        post.postID = document.documentID
-//
-//        document.setData(post.toDict) { error in
-//
-//            if let error = error {
-//
-//                completion(.failure(error))
-//
-//            } else {
-//
-//                completion(.success("Success"))
-//            }
-//        }
     }
 
     func updatePost(
