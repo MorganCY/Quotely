@@ -220,6 +220,20 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
     func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
 
+        guard let cardID = cards[currentIndex].cardID else { return }
+
+        CardManager.shared.updateCards(cardID: cardID, likeAction: .dislike, uid: "test123456") { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+
         if nextIndex < cards.count {
 
             likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
