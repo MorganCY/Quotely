@@ -24,7 +24,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var userName: String?
     var time: Int64?
     var likeNumber: Int?
-    var articleID: String?
+    var cardID: String?
     var postID: String = ""
     var postCommentID: String?
     var uid = ""
@@ -38,6 +38,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var imageUrl: String?
 
     var hasTabBar = false
+    var hasLiked = false
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -72,6 +73,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.registerCellWithNib(
             identifier: BaseDetailCommentCell.identifier, bundle: nil
         )
+
+        setupLikeButtonState()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,6 +104,15 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     // MARK: SetupViews
+    func setupLikeButtonState() {
+
+        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
+        let buttonColor: UIColor = hasLiked ?  .red : .gray
+
+        likeButton.setBackgroundImage(buttonImage, for: .normal)
+        likeButton.tintColor = buttonColor
+    }
+
     func setupTableVIew() {
 
         if tableView == nil {

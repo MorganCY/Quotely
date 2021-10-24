@@ -9,13 +9,11 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class CommentManager {
+class PostCommentManager {
 
-    static let shared = CommentManager()
+    static let shared = PostCommentManager()
 
     private init() {}
-
-    let articleComments = Firestore.firestore().collection("articleComments")
 
     let postComments = Firestore.firestore().collection("postComments")
 
@@ -25,7 +23,7 @@ class CommentManager {
     ) {
 
         let document = postComments.document()
-        
+
         comment.postCommentID = document.documentID
 
         do {

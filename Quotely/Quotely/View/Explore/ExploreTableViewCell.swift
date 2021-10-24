@@ -75,7 +75,7 @@ class ExploreTableViewCell: UITableViewCell {
 
         } else {
 
-            userImageView.image = UIImage.sfsymbol(.person)
+            userImageView.image = UIImage.sfsymbol(.personNormal)
         }
 
         if let likeNumber = likeNumber,

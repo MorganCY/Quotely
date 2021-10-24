@@ -19,3 +19,16 @@ class IconButton: UIButton {
         super.init(coder: coder)
     }
 }
+
+class IconButtonLabel: UILabel {
+
+    init() {
+        super.init(frame: .zero)
+        font = UIFont.systemFont(ofSize: 14)
+        textColor = .gray
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+}

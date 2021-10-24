@@ -41,10 +41,10 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="W4G-Pw-PHd">
-                    <rect key="frame" x="82" y="73.5" width="186.5" height="254.5"/>
+                    <rect key="frame" x="82" y="73.5" width="316" height="254.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhO-kH-7M5">
-                            <rect key="frame" x="0.0" y="0.0" width="40.5" height="58"/>
+                            <rect key="frame" x="0.0" y="0.0" width="316" height="58"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -58,6 +58,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="odH-F0-2Ix" firstAttribute="top" secondItem="DhO-kH-7M5" secondAttribute="bottom" constant="10" id="Icu-pd-K6u"/>
+                        <constraint firstAttribute="trailing" secondItem="DhO-kH-7M5" secondAttribute="trailing" id="XfU-cU-tdf"/>
                     </constraints>
                 </stackView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uzi-If-l2e">
@@ -118,6 +119,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Uzi-If-l2e" secondAttribute="bottom" id="wa4-ZI-mVv"/>
                 <constraint firstItem="W4G-Pw-PHd" firstAttribute="leading" secondItem="cwf-dh-meA" secondAttribute="leading" id="xeL-d9-uyf"/>
                 <constraint firstItem="yGW-Di-0ss" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="zAn-fV-cor"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="W4G-Pw-PHd" secondAttribute="trailing" constant="16" id="zIG-7c-xtb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

@@ -9,7 +9,7 @@ import UIKit
 
 private enum Tab {
 
-    case browse
+    case swipe
 
     case explore
     
@@ -23,7 +23,7 @@ private enum Tab {
 
         switch self {
 
-        case .browse: controller = UIStoryboard.browse.instantiateInitialViewController()!
+        case .swipe: controller = UIStoryboard.swipe.instantiateInitialViewController()!
 
         case .explore: controller = UIStoryboard.explore.instantiateInitialViewController()!
 
@@ -35,7 +35,7 @@ private enum Tab {
 
         controller.tabBarItem = tabBarItem()
 
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
+        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 16.0, left: 0.0, bottom: -6.0, right: 0.0)
 
         return controller
     }
@@ -44,32 +44,32 @@ private enum Tab {
 
         switch self {
 
-        case .browse:
+        case .swipe:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.cardsNormal),
+                selectedImage: UIImage.sfsymbol(.cardsSelected)
             )
 
         case .explore:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.lightbulbNormal),
+                selectedImage: UIImage.sfsymbol(.lightbulbSelected)
             )
 
         case .map:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.mapNormal),
+                selectedImage: UIImage.sfsymbol(.mapSelected)
             )
 
         case .myAccount:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.personNormal),
+                selectedImage: UIImage.sfsymbol(.personSelected)
             )
         }
     }
@@ -77,7 +77,7 @@ private enum Tab {
 
 class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
-    private let tabs: [Tab] = [.browse, .explore, .map, .myAccount]
+    private let tabs: [Tab] = [.swipe, .explore, .map, .myAccount]
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,7 +11,7 @@ private struct StoryboardCategory {
 
     static let main = "Main"
 
-    static let browse = "Browse"
+    static let swipe = "Swipe"
 
     static let explore = "Explore"
 
@@ -26,7 +26,7 @@ extension UIStoryboard {
 
     static var main: UIStoryboard { return getStoryboard(name: StoryboardCategory.main) }
 
-    static var browse: UIStoryboard { return getStoryboard(name: StoryboardCategory.browse) }
+    static var swipe: UIStoryboard { return getStoryboard(name: StoryboardCategory.swipe) }
 
     static var explore: UIStoryboard { return getStoryboard(name: StoryboardCategory.explore) }
 

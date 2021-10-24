@@ -10,6 +10,18 @@ import UIKit
 enum ImageAsset: String {
 
     case testProfile = "test_profile"
+
+    case like
+
+    case dislike
+
+    case bg1
+
+    case bg2
+
+    case bg3
+
+    case bg4
 }
 
 enum SFSymbol: String {
@@ -24,7 +36,9 @@ enum SFSymbol: String {
 
     case photo = "photo"
 
-    case person = "person"
+    case personNormal = "person.circle"
+
+    case personSelected = "person.circle.fill"
 
     case heartNormal = "heart"
 
@@ -33,6 +47,22 @@ enum SFSymbol: String {
     case send = "paperplane.fill"
 
     case closeButton = "xmark.circle.fill"
+
+    case comment = "text.bubble"
+
+    case reset = "arrow.clockwise"
+
+    case cardsNormal = "square.stack"
+
+    case cardsSelected = "square.stack.fill"
+
+    case lightbulbNormal = "lightbulb"
+
+    case lightbulbSelected = "lightbulb.fill"
+
+    case mapNormal = "map"
+
+    case mapSelected = "map.fill"
 }
 
 extension UIImage {
