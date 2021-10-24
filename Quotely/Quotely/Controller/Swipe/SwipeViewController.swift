@@ -28,13 +28,13 @@ class SwipeViewController: UIViewController {
     let commentNumberLabel = IconButtonLabel()
 
     var isLastCardSwiped = false {
-
         didSet {
-
             reminderLabel.isHidden = !isLastCardSwiped
             resetButton.isHidden = !isLastCardSwiped
+            commentButton.isEnabled = !isLastCardSwiped
         }
     }
+    var currentCardIndex = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +77,6 @@ class SwipeViewController: UIViewController {
             group.enter()
 
             CardManager.shared.fetchCards { result in
-
                 switch result {
 
                 case .success(let cards):
@@ -87,19 +86,41 @@ class SwipeViewController: UIViewController {
                 case .failure(let error):
 
                     print(error)
+
                 }
 
                 group.leave()
             }
 
-            group.notify(queue: DispatchQueue.main) {
+            group.notify(queue: DispatchQueue.main, execute: {
 
                 self.loadingLabel.isHidden = true
 
                 self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
                 self.commentNumberLabel.text = "\(self.cards[0].commentNumber)"
-            }
+            })
         }
+    }
+
+    @objc func goToDetailPage(_ sender: UIButton) {
+
+        guard let detailVC =
+                UIStoryboard.swipe
+                .instantiateViewController(
+                    withIdentifier: String(describing: CardDetailViewController.self)
+                ) as? CardDetailViewController else {
+
+                    return
+                }
+
+        let card = cards[currentCardIndex]
+
+        detailVC.cardID = card.cardID
+        detailVC.hasLiked = card.likeUser.contains("test123456") ? true : false
+        detailVC.uid = "test123456"
+        detailVC.content = "\(card.content)\n\n\n\(card.author)"
+
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 
     func setupCardView() {
@@ -109,7 +130,7 @@ class SwipeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            cardStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70),
             cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
@@ -123,13 +144,16 @@ class SwipeViewController: UIViewController {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+
+        commentButton.addTarget(self, action: #selector(goToDetailPage(_:)), for: .touchUpInside)
+
         view.addSubview(likeNumberLabel)
         view.addSubview(commentNumberLabel)
         likeNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         commentNumberLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            shareButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20),
+            shareButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 30),
             shareButton.leadingAnchor.constraint(equalTo: cardStack.leadingAnchor),
             shareButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.08),
             shareButton.heightAnchor.constraint(equalTo: shareButton.widthAnchor),
@@ -200,11 +224,13 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
             likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
             commentNumberLabel.text = "\(cards[nextIndex].commentNumber)"
+            currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
 
             likeNumberLabel.text = ""
             commentNumberLabel.text = ""
+            currentCardIndex = 0
             isLastCardSwiped = true
         }
     }
@@ -229,13 +255,14 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
             likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
             commentNumberLabel.text = "\(cards[nextIndex].commentNumber)"
+            currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
 
             likeNumberLabel.text = ""
             commentNumberLabel.text = ""
-            reminderLabel.isHidden = false
-            resetButton.isHidden = false
+            currentCardIndex = 0
+            isLastCardSwiped = true
         }
     }
 }

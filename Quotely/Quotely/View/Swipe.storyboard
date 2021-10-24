@@ -49,10 +49,10 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="125.89285714285714"/>
         </scene>
-        <!--View Controller-->
+        <!--Card Detail View Controller-->
         <scene sceneID="W60-7Q-vMQ">
             <objects>
-                <viewController id="Ytf-Mb-HUI" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CardDetailViewController" id="Ytf-Mb-HUI" customClass="CardDetailViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oZI-sI-ygJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

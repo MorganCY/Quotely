@@ -47,29 +47,29 @@ private enum Tab {
         case .swipe:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.cardsNormal),
+                selectedImage: UIImage.sfsymbol(.cardsSelected)
             )
 
         case .explore:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.lightbulbNormal),
+                selectedImage: UIImage.sfsymbol(.lightbulbSelected)
             )
 
         case .map:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.mapNormal),
+                selectedImage: UIImage.sfsymbol(.mapSelected)
             )
 
         case .myAccount:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.newspaperNormal),
-                selectedImage: UIImage.sfsymbol(.newpaperSelected)
+                image: UIImage.sfsymbol(.personNormal),
+                selectedImage: UIImage.sfsymbol(.personSelected)
             )
         }
     }

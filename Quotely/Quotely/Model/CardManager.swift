@@ -76,14 +76,16 @@ class CardManager {
 
                     targetCard?.reference.updateData([
                         "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "likeUser": FieldValue.arrayUnion(["test123456"])
+                        "likeUser": FieldValue.arrayUnion(["test123456"]),
+                        "dislikeUser": FieldValue.arrayRemove(["test123456"])
                     ])
 
                 case .dislike:
 
                     targetCard?.reference.updateData([
                         "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "disLikeUser": FieldValue.arrayUnion(["test123456"])
+                        "disLikeUser": FieldValue.arrayUnion(["test123456"]),
+                        "likeUser": FieldValue.arrayRemove(["test123456"])
                     ])
                 }
 

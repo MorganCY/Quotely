@@ -36,7 +36,9 @@ enum SFSymbol: String {
 
     case photo = "photo"
 
-    case person = "person"
+    case personNormal = "person.circle"
+
+    case personSelected = "person.circle.fill"
 
     case heartNormal = "heart"
 
@@ -49,6 +51,18 @@ enum SFSymbol: String {
     case comment = "text.bubble"
 
     case reset = "arrow.clockwise"
+
+    case cardsNormal = "square.stack"
+
+    case cardsSelected = "square.stack.fill"
+
+    case lightbulbNormal = "lightbulb"
+
+    case lightbulbSelected = "lightbulb.fill"
+
+    case mapNormal = "map"
+
+    case mapSelected = "map.fill"
 }
 
 extension UIImage {
