@@ -95,7 +95,7 @@ extension UIView {
 
         objectView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
 
-        objectView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100).isActive = true
+        objectView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
 }
 

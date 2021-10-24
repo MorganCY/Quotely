@@ -15,7 +15,13 @@ enum ImageAsset: String {
 
     case dislike
 
-    case testCardBackground
+    case bg1
+
+    case bg2
+
+    case bg3
+
+    case bg4
 }
 
 enum SFSymbol: String {
@@ -39,6 +45,8 @@ enum SFSymbol: String {
     case send = "paperplane.fill"
 
     case closeButton = "xmark.circle.fill"
+
+    case comment = "text.bubble"
 }
 
 extension UIImage {

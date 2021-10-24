@@ -17,87 +17,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TUd-Yb-Qtt">
-                                <rect key="frame" x="41.5" y="742.5" width="331" height="89.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jpk-FQ-xSd">
-                                        <rect key="frame" x="144.5" y="60.5" width="42" height="21"/>
-                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86s-7x-PfU">
-                                        <rect key="frame" x="235.5" y="60.5" width="42" height="21"/>
-                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hjK-TQ-FtP">
-                                        <rect key="frame" x="40" y="5" width="62" height="62"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="hjK-TQ-FtP" secondAttribute="height" multiplier="1:1" id="W9P-RF-FNx"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.up" catalog="system" imagePlacement="top">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="28"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qk1-NQ-MVU">
-                                        <rect key="frame" x="132.5" y="3" width="66" height="66"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="Qk1-NQ-MVU" secondAttribute="height" multiplier="1:1" id="VqJ-75-KhP"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="28"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="svU-St-dnd">
-                                        <rect key="frame" x="222" y="1.5" width="69" height="69"/>
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="message" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="28"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="svU-St-dnd" firstAttribute="width" secondItem="svU-St-dnd" secondAttribute="height" multiplier="1:1" id="01q-tS-Pcs"/>
-                                    <constraint firstItem="jpk-FQ-xSd" firstAttribute="centerY" secondItem="86s-7x-PfU" secondAttribute="centerY" id="1MD-Ib-l8A"/>
-                                    <constraint firstItem="svU-St-dnd" firstAttribute="width" secondItem="svU-St-dnd" secondAttribute="height" multiplier="1:1" id="2pg-6F-2aF"/>
-                                    <constraint firstItem="Qk1-NQ-MVU" firstAttribute="centerY" secondItem="hjK-TQ-FtP" secondAttribute="centerY" id="6P3-7j-o0Q"/>
-                                    <constraint firstAttribute="bottom" secondItem="86s-7x-PfU" secondAttribute="bottom" constant="8" id="9Y3-qr-Tgz"/>
-                                    <constraint firstItem="Qk1-NQ-MVU" firstAttribute="centerX" secondItem="TUd-Yb-Qtt" secondAttribute="centerX" id="Efx-Em-8fg"/>
-                                    <constraint firstItem="Qk1-NQ-MVU" firstAttribute="width" secondItem="Qk1-NQ-MVU" secondAttribute="height" multiplier="1:1" id="LWL-Fh-gad"/>
-                                    <constraint firstAttribute="trailing" secondItem="svU-St-dnd" secondAttribute="trailing" constant="40" id="VXU-R1-atL"/>
-                                    <constraint firstItem="jpk-FQ-xSd" firstAttribute="centerX" secondItem="Qk1-NQ-MVU" secondAttribute="centerX" id="X49-rD-yqs"/>
-                                    <constraint firstItem="svU-St-dnd" firstAttribute="centerY" secondItem="hjK-TQ-FtP" secondAttribute="centerY" id="Z9A-hs-0KC"/>
-                                    <constraint firstItem="hjK-TQ-FtP" firstAttribute="top" secondItem="TUd-Yb-Qtt" secondAttribute="top" constant="5" id="d7o-67-Wbi"/>
-                                    <constraint firstItem="hjK-TQ-FtP" firstAttribute="leading" secondItem="TUd-Yb-Qtt" secondAttribute="leading" constant="40" id="dOj-wv-xUD"/>
-                                    <constraint firstItem="86s-7x-PfU" firstAttribute="centerX" secondItem="svU-St-dnd" secondAttribute="centerX" id="tci-bi-t5o"/>
-                                </constraints>
-                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="召喚卡片中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Fd-z7-s85">
+                                <rect key="frame" x="143.5" y="432.5" width="127.5" height="31"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="22"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="TUd-Yb-Qtt" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="QjQ-fI-K9b"/>
-                            <constraint firstItem="TUd-Yb-Qtt" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.1" id="Zeb-5s-Fmo"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="TUd-Yb-Qtt" secondAttribute="bottom" constant="30" id="mHc-8u-e5q"/>
-                            <constraint firstItem="TUd-Yb-Qtt" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.8" id="wrQ-u6-lga"/>
+                            <constraint firstItem="9Fd-z7-s85" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="HSc-od-ShF"/>
+                            <constraint firstItem="9Fd-z7-s85" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="gXf-na-yVG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vij-LD-egM"/>
                     <connections>
-                        <outlet property="commentButton" destination="svU-St-dnd" id="QJf-Ep-E8s"/>
-                        <outlet property="likeButton" destination="Qk1-NQ-MVU" id="ht7-Jp-cEH"/>
-                        <outlet property="optionPanel" destination="TUd-Yb-Qtt" id="BPW-Ds-tsk"/>
-                        <outlet property="shareButton" destination="hjK-TQ-FtP" id="wsk-FN-Mwf"/>
+                        <outlet property="loadingLabel" destination="9Fd-z7-s85" id="xpR-Ut-xZf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -140,9 +76,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="heart" catalog="system" width="128" height="109"/>
-        <image name="message" catalog="system" width="128" height="113"/>
-        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -10,26 +10,68 @@ import UIKit
 
 class SwipeViewController: UIViewController {
 
+    var cards = [Card]() {
+
+        didSet {
+
+            cardStack.dataSource = self
+        }
+    }
+
+    @IBOutlet weak var loadingLabel: UILabel!
     let cardStack = SwipeCardStackView()
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var commentButton: UIButton!
-    @IBOutlet weak var optionPanel: UIView!
+    let shareButton = IconButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
+    let likeButton = IconButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
+    let commentButton = IconButton(image: UIImage.sfsymbol(.comment)!, color: .gray)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.title = "瀏覽"
 
-        setupOptionPanel()
-
-        cardStack.dataSource = self
+        initialLoadingCards()
+        setupCardView()
+        setupButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
 
-        setupCardView()
+    func fetchCards() {
+
+        CardManager.shared.fetchCards { result in
+
+            switch result {
+
+            case .success(let cards):
+
+                self.cards = cards
+
+            case .failure(let error):
+
+                print(error)
+            }
+        }
+    }
+
+    func initialLoadingCards() {
+
+        DispatchQueue.global().async {
+
+            let group = DispatchGroup()
+
+            group.enter()
+
+            self.fetchCards()
+
+            group.leave()
+
+            group.notify(queue: DispatchQueue.main) {
+
+                self.loadingLabel.isHidden = true
+            }
+        }
     }
 
     func setupCardView() {
@@ -39,23 +81,37 @@ class SwipeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            cardStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
         ])
     }
 
-    func setupOptionPanel() {
+    func setupButton() {
 
-        shareButton.setTitle("", for: .normal)
-        likeButton.setTitle("", for: .normal)
-        commentButton.setTitle("", for: .normal)
-        optionPanel.shadowOpacity = 0.4
-        optionPanel.shadowOffset = CGSize(width: 0.5, height: 3)
-        optionPanel.shadowColor = UIColor.darkGray.cgColor
-        optionPanel.layer.shouldRasterize = true
-        optionPanel.cornerRadius = CornerRadius.standard.rawValue
+        let buttons = [shareButton, likeButton, commentButton]
+        buttons.forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        NSLayoutConstraint.activate([
+            shareButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20),
+            shareButton.leadingAnchor.constraint(equalTo: cardStack.leadingAnchor),
+            shareButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.08),
+            shareButton.heightAnchor.constraint(equalTo: shareButton.widthAnchor),
+
+            likeButton.topAnchor.constraint(equalTo: shareButton.topAnchor),
+            likeButton.centerXAnchor.constraint(equalTo: cardStack.centerXAnchor),
+            likeButton.widthAnchor.constraint(equalTo: shareButton.widthAnchor),
+            likeButton.heightAnchor.constraint(equalTo: shareButton.widthAnchor),
+
+            commentButton.topAnchor.constraint(equalTo: shareButton.topAnchor),
+            commentButton.trailingAnchor.constraint(equalTo: cardStack.trailingAnchor),
+            commentButton.widthAnchor.constraint(equalTo: shareButton.widthAnchor),
+            commentButton.heightAnchor.constraint(equalTo: commentButton.widthAnchor)
+        ])
     }
 }
 
@@ -63,6 +119,11 @@ extension SwipeViewController: SwipeCardStackViewDataSource {
 
     func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int {
 
-        2
+        return cards.count
+    }
+
+    func cardForStackIn(_ card: SwipeCardView, index: Int) -> String {
+
+        return cards[index].content
     }
 }

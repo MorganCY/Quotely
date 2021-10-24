@@ -72,7 +72,7 @@ class SwipeCardView: UIView {
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
 
         backgroundImageView.contentMode = .scaleToFill
-        backgroundImageView.image = UIImage.asset(.testCardBackground)
+        backgroundImageView.image = UIImage.asset(.bg1)
         backgroundImageView.cornerRadius = CornerRadius.standard.rawValue
         backgroundImageView.clipsToBounds = true
         overlayView.backgroundColor = .black
@@ -98,7 +98,6 @@ class SwipeCardView: UIView {
         addSubview(contentLabel)
 
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.text = "你是那種比較強的風\n我的靈魂依附在上面\n是那麼容易散落"
         contentLabel.textColor = .white
         contentLabel.font = UIFont.systemFont(ofSize: 22)
         contentLabel.numberOfLines = 0

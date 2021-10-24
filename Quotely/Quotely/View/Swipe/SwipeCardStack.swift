@@ -11,6 +11,8 @@ import UIKit
 protocol SwipeCardStackViewDataSource: AnyObject {
 
     func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int
+
+    func cardForStackIn(_ card: SwipeCardView, index: Int) -> String
 }
 
 protocol SwipeCardStackViewDelegate: AnyObject {
@@ -22,14 +24,20 @@ protocol SwipeCardStackViewDelegate: AnyObject {
 
 class SwipeCardStackView: UIStackView {
 
-    weak var dataSource: SwipeCardStackViewDataSource?
+    weak var dataSource: SwipeCardStackViewDataSource? {
+
+        didSet {
+
+            setupCards()
+        }
+    }
 
     weak var delegate: SwipeCardStackViewDelegate?
 
+    let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3]
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        setupCards()
     }
 
     required init(coder: NSCoder) {
@@ -38,9 +46,18 @@ class SwipeCardStackView: UIStackView {
 
     func setupCards() {
 
-        for _ in 0...(dataSource?.numbersOfCardsIn(self) ?? 1) {
+        guard let dataSource = dataSource else { return }
+
+        for index in 0..<(dataSource.numbersOfCardsIn(self)) {
 
             let swipeCard = SwipeCardView()
+
+            swipeCard.contentLabel.text = dataSource.cardForStackIn(
+                swipeCard,
+                index: index)
+                .replacingOccurrences(of: "\\n", with: "\n")
+
+            swipeCard.backgroundImageView.image = UIImage.asset(backgroundImages[Int.random(in: 0...2)])
 
             addSubview(swipeCard)
 
@@ -49,7 +66,7 @@ class SwipeCardStackView: UIStackView {
             NSLayoutConstraint.activate([
 
                 swipeCard.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                swipeCard.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                swipeCard.topAnchor.constraint(equalTo: self.topAnchor, constant: CGFloat(-15 * index)),
                 swipeCard.widthAnchor.constraint(equalTo: self.widthAnchor),
                 swipeCard.heightAnchor.constraint(equalTo: self.heightAnchor)
             ])
