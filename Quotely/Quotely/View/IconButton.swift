@@ -22,11 +22,10 @@ class IconButton: UIButton {
 
 class IconButtonLabel: UILabel {
 
-    init(text: String) {
+    init() {
         super.init(frame: .zero)
-        font = UIFont.systemFont(ofSize: 12)
+        font = UIFont.systemFont(ofSize: 14)
         textColor = .gray
-        self.text = text
     }
 
     required init?(coder: NSCoder) {

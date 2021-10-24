@@ -12,14 +12,16 @@ protocol SwipeCardStackViewDataSource: AnyObject {
 
     func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int
 
-    func cardForStackIn(_ card: SwipeCardView, index: Int) -> String
+    func cardForStackIn(_ card: SwipeCardStackView, index: Int) -> String
 }
 
 protocol SwipeCardStackViewDelegate: AnyObject {
 
-    func cardGoesLeft(_ stack: SwipeCardStackView)
+    func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int ,nextIndex: Int)
 
-    func cardGoesRight(_ stack: SwipeCardStackView)
+    func cardGoesRight(_ stack: SwipeCardStackView, currentIndex: Int ,nextIndex: Int)
+
+    func getCurrentCard(_ card: SwipeCardStackView, index: Int)
 }
 
 class SwipeCardStackView: UIStackView {
@@ -35,6 +37,8 @@ class SwipeCardStackView: UIStackView {
     weak var delegate: SwipeCardStackViewDelegate?
 
     let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3]
+
+    var nextCardIndex = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,8 +56,10 @@ class SwipeCardStackView: UIStackView {
 
             let swipeCard = SwipeCardView()
 
+            swipeCard.delegate = self
+
             swipeCard.contentLabel.text = dataSource.cardForStackIn(
-                swipeCard,
+                self,
                 index: index)
                 .replacingOccurrences(of: "\\n", with: "\n")
 
@@ -72,17 +78,36 @@ class SwipeCardStackView: UIStackView {
             ])
         }
     }
+
+    func calculateIndex() {
+
+        guard let dataSource = dataSource else { return }
+
+        if nextCardIndex < dataSource.numbersOfCardsIn(self) {
+
+            nextCardIndex += 1
+        }
+    }
 }
 
 extension SwipeCardStackView: SwipeCardViewDelegate {
 
     func cardGoesRight(_ card: SwipeCardView) {
 
-        self.delegate?.cardGoesRight(self)
+        calculateIndex()
+
+        self.delegate?.cardGoesRight(self, currentIndex: nextCardIndex - 1, nextIndex: nextCardIndex)
     }
 
     func cardGoesLeft(_ card: SwipeCardView) {
 
-        self.delegate?.cardGoesLeft(self)
+        calculateIndex()
+
+        self.delegate?.cardGoesLeft(self, currentIndex: nextCardIndex - 1, nextIndex: nextCardIndex)
+    }
+
+    func getCurrentCard(_ card: SwipeCardView) {
+
+        self.delegate?.getCurrentCard(self, index: nextCardIndex)
     }
 }

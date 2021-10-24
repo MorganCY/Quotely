@@ -13,6 +13,8 @@ protocol SwipeCardViewDelegate: AnyObject {
     func cardGoesRight(_ card: SwipeCardView)
 
     func cardGoesLeft(_ card: SwipeCardView)
+
+    func getCurrentCard(_ card: SwipeCardView)
 }
 
 class SwipeCardView: UIView {
@@ -89,7 +91,7 @@ class SwipeCardView: UIView {
             overlayView.widthAnchor.constraint(equalTo: self.widthAnchor),
             overlayView.heightAnchor.constraint(equalTo: self.heightAnchor),
             overlayView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            overlayView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            overlayView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 
@@ -99,14 +101,14 @@ class SwipeCardView: UIView {
 
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.textColor = .white
-        contentLabel.font = UIFont.systemFont(ofSize: 22)
+        contentLabel.font = UIFont(name: "PingFang TC", size: 22)
         contentLabel.numberOfLines = 0
 
         NSLayoutConstraint.activate([
             contentLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             contentLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             contentLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3),
-            contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8)
+            contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7)
         ])
     }
 
@@ -143,6 +145,8 @@ class SwipeCardView: UIView {
         let finishPoint = CGPoint(
             x: -(frame.size.width * 2),
             y: yCenter * 2 + originPoint.y)
+
+        delegate?.cardGoesLeft(self)
 
         UIView.animate(withDuration: 1 / 2) {
 
@@ -228,10 +232,10 @@ extension SwipeCardView: UIGestureRecognizerDelegate {
         }
 
         switch sender.state {
-        // Keep swiping
+
         case .began:
             originPoint = self.center
-        // in the middle of a swipe
+
         case .changed:
             let rotationStrength = min(xCenter / UIScreen.main.bounds.size.width, 1)
             let rotationAngel = .pi / 8 * rotationStrength
@@ -242,7 +246,6 @@ extension SwipeCardView: UIGestureRecognizerDelegate {
             let scaleTransform: CGAffineTransform = transforms.scaledBy(x: scale, y: scale)
             self.transform = scaleTransform
 
-        // swipe ended
         case .ended:
             afterSwipeAction()
 

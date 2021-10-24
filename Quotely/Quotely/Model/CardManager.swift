@@ -52,4 +52,43 @@ class CardManager {
             }
         }
     }
+
+    func updateCards(
+        cardID: String,
+        likeAction: LikeAction,
+        uid: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetCard = querySnapshot?.documents.first
+
+                switch likeAction {
+
+                case .like:
+
+                    targetCard?.reference.updateData([
+                        "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
+                        "likeUser": FieldValue.arrayUnion(["test123456"])
+                    ])
+
+                case .dislike:
+
+                    targetCard?.reference.updateData([
+                        "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
+                        "disLikeUser": FieldValue.arrayUnion(["test123456"])
+                    ])
+                }
+
+                completion(.success("Card was updated"))
+            }
+        }
+    }
 }
