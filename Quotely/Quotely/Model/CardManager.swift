@@ -22,7 +22,7 @@ class CardManager {
 
         cards
             .whereField("cardID", isGreaterThanOrEqualTo: randomID)
-            .limit(to: 3)
+            .limit(to: 6)
             .getDocuments { (querySnapshot, error) in
 
             if let error = error {

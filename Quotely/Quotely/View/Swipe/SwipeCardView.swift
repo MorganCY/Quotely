@@ -13,8 +13,6 @@ protocol SwipeCardViewDelegate: AnyObject {
     func cardGoesRight(_ card: SwipeCardView)
 
     func cardGoesLeft(_ card: SwipeCardView)
-
-    func getCurrentCard(_ card: SwipeCardView)
 }
 
 class SwipeCardView: UIView {
@@ -24,6 +22,7 @@ class SwipeCardView: UIView {
     let backgroundImageView = UIImageView()
     let overlayView = UIView()
     let contentLabel = UILabel()
+    let authorLabel = UILabel()
     let likeImageView = UIImageView()
 
     var hasLiked = true
@@ -40,7 +39,7 @@ class SwipeCardView: UIView {
 
         setupView()
         setupBackground()
-        setupContentLabel()
+        setupContent()
         setupLikeImageView()
     }
 
@@ -95,20 +94,28 @@ class SwipeCardView: UIView {
         ])
     }
 
-    func setupContentLabel() {
+    func setupContent() {
 
         addSubview(contentLabel)
+        addSubview(authorLabel)
 
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.textColor = .white
         contentLabel.font = UIFont(name: "PingFang TC", size: 22)
         contentLabel.numberOfLines = 0
+        authorLabel.translatesAutoresizingMaskIntoConstraints = false
+        authorLabel.textColor = .white
+        authorLabel.font = UIFont(name: "PingFang TC", size: 16)
+        authorLabel.numberOfLines = 1
 
         NSLayoutConstraint.activate([
             contentLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             contentLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             contentLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3),
-            contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7)
+            contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
+
+            authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
+            authorLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
         ])
     }
 

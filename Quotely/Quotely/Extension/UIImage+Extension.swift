@@ -47,6 +47,8 @@ enum SFSymbol: String {
     case closeButton = "xmark.circle.fill"
 
     case comment = "text.bubble"
+
+    case reset = "arrow.clockwise"
 }
 
 extension UIImage {

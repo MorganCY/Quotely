@@ -12,16 +12,16 @@ protocol SwipeCardStackViewDataSource: AnyObject {
 
     func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int
 
-    func cardForStackIn(_ card: SwipeCardStackView, index: Int) -> String
+    func cardForStackIn(_ stack: SwipeCardStackView, index: Int) -> String
+
+    func authorForCardsIn(_ stack: SwipeCardStackView, index: Int) -> String
 }
 
 protocol SwipeCardStackViewDelegate: AnyObject {
 
-    func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int ,nextIndex: Int)
+    func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int)
 
-    func cardGoesRight(_ stack: SwipeCardStackView, currentIndex: Int ,nextIndex: Int)
-
-    func getCurrentCard(_ card: SwipeCardStackView, index: Int)
+    func cardGoesRight(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int)
 }
 
 class SwipeCardStackView: UIStackView {
@@ -63,6 +63,8 @@ class SwipeCardStackView: UIStackView {
                 index: index)
                 .replacingOccurrences(of: "\\n", with: "\n")
 
+            swipeCard.authorLabel.text = dataSource.authorForCardsIn(self, index: index)
+
             swipeCard.backgroundImageView.image = UIImage.asset(backgroundImages[Int.random(in: 0...2)])
 
             addSubview(swipeCard)
@@ -72,7 +74,7 @@ class SwipeCardStackView: UIStackView {
             NSLayoutConstraint.activate([
 
                 swipeCard.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                swipeCard.topAnchor.constraint(equalTo: self.topAnchor, constant: CGFloat(-15 * index)),
+                swipeCard.topAnchor.constraint(equalTo: self.topAnchor, constant: CGFloat(-5 * index)),
                 swipeCard.widthAnchor.constraint(equalTo: self.widthAnchor),
                 swipeCard.heightAnchor.constraint(equalTo: self.heightAnchor)
             ])
@@ -104,10 +106,5 @@ extension SwipeCardStackView: SwipeCardViewDelegate {
         calculateIndex()
 
         self.delegate?.cardGoesLeft(self, currentIndex: nextCardIndex - 1, nextIndex: nextCardIndex)
-    }
-
-    func getCurrentCard(_ card: SwipeCardView) {
-
-        self.delegate?.getCurrentCard(self, index: nextCardIndex)
     }
 }

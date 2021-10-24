@@ -18,10 +18,12 @@ class SwipeViewController: UIViewController {
     }
 
     @IBOutlet weak var loadingLabel: UILabel!
+    @IBOutlet weak var reminderLabel: UILabel!
     var cardStack = SwipeCardStackView()
     let shareButton = IconButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
     let likeButton = IconButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
     let commentButton = IconButton(image: UIImage.sfsymbol(.comment)!, color: .gray)
+    let resetButton = IconButton(image: UIImage.sfsymbol(.reset)!, color: .gray)
     let likeNumberLabel = IconButtonLabel()
     let commentNumberLabel = IconButtonLabel()
 
@@ -33,6 +35,7 @@ class SwipeViewController: UIViewController {
         initialLoadingCards()
         setupCardView()
         setupButton()
+        setupReminder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -138,6 +141,33 @@ class SwipeViewController: UIViewController {
             commentNumberLabel.topAnchor.constraint(equalTo: likeNumberLabel.topAnchor)
         ])
     }
+
+    func setupReminder() {
+
+        view.addSubview(resetButton)
+
+        resetButton.translatesAutoresizingMaskIntoConstraints = false
+        resetButton.addTarget(self, action: #selector(resetCards(_:)), for: .touchUpInside)
+
+        resetButton.isHidden = true
+        reminderLabel.isHidden = true
+
+        NSLayoutConstraint.activate([
+            resetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            resetButton.topAnchor.constraint(equalTo: reminderLabel.bottomAnchor, constant: 20),
+            resetButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
+            resetButton.heightAnchor.constraint(equalTo: resetButton.widthAnchor)
+        ])
+    }
+
+    @objc func resetCards(_ sender: UIButton) {
+
+        cards.removeAll()
+        reminderLabel.isHidden = true
+        resetButton.isHidden = true
+        initialLoadingCards()
+        cardStack.nextCardIndex = 0
+    }
 }
 
 extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewDelegate {
@@ -147,13 +177,14 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
         return cards.count
     }
 
+    func authorForCardsIn(_ stack: SwipeCardStackView, index: Int) -> String {
+
+        return cards.reversed()[index].author
+    }
+
     func cardForStackIn(_ card: SwipeCardStackView, index: Int) -> String {
 
         return cards.reversed()[index].content
-    }
-
-    func getCurrentCard(_ card: SwipeCardStackView, index: Int) {
-
     }
 
     func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
@@ -167,6 +198,8 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
             likeNumberLabel.text = ""
             commentNumberLabel.text = ""
+            reminderLabel.isHidden = false
+            resetButton.isHidden = false
         }
     }
 
@@ -195,6 +228,8 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
             likeNumberLabel.text = ""
             commentNumberLabel.text = ""
+            reminderLabel.isHidden = false
+            resetButton.isHidden = false
         }
     }
 }

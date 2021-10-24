@@ -23,17 +23,26 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每天只有六張卡片喔！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsS-sY-UdR">
+                                <rect key="frame" x="97" y="392.5" width="220" height="31"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="22"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9Fd-z7-s85" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="HSc-od-ShF"/>
+                            <constraint firstItem="vsS-sY-UdR" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" constant="-40" id="Ma0-KG-EFI"/>
+                            <constraint firstItem="vsS-sY-UdR" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="VD2-5L-qvv"/>
                             <constraint firstItem="9Fd-z7-s85" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="gXf-na-yVG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vij-LD-egM"/>
                     <connections>
                         <outlet property="loadingLabel" destination="9Fd-z7-s85" id="xpR-Ut-xZf"/>
+                        <outlet property="reminderLabel" destination="vsS-sY-UdR" id="gyW-V1-41i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
