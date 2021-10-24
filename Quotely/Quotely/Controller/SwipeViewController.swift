@@ -27,6 +27,15 @@ class SwipeViewController: UIViewController {
     let likeNumberLabel = IconButtonLabel()
     let commentNumberLabel = IconButtonLabel()
 
+    var isLastCardSwiped = false {
+
+        didSet {
+
+            reminderLabel.isHidden = !isLastCardSwiped
+            resetButton.isHidden = !isLastCardSwiped
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -149,8 +158,7 @@ class SwipeViewController: UIViewController {
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         resetButton.addTarget(self, action: #selector(resetCards(_:)), for: .touchUpInside)
 
-        resetButton.isHidden = true
-        reminderLabel.isHidden = true
+        isLastCardSwiped = false
 
         NSLayoutConstraint.activate([
             resetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -163,8 +171,7 @@ class SwipeViewController: UIViewController {
     @objc func resetCards(_ sender: UIButton) {
 
         cards.removeAll()
-        reminderLabel.isHidden = true
-        resetButton.isHidden = true
+        isLastCardSwiped = false
         initialLoadingCards()
         cardStack.nextCardIndex = 0
     }
@@ -198,8 +205,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
             likeNumberLabel.text = ""
             commentNumberLabel.text = ""
-            reminderLabel.isHidden = false
-            resetButton.isHidden = false
+            isLastCardSwiped = true
         }
     }
 
