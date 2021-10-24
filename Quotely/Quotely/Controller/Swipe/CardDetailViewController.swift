@@ -132,7 +132,7 @@ class CardDetailViewController: BaseDetailViewController {
             userImage: nil,
             userName: nil,
             time: nil,
-            content: content,
+            content: content.replacingOccurrences(of: "\\n", with: "\n"),
             imageUrl: nil,
             isAuthor: false
         )
