@@ -1,16 +1,23 @@
 import Foundation
 import UIKit
 
-// UIColor -> Hex String
-let colorBlue = UIColor.blue
-let colorBlueHex = colorBlue.toHexString()
+enum BaseColor: String {
 
-// Hex String -> UIColor
-let hexToColor = UIColor(hex: colorBlueHex)
-// or with alpha
-let hexToColorAlpha = UIColor(hex: colorBlueHex, alpha: 0.8)
+    // swiftlint:disable identifier_name
+    case BG
+    case M1
+}
 
 extension UIColor {
+
+    static let BG = baseColor(.BG)
+
+    static let M1 = baseColor(.M1)
+
+    private static func baseColor(_ color: BaseColor) -> UIColor? {
+
+        return UIColor(named: color.rawValue)
+    }
 
     convenience init(hex: String, alpha: CGFloat = 1.0) {
         var hexFormatted: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()

@@ -9,11 +9,11 @@ import UIKit
 
 private enum Tab {
 
+    case journal
+
     case swipe
 
     case explore
-    
-    case map
 
     case myAccount
 
@@ -23,12 +23,11 @@ private enum Tab {
 
         switch self {
 
+        case .journal: controller = UIStoryboard.journal.instantiateInitialViewController()!
+
         case .swipe: controller = UIStoryboard.swipe.instantiateInitialViewController()!
 
         case .explore: controller = UIStoryboard.explore.instantiateInitialViewController()!
-
-        case .map: controller = UIStoryboard.map.instantiateInitialViewController()!
-
         case .myAccount: controller = UIStoryboard.myAccount.instantiateInitialViewController()!
 
         }
@@ -44,6 +43,13 @@ private enum Tab {
 
         switch self {
 
+        case .journal:
+            return UITabBarItem(
+                title: nil,
+                image: UIImage.sfsymbol(.calendar),
+                selectedImage: UIImage.sfsymbol(.calendar)
+            )
+
         case .swipe:
             return UITabBarItem(
                 title: nil,
@@ -58,13 +64,6 @@ private enum Tab {
                 selectedImage: UIImage.sfsymbol(.lightbulbSelected)
             )
 
-        case .map:
-            return UITabBarItem(
-                title: nil,
-                image: UIImage.sfsymbol(.mapNormal),
-                selectedImage: UIImage.sfsymbol(.mapSelected)
-            )
-
         case .myAccount:
             return UITabBarItem(
                 title: nil,
@@ -77,7 +76,7 @@ private enum Tab {
 
 class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
-    private let tabs: [Tab] = [.swipe, .explore, .map, .myAccount]
+    private let tabs: [Tab] = [.journal, .swipe, .explore, .myAccount]
 
     override func viewDidLoad() {
         super.viewDidLoad()

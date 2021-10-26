@@ -14,8 +14,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     let commentPanel = UIView()
     let userImageView = UIImageView()
     let commentTextField = CommentTextField()
-    let likeButton = IconButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
-    let submitButton = IconButton(image: UIImage.sfsymbol(.send)!, color: .blue)
+    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
+    let submitButton = ImageButton(image: UIImage.sfsymbol(.send)!, color: .blue)
 
     @IBOutlet weak var tableView: UITableView!
 

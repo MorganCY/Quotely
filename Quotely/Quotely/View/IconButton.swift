@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IconButton: UIButton {
+class ImageButton: UIButton {
 
     init(image: UIImage, color: UIColor) {
         super.init(frame: .zero)
@@ -22,10 +22,10 @@ class IconButton: UIButton {
 
 class IconButtonLabel: UILabel {
 
-    init() {
+    init(color: UIColor) {
         super.init(frame: .zero)
         font = UIFont.systemFont(ofSize: 14)
-        textColor = .gray
+        textColor = color
     }
 
     required init?(coder: NSCoder) {
