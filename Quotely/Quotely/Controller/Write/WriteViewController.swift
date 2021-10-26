@@ -35,7 +35,7 @@ class WriteViewController: UIViewController {
     var navTitle = "撰寫摘語"
     var navButtonTitle = "分享"
     var imagePicker = UIImagePickerController()
-    var imageConfiguration = PHPickerConfiguration()
+
     var imageUrl: String? {
         didSet {
             self.postImageView.loadImage(imageUrl ?? "", placeHolder: nil)
@@ -75,8 +75,6 @@ class WriteViewController: UIViewController {
         setupViews()
 
         setupNavigation()
-
-        tabBarController?.tabBar.isHidden = false
     }
 
     // MARK: Actions
@@ -208,13 +206,31 @@ extension WriteViewController: UIImagePickerControllerDelegate, UINavigationCont
 
     func openGallary() {
 
-        imageConfiguration.filter = PHPickerFilter.images
+        if #available(iOS 14, *) {
 
-        let picker = PHPickerViewController(configuration: imageConfiguration)
+            var imageConfiguration = PHPickerConfiguration()
+            imageConfiguration.filter = PHPickerFilter.images
 
-        picker.delegate = self
+            let picker = PHPickerViewController(configuration: imageConfiguration)
+            picker.delegate = self
 
-        self.present(picker, animated: true, completion: nil)
+            self.present(picker, animated: true, completion: nil)
+
+        } else {
+
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+
+                imagePicker.sourceType = UIImagePickerController.SourceType.camera
+                imagePicker.allowsEditing = true
+                self.present(imagePicker, animated: true, completion: nil)
+
+            } else {
+
+                let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 
     @objc func deleteImage(_ sender: UIButton) {
@@ -232,6 +248,7 @@ extension WriteViewController: UIImagePickerControllerDelegate, UINavigationCont
     }
 }
 
+@available(iOS 14, *)
 extension WriteViewController: PHPickerViewControllerDelegate {
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -246,44 +263,39 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
             result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
 
-                if let image = image as? UIImage {
+                guard let image = image as? UIImage else { return picker.dismiss(animated: true) }
 
-                    self.hasImage = true
+                self.hasImage = true
 
-                    ImageManager.shared.uploadImage(image: image) { result in
+                ImageManager.shared.uploadImage(image: image) { result in
 
-                        switch result {
+                    switch result {
 
-                        case .success(let url):
+                    case .success(let url):
 
-                            self.imageUrl = url
+                        self.imageUrl = url
 
-                            Toast.shared.hud.dismiss()
+                        Toast.shared.hud.dismiss()
 
-                            DispatchQueue.main.async {
+                        DispatchQueue.main.async {
 
-                                self.postImageView.loadImage(url, placeHolder: nil)
-                            }
-
-                        case .failure(let error):
-
-                            print(error)
-
-                            self.present(
-                                UIAlertController(
-                                    title: "上傳失敗",
-                                    message: nil,
-                                    preferredStyle: .alert
-                                ), animated: true, completion: nil
-                            )
-
-                            picker.dismiss(animated: true)
+                            self.postImageView.loadImage(url, placeHolder: nil)
                         }
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        self.present(
+                            UIAlertController(
+                                title: "上傳失敗",
+                                message: nil,
+                                preferredStyle: .alert
+                            ), animated: true, completion: nil
+                        )
+
+                        picker.dismiss(animated: true)
                     }
-
-                } else {
-
-                    print(String(describing: error))
                 }
             })
         }
