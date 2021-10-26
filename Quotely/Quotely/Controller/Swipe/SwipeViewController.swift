@@ -53,7 +53,7 @@ class SwipeViewController: UIViewController {
 
     func fetchCards() {
 
-        CardManager.shared.fetchCards { result in
+        CardManager.shared.fetchCards(number: 6) { result in
 
             switch result {
 
@@ -76,7 +76,7 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchCards { result in
+            CardManager.shared.fetchCards(number: 6) { result in
                 switch result {
 
                 case .success(let cards):

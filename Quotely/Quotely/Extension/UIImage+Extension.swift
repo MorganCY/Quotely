@@ -27,7 +27,7 @@ enum ImageAsset: String {
 enum SFSymbol: String {
 
     // Tab Bar
-    case calendar = "calendar"
+    case write = "highlighter"
     case cardsNormal = "square.stack"
     case cardsSelected = "square.stack.fill"
     case lightbulbNormal = "lightbulb"
@@ -36,6 +36,7 @@ enum SFSymbol: String {
     case personSelected = "person.circle.fill"
 
     // Journal
+    case calendar = "calendar"
     case smile = "face.smiling"
     case book = "book"
     case umbrella = "umbrella"

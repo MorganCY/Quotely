@@ -7,6 +7,14 @@
 
 import Foundation
 
+enum Format: String {
+
+    // swiftlint:disable identifier_name
+    case MM
+
+    case dd
+}
+
 extension Date {
     var millisecondsSince1970: Int64 {
         return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
@@ -24,5 +32,20 @@ extension Date {
 
         return formatter
 
+    }
+
+    // get current time
+    func getCurrentTime(format: Format) -> String {
+
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate(format.rawValue)
+        return dateFormatter.string(from: date)
+    }
+}
+
+extension Date {
+    func currentTimeMillis() -> Int64 {
+        return Int64(self.timeIntervalSince1970 * 1000)
     }
 }

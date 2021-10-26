@@ -6,6 +6,7 @@ enum BaseColor: String {
     // swiftlint:disable identifier_name
     case BG
     case M1
+    case M2
 }
 
 extension UIColor {
@@ -13,6 +14,8 @@ extension UIColor {
     static let BG = baseColor(.BG)
 
     static let M1 = baseColor(.M1)
+
+    static let M2 = baseColor(.M2)
 
     private static func baseColor(_ color: BaseColor) -> UIColor? {
 

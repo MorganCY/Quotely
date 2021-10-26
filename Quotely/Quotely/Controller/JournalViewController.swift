@@ -7,8 +7,11 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 class JournalViewController: UIViewController {
+
+    let defaults = UserDefaults.standard
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var monthLabel: UILabel!
@@ -63,7 +66,11 @@ class JournalViewController: UIViewController {
 
         setupButtons()
 
+        setupTitle()
+
         submitButton.addTarget(self, action: #selector(submitJournal(_:)), for: .touchUpInside)
+
+        fetchQuoteOncePerDay()
     }
 
     override func viewDidLayoutSubviews() {
@@ -90,6 +97,52 @@ class JournalViewController: UIViewController {
                 case .success(let success):
                     print(success)
                     self.isEditPanelOpen = false
+
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+
+    func fetchQuoteOncePerDay() {
+
+        let lastJournalCall = defaults.string(forKey: "LastJournalCall")
+
+        let currentDate = Date().getCurrentTime(format: .dd)
+
+        if lastJournalCall != nil {
+
+            if currentDate != lastJournalCall {
+
+                fetchQuote()
+                defaults.set(currentDate, forKey: "LastJournalCall")
+
+            } else {
+
+                self.dailyQuoteLabel.text = defaults.string(forKey: "LastJournalQuote")
+            }
+
+        } else {
+
+            fetchQuote()
+            defaults.set(currentDate, forKey: "LastJournalCall")
+        }
+    }
+
+    func fetchQuote() {
+
+        CardManager.shared.fetchCards(
+            number: 1) { result in
+
+                switch result {
+
+                case .success(let cards):
+
+                    let lastJournalQuote = "\(cards.first?.content ?? "")\n\n\(cards.first?.author ?? "")"
+
+                    self.defaults.set(lastJournalQuote, forKey: "LastJournalQuote")
+
+                    self.dailyQuoteLabel.text = lastJournalQuote
 
                 case .failure(let error):
                     print(error)
@@ -187,6 +240,12 @@ extension JournalViewController: UITextViewDelegate {
 // MARK: SetupViews
 extension JournalViewController {
 
+    func setupTitle() {
+
+        dateLabel.text = "\(Date().getCurrentTime(format: .dd))"
+        monthLabel.text = "\(Date().getCurrentTime(format: .MM))月"
+    }
+
     func setupEditPanel() {
 
         let panelObjects = [editPanel, panelTitle, emojiSelection, journalTextView, submitButton]
@@ -215,7 +274,7 @@ extension JournalViewController {
 
         submitButton.setTitle("存檔", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)
-        submitButton.backgroundColor = .M1
+        submitButton.backgroundColor = .M2
         submitButton.cornerRadius = CornerRadius.standard.rawValue
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         journalTextViewCollapse = journalTextView.bottomAnchor.constraint(

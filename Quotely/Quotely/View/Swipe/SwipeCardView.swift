@@ -189,6 +189,7 @@ class SwipeCardView: UIView {
         hasLiked = true
     }
 
+    /*
     @objc func drag(_ sender: UIPanGestureRecognizer) {
 
         let point = sender.translation(in: self)
@@ -223,6 +224,7 @@ class SwipeCardView: UIView {
             }
         }
     }
+     */
 }
 
 extension SwipeCardView: UIGestureRecognizerDelegate {

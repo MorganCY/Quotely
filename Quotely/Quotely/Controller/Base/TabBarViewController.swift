@@ -46,8 +46,8 @@ private enum Tab {
         case .journal:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.sfsymbol(.calendar),
-                selectedImage: UIImage.sfsymbol(.calendar)
+                image: UIImage.sfsymbol(.write),
+                selectedImage: UIImage.sfsymbol(.write)
             )
 
         case .swipe:
