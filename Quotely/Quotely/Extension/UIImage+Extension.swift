@@ -44,6 +44,7 @@ enum SFSymbol: String {
     case fire = "flame"
     case music = "music.note"
     case color = "paintpalette"
+    case collapse = "arrow.up.circle"
 
     case reset = "arrow.clockwise"
     case shareNormal = "square.and.arrow.up"
