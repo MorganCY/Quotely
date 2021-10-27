@@ -67,6 +67,13 @@ class ExploreViewController: UIViewController {
 // MARK: TableView
 extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
+        let animator = Animator(animation: animation)
+            animator.animate(cell: cell, at: indexPath, in: tableView)
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         postList.count
