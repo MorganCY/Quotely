@@ -10,31 +10,61 @@ import Foundation
 enum Format: String {
 
     // swiftlint:disable identifier_name
+    case yyyy
     case MM
-
     case dd
 }
 
 extension Date {
+
+    init(milliseconds: Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
+    }
+
     var millisecondsSince1970: Int64 {
         return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
     }
 
-    init(milliseconds: Int64) {
-        self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
+    func currentTimeMillis() -> Int64 {
+        return Int64(self.timeIntervalSince1970 * 1000)
+    }
+
+    static var fullDateFormatter: DateFormatter {
+
+        let formatter = DateFormatter()
+
+        formatter.dateFormat = "yyyy年MM月dd日 HH:mm"
+
+        return formatter
     }
 
     static var dateFormatter: DateFormatter {
 
         let formatter = DateFormatter()
 
-        formatter.dateFormat = "yyyy.MM.dd HH:mm"
+        formatter.dateFormat = "dd"
 
         return formatter
-
     }
 
-    // get current time
+    static var monthFormatter: DateFormatter {
+
+        let formatter = DateFormatter()
+
+        formatter.dateFormat = "MM"
+
+        return formatter
+    }
+
+    static var timeFormatter: DateFormatter {
+
+        let formatter = DateFormatter()
+
+        formatter.dateFormat = "h:mm a"
+
+        return formatter
+    }
+
     func getCurrentTime(format: Format) -> String {
 
         let date = Date()
@@ -45,7 +75,27 @@ extension Date {
 }
 
 extension Date {
-    func currentTimeMillis() -> Int64 {
-        return Int64(self.timeIntervalSince1970 * 1000)
+
+    static func getMonthAndYearBetween(
+        from start: Date,
+        to end: Date
+    ) -> [String] {
+
+        var allDates: [String] = []
+
+        guard start < end else { return allDates }
+
+        let calendar = Calendar.current
+
+        let month = calendar.dateComponents([.month], from: start, to: end).month ?? 0
+
+        for i in 0...month {
+
+            if let date = calendar.date(byAdding: .month, value: i, to: start) {
+
+                allDates.append(Date.monthFormatter.string(from: date))
+            }
+        }
+        return allDates
     }
 }

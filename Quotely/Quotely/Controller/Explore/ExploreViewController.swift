@@ -101,7 +101,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layoutCell(
             userImage: UIImage.asset(.testProfile),
             userName: "Morgan Yu",
-            time: Date.dateFormatter.string(from: Date.init(milliseconds: postList[row].createdTime)),
+            time: Date.fullDateFormatter.string(from: Date.init(milliseconds: postList[row].createdTime)),
             content: postList[row].content,
             postImageUrl: postList[row].imageUrl,
             likeNumber: nil,
@@ -182,11 +182,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         addPostButton.layer.cornerRadius = addPostButton.frame.width / 2
 
-        addPostButton.layer.shadowColor = UIColor.gray.cgColor
-
-        addPostButton.layer.shadowOpacity = 0.7
-
-        addPostButton.layer.shadowOffset = CGSize(width: 3, height: 3)
+        addPostButton.dropShadow(width: 0, height: 10)
 
         addPostButton.addTarget(self, action: #selector(addArticle(_:)), for: .touchUpInside)
     }

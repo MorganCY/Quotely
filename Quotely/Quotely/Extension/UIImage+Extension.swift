@@ -32,8 +32,8 @@ enum SFSymbol: String {
     case cardsSelected = "square.stack.fill"
     case lightbulbNormal = "lightbulb"
     case lightbulbSelected = "lightbulb.fill"
-    case personNormal = "person.circle"
-    case personSelected = "person.circle.fill"
+    case personNormal = "person"
+    case personSelected = "person.fill"
 
     // Journal
     case calendar = "calendar"

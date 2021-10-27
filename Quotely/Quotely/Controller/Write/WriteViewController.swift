@@ -364,9 +364,7 @@ extension WriteViewController {
         deleteImageButton.cornerRadius = deleteImageButton.frame.width / 2
         deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
 
-        optionPanel.shadowColor = UIColor.gray.cgColor
-        optionPanel.shadowOpacity = 0.3
-        optionPanel.shadowOffset = CGSize(width: 6, height: 8)
+        optionPanel.dropShadow()
         optionPanel.cornerRadius = CornerRadius.standard.rawValue
         optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
         optionPanel.borderWidth = 1

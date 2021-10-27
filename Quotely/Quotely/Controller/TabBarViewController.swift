@@ -28,13 +28,13 @@ private enum Tab {
         case .swipe: controller = UIStoryboard.swipe.instantiateInitialViewController()!
 
         case .explore: controller = UIStoryboard.explore.instantiateInitialViewController()!
-        case .myAccount: controller = UIStoryboard.myAccount.instantiateInitialViewController()!
 
+        case .myAccount: controller = UIStoryboard.myAccount.instantiateInitialViewController()!
         }
 
         controller.tabBarItem = tabBarItem()
 
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 16.0, left: 0.0, bottom: -6.0, right: 0.0)
+        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 24.0, left: 0.0, bottom: -6.0, right: 0.0)
 
         return controller
     }
@@ -84,5 +84,32 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         viewControllers = tabs.map({ $0.controller() })
 
         delegate = self
+
+        setupTabbarStyle()
+    }
+
+    override func viewDidLayoutSubviews() {
+
+        tabBar.frame.size.height = 85
+
+        tabBar.frame.origin.y = view.frame.height - 85
+    }
+
+    func setupTabbarStyle() {
+
+        if #available(iOS 15, *) {
+
+            let tabBarAppearance = UITabBarAppearance()
+
+            tabBarAppearance.backgroundColor = .white
+
+            tabBar.standardAppearance = tabBarAppearance
+
+            tabBar.scrollEdgeAppearance = tabBarAppearance
+
+        } else {
+
+            tabBar.barTintColor = .white
+        }
     }
 }

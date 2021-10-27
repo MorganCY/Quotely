@@ -79,6 +79,10 @@ class JournalViewController: UIViewController {
         backgroundView.cornerRadius = isEditPanelOpen
         ?
         0 : backgroundView.frame.width / 2
+
+        editPanel.dropShadow(opacity: 0.4)
+        paletteButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
+        likeButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
     }
 
     @objc func submitJournal(_ sender: UIButton) {
@@ -90,7 +94,8 @@ class JournalViewController: UIViewController {
             content: journalTextView.text)
 
         JournalManager.shared.addJournal(
-            journal: &journal) { result in
+            journal: &journal
+        ) { result in
 
                 switch result {
 
