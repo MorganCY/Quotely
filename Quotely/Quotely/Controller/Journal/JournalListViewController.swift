@@ -109,6 +109,18 @@ extension JournalListViewController: UICollectionViewDataSource {
 
 extension JournalListViewController: UICollectionViewDelegate {
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+        cell.alpha = 0
+
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0.1 * Double(indexPath.row),
+            animations: {
+                cell.alpha = 1
+        })
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         guard let item = collectionView.cellForItem(at: indexPath) as? JournalListCollectionViewCell else { return }
@@ -142,6 +154,13 @@ extension JournalListViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension JournalListViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
+        let animator = Animator(animation: animation)
+            animator.animate(cell: cell, at: indexPath, in: tableView)
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         journals.count

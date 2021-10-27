@@ -29,7 +29,6 @@ class SwipeCardStackView: UIStackView {
     weak var dataSource: SwipeCardStackViewDataSource? {
 
         didSet {
-
             setupCards()
         }
     }
