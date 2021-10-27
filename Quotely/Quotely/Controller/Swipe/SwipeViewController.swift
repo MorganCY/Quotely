@@ -20,12 +20,12 @@ class SwipeViewController: UIViewController {
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var reminderLabel: UILabel!
     var cardStack = SwipeCardStackView()
-    let shareButton = IconButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
-    let likeButton = IconButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
-    let commentButton = IconButton(image: UIImage.sfsymbol(.comment)!, color: .gray)
-    let resetButton = IconButton(image: UIImage.sfsymbol(.reset)!, color: .gray)
-    let likeNumberLabel = IconButtonLabel()
-    let commentNumberLabel = IconButtonLabel()
+    let shareButton = ImageButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
+    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
+    let commentButton = ImageButton(image: UIImage.sfsymbol(.comment)!, color: .gray)
+    let resetButton = ImageButton(image: UIImage.sfsymbol(.reset)!, color: .gray)
+    let likeNumberLabel = IconButtonLabel(color: .gray)
+    let commentNumberLabel = IconButtonLabel(color: .gray)
 
     var isLastCardSwiped = false {
         didSet {
@@ -53,7 +53,7 @@ class SwipeViewController: UIViewController {
 
     func fetchCards() {
 
-        CardManager.shared.fetchCards { result in
+        CardManager.shared.fetchCards(number: 6) { result in
 
             switch result {
 
@@ -76,7 +76,7 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchCards { result in
+            CardManager.shared.fetchCards(number: 6) { result in
                 switch result {
 
                 case .success(let cards):

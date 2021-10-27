@@ -15,12 +15,12 @@ import SwiftUI
 class WriteViewController: UIViewController {
 
     // MARK: ViewControls
-    var contentTextView: UITextView = {
-        let textView = UITextView()
-        textView.placeholder = "有什麼感觸...?"
-        textView.placeholderColor = UIColor.lightGray
-        return textView
-    }()
+    var contentTextView = ContentTextView() {
+
+        didSet {
+            contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+        }
+    }
     let hashtagLabel = UILabel()
     var postImageView = UIImageView()
     private let deleteImageButton = DeleteButton()
@@ -354,9 +354,6 @@ extension WriteViewController {
 
         hashtagLabel.text = "新增標籤"
         hashtagLabel.textColor = .black
-        contentTextView.font = UIFont.systemFont(ofSize: 18)
-        contentTextView.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
-        contentTextView.cornerRadius = CornerRadius.standard.rawValue
         hashtagLabel.font = UIFont.systemFont(ofSize: 18)
 
         postImageView.contentMode = .scaleAspectFill
@@ -367,9 +364,7 @@ extension WriteViewController {
         deleteImageButton.cornerRadius = deleteImageButton.frame.width / 2
         deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
 
-        optionPanel.shadowColor = UIColor.gray.cgColor
-        optionPanel.shadowOpacity = 0.3
-        optionPanel.shadowOffset = CGSize(width: 6, height: 8)
+        optionPanel.dropShadow()
         optionPanel.cornerRadius = CornerRadius.standard.rawValue
         optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
         optionPanel.borderWidth = 1

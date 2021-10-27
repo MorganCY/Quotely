@@ -26,43 +26,35 @@ enum ImageAsset: String {
 
 enum SFSymbol: String {
 
-    case newspaperNormal = "newspaper"
+    // Tab Bar
+    case write = "highlighter"
+    case cardsNormal = "square.stack"
+    case cardsSelected = "square.stack.fill"
+    case lightbulbNormal = "lightbulb"
+    case lightbulbSelected = "lightbulb.fill"
+    case personNormal = "person"
+    case personSelected = "person.fill"
 
-    case newpaperSelected = "newspaper.fill"
-
-    case shareNormal = "square.and.arrow.up"
-
-    case cameraNormal = "camera"
-
-    case photo = "photo"
-
-    case personNormal = "person.circle"
-
-    case personSelected = "person.circle.fill"
-
-    case heartNormal = "heart"
-
-    case heartSelected = "heart.fill"
-
-    case send = "paperplane.fill"
-
-    case closeButton = "xmark.circle.fill"
-
-    case comment = "text.bubble"
+    // Journal
+    case calendar = "calendar"
+    case smile = "face.smiling"
+    case book = "book"
+    case umbrella = "umbrella"
+    case moon = "moon"
+    case fire = "flame"
+    case music = "music.note"
+    case color = "paintpalette"
+    case collapse = "arrow.up.circle"
 
     case reset = "arrow.clockwise"
-
-    case cardsNormal = "square.stack"
-
-    case cardsSelected = "square.stack.fill"
-
-    case lightbulbNormal = "lightbulb"
-
-    case lightbulbSelected = "lightbulb.fill"
-
-    case mapNormal = "map"
-
-    case mapSelected = "map.fill"
+    case shareNormal = "square.and.arrow.up"
+    case cameraNormal = "camera"
+    case photo = "photo"
+    case heartNormal = "heart"
+    case heartSelected = "heart.fill"
+    case send = "paperplane.fill"
+    case closeButton = "xmark.circle.fill"
+    case comment = "text.bubble"
 }
 
 extension UIImage {

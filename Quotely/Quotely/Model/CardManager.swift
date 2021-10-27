@@ -16,13 +16,13 @@ class CardManager {
 
     let cards = Firestore.firestore().collection("cards")
 
-    func fetchCards(completion: @escaping (Result<[Card], Error>) -> Void) {
+    func fetchCards(number: Int, completion: @escaping (Result<[Card], Error>) -> Void) {
 
         let randomID = cards.document().documentID
 
         cards
             .whereField("cardID", isGreaterThanOrEqualTo: randomID)
-            .limit(to: 6)
+            .limit(to: number)
             .getDocuments { (querySnapshot, error) in
 
             if let error = error {
