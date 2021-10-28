@@ -16,13 +16,13 @@ class CardManager {
 
     let cards = Firestore.firestore().collection("cards")
 
-    func fetchCards(number: Int, completion: @escaping (Result<[Card], Error>) -> Void) {
+    func fetchRandomCards(limitNumber: Int, completion: @escaping (Result<[Card], Error>) -> Void) {
 
         let randomID = cards.document().documentID
 
         cards
             .whereField("cardID", isGreaterThanOrEqualTo: randomID)
-            .limit(to: number)
+            .limit(to: limitNumber)
             .getDocuments { (querySnapshot, error) in
 
             if let error = error {
@@ -49,6 +49,31 @@ class CardManager {
                 }
 
                 completion(.success(cards))
+            }
+        }
+    }
+
+    func fetchFavoriteCard(cardID: String, completion: @escaping (Result<Card, Error>) -> Void) {
+
+        let reference = cards.document(cardID)
+
+        reference.getDocument { document, error in
+
+            if let document = document, document.exists {
+
+                do {
+
+                    if let card = try document.data(
+                        as: Card.self
+                    ) {
+
+                        completion(.success(card))
+                    }
+
+                } catch {
+
+                    completion(.failure(error))
+                }
             }
         }
     }
@@ -84,7 +109,7 @@ class CardManager {
 
                     targetCard?.reference.updateData([
                         "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "disLikeUser": FieldValue.arrayUnion(["test123456"]),
+                        "dislikeUser": FieldValue.arrayUnion(["test123456"]),
                         "likeUser": FieldValue.arrayRemove(["test123456"])
                     ])
                 }

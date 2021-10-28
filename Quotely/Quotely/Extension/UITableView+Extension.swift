@@ -42,7 +42,7 @@ extension UITableViewCell {
         return String(describing: self)
     }
 
-    func noSelectionStyle() {
+    func hideSelectionStyle() {
 
         self.selectionStyle = .none
     }

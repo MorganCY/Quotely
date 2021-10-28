@@ -141,8 +141,8 @@ class JournalViewController: UIViewController {
 
     func fetchQuote() {
 
-        CardManager.shared.fetchCards(
-            number: 1) { result in
+        CardManager.shared.fetchRandomCards(
+            limitNumber: 1) { result in
 
                 switch result {
 

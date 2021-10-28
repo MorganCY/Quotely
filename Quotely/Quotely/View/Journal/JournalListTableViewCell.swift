@@ -19,6 +19,7 @@ class JournalListTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
 
     override func awakeFromNib() {
+        super.awakeFromNib()
 
         dateView.cornerRadius = CornerRadius.standard.rawValue
         journalCellView.setSpecificCorner(corners: [.topLeft, .bottomLeft])

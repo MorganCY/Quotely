@@ -164,7 +164,7 @@ class CardDetailViewController: BaseDetailViewController {
             isAuthor: isAuthor,
             editTime: comments[row].editTime)
 
-        cell.noSelectionStyle()
+        cell.hideSelectionStyle()
 
         cell.editHandler = { text in
 
