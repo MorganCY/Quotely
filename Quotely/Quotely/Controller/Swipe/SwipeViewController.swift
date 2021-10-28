@@ -18,7 +18,6 @@ class SwipeViewController: UIViewController {
     }
 
     @IBOutlet weak var loadingLabel: UILabel!
-    @IBOutlet weak var reminderLabel: UILabel!
     var cardStack = SwipeCardStackView()
     let shareButton = ImageButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
     let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
@@ -29,7 +28,6 @@ class SwipeViewController: UIViewController {
 
     var isLastCardSwiped = false {
         didSet {
-            reminderLabel.isHidden = !isLastCardSwiped
             resetButton.isHidden = !isLastCardSwiped
             commentButton.isEnabled = !isLastCardSwiped
         }
@@ -53,7 +51,7 @@ class SwipeViewController: UIViewController {
 
     func fetchCards() {
 
-        CardManager.shared.fetchCards(number: 6) { result in
+        CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
 
             switch result {
 
@@ -76,7 +74,7 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchCards(number: 6) { result in
+            CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
                 switch result {
 
                 case .success(let cards):
@@ -86,7 +84,6 @@ class SwipeViewController: UIViewController {
                 case .failure(let error):
 
                     print(error)
-
                 }
 
                 group.leave()
@@ -100,6 +97,39 @@ class SwipeViewController: UIViewController {
                 self.commentNumberLabel.text = "\(self.cards[0].commentNumber)"
             })
         }
+    }
+
+    func updateCard(cardID: String, likeAction: LikeAction) {
+
+        CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: "test123456") { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+
+        UserManager.shared.updateFavoriteCard(
+            uid: "test123456",
+            cardID: cardID,
+            likeAction: likeAction) { result in
+
+                switch result {
+
+                case .success(let success):
+                    print(success)
+
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
 
     @objc func goToDetailPage(_ sender: UIButton) {
@@ -186,7 +216,7 @@ class SwipeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             resetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            resetButton.topAnchor.constraint(equalTo: reminderLabel.bottomAnchor, constant: 20),
+            resetButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             resetButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
             resetButton.heightAnchor.constraint(equalTo: resetButton.widthAnchor)
         ])
@@ -222,17 +252,9 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
-        CardManager.shared.updateCards(cardID: cardID, likeAction: .dislike, uid: "test123456") { result in
+        updateUserLikeCardList(cardID: cardID, likeAction: .dislike)
 
-            switch result {
-
-            case .success(let success):
-                print(success)
-
-            case .failure(let error):
-                print(error)
-            }
-        }
+        updateCard(cardID: cardID, likeAction: .dislike)
 
         if nextIndex < cards.count {
 
@@ -253,17 +275,9 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
-        CardManager.shared.updateCards(cardID: cardID, likeAction: .like, uid: "test123456") { result in
+        updateUserLikeCardList(cardID: cardID, likeAction: .like)
 
-            switch result {
-
-            case .success(let success):
-                print(success)
-
-            case .failure(let error):
-                print(error)
-            }
-        }
+        updateCard(cardID: cardID, likeAction: .like)
 
         if nextIndex < cards.count {
 

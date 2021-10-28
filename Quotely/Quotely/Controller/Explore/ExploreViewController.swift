@@ -116,8 +116,6 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             hasLiked: likedPost
         )
 
-        cell.selectionStyle = .none
-
         cell.likeHandler = {
 
             // When tapping on the like button, check if the user has likedPost

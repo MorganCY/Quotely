@@ -19,6 +19,7 @@
 		5C2846F32729250900393562 /* JournalListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C2846F22729250900393562 /* JournalListCollectionViewCell.xib */; };
 		5C2846F52729251500393562 /* JournalListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846F42729251500393562 /* JournalListCollectionViewCell.swift */; };
 		5C2846F927297D0200393562 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846F827297D0200393562 /* Animation.swift */; };
+		5C2846FB2729B2FA00393562 /* FavoriteCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846FA2729B2FA00393562 /* FavoriteCardViewController.swift */; };
 		5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C72F8271D12E100F8B9EC /* AppDelegate.swift */; };
 		5C2C7300271D12E100F8B9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C72FE271D12E100F8B9EC /* Main.storyboard */; };
 		5C2C7302271D12E300F8B9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7301271D12E300F8B9EC /* Assets.xcassets */; };
@@ -50,6 +51,10 @@
 		5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */; };
 		5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */; };
 		5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210F271E8997002E21C9 /* VerticalButton.swift */; };
+		5C7B6395272A798700E18B96 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6394272A798700E18B96 /* UserManager.swift */; };
+		5C7B6397272A799000E18B96 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6396272A799000E18B96 /* User.swift */; };
+		5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */; };
+		5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */; };
 		5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8A04B52722911800289431 /* SceneDelegate.swift */; };
 		5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E8C272425980054480A /* SwipeViewController.swift */; };
 		5C8C0E8F2724261F0054480A /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */; };
@@ -85,6 +90,7 @@
 		5C2846F22729250900393562 /* JournalListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JournalListCollectionViewCell.xib; sourceTree = "<group>"; };
 		5C2846F42729251500393562 /* JournalListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListCollectionViewCell.swift; sourceTree = "<group>"; };
 		5C2846F827297D0200393562 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		5C2846FA2729B2FA00393562 /* FavoriteCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCardViewController.swift; sourceTree = "<group>"; };
 		5C2C72F5271D12E100F8B9EC /* Quotely.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Quotely.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2C72F8271D12E100F8B9EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5C2C72FF271D12E100F8B9EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -118,6 +124,10 @@
 		5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreTableViewCell.xib; sourceTree = "<group>"; };
 		5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5C58210F271E8997002E21C9 /* VerticalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalButton.swift; sourceTree = "<group>"; };
+		5C7B6394272A798700E18B96 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		5C7B6396272A799000E18B96 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCardTableViewCell.swift; sourceTree = "<group>"; };
+		5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCardTableViewCell.xib; sourceTree = "<group>"; };
 		5C8A04B52722911800289431 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5C8C0E8C272425980054480A /* SwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeViewController.swift; sourceTree = "<group>"; };
 		5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -222,10 +232,12 @@
 				5C8C0E9B272529650054480A /* Card.swift */,
 				5C582100271D6FBE002E21C9 /* Post.swift */,
 				5C4B9698271FC0D3008B21C7 /* Comment.swift */,
+				5C7B6396272A799000E18B96 /* User.swift */,
 				5C2846E327280EA600393562 /* JournalManager.swift */,
 				5C8C0E992725293E0054480A /* CardManager.swift */,
 				5C5820FE271D6D80002E21C9 /* PostManager.swift */,
 				5CD765F9271EAE24008E8D00 /* ImageManager.swift */,
+				5C7B6394272A798700E18B96 /* UserManager.swift */,
 				5C4B9696271FBF4C008B21C7 /* PostCommentManager.swift */,
 				5C8C0EA22725AD480054480A /* CardCommentManager.swift */,
 			);
@@ -255,8 +267,9 @@
 				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
 				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
 				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
-				5C2846EB2728F4BA00393562 /* Journal */,
 				5C4B968B271FA75E008B21C7 /* Base */,
+				5C2846EB2728F4BA00393562 /* Journal */,
+				5C7B6398272A84D500E18B96 /* Swipe */,
 				5C4B9685271FA724008B21C7 /* Write */,
 				5C582106271D79B5002E21C9 /* Explore */,
 				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
@@ -330,6 +343,15 @@
 			path = Explore;
 			sourceTree = "<group>";
 		};
+		5C7B6398272A84D500E18B96 /* Swipe */ = {
+			isa = PBXGroup;
+			children = (
+				5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */,
+				5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */,
+			);
+			path = Swipe;
+			sourceTree = "<group>";
+		};
 		5C8C0E93272436380054480A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +365,7 @@
 			children = (
 				5C8C0E8C272425980054480A /* SwipeViewController.swift */,
 				5C8C0EA02725A4B40054480A /* CardDetailViewController.swift */,
+				5C2846FA2729B2FA00393562 /* FavoriteCardViewController.swift */,
 			);
 			path = Swipe;
 			sourceTree = "<group>";
@@ -435,6 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C2C7305271D12E300F8B9EC /* LaunchScreen.storyboard in Resources */,
+				5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */,
 				5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */,
 				5C2846F32729250900393562 /* JournalListCollectionViewCell.xib in Resources */,
 				5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */,
@@ -523,6 +547,7 @@
 				5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */,
 				5C2846F927297D0200393562 /* Animation.swift in Sources */,
 				5C8C0E9C272529650054480A /* Card.swift in Sources */,
+				5C7B6395272A798700E18B96 /* UserManager.swift in Sources */,
 				5C2846E427280EA600393562 /* JournalManager.swift in Sources */,
 				5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */,
 				5C8C0E8F2724261F0054480A /* UIViewController+Extension.swift in Sources */,
@@ -541,6 +566,7 @@
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
+				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,
 				5C4B9697271FBF4C008B21C7 /* PostCommentManager.swift in Sources */,
 				5C2846E02727EEB400393562 /* ContentTextView.swift in Sources */,
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,
@@ -550,12 +576,14 @@
 				5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */,
 				5C4B9699271FC0D3008B21C7 /* Comment.swift in Sources */,
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,
+				5C2846FB2729B2FA00393562 /* FavoriteCardViewController.swift in Sources */,
 				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,
 				5C2846EA2728ED2C00393562 /* JournalListViewController.swift in Sources */,
 				5C582105271D791B002E21C9 /* ExploreViewController.swift in Sources */,
 				5CC04ACB2727A38B00EC0D71 /* JournalViewController.swift in Sources */,
 				5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */,
 				5CBB57712727AE6E0035EB87 /* SelectionView.swift in Sources */,
+				5C7B6397272A799000E18B96 /* User.swift in Sources */,
 				5C9A15C7272280FD00A13CC7 /* DeleteButton.swift in Sources */,
 				5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */,
 				5C582101271D6FBE002E21C9 /* Post.swift in Sources */,
