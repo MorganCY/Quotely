@@ -7,8 +7,14 @@
 
 import Foundation
 import UIKit
+import PhotosUI
+import Vision
 
-class ExploreViewController: UIViewController {
+class ExploreViewController: BaseImagePickerViewController {
+
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addPostButton: UIButton!
+    @IBOutlet weak var recognizeTextButton: UIButton!
 
     var postList: [Post] = [] {
         didSet {
@@ -16,10 +22,13 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    var likedPost = false
+    var isLikePost = false
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addPostButton: UIButton!
+    var recognizedImage: UIImage? {
+        didSet {
+            self.goToWritePage()
+        }
+    }
 
     // MARK: LiftCycle
     override func viewDidLoad() {
@@ -38,11 +47,13 @@ class ExploreViewController: UIViewController {
         navigationItem.title = "探索"
 
         listenToPostUpdate()
+
+        recognizeTextButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
     }
 
     override func viewDidLayoutSubviews() {
 
-        setupAddPostButton()
+        setupMajorButtons()
     }
 
     // MARK: Data
@@ -60,6 +71,86 @@ class ExploreViewController: UIViewController {
 
                 print("listenData.failure: \(error)")
             }
+        }
+    }
+
+    @IBAction func addPost(_ sender: UIButton) {
+
+        goToWritePage()
+    }
+
+    func goToWritePage() {
+
+        guard let writeVC =
+                UIStoryboard.write
+                .instantiateViewController(
+                    withIdentifier: String(describing: WriteViewController.self)
+                ) as? WriteViewController else {
+
+                    return
+                }
+
+        let nav = UINavigationController(rootViewController: writeVC)
+
+        nav.modalPresentationStyle = .automatic
+
+        if recognizedImage != nil {
+
+            self.navigationController?.present(nav, animated: true) {
+
+                writeVC.recognizedImage = self.recognizedImage
+            }
+
+        } else {
+
+            self.navigationController?.present(nav, animated: true)
+        }
+    }
+
+    func setupMajorButtons() {
+
+        recognizeTextButton.layer.cornerRadius = recognizeTextButton.frame.width / 2
+        recognizeTextButton.dropShadow(width: 0, height: 10)
+        addPostButton.layer.cornerRadius = addPostButton.frame.width / 2
+        addPostButton.dropShadow(width: 0, height: 10)
+    }
+
+    override func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+
+        guard let selectedImage = info[.editedImage] as? UIImage else {
+
+            return
+        }
+
+        recognizedImage = selectedImage
+
+        dismiss(animated: true) {
+
+            self.goToWritePage()
+        }
+    }
+
+    @available(iOS 14, *)
+    override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+
+        picker.dismiss(animated: true)
+
+        guard !results.isEmpty else { return }
+
+        for result in results {
+
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+
+                guard let image = image as? UIImage else { return picker.dismiss(animated: true) }
+
+                DispatchQueue.main.async {
+
+                    self.recognizedImage = image
+                }
+            })
         }
     }
 }
@@ -97,13 +188,15 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = postList[row].likeUser {
 
-            likedPost = likeUserList.contains("test123456") ?
+            isLikePost = likeUserList.contains("test123456") ?
             true : false
 
         } else {
 
-            likedPost = false
+            isLikePost = false
         }
+
+        cell.hideSelectionStyle()
 
         cell.layoutCell(
             userImage: UIImage.asset(.testProfile),
@@ -113,7 +206,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             postImageUrl: postList[row].imageUrl,
             likeNumber: nil,
             commentNumber: nil,
-            hasLiked: likedPost
+            hasLiked: isLikePost
         )
 
         cell.likeHandler = {
@@ -121,17 +214,17 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             // When tapping on the like button, check if the user has likedPost
             if let likeUserList = self.postList[row].likeUser {
 
-                self.likedPost = likeUserList.contains("test123456") ?
+                self.isLikePost = likeUserList.contains("test123456") ?
                 true : false
 
             } else {
 
-                self.likedPost = false
+                self.isLikePost = false
             }
 
             guard let postID = self.postList[row].postID else { return }
 
-            let likeAction: LikeAction = self.likedPost
+            let likeAction: LikeAction = self.isLikePost
             ? .dislike : .like
 
             PostManager.shared.updateLikes(
@@ -180,28 +273,5 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             detailVC.hasLiked = likeUserList.contains("test123456") ? true : false
         }
         navigationController?.pushViewController(detailVC, animated: true)
-    }
-
-    // MARK: SetupViews
-    func setupAddPostButton() {
-
-        addPostButton.layer.cornerRadius = addPostButton.frame.width / 2
-
-        addPostButton.dropShadow(width: 0, height: 10)
-
-        addPostButton.addTarget(self, action: #selector(addArticle(_:)), for: .touchUpInside)
-    }
-
-    @objc func addArticle(_ sender: UIButton) {
-
-        guard let writeVC = UIStoryboard.write.instantiateViewController(
-            withIdentifier: String(describing: WriteViewController.self)
-        ) as? WriteViewController else { return }
-
-        let nav = UINavigationController(rootViewController: writeVC)
-
-        nav.modalPresentationStyle = .automatic
-
-        self.navigationController?.present(nav, animated: true)
     }
 }

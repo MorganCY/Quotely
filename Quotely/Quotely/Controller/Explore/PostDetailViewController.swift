@@ -83,8 +83,6 @@ class PostDetailViewController: BaseDetailViewController {
                 comment: &comment
             ) { _ in
 
-                Toast.showSuccess(text: "已發布")
-
                 self.commentTextField.text = ""
 
                 self.fetchComments()

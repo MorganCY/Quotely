@@ -8,11 +8,15 @@
 import Foundation
 import UIKit
 import PhotosUI
-import UITextView_Placeholder
-import JGProgressHUD
-import SwiftUI
+import Vision
 
-class WriteViewController: UIViewController {
+class WriteViewController: BaseImagePickerViewController {
+
+    var recognizedImage: UIImage? = UIImage() {
+        didSet {
+            recognizeText(image: recognizedImage)
+        }
+    }
 
     // MARK: ViewControls
     var contentTextView = ContentTextView() {
@@ -32,9 +36,6 @@ class WriteViewController: UIViewController {
             }
         }
     }
-    var navTitle = "撰寫摘語"
-    var navButtonTitle = "分享"
-    var imagePicker = UIImagePickerController()
 
     var imageUrl: String? {
         didSet {
@@ -48,6 +49,8 @@ class WriteViewController: UIViewController {
             navButtonTitle = "更新"
         }
     }
+    var navTitle = "撰寫摘語"
+    var navButtonTitle = "分享"
 
     var contentHandler: ((String) -> Void) = {_ in}
 
@@ -59,14 +62,14 @@ class WriteViewController: UIViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        imagePicker.delegate = self
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         layoutViews()
+
+        photoButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -75,26 +78,8 @@ class WriteViewController: UIViewController {
         setupViews()
 
         setupNavigation()
-    }
 
-    // MARK: Actions
-    @IBAction func uploadImage(_ sender: UIButton) {
-
-        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-
-            self.openCamera()
-        }))
-
-        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
-
-            self.openGallary()
-        }))
-
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-
-        self.present(alert, animated: true, completion: nil)
+        recognizedImage = nil
     }
 
     @objc func onPublish(_ sender: UIBarButtonItem) {
@@ -167,94 +152,123 @@ class WriteViewController: UIViewController {
             Toast.showFailure(text: "請輸入內容")
         }
     }
-}
 
-// MARK: Image
-extension WriteViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    private func recognizeText(image: UIImage?) {
 
-    func imagePickerController(
+        guard let cgImage = image?.cgImage else {
+            return
+        }
+
+        Toast.showLoading(text: "掃描中")
+
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+
+        let request = VNRecognizeTextRequest { [weak self] request, error in
+
+            guard let observations = request.results as? [VNRecognizedTextObservation],
+                  error == nil else {
+
+                      Toast.showFailure(text: "掃描失敗")
+
+                      return
+                  }
+
+            let text = observations.compactMap {
+
+                $0.topCandidates(1).first?.string
+
+            }.joined()
+
+            DispatchQueue.main.async {
+
+                self?.contentTextView.text = text
+
+                Toast.shared.hud.dismiss()
+            }
+        }
+
+        request.recognitionLanguages = ["zh-Hant", "en"]
+
+        do {
+
+            try VNRecognizeTextRequest.supportedRecognitionLanguages(for: .accurate, revision: 2)
+
+        } catch {
+
+            print(error)
+        }
+
+        do {
+
+            try handler.perform([request])
+
+        } catch {
+
+            print(error)
+        }
+    }
+
+    override func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
+
+        picker.dismiss(animated: true) {
+
+            Toast.showLoading(text: "載入中")
+        }
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
             return
         }
 
-        postImageView.image = selectedImage
+//        postImageView.image = selectedImage
+//
+//        dismiss(animated: true)
 
-        dismiss(animated: true)
-    }
+        ImageManager.shared.uploadImage(image: selectedImage) { result in
 
-    // MARK: ImagePickerActions
-    func openCamera() {
+            switch result {
 
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            case .success(let url):
 
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
+                self.imageUrl = url
 
-        } else {
+                Toast.shared.hud.dismiss()
 
-            let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
+                DispatchQueue.main.async {
 
-    func openGallary() {
+                    self.hasImage = true
 
-        if #available(iOS 14, *) {
+                    self.postImageView.loadImage(url, placeHolder: nil)
+                }
 
-            var imageConfiguration = PHPickerConfiguration()
-            imageConfiguration.filter = PHPickerFilter.images
+            case .failure(let error):
 
-            let picker = PHPickerViewController(configuration: imageConfiguration)
-            picker.delegate = self
+                Toast.shared.hud.dismiss()
 
-            self.present(picker, animated: true, completion: nil)
+                print(error)
 
-        } else {
+                self.present(
+                    UIAlertController(
+                        title: "上傳失敗",
+                        message: nil,
+                        preferredStyle: .alert
+                    ), animated: true, completion: nil
+                )
 
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-
-                imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                imagePicker.allowsEditing = true
-                self.present(imagePicker, animated: true, completion: nil)
-
-            } else {
-
-                let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                picker.dismiss(animated: true)
             }
         }
     }
 
-    @objc func deleteImage(_ sender: UIButton) {
-
-        guard let imageUrl = imageUrl else { return }
-
-        ImageManager.shared.deleteImage(imageUrl: imageUrl, removeUrlHandler: { [weak self] in
-
-            self?.postImageView.image = nil
-
-            self?.imageUrl = nil
-        })
-
-        hasImage = false
-    }
-}
-
-@available(iOS 14, *)
-extension WriteViewController: PHPickerViewControllerDelegate {
-
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    @available(iOS 14, *)
+    override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
         picker.dismiss(animated: true) {
-            Toast.showLoading(text: "載入圖片中")
+
+            Toast.showLoading(text: "載入中")
         }
 
         guard !results.isEmpty else { return }
@@ -263,9 +277,15 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
             result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
 
-                guard let image = image as? UIImage else { return picker.dismiss(animated: true) }
+                guard let image = image as? UIImage else {
 
-                self.hasImage = true
+                    DispatchQueue.main.async {
+
+                        picker.dismiss(animated: true)
+                    }
+
+                    return
+                }
 
                 ImageManager.shared.uploadImage(image: image) { result in
 
@@ -279,10 +299,14 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
                         DispatchQueue.main.async {
 
+                            self.hasImage = true
+
                             self.postImageView.loadImage(url, placeHolder: nil)
                         }
 
                     case .failure(let error):
+
+                        Toast.shared.hud.dismiss()
 
                         print(error)
 
@@ -302,6 +326,24 @@ extension WriteViewController: PHPickerViewControllerDelegate {
     }
 }
 
+// MARK: Image
+extension WriteViewController {
+
+    @objc func deleteImage(_ sender: UIButton) {
+
+        guard let imageUrl = imageUrl else { return }
+
+        ImageManager.shared.deleteImage(imageUrl: imageUrl, removeUrlHandler: { [weak self] in
+
+            self?.postImageView.image = nil
+
+            self?.imageUrl = nil
+
+            self?.hasImage = false
+        })
+    }
+}
+
 // MARK: SetupViews
 extension WriteViewController {
 
@@ -317,15 +359,12 @@ extension WriteViewController {
 
     func layoutViews() {
 
-        self.view.addSubview(contentTextView)
-        self.view.addSubview(hashtagLabel)
-        self.view.addSubview(postImageView)
-        self.view.addSubview(deleteImageButton)
+        let views = [contentTextView, hashtagLabel, postImageView, deleteImageButton]
 
-        contentTextView.translatesAutoresizingMaskIntoConstraints = false
-        hashtagLabel.translatesAutoresizingMaskIntoConstraints = false
-        postImageView.translatesAutoresizingMaskIntoConstraints = false
-        deleteImageButton.translatesAutoresizingMaskIntoConstraints = false
+        views.forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         NSLayoutConstraint.activate([
 
@@ -352,6 +391,8 @@ extension WriteViewController {
 
     func setupViews() {
 
+        contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+
         hashtagLabel.text = "新增標籤"
         hashtagLabel.textColor = .black
         hashtagLabel.font = UIFont.systemFont(ofSize: 18)
@@ -363,6 +404,7 @@ extension WriteViewController {
         deleteImageButton.isHidden = !hasImage
         deleteImageButton.cornerRadius = deleteImageButton.frame.width / 2
         deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
+        deleteImageButton.backgroundColor = .clear
 
         optionPanel.dropShadow()
         optionPanel.cornerRadius = CornerRadius.standard.rawValue

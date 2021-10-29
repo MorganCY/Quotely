@@ -55,6 +55,8 @@ enum SFSymbol: String {
     case send = "paperplane.fill"
     case closeButton = "xmark.circle.fill"
     case comment = "text.bubble"
+    case textScanner = "text.viewfinder"
+    case fileScanner = "doc.text.viewfinder"
 }
 
 extension UIImage {
