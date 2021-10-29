@@ -283,16 +283,17 @@ extension JournalViewController {
         editPanelExpand = editPanel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.45)
         editPanelCollapse.isActive = !isEditPanelExpand
         editPanelExpand.isActive = isEditPanelExpand
+        journalTextView.cornerRadius = CornerRadius.standard.rawValue * 0.75
 
         panelTitle.text = "今日隨筆"
-        panelTitle.font = UIFont(name: "Pingfang TC", size: 22)
+        panelTitle.font = UIFont(name: "Pingfang TC", size: 18)
 
         journalTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
 
         submitButton.setTitle("存檔", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.backgroundColor = .M2
-        submitButton.cornerRadius = CornerRadius.standard.rawValue
+        submitButton.cornerRadius = CornerRadius.standard.rawValue * 0.75
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         journalTextViewCollapse = journalTextView.bottomAnchor.constraint(
             equalTo: editPanel.bottomAnchor,

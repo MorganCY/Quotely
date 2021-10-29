@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YEL-5D-CSV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YEL-5D-CSV">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -37,15 +37,36 @@
                                     </preferredSymbolConfiguration>
                                 </buttonConfiguration>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uic-TK-syy">
+                                <rect key="frame" x="40" y="746" width="84" height="84"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Uic-TK-syy" secondAttribute="height" multiplier="1:1" id="lIS-aR-8dy"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="">
+                                    <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font" scale="large" weight="heavy">
+                                        <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="40"/>
+                                    </preferredSymbolConfiguration>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="recognize:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="p1h-Gj-o5V"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Uic-TK-syy" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="40" id="7es-qK-6RI"/>
                             <constraint firstItem="bvf-Gv-ruw" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Kqv-WW-1An"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="bvf-Gv-ruw" secondAttribute="trailing" id="PST-JU-G7I"/>
                             <constraint firstItem="bvf-Gv-ruw" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="TW8-vV-jwX"/>
+                            <constraint firstItem="Uic-TK-syy" firstAttribute="width" secondItem="Uic-TK-syy" secondAttribute="height" multiplier="1:1" id="ZGI-wh-VgP"/>
                             <constraint firstAttribute="trailing" secondItem="9tE-0s-qrQ" secondAttribute="trailing" constant="16" id="eVU-YC-b7c"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="bvf-Gv-ruw" secondAttribute="bottom" id="pvs-Da-Eye"/>
+                            <constraint firstItem="Uic-TK-syy" firstAttribute="bottom" secondItem="9tE-0s-qrQ" secondAttribute="bottom" id="qER-rB-ak0"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9tE-0s-qrQ" secondAttribute="bottom" constant="32" id="r0u-kl-FEn"/>
                         </constraints>
                     </view>
@@ -53,6 +74,7 @@
                     <connections>
                         <outlet property="addPostButton" destination="9tE-0s-qrQ" id="JaT-9I-ud4"/>
                         <outlet property="tableView" destination="bvf-Gv-ruw" id="jOb-Cl-9kQ"/>
+                        <outlet property="textRecognitionButton" destination="Uic-TK-syy" id="bZR-6k-1Yb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -98,6 +120,9 @@
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

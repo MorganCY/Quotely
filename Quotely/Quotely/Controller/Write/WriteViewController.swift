@@ -11,8 +11,15 @@ import PhotosUI
 import UITextView_Placeholder
 import JGProgressHUD
 import SwiftUI
+import Vision
 
 class WriteViewController: UIViewController {
+
+    var recognizedImage: UIImage? = UIImage() {
+        didSet {
+            recognizeText(image: recognizedImage)
+        }
+    }
 
     // MARK: ViewControls
     var contentTextView = ContentTextView() {
@@ -75,12 +82,14 @@ class WriteViewController: UIViewController {
         setupViews()
 
         setupNavigation()
+
+        recognizedImage = nil
     }
 
     // MARK: Actions
     @IBAction func uploadImage(_ sender: UIButton) {
 
-        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
 
@@ -167,6 +176,59 @@ class WriteViewController: UIViewController {
             Toast.showFailure(text: "請輸入內容")
         }
     }
+
+    private func recognizeText(image: UIImage?) {
+
+        Toast.showLoading(text: "掃描中")
+
+        guard let cgImage = image?.cgImage else {
+            return
+        }
+
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+
+        let request = VNRecognizeTextRequest { [weak self] request, error in
+
+            guard let observations = request.results as? [VNRecognizedTextObservation],
+                  error == nil else {
+
+                      Toast.showFailure(text: "掃描失敗")
+
+                      return
+                  }
+
+            let text = observations.compactMap {
+
+                $0.topCandidates(1).first?.string
+
+            }.joined()
+
+            DispatchQueue.main.async {
+
+                self?.contentTextView.text = text
+
+                Toast.shared.hud.dismiss()
+            }
+        }
+
+        request.recognitionLanguages = ["zh-Hant", "en"]
+
+        do {
+
+            try VNRecognizeTextRequest.supportedRecognitionLanguages(for: .accurate, revision: 2)
+
+        } catch {
+
+            print(error)
+        }
+
+        do {
+            try handler.perform([request])
+        } catch {
+
+            print(error)
+        }
+    }
 }
 
 // MARK: Image
@@ -242,9 +304,9 @@ extension WriteViewController: UIImagePickerControllerDelegate, UINavigationCont
             self?.postImageView.image = nil
 
             self?.imageUrl = nil
-        })
 
-        hasImage = false
+            self?.hasImage = false
+        })
     }
 }
 
@@ -253,9 +315,7 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
-        picker.dismiss(animated: true) {
-            Toast.showLoading(text: "載入圖片中")
-        }
+        picker.dismiss(animated: true)
 
         guard !results.isEmpty else { return }
 
@@ -263,9 +323,20 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
             result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
 
-                guard let image = image as? UIImage else { return picker.dismiss(animated: true) }
+                guard let image = image as? UIImage else {
 
-                self.hasImage = true
+                    DispatchQueue.main.async {
+
+                        picker.dismiss(animated: true)
+                    }
+
+                    return
+                }
+
+                DispatchQueue.main.async {
+
+                    Toast.showLoading(text: "載入中")
+                }
 
                 ImageManager.shared.uploadImage(image: image) { result in
 
@@ -279,10 +350,14 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 
                         DispatchQueue.main.async {
 
+                            self.hasImage = true
+
                             self.postImageView.loadImage(url, placeHolder: nil)
                         }
 
                     case .failure(let error):
+
+                        Toast.shared.hud.dismiss()
 
                         print(error)
 
@@ -317,15 +392,12 @@ extension WriteViewController {
 
     func layoutViews() {
 
-        self.view.addSubview(contentTextView)
-        self.view.addSubview(hashtagLabel)
-        self.view.addSubview(postImageView)
-        self.view.addSubview(deleteImageButton)
+        let views = [contentTextView, hashtagLabel, postImageView, deleteImageButton]
 
-        contentTextView.translatesAutoresizingMaskIntoConstraints = false
-        hashtagLabel.translatesAutoresizingMaskIntoConstraints = false
-        postImageView.translatesAutoresizingMaskIntoConstraints = false
-        deleteImageButton.translatesAutoresizingMaskIntoConstraints = false
+        views.forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         NSLayoutConstraint.activate([
 
@@ -352,6 +424,8 @@ extension WriteViewController {
 
     func setupViews() {
 
+        contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+
         hashtagLabel.text = "新增標籤"
         hashtagLabel.textColor = .black
         hashtagLabel.font = UIFont.systemFont(ofSize: 18)
@@ -363,6 +437,7 @@ extension WriteViewController {
         deleteImageButton.isHidden = !hasImage
         deleteImageButton.cornerRadius = deleteImageButton.frame.width / 2
         deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
+        deleteImageButton.backgroundColor = .clear
 
         optionPanel.dropShadow()
         optionPanel.cornerRadius = CornerRadius.standard.rawValue
