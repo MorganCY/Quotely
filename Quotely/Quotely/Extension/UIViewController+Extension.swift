@@ -8,7 +8,7 @@
 import UIKit
 extension UIViewController {
 
-static func getLastPresentedViewController() -> UIViewController? {
+    static func getLastPresentedViewController() -> UIViewController? {
 
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 

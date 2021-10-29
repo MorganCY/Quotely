@@ -8,12 +8,9 @@
 import Foundation
 import UIKit
 import PhotosUI
-import UITextView_Placeholder
-import JGProgressHUD
-import SwiftUI
 import Vision
 
-class WriteViewController: UIViewController {
+class WriteViewController: BaseImagePickerViewController {
 
     var recognizedImage: UIImage? = UIImage() {
         didSet {
@@ -39,9 +36,6 @@ class WriteViewController: UIViewController {
             }
         }
     }
-    var navTitle = "撰寫摘語"
-    var navButtonTitle = "分享"
-    var imagePicker = UIImagePickerController()
 
     var imageUrl: String? {
         didSet {
@@ -55,6 +49,8 @@ class WriteViewController: UIViewController {
             navButtonTitle = "更新"
         }
     }
+    var navTitle = "撰寫摘語"
+    var navButtonTitle = "分享"
 
     var contentHandler: ((String) -> Void) = {_ in}
 
@@ -66,14 +62,14 @@ class WriteViewController: UIViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        imagePicker.delegate = self
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         layoutViews()
+
+        photoButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -84,26 +80,6 @@ class WriteViewController: UIViewController {
         setupNavigation()
 
         recognizedImage = nil
-    }
-
-    // MARK: Actions
-    @IBAction func uploadImage(_ sender: UIButton) {
-
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-
-            self.openCamera()
-        }))
-
-        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
-
-            self.openGallary()
-        }))
-
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-
-        self.present(alert, animated: true, completion: nil)
     }
 
     @objc func onPublish(_ sender: UIBarButtonItem) {
@@ -179,11 +155,11 @@ class WriteViewController: UIViewController {
 
     private func recognizeText(image: UIImage?) {
 
-        Toast.showLoading(text: "掃描中")
-
         guard let cgImage = image?.cgImage else {
             return
         }
+
+        Toast.showLoading(text: "掃描中")
 
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
 
@@ -223,99 +199,77 @@ class WriteViewController: UIViewController {
         }
 
         do {
+
             try handler.perform([request])
+
         } catch {
 
             print(error)
         }
     }
-}
 
-// MARK: Image
-extension WriteViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    func imagePickerController(
+    override func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
+
+        picker.dismiss(animated: true) {
+
+            Toast.showLoading(text: "載入中")
+        }
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
             return
         }
 
-        postImageView.image = selectedImage
+//        postImageView.image = selectedImage
+//
+//        dismiss(animated: true)
 
-        dismiss(animated: true)
-    }
+        ImageManager.shared.uploadImage(image: selectedImage) { result in
 
-    // MARK: ImagePickerActions
-    func openCamera() {
+            switch result {
 
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            case .success(let url):
 
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
+                self.imageUrl = url
 
-        } else {
+                Toast.shared.hud.dismiss()
 
-            let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
+                DispatchQueue.main.async {
 
-    func openGallary() {
+                    self.hasImage = true
 
-        if #available(iOS 14, *) {
+                    self.postImageView.loadImage(url, placeHolder: nil)
+                }
 
-            var imageConfiguration = PHPickerConfiguration()
-            imageConfiguration.filter = PHPickerFilter.images
+            case .failure(let error):
 
-            let picker = PHPickerViewController(configuration: imageConfiguration)
-            picker.delegate = self
+                Toast.shared.hud.dismiss()
 
-            self.present(picker, animated: true, completion: nil)
+                print(error)
 
-        } else {
+                self.present(
+                    UIAlertController(
+                        title: "上傳失敗",
+                        message: nil,
+                        preferredStyle: .alert
+                    ), animated: true, completion: nil
+                )
 
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-
-                imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                imagePicker.allowsEditing = true
-                self.present(imagePicker, animated: true, completion: nil)
-
-            } else {
-
-                let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                picker.dismiss(animated: true)
             }
         }
     }
 
-    @objc func deleteImage(_ sender: UIButton) {
+    @available(iOS 14, *)
+    override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
-        guard let imageUrl = imageUrl else { return }
+        picker.dismiss(animated: true) {
 
-        ImageManager.shared.deleteImage(imageUrl: imageUrl, removeUrlHandler: { [weak self] in
-
-            self?.postImageView.image = nil
-
-            self?.imageUrl = nil
-
-            self?.hasImage = false
-        })
-    }
-}
-
-@available(iOS 14, *)
-extension WriteViewController: PHPickerViewControllerDelegate {
-
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-
-        picker.dismiss(animated: true)
+            Toast.showLoading(text: "載入中")
+        }
 
         guard !results.isEmpty else { return }
 
@@ -331,11 +285,6 @@ extension WriteViewController: PHPickerViewControllerDelegate {
                     }
 
                     return
-                }
-
-                DispatchQueue.main.async {
-
-                    Toast.showLoading(text: "載入中")
                 }
 
                 ImageManager.shared.uploadImage(image: image) { result in
@@ -374,6 +323,24 @@ extension WriteViewController: PHPickerViewControllerDelegate {
                 }
             })
         }
+    }
+}
+
+// MARK: Image
+extension WriteViewController {
+
+    @objc func deleteImage(_ sender: UIButton) {
+
+        guard let imageUrl = imageUrl else { return }
+
+        ImageManager.shared.deleteImage(imageUrl: imageUrl, removeUrlHandler: { [weak self] in
+
+            self?.postImageView.image = nil
+
+            self?.imageUrl = nil
+
+            self?.hasImage = false
+        })
     }
 }
 
