@@ -83,7 +83,7 @@ class ExploreViewController: UIViewController {
 
         let nav = UINavigationController(rootViewController: writeVC)
 
-        nav.modalPresentationStyle = .automatic
+        nav.modalPresentationStyle = .fullScreen
 
         present(nav, animated: true)
     }
@@ -118,6 +118,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         let row = indexPath.row
+        let post = postList[row]
 
         if let likeUserList = postList[row].likeUser {
 
@@ -134,11 +135,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layoutCell(
             userImage: UIImage.asset(.testProfile),
             userName: "Morgan Yu",
-            time: Date.fullDateFormatter.string(from: Date.init(milliseconds: postList[row].createdTime)),
-            content: postList[row].content,
-            postImageUrl: postList[row].imageUrl,
-            likeNumber: nil,
-            commentNumber: nil,
+            post: post,
             hasLiked: isLikePost
         )
 
@@ -203,7 +200,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = postList[row].likeUser {
 
-            detailVC.hasLiked = likeUserList.contains("test123456") ? true : false
+            detailVC.hasLiked = likeUserList.contains("test123456")
         }
         navigationController?.pushViewController(detailVC, animated: true)
     }

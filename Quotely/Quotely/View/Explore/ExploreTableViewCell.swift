@@ -14,6 +14,7 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
@@ -25,6 +26,8 @@ class ExploreTableViewCell: UITableViewCell {
         postImageView.contentMode = .scaleAspectFill
 
         postImageView.cornerRadius = CornerRadius.standard.rawValue
+        hashtagLabel.cornerRadius = CornerRadius.standard.rawValue / 3
+        hashtagLabel.layer.masksToBounds = true
 
         likeButton.isEnabled = true
     }
@@ -39,11 +42,7 @@ class ExploreTableViewCell: UITableViewCell {
     func layoutCell(
         userImage: UIImage?,
         userName: String,
-        time: String,
-        content: String,
-        postImageUrl: String?,
-        likeNumber: Int?,
-        commentNumber: Int?,
+        post: Post,
         hasLiked: Bool
     ) {
 
@@ -54,10 +53,11 @@ class ExploreTableViewCell: UITableViewCell {
         likeButton.tintColor = buttonColor
 
         userNameLabel.text = userName
-        timeLabel.text = time
-        contentLabel.text = content
+        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
+        hashtagLabel.text = post.hashtag
+        contentLabel.text = post.content
 
-        if let postImageUrl = postImageUrl {
+        if let postImageUrl = post.imageUrl {
 
             // Define postImageView display state in case of wrongly reusing cell
             postImageView.isHidden = false
@@ -78,8 +78,8 @@ class ExploreTableViewCell: UITableViewCell {
             userImageView.image = UIImage.sfsymbol(.personNormal)
         }
 
-        if let likeNumber = likeNumber,
-           let commentNumber = commentNumber {
+        if let likeNumber = post.likeNumber,
+           let commentNumber = post.commentNumber {
 
             likeButton.setTitle("\(likeNumber)", for: .normal)
             commentButton.setTitle("\(commentNumber)", for: .normal)

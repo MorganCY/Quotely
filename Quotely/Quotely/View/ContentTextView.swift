@@ -10,10 +10,10 @@ import UIKit
 
 class ContentTextView: UITextView {
 
-    init() {
+    init(bgColor: UIColor = UIColor.gray) {
         super.init(frame: .zero, textContainer: nil)
         font = UIFont.systemFont(ofSize: 18)
-        backgroundColor = UIColor.gray.withAlphaComponent(0.2)
+        backgroundColor = bgColor.withAlphaComponent(0.2)
         cornerRadius = CornerRadius.standard.rawValue
     }
 

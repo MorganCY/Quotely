@@ -195,7 +195,7 @@ class SelectionView: UIView {
 
     private(set) var selectedIndex = 0
 
-    @objc func didSelectButton(_ sender: UIButton!) {
+    @objc func didSelectButton(_ sender: UIButton) {
 
         guard let senderIndex = buttons.firstIndex(of: sender) else { return }
 
