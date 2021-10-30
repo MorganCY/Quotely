@@ -42,7 +42,7 @@
 		5C4B9699271FC0D3008B21C7 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9698271FC0D3008B21C7 /* Comment.swift */; };
 		5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */; };
 		5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969C2721575B008B21C7 /* CommentTextField.swift */; };
-		5C4B969F27216007008B21C7 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969E27216007008B21C7 /* IconButton.swift */; };
+		5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969E27216007008B21C7 /* ImageButton.swift */; };
 		5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5820FE271D6D80002E21C9 /* PostManager.swift */; };
 		5C582101271D6FBE002E21C9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582100271D6FBE002E21C9 /* Post.swift */; };
 		5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582102271D71CC002E21C9 /* Date+Extension.swift */; };
@@ -74,6 +74,7 @@
 		5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FC271ECE33008E8D00 /* Kingfisher.swift */; };
 		5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */; };
 		5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */; };
+		5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD9DDEF272D3394009618FA /* RowButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,7 +117,7 @@
 		5C4B9698271FC0D3008B21C7 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUD.swift; sourceTree = "<group>"; };
 		5C4B969C2721575B008B21C7 /* CommentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTextField.swift; sourceTree = "<group>"; };
-		5C4B969E27216007008B21C7 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
+		5C4B969E27216007008B21C7 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		5C5820FE271D6D80002E21C9 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		5C582100271D6FBE002E21C9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		5C582102271D71CC002E21C9 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		5CD765FC271ECE33008E8D00 /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
 		5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailViewController.swift; sourceTree = "<group>"; };
+		5CD9DDEF272D3394009618FA /* RowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,11 +266,12 @@
 			children = (
 				5C8C0E91272426550054480A /* SwipeCardView.swift */,
 				5C8C0E9727246EB50054480A /* SwipeCardStack.swift */,
-				5C4B969E27216007008B21C7 /* IconButton.swift */,
+				5C4B969E27216007008B21C7 /* ImageButton.swift */,
 				5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */,
 				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
 				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
 				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
+				5CD9DDEF272D3394009618FA /* RowButton.swift */,
 				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
 				5C7B6398272A84D500E18B96 /* Swipe */,
@@ -558,7 +561,7 @@
 				5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */,
 				5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */,
 				5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */,
-				5C4B969F27216007008B21C7 /* IconButton.swift in Sources */,
+				5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */,
 				5C2846F52729251500393562 /* JournalListCollectionViewCell.swift in Sources */,
 				5C2846F12729248B00393562 /* UICollectionView+Extension.swift in Sources */,
 				5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */,
@@ -593,6 +596,7 @@
 				5C582101271D6FBE002E21C9 /* Post.swift in Sources */,
 				5C2846E22727F0B200393562 /* UITextView+Extension.swift in Sources */,
 				5C8C0E9827246EB50054480A /* SwipeCardStack.swift in Sources */,
+				5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */,
 				5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */,
 				5C8C0E92272426550054480A /* SwipeCardView.swift in Sources */,
 			);

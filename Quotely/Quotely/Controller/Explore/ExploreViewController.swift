@@ -10,11 +10,10 @@ import UIKit
 import PhotosUI
 import Vision
 
-class ExploreViewController: BaseImagePickerViewController {
+class ExploreViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addPostButton: UIButton!
-    @IBOutlet weak var recognizeTextButton: UIButton!
 
     var postList: [Post] = [] {
         didSet {
@@ -23,12 +22,6 @@ class ExploreViewController: BaseImagePickerViewController {
     }
 
     var isLikePost = false
-
-    var recognizedImage: UIImage? {
-        didSet {
-            self.goToWritePage()
-        }
-    }
 
     // MARK: LiftCycle
     override func viewDidLoad() {
@@ -47,13 +40,11 @@ class ExploreViewController: BaseImagePickerViewController {
         navigationItem.title = "探索"
 
         listenToPostUpdate()
-
-        recognizeTextButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
     }
 
     override func viewDidLayoutSubviews() {
 
-        setupMajorButtons()
+        setupAddPostButton()
     }
 
     // MARK: Data
@@ -94,76 +85,18 @@ class ExploreViewController: BaseImagePickerViewController {
 
         nav.modalPresentationStyle = .automatic
 
-        if recognizedImage != nil {
-
-            self.navigationController?.present(nav, animated: true) {
-
-                writeVC.recognizedImage = self.recognizedImage
-            }
-
-        } else {
-
-            self.navigationController?.present(nav, animated: true)
-        }
+        present(nav, animated: true)
     }
 
-    func setupMajorButtons() {
+    func setupAddPostButton() {
 
-        recognizeTextButton.layer.cornerRadius = recognizeTextButton.frame.width / 2
-        recognizeTextButton.dropShadow(width: 0, height: 10)
         addPostButton.layer.cornerRadius = addPostButton.frame.width / 2
         addPostButton.dropShadow(width: 0, height: 10)
-    }
-
-    override func imagePickerController(
-        _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {
-
-        guard let selectedImage = info[.editedImage] as? UIImage else {
-
-            return
-        }
-
-        recognizedImage = selectedImage
-
-        dismiss(animated: true) {
-
-            self.goToWritePage()
-        }
-    }
-
-    @available(iOS 14, *)
-    override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-
-        picker.dismiss(animated: true)
-
-        guard !results.isEmpty else { return }
-
-        for result in results {
-
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
-
-                guard let image = image as? UIImage else { return picker.dismiss(animated: true) }
-
-                DispatchQueue.main.async {
-
-                    self.recognizedImage = image
-                }
-            })
-        }
     }
 }
 
 // MARK: TableView
 extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-
-        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
-        let animator = Animator(animation: animation)
-            animator.animate(cell: cell, at: indexPath, in: tableView)
-    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 

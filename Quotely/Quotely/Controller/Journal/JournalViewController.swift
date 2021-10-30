@@ -364,7 +364,7 @@ extension JournalViewController {
             buttonStack.topAnchor.constraint(equalTo: editPanel.bottomAnchor, constant: 48),
 
             paletteButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
-            paletteButton.heightAnchor.constraint(equalTo: paletteButton.widthAnchor),
+            paletteButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
             likeButton.widthAnchor.constraint(equalTo: paletteButton.widthAnchor),
             likeButton.heightAnchor.constraint(equalTo: paletteButton.widthAnchor)
