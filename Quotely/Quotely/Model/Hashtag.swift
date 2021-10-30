@@ -7,10 +7,11 @@
 
 import Foundation
 
-class Hashtag: Codable {
+struct Hashtag: Codable {
 
-    var hashtagID: String
+    var hashtagID: String?
     var title: String
-    var post: [String]
-    var postNumber: Int
+    var newPostID: String
+    var postList: [String]?
+    var postNumber: Int?
 }

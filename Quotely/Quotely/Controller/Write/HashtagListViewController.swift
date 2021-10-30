@@ -25,6 +25,7 @@ class HashtagListViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    var hashtagHandler: ((String) -> Void) = {_ in}
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -37,7 +38,7 @@ class HashtagListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "標籤列表"
+        navigationItem.title = "主題列表"
         setupSearchBar()
         filteredHashtagList = hashtagList
 
@@ -46,20 +47,11 @@ class HashtagListViewController: UIViewController {
 
     @IBAction func addHashtag(_ sender: UIBarButtonItem) {
 
-        let alert = UIAlertController(title: "新增標籤", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "新增主題", message: nil, preferredStyle: .alert)
         alert.addTextField()
 
         let submitAction = UIAlertAction(title: "提交", style: .default
         ) { [unowned alert] _ in
-
-            guard let writeVC =
-                    UIStoryboard.write
-                    .instantiateViewController(
-                        withIdentifier: String(describing: WriteViewController.self)
-                    ) as? WriteViewController else {
-
-                        return
-                    }
 
             guard let textField = alert.textFields?[0] else {
 
@@ -70,7 +62,7 @@ class HashtagListViewController: UIViewController {
 
             self.dismiss(animated: true) {
 
-                writeVC.hashtags.append(newHashtag)
+                self.hashtagHandler("#" + newHashtag)
             }
         }
 
@@ -150,6 +142,14 @@ extension HashtagListViewController: UITableViewDataSource, UITableViewDelegate 
         cell.hideSelectionStyle()
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        dismiss(animated: true) {
+
+            self.hashtagHandler(self.filteredHashtagList[indexPath.row].title)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

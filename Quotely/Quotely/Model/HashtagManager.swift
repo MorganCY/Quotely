@@ -25,7 +25,8 @@ class HashtagManager {
         let document = hashtags.document()
 
         hashtag.hashtagID = document.documentID
-        hashtag.postNumber += 1
+        hashtag.postNumber = 1
+            hashtag.postList?.append(hashtag.newPostID)
 
         do {
 

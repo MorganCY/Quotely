@@ -53,6 +53,7 @@ class PostManager {
         postID: String,
         content: String,
         imageUrl: String?,
+        hashtag: String?,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
@@ -68,7 +69,8 @@ class PostManager {
 
                 targetPost?.reference.updateData([
                     "content": content,
-                    "imageUrl": imageUrl as Any
+                    "imageUrl": imageUrl as Any,
+                    "hashtag": hashtag as Any
                 ])
 
                 completion(.success("Updated post content"))

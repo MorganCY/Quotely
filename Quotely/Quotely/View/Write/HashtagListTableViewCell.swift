@@ -17,7 +17,7 @@ class HashtagListTableViewCell: UITableViewCell {
         hashtag: Hashtag
     ) {
 
-        hashtagLabel.text = "#\(hashtag.title)"
-        self.postNumber.text = "\(hashtag.postNumber)則想法"
+        hashtagLabel.text = hashtag.title
+        self.postNumber.text = "\(hashtag.postNumber ?? 0)" + "則想法"
     }
 }
