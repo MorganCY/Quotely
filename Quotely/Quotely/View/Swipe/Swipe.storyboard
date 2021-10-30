@@ -65,7 +65,7 @@
         <!--Favorite Card View Controller-->
         <scene sceneID="WMI-Fk-bw8">
             <objects>
-                <viewController id="Hd2-qK-GGC" customClass="FavoriteCardViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FavoriteCardViewController" id="Hd2-qK-GGC" customClass="FavoriteCardViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b7H-2E-JSD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -52,14 +52,7 @@
                             <constraint firstItem="kYF-e6-6ht" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="bottom" constant="-12" id="wGZ-0q-PDy"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="u80-RB-qtr">
-                        <barButtonItem key="rightBarButtonItem" image="calendar" catalog="system" id="iTr-F5-A3S">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <segue destination="ro4-Fy-kP4" kind="show" id="oK7-Vk-jp4"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="u80-RB-qtr"/>
                     <connections>
                         <outlet property="dailyQuoteLabel" destination="p9S-TK-NMd" id="6z9-Ap-IbR"/>
                         <outlet property="dateLabel" destination="9wc-RG-8IV" id="1Vk-KD-0rR"/>
@@ -73,13 +66,13 @@
         <!--Journal List View Controller-->
         <scene sceneID="fa4-dK-2bi">
             <objects>
-                <viewController id="ro4-Fy-kP4" customClass="JournalListViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="JournalListViewController" id="ro4-Fy-kP4" customClass="JournalListViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fkz-1p-pQh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="S6Q-vQ-u5h">
-                                <rect key="frame" x="24" y="88" width="390" height="134.5"/>
+                                <rect key="frame" x="24" y="44" width="390" height="134.5"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vco-q0-LGY">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -98,14 +91,14 @@
                                 </cells>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7VL-nz-hTd">
-                                <rect key="frame" x="24" y="254.5" width="390" height="1"/>
+                                <rect key="frame" x="24" y="210.5" width="390" height="1"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="IVS-xy-S8k"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="AI4-kb-QK1">
-                                <rect key="frame" x="24" y="265.5" width="390" height="596.5"/>
+                                <rect key="frame" x="24" y="221.5" width="390" height="640.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -155,7 +148,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="calendar" catalog="system" width="128" height="106"/>
         <namedColor name="M1">
             <color red="0.45882352941176469" green="0.49411764705882355" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

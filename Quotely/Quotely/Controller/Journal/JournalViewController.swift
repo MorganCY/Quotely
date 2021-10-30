@@ -37,6 +37,7 @@ class JournalViewController: UIViewController {
     var buttonStack = UIStackView()
     let paletteButton = ImageButton(image: UIImage.sfsymbol(.color)!, color: .lightGray)
     let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .lightGray)
+    let journalButton = ImageButton(image: UIImage.sfsymbol(.calendar)!, color: .lightGray)
 
     var editPanelCollapse = NSLayoutConstraint()
     var editPanelExpand = NSLayoutConstraint()
@@ -73,6 +74,10 @@ class JournalViewController: UIViewController {
 
         submitButton.addTarget(self, action: #selector(submitJournal(_:)), for: .touchUpInside)
 
+        likeButton.addTarget(self, action: #selector(goToFavoriteCardList(_:)), for: .touchUpInside)
+
+        journalButton.addTarget(self, action: #selector(goToJournalList(_:)), for: .touchUpInside)
+
         fetchQuoteOncePerDay()
     }
 
@@ -85,8 +90,12 @@ class JournalViewController: UIViewController {
         collapseButton.cornerRadius = collapseButton.frame.width / 2
 
         editPanel.dropShadow(opacity: 0.4)
+        paletteButton.cornerRadius = paletteButton.frame.width / 2
         paletteButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
         likeButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
+        likeButton.cornerRadius = likeButton.frame.width / 2
+        journalButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
+        journalButton.cornerRadius = likeButton.frame.width / 2
     }
 
     @objc func submitJournal(_ sender: UIButton) {
@@ -112,6 +121,34 @@ class JournalViewController: UIViewController {
                 print(error)
             }
         }
+    }
+
+    @objc func goToFavoriteCardList(_ sender: UIButton) {
+
+        guard let favCardVC =
+                UIStoryboard.swipe
+                .instantiateViewController(
+                    withIdentifier: String(describing: FavoriteCardViewController.self)
+                ) as? FavoriteCardViewController else {
+
+                    return
+                }
+
+        show(favCardVC, sender: nil)
+    }
+
+    @objc func goToJournalList(_ sender: UIButton) {
+
+        guard let journalListVC =
+                UIStoryboard.journal
+                .instantiateViewController(
+                    withIdentifier: String(describing: JournalListViewController.self)
+                ) as? JournalListViewController else {
+
+                    return
+                }
+
+        show(journalListVC, sender: nil)
     }
 
     func fetchQuoteOncePerDay() {
@@ -192,6 +229,8 @@ class JournalViewController: UIViewController {
             self.paletteButton.isHidden = self.isEditPanelExpand
 
             self.likeButton.isHidden = self.isEditPanelExpand
+
+            self.journalButton.isHidden = self.isEditPanelExpand
 
             self.view.layoutIfNeeded()
         }
@@ -346,7 +385,7 @@ extension JournalViewController {
 
     func setupButtons() {
 
-        let buttons = [paletteButton, likeButton]
+        let buttons = [paletteButton, likeButton, journalButton]
         view.addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.spacing = 64
@@ -367,7 +406,10 @@ extension JournalViewController {
             paletteButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
             likeButton.widthAnchor.constraint(equalTo: paletteButton.widthAnchor),
-            likeButton.heightAnchor.constraint(equalTo: paletteButton.widthAnchor)
+            likeButton.heightAnchor.constraint(equalTo: paletteButton.widthAnchor),
+
+            journalButton.widthAnchor.constraint(equalTo: paletteButton.widthAnchor),
+            journalButton.heightAnchor.constraint(equalTo: paletteButton.widthAnchor)
         ])
     }
 

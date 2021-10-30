@@ -194,6 +194,7 @@
 		5C2846EB2728F4BA00393562 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				5C2C7324271D3D6400F8B9EC /* Journal.storyboard */,
 				5C2846EE2728F4F500393562 /* JournalListTableViewCell.swift */,
 				5C2846EC2728F4E500393562 /* JournalListTableViewCell.xib */,
 				5C2846F42729251500393562 /* JournalListCollectionViewCell.swift */,
@@ -290,8 +291,6 @@
 				5C4B9685271FA724008B21C7 /* Write */,
 				5C582106271D79B5002E21C9 /* Explore */,
 				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
-				5C2C7324271D3D6400F8B9EC /* Journal.storyboard */,
-				5C2C731E271D3D4B00F8B9EC /* Swipe.storyboard */,
 				5C2C7326271D3D6E00F8B9EC /* MyAccount.storyboard */,
 				5C58210F271E8997002E21C9 /* VerticalButton.swift */,
 			);
@@ -366,6 +365,7 @@
 		5C7B6398272A84D500E18B96 /* Swipe */ = {
 			isa = PBXGroup;
 			children = (
+				5C2C731E271D3D4B00F8B9EC /* Swipe.storyboard */,
 				5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */,
 				5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */,
 			);
