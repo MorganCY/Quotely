@@ -25,7 +25,7 @@ class WriteViewController: BaseImagePickerViewController {
             contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
         }
     }
-    private let hashtagLabel = UILabel()
+    private let hashtagView = HashtagView()
     private var postImageView = UIImageView()
     private let deleteImageButton = DeleteButton()
     private let optionPanel = UIView()
@@ -41,6 +41,8 @@ class WriteViewController: BaseImagePickerViewController {
         labelColor: .black,
         text: "上傳圖片"
     )
+
+    var hashtags = ["哈哈", "嘻嘻"]
 
     var hasImage = false {
         didSet {
@@ -88,7 +90,14 @@ class WriteViewController: BaseImagePickerViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        hashtagView.delegate = self
+        hashtagView.dataSource = self
+
         setupNavigation()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 
         recognizedImage = nil
     }
@@ -382,6 +391,45 @@ class WriteViewController: BaseImagePickerViewController {
     }
 }
 
+extension WriteViewController: HashtagViewDataSource {
+
+    func numbersOfButtonsIn(_ stackView: HashtagView) -> Int {
+
+        hashtags.count
+    }
+
+    func buttonTitle(_ stackView: HashtagView, index: Int) -> String {
+
+        hashtags[index]
+    }
+}
+
+extension WriteViewController: HashtagViewDelegate {
+
+    func didSelectButtonAt(_ stackView: HashtagView, index: Int) {
+
+        hashtags.remove(at: index)
+    }
+
+    func didSelectAddHashtagButton(_ stackView: HashtagView) {
+
+        guard let hashtagVC =
+                UIStoryboard.write
+                .instantiateViewController(
+                    withIdentifier: String(describing: HashtagListViewController.self)
+                ) as? HashtagListViewController else {
+
+                    return
+                }
+
+        let nav = UINavigationController(rootViewController: hashtagVC)
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
+}
+
 // MARK: Image
 extension WriteViewController {
 
@@ -416,7 +464,7 @@ extension WriteViewController {
     func layoutViews() {
 
         let views = [
-            contentTextView, hashtagLabel, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
+            contentTextView, hashtagView, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
         ]
 
         views.forEach {
@@ -431,11 +479,12 @@ extension WriteViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             contentTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
 
-            hashtagLabel.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
-            hashtagLabel.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
-            hashtagLabel.heightAnchor.constraint(equalToConstant: 32),
+            hashtagView.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
+            hashtagView.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
+            hashtagView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            hashtagView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1),
 
-            postImageView.topAnchor.constraint(equalTo: hashtagLabel.bottomAnchor, constant: 32),
+            postImageView.topAnchor.constraint(equalTo: hashtagView.bottomAnchor, constant: 24),
             postImageView.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
             postImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
             postImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
@@ -446,8 +495,8 @@ extension WriteViewController {
             deleteImageButton.heightAnchor.constraint(equalTo: deleteImageButton.widthAnchor),
 
             optionPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            optionPanel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 32),
             optionPanel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            optionPanel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
             optionPanel.widthAnchor.constraint(equalTo: view.widthAnchor),
 
             recognizeTextButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
@@ -467,10 +516,6 @@ extension WriteViewController {
 
         recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
         uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
-
-        hashtagLabel.text = "新增標籤"
-        hashtagLabel.textColor = .black
-        hashtagLabel.font = UIFont.systemFont(ofSize: 18)
 
         postImageView.contentMode = .scaleAspectFill
         postImageView.clipsToBounds = true
