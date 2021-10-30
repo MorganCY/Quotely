@@ -12,7 +12,7 @@ import Vision
 
 class WriteViewController: BaseImagePickerViewController {
 
-    var recognizedImage: UIImage? = UIImage() {
+    private var recognizedImage: UIImage? = UIImage() {
         didSet {
             recognizeText(image: recognizedImage)
         }
@@ -25,9 +25,22 @@ class WriteViewController: BaseImagePickerViewController {
             contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
         }
     }
-    let hashtagLabel = UILabel()
-    var postImageView = UIImageView()
+    private let hashtagLabel = UILabel()
+    private var postImageView = UIImageView()
     private let deleteImageButton = DeleteButton()
+    private let optionPanel = UIView()
+    private let recognizeTextButton = RowButton(
+        image: UIImage.sfsymbol(.fileScanner)!,
+        imageColor: .M2!,
+        labelColor: .black,
+        text: "掃描文字"
+    )
+    private let uploadImageButton = RowButton(
+        image: UIImage.sfsymbol(.photo)!,
+        imageColor: .M2!,
+        labelColor: .black,
+        text: "上傳圖片"
+    )
 
     var hasImage = false {
         didSet {
@@ -36,6 +49,8 @@ class WriteViewController: BaseImagePickerViewController {
             }
         }
     }
+
+    private var isRecognizedTextButtonTapped = false
 
     var imageUrl: String? {
         didSet {
@@ -49,19 +64,17 @@ class WriteViewController: BaseImagePickerViewController {
             navButtonTitle = "更新"
         }
     }
-    var navTitle = "撰寫摘語"
-    var navButtonTitle = "分享"
+    private var navTitle = "撰寫摘語"
+    private var navButtonTitle = "分享"
 
     var contentHandler: ((String) -> Void) = {_ in}
-
-    @IBOutlet weak var optionPanel: UIView!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var scanButton: UIButton!
-    @IBOutlet weak var photoButton: UIButton!
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        recognizeTextButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
+        uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
     }
 
     override func viewDidLayoutSubviews() {
@@ -69,13 +82,11 @@ class WriteViewController: BaseImagePickerViewController {
 
         layoutViews()
 
-        photoButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
+        setupViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        setupViews()
 
         setupNavigation()
 
@@ -124,6 +135,17 @@ class WriteViewController: BaseImagePickerViewController {
             }
 
             self.publishPost(imageUrl: imageUrl)
+        }
+    }
+
+    override func openImagePicker(_ sender: UIButton) {
+        super.openImagePicker(sender)
+
+        switch sender {
+
+        case recognizeTextButton: isRecognizedTextButtonTapped = true
+        case uploadImageButton: isRecognizedTextButtonTapped = false
+        default: break
         }
     }
 
@@ -227,38 +249,47 @@ class WriteViewController: BaseImagePickerViewController {
 //
 //        dismiss(animated: true)
 
-        ImageManager.shared.uploadImage(image: selectedImage) { result in
+        switch isRecognizedTextButtonTapped {
 
-            switch result {
+        case true:
 
-            case .success(let url):
+            self.recognizedImage = selectedImage
 
-                self.imageUrl = url
+        case false:
 
-                Toast.shared.hud.dismiss()
+            ImageManager.shared.uploadImage(image: selectedImage) { result in
 
-                DispatchQueue.main.async {
+                switch result {
 
-                    self.hasImage = true
+                case .success(let url):
 
-                    self.postImageView.loadImage(url, placeHolder: nil)
+                    self.imageUrl = url
+
+                    Toast.shared.hud.dismiss()
+
+                    DispatchQueue.main.async {
+
+                        self.hasImage = true
+
+                        self.postImageView.loadImage(url, placeHolder: nil)
+                    }
+
+                case .failure(let error):
+
+                    Toast.shared.hud.dismiss()
+
+                    print(error)
+
+                    self.present(
+                        UIAlertController(
+                            title: "上傳失敗",
+                            message: nil,
+                            preferredStyle: .alert
+                        ), animated: true, completion: nil
+                    )
+
+                    picker.dismiss(animated: true)
                 }
-
-            case .failure(let error):
-
-                Toast.shared.hud.dismiss()
-
-                print(error)
-
-                self.present(
-                    UIAlertController(
-                        title: "上傳失敗",
-                        message: nil,
-                        preferredStyle: .alert
-                    ), animated: true, completion: nil
-                )
-
-                picker.dismiss(animated: true)
             }
         }
     }
@@ -266,62 +297,87 @@ class WriteViewController: BaseImagePickerViewController {
     @available(iOS 14, *)
     override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
-        picker.dismiss(animated: true) {
+        switch isRecognizedTextButtonTapped {
 
-            Toast.showLoading(text: "載入中")
-        }
+        case true:
 
-        guard !results.isEmpty else { return }
+            picker.dismiss(animated: true)
 
-        for result in results {
+            guard !results.isEmpty else { return }
 
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+            for result in results {
 
-                guard let image = image as? UIImage else {
+                result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+
+                    guard let image = image as? UIImage else { return picker.dismiss(animated: true) }
 
                     DispatchQueue.main.async {
 
-                        picker.dismiss(animated: true)
+                        self.recognizedImage = image
                     }
+                })
+            }
 
-                    return
-                }
+        case false:
 
-                ImageManager.shared.uploadImage(image: image) { result in
+            picker.dismiss(animated: true) {
 
-                    switch result {
+                Toast.showLoading(text: "載入中")
+            }
 
-                    case .success(let url):
+            guard !results.isEmpty else { return }
 
-                        self.imageUrl = url
+            for result in results {
 
-                        Toast.shared.hud.dismiss()
+                result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+
+                    guard let image = image as? UIImage else {
 
                         DispatchQueue.main.async {
 
-                            self.hasImage = true
-
-                            self.postImageView.loadImage(url, placeHolder: nil)
+                            picker.dismiss(animated: true)
                         }
 
-                    case .failure(let error):
-
-                        Toast.shared.hud.dismiss()
-
-                        print(error)
-
-                        self.present(
-                            UIAlertController(
-                                title: "上傳失敗",
-                                message: nil,
-                                preferredStyle: .alert
-                            ), animated: true, completion: nil
-                        )
-
-                        picker.dismiss(animated: true)
+                        return
                     }
-                }
-            })
+
+                    ImageManager.shared.uploadImage(image: image) { result in
+
+                        switch result {
+
+                        case .success(let url):
+
+                            self.imageUrl = url
+
+                            Toast.shared.hud.dismiss()
+
+                            DispatchQueue.main.async {
+
+                                self.hasImage = true
+
+                                self.postImageView.loadImage(url, placeHolder: nil)
+                            }
+
+                        case .failure(let error):
+
+                            Toast.shared.hud.dismiss()
+
+                            print(error)
+
+                            self.present(
+                                UIAlertController(
+                                    title: "上傳失敗",
+                                    message: nil,
+                                    preferredStyle: .alert
+                                ), animated: true, completion: nil
+                            )
+
+                            picker.dismiss(animated: true)
+                        }
+                    }
+                })
+            }
+
         }
     }
 }
@@ -359,7 +415,9 @@ extension WriteViewController {
 
     func layoutViews() {
 
-        let views = [contentTextView, hashtagLabel, postImageView, deleteImageButton]
+        let views = [
+            contentTextView, hashtagLabel, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
+        ]
 
         views.forEach {
             view.addSubview($0)
@@ -368,10 +426,10 @@ extension WriteViewController {
 
         NSLayoutConstraint.activate([
 
-            contentTextView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            contentTextView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
-            contentTextView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-            contentTextView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.25),
+            contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            contentTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
 
             hashtagLabel.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
             hashtagLabel.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
@@ -379,19 +437,36 @@ extension WriteViewController {
 
             postImageView.topAnchor.constraint(equalTo: hashtagLabel.bottomAnchor, constant: 32),
             postImageView.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
-            postImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
-            postImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
+            postImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
+            postImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
 
             deleteImageButton.centerXAnchor.constraint(equalTo: postImageView.trailingAnchor),
             deleteImageButton.centerYAnchor.constraint(equalTo: postImageView.topAnchor),
             deleteImageButton.widthAnchor.constraint(equalTo: postImageView.widthAnchor, multiplier: 0.15),
-            deleteImageButton.heightAnchor.constraint(equalTo: deleteImageButton.widthAnchor)
+            deleteImageButton.heightAnchor.constraint(equalTo: deleteImageButton.widthAnchor),
+
+            optionPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            optionPanel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            optionPanel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            optionPanel.widthAnchor.constraint(equalTo: view.widthAnchor),
+
+            recognizeTextButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
+            recognizeTextButton.topAnchor.constraint(equalTo: optionPanel.topAnchor, constant: 8),
+            recognizeTextButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
+            recognizeTextButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.3),
+            uploadImageButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
+            uploadImageButton.topAnchor.constraint(equalTo: recognizeTextButton.bottomAnchor),
+            uploadImageButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
+            uploadImageButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.3)
         ])
     }
 
     func setupViews() {
 
         contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+
+        recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
+        uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
 
         hashtagLabel.text = "新增標籤"
         hashtagLabel.textColor = .black
@@ -402,14 +477,11 @@ extension WriteViewController {
         postImageView.layer.cornerRadius = 10
 
         deleteImageButton.isHidden = !hasImage
-        deleteImageButton.cornerRadius = deleteImageButton.frame.width / 2
         deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
         deleteImageButton.backgroundColor = .clear
 
-        optionPanel.dropShadow()
+        optionPanel.backgroundColor = .white
         optionPanel.cornerRadius = CornerRadius.standard.rawValue
-        optionPanel.borderColor = UIColor.gray.withAlphaComponent(0.3)
-        optionPanel.borderWidth = 1
-        optionPanel.layer.shouldRasterize = true
+        optionPanel.dropShadow(opacity: 0.5)
     }
 }

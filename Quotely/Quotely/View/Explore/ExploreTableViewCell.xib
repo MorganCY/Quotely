@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -44,10 +44,10 @@
                     </constraints>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Xyq-cY-qX0">
-                    <rect key="frame" x="67" y="67.5" width="190.5" height="223"/>
+                    <rect key="frame" x="67" y="67.5" width="331" height="223"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oij-aC-IwR">
-                            <rect key="frame" x="0.0" y="0.0" width="40.5" height="22.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="331" height="22.5"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -103,6 +103,7 @@
                 <constraint firstItem="Xyq-cY-qX0" firstAttribute="leading" secondItem="yvN-mh-rg5" secondAttribute="leading" id="Jp6-oZ-bQz"/>
                 <constraint firstItem="0fG-j4-NTp" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="MlF-7d-WCJ"/>
                 <constraint firstItem="yvN-mh-rg5" firstAttribute="leading" secondItem="V06-TB-5VX" secondAttribute="trailing" constant="16" id="XZt-fs-XBi"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="oij-aC-IwR" secondAttribute="trailing" constant="16" id="bzA-8P-TAc"/>
                 <constraint firstItem="kvo-5i-dXf" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.46" id="cfb-zV-Md8"/>
                 <constraint firstItem="V06-TB-5VX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="e8n-4A-9qd"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="0fG-j4-NTp" secondAttribute="trailing" id="fhU-Bp-b2j"/>

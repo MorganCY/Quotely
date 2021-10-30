@@ -20,11 +20,11 @@ class SwipeViewController: UIViewController {
     @IBOutlet weak var loadingLabel: UILabel!
     var cardStack = SwipeCardStackView()
     let shareButton = ImageButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
-    let commentButton = ImageButton(image: UIImage.sfsymbol(.comment)!, color: .gray)
+    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray, hasLabel: true)
+    let commentButton = ImageButton(image: UIImage.sfsymbol(.comment)!, color: .gray, hasLabel: true)
     let resetButton = ImageButton(image: UIImage.sfsymbol(.reset)!, color: .gray)
-    let likeNumberLabel = IconButtonLabel(color: .gray)
-    let commentNumberLabel = IconButtonLabel(color: .gray)
+    let likeNumberLabel = ImageButtonLabel(color: .gray)
+    let commentNumberLabel = ImageButtonLabel(color: .gray)
 
     var isLastCardSwiped = false {
         didSet {

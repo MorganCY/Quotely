@@ -24,25 +24,10 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="g9W-qa-TTA">
-                                <rect key="frame" x="220" y="773" width="178" height="73"/>
+                                <rect key="frame" x="325" y="773" width="73" height="73"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uic-TK-syy">
-                                        <rect key="frame" x="0.0" y="0.0" width="73" height="73"/>
-                                        <color key="backgroundColor" name="M1"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="Uic-TK-syy" secondAttribute="height" multiplier="1:1" id="lIS-aR-8dy"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="">
-                                            <imageReference key="image" image="doc.viewfinder" catalog="system" symbolScale="default"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font" scale="default" weight="regular">
-                                                <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="40"/>
-                                            </preferredSymbolConfiguration>
-                                        </buttonConfiguration>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jqc-9u-5FW">
-                                        <rect key="frame" x="105" y="0.0" width="73" height="73"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="73" height="73"/>
                                         <color key="backgroundColor" name="M1"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Jqc-9u-5FW" secondAttribute="height" multiplier="1:1" id="eX8-tL-vBb"/>
@@ -63,7 +48,6 @@
                                 <constraints>
                                     <constraint firstItem="Jqc-9u-5FW" firstAttribute="width" secondItem="Jqc-9u-5FW" secondAttribute="height" multiplier="1:1" id="Tig-AI-dQE"/>
                                     <constraint firstItem="Jqc-9u-5FW" firstAttribute="width" secondItem="Jqc-9u-5FW" secondAttribute="height" multiplier="1:1" id="Yze-h5-c0d"/>
-                                    <constraint firstItem="Uic-TK-syy" firstAttribute="width" secondItem="Uic-TK-syy" secondAttribute="height" multiplier="1:1" id="lHh-mQ-YtS"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -74,7 +58,6 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="g9W-qa-TTA" secondAttribute="trailing" constant="16" id="Lv8-4i-0wC"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="bvf-Gv-ruw" secondAttribute="trailing" id="PST-JU-G7I"/>
                             <constraint firstItem="bvf-Gv-ruw" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="TW8-vV-jwX"/>
-                            <constraint firstItem="Uic-TK-syy" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.176329" id="Yfq-cv-mpQ"/>
                             <constraint firstItem="Jqc-9u-5FW" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.176329" id="adq-2u-OZ4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="g9W-qa-TTA" secondAttribute="bottom" constant="16" id="jfa-9V-Ofx"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="bvf-Gv-ruw" secondAttribute="bottom" id="pvs-Da-Eye"/>
@@ -83,7 +66,6 @@
                     <navigationItem key="navigationItem" id="YxJ-g2-Xcs"/>
                     <connections>
                         <outlet property="addPostButton" destination="Jqc-9u-5FW" id="rO2-vt-Gdp"/>
-                        <outlet property="recognizeTextButton" destination="Uic-TK-syy" id="bZR-6k-1Yb"/>
                         <outlet property="tableView" destination="bvf-Gv-ruw" id="jOb-Cl-9kQ"/>
                     </connections>
                 </viewController>
@@ -127,7 +109,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="doc.viewfinder" catalog="system" width="128" height="115"/>
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>
         <namedColor name="M1">
             <color red="0.45882352941176469" green="0.49411764705882355" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
