@@ -95,6 +95,10 @@ class SwipeViewController: UIViewController {
 
                 self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
                 self.commentNumberLabel.text = "\(self.cards[0].commentNumber)"
+
+                self.shareButton.isEnabled = true
+                self.likeButton.isEnabled = true
+                self.commentButton.isEnabled = true
             })
         }
     }
@@ -176,6 +180,9 @@ class SwipeViewController: UIViewController {
         }
 
         commentButton.addTarget(self, action: #selector(goToDetailPage(_:)), for: .touchUpInside)
+        shareButton.isEnabled = false
+        likeButton.isEnabled = false
+        commentButton.isEnabled = false
 
         view.addSubview(likeNumberLabel)
         view.addSubview(commentNumberLabel)

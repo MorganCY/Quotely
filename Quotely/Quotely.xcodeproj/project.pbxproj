@@ -70,6 +70,8 @@
 		5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */; };
 		5CBB57712727AE6E0035EB87 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBB57702727AE6E0035EB87 /* SelectionView.swift */; };
 		5CC04ACB2727A38B00EC0D71 /* JournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC04ACA2727A38B00EC0D71 /* JournalViewController.swift */; };
+		5CC40AE4272E94C300DF51D9 /* UINavigationItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */; };
+		5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */; };
 		5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765F9271EAE24008E8D00 /* ImageManager.swift */; };
 		5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FC271ECE33008E8D00 /* Kingfisher.swift */; };
 		5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */; };
@@ -150,6 +152,8 @@
 		5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5CBB57702727AE6E0035EB87 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		5CC04ACA2727A38B00EC0D71 /* JournalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViewController.swift; sourceTree = "<group>"; };
+		5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extension.swift"; sourceTree = "<group>"; };
+		5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigaitonController.swift; sourceTree = "<group>"; };
 		5CD765F9271EAE24008E8D00 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		5CD765FC271ECE33008E8D00 /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
 		5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -309,6 +313,7 @@
 				5C2846E12727F0B200393562 /* UITextView+Extension.swift */,
 				5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */,
 				5C2846F02729248B00393562 /* UICollectionView+Extension.swift */,
+				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -327,6 +332,7 @@
 			children = (
 				5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */,
 				5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */,
+				5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -589,9 +595,11 @@
 				5C8C0EA12725A4B40054480A /* CardDetailViewController.swift in Sources */,
 				5C2846EF2728F4F500393562 /* JournalListTableViewCell.swift in Sources */,
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
+				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
 				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,
+				5CC40AE4272E94C300DF51D9 /* UINavigationItem+Extension.swift in Sources */,
 				5C4B9697271FBF4C008B21C7 /* PostCommentManager.swift in Sources */,
 				5C2846E02727EEB400393562 /* ContentTextView.swift in Sources */,
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,

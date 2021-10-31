@@ -13,7 +13,6 @@ import Vision
 class ExploreViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addPostButton: UIButton!
 
     var postList: [Post] = [] {
         didSet {
@@ -39,12 +38,9 @@ class ExploreViewController: UIViewController {
 
         navigationItem.title = "探索"
 
+        navigationItem.setupRightBarButton(image: UIImage.sfsymbol(.addPost)!, target: self, action: #selector(addPost(_:)), color: .M1!)
+
         listenToPostUpdate()
-    }
-
-    override func viewDidLayoutSubviews() {
-
-        setupAddPostButton()
     }
 
     // MARK: Data
@@ -65,7 +61,7 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    @IBAction func addPost(_ sender: UIButton) {
+    @objc func addPost(_ sender: UIBarButtonItem) {
 
         goToWritePage()
     }
@@ -81,17 +77,11 @@ class ExploreViewController: UIViewController {
                     return
                 }
 
-        let nav = UINavigationController(rootViewController: writeVC)
+        let nav = BaseNavigationController(rootViewController: writeVC)
 
         nav.modalPresentationStyle = .fullScreen
 
         present(nav, animated: true)
-    }
-
-    func setupAddPostButton() {
-
-        addPostButton.layer.cornerRadius = addPostButton.frame.width / 2
-        addPostButton.dropShadow(width: 0, height: 10)
     }
 }
 

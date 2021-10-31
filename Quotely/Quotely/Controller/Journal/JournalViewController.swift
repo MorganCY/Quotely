@@ -35,9 +35,9 @@ class JournalViewController: UIViewController {
     let submitButton = UIButton()
     let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse)!, color: .white)
     var buttonStack = UIStackView()
-    let paletteButton = ImageButton(image: UIImage.sfsymbol(.color)!, color: .lightGray)
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .lightGray)
-    let journalButton = ImageButton(image: UIImage.sfsymbol(.calendar)!, color: .lightGray)
+    let paletteButton = ImageButton(image: UIImage.sfsymbol(.color)!, color: .white)
+    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .white)
+    let journalButton = ImageButton(image: UIImage.sfsymbol(.calendar)!, color: .white)
 
     var editPanelCollapse = NSLayoutConstraint()
     var editPanelExpand = NSLayoutConstraint()
@@ -57,10 +57,6 @@ class JournalViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.BG
-
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-
-        navigationController?.navigationBar.shadowImage = UIImage()
 
         setupBackgroundView()
 
@@ -91,10 +87,7 @@ class JournalViewController: UIViewController {
 
         editPanel.dropShadow(opacity: 0.4)
         paletteButton.cornerRadius = paletteButton.frame.width / 2
-        paletteButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
-        likeButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
         likeButton.cornerRadius = likeButton.frame.width / 2
-        journalButton.dropShadow(opacity: 0.2, width: 3, height: 3, radius: 3)
         journalButton.cornerRadius = likeButton.frame.width / 2
     }
 
@@ -226,11 +219,7 @@ class JournalViewController: UIViewController {
 
             self.collapseButton.isHidden = !self.isEditPanelExpand
 
-            self.paletteButton.isHidden = self.isEditPanelExpand
-
-            self.likeButton.isHidden = self.isEditPanelExpand
-
-            self.journalButton.isHidden = self.isEditPanelExpand
+            self.buttonStack.isHidden = self.isEditPanelExpand
 
             self.view.layoutIfNeeded()
         }
@@ -379,7 +368,7 @@ extension JournalViewController {
         NSLayoutConstraint.activate([
             collapseButton.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
             collapseButton.topAnchor.constraint(equalTo: editPanel.bottomAnchor, constant: 32),
-            collapseButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1),
+            collapseButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
             collapseButton.heightAnchor.constraint(equalTo: collapseButton.widthAnchor)])
     }
 
@@ -393,8 +382,7 @@ extension JournalViewController {
         buttons.forEach {
             buttonStack.addArrangedSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.backgroundColor = .white
-            $0.isHidden = isEditPanelExpand
+            $0.backgroundColor = .M2
             $0.cornerRadius = CornerRadius.standard.rawValue
         }
 

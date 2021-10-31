@@ -52,6 +52,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
           tableView.sectionHeaderTopPadding = 0
         }
+
+        navigationController?.setupBackButton(color: .gray)
     }
 
     override func viewDidLayoutSubviews() {
