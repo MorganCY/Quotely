@@ -58,6 +58,8 @@ enum SFSymbol: String {
     case textScanner = "text.viewfinder"
     case fileScanner = "doc.text.viewfinder"
     case addPost = "plus.square"
+    case delete = "trash"
+    case dislike = "heart.slash"
 }
 
 extension UIImage {
