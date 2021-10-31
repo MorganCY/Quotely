@@ -15,7 +15,7 @@ class ExploreViewController: UIViewController {
     let filters: [PostManager.FilterType] = [.latest, .popular, .following]
     var currentFilter: PostManager.FilterType = .latest {
         didSet {
-            fetchPost(type: currentFilter)
+            addPostListener(type: currentFilter)
         }
     }
 
@@ -62,10 +62,24 @@ class ExploreViewController: UIViewController {
     }
 
     // MARK: Data
+    func addPostListener(type: PostManager.FilterType) {
 
-    func fetchPost(
-        type: PostManager.FilterType
-    ) {
+        PostManager.shared.listenToPostUpdate(type: type) { result in
+
+            switch result {
+
+            case .success(let posts):
+
+                self.postList = posts
+
+            case .failure(let error):
+
+                print(error)
+            }
+        }
+    }
+
+    func fetchPost(type: PostManager.FilterType) {
 
         PostManager.shared.fetchPost(type: type) { result in
 

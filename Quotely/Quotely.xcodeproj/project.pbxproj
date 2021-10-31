@@ -780,6 +780,8 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Quotely/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "請允許訪問以便拍照。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許訪問以便選取照片。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -790,7 +792,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.Quotely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -810,6 +812,8 @@
 				DEVELOPMENT_TEAM = D68W2FWD7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Quotely/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "請允許訪問以便拍照。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許訪問以便選取照片。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -820,7 +824,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.Quotely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
