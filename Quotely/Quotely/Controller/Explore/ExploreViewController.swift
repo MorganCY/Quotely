@@ -12,7 +12,21 @@ import Vision
 
 class ExploreViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
+    let filters: [PostManager.FilterType] = [.latest, .popular, .following]
+    var currentFilter: PostManager.FilterType = .latest
+
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.registerCellWithNib(
+                identifier: ExploreTableViewCell.identifier,
+                bundle: nil)
+            tableView.separatorStyle = .none
+        }
+    }
+
+    let filterView = SelectionView()
 
     var postList: [Post] = [] {
         didSet {
@@ -26,27 +40,30 @@ class ExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.registerCellWithNib(
-            identifier: ExploreTableViewCell.identifier,
-            bundle: nil)
-
-        tableView.dataSource = self
-
-        tableView.delegate = self
-
-        tableView.separatorStyle = .none
-
         navigationItem.title = "探索"
 
-        navigationItem.setupRightBarButton(image: UIImage.sfsymbol(.addPost)!, target: self, action: #selector(addPost(_:)), color: .M1!)
+        filterView.delegate = self
+        filterView.dataSource = self
 
-        listenToPostUpdate()
+        navigationItem.setupRightBarButton(
+            image: UIImage.sfsymbol(.addPost)!,
+            target: self,
+            action: #selector(addPost(_:)),
+            color: .M1!
+        )
+
+        setupFilterView()
+
+        fetchPost(type: .latest)
     }
 
     // MARK: Data
-    func listenToPostUpdate() {
 
-        PostManager.shared.listenToPostUpdate { result in
+    func fetchPost(
+        type: PostManager.FilterType
+    ) {
+
+        PostManager.shared.fetchPost(type: type) { result in
 
             switch result {
 
@@ -56,7 +73,7 @@ class ExploreViewController: UIViewController {
 
             case .failure(let error):
 
-                print("listenData.failure: \(error)")
+                print(error)
             }
         }
     }
@@ -83,6 +100,37 @@ class ExploreViewController: UIViewController {
 
         present(nav, animated: true)
     }
+}
+
+extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate {
+
+    func numberOfButtonsAt(_ view: SelectionView) -> Int { filters.count }
+
+    // swiftlint:disable identifier_name
+    func buttonStyle(_view: SelectionView) -> ButtonStyle { .text }
+
+    func buttonTitle(_ view: SelectionView, index: Int) -> String {
+        filters[index].rawValue
+    }
+
+    func buttonColor(_ view: SelectionView) -> UIColor { .gray }
+
+    func indicatorColor(_ view: SelectionView) -> UIColor { .lightGray }
+
+    func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.4 }
+
+    func didSelectButtonAt(_ view: SelectionView, at index: Int) {
+
+        switch index {
+
+        case 0: return currentFilter = .latest
+        case 1: return currentFilter = .popular
+        case 2: return currentFilter = .following
+        default: return currentFilter = .latest
+        }
+    }
+
+    func shouldSelectButtonAt(_ view: SelectionView, at index: Int) -> Bool { true }
 }
 
 // MARK: TableView
@@ -156,6 +204,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 case .success(let action):
 
                     print(action)
+                    self.fetchPost(type: self.currentFilter)
 
                 case .failure(let error):
 
@@ -193,5 +242,21 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             detailVC.hasLiked = likeUserList.contains("test123456")
         }
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+}
+
+extension ExploreViewController {
+
+    func setupFilterView() {
+
+        view.addSubview(filterView)
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            filterView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            filterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            filterView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filterView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -16)
+        ])
     }
 }

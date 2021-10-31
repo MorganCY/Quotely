@@ -229,15 +229,15 @@ class JournalViewController: UIViewController {
 extension JournalViewController: SelectionViewDataSource {
 
     // swiftlint:disable identifier_name
-    func numberOfButtonsAt(_ view: SelectionView) -> Int {
-        buttonImages.count
-    }
+    func numberOfButtonsAt(_ view: SelectionView) -> Int { buttonImages.count }
 
     func buttonStyle(_view: SelectionView) -> ButtonStyle { .image }
 
     func buttonColor(_ view: SelectionView) -> UIColor { .lightGray }
 
     func indicatorColor(_ view: SelectionView) -> UIColor { .M1 ?? .black }
+
+    func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.8 }
 
     func buttonImage(_ view: SelectionView, index: Int) -> UIImage {
 

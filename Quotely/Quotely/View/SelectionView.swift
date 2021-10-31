@@ -34,6 +34,8 @@ import UIKit
 
     @objc func indicatorColor(_ view: SelectionView) -> UIColor
 
+    @objc func indicatorWidth(_ view: SelectionView) -> CGFloat
+
     @objc optional func heightForButton(_ view: SelectionView) -> CGFloat
 }
 
@@ -187,9 +189,14 @@ class SelectionView: UIView {
 
             indicator.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 2),
 
-            indicator.widthAnchor.constraint(equalTo: buttons[0].widthAnchor, multiplier: 0.8),
-
             indicator.heightAnchor.constraint(equalToConstant: 3)
+        ])
+
+        guard let dataSource = dataSource else { return }
+
+        NSLayoutConstraint.activate([
+
+            indicator.widthAnchor.constraint(equalTo: buttons[0].widthAnchor, multiplier: dataSource.indicatorWidth(self))
         ])
     }
 
@@ -231,21 +238,6 @@ class SelectionView: UIView {
 
 // MARK: ProtocolExtension
 extension SelectionViewDataSource {
-
-    func numberOfButtonsAt(_ view: SelectionView) -> Int {
-
-        return 2
-    }
-
-    func buttonColor(_ view: SelectionView) -> UIColor {
-
-        return .white
-    }
-
-    func indicatorColor(_ view: SelectionView) -> UIColor {
-
-        return .black
-    }
 
     func buttonTitleFont(_ view: SelectionView) -> UIFont {
 
