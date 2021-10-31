@@ -18,6 +18,7 @@ class SwipeViewController: UIViewController {
     }
 
     @IBOutlet weak var loadingLabel: UILabel!
+
     var cardStack = SwipeCardStackView()
     let shareButton = ImageButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
     let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray, hasLabel: true)
@@ -38,6 +39,13 @@ class SwipeViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "瀏覽"
+
+        navigationItem.setupRightBarButton(
+            image: UIImage.sfsymbol(.cards)!,
+            target: self,
+            action: #selector(goToFavoritePage(_:)),
+            color: .M1!
+        )
 
         initialLoadingCards()
         setupCardView()
@@ -157,6 +165,20 @@ class SwipeViewController: UIViewController {
         navigationController?.pushViewController(detailVC, animated: true)
     }
 
+    @objc func goToFavoritePage(_ sender: UIBarButtonItem) {
+
+        guard let favCardVC =
+                UIStoryboard.swipe
+                .instantiateViewController(
+                    withIdentifier: String(describing: FavoriteCardViewController.self)
+                ) as? FavoriteCardViewController else {
+
+                    return
+                }
+
+        show(favCardVC, sender: nil)
+    }
+
     func setupCardView() {
 
         view.addSubview(cardStack)
@@ -164,7 +186,7 @@ class SwipeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70),
+            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
@@ -177,12 +199,10 @@ class SwipeViewController: UIViewController {
         buttons.forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.isEnabled = false
         }
 
         commentButton.addTarget(self, action: #selector(goToDetailPage(_:)), for: .touchUpInside)
-        shareButton.isEnabled = false
-        likeButton.isEnabled = false
-        commentButton.isEnabled = false
 
         view.addSubview(likeNumberLabel)
         view.addSubview(commentNumberLabel)
@@ -190,20 +210,20 @@ class SwipeViewController: UIViewController {
         commentNumberLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            shareButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 30),
+            shareButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20),
             shareButton.leadingAnchor.constraint(equalTo: cardStack.leadingAnchor),
-            shareButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.08),
-            shareButton.heightAnchor.constraint(equalTo: shareButton.widthAnchor),
+            shareButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.12),
+            shareButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.12),
 
             likeButton.topAnchor.constraint(equalTo: shareButton.topAnchor),
             likeButton.centerXAnchor.constraint(equalTo: cardStack.centerXAnchor),
-            likeButton.widthAnchor.constraint(equalTo: shareButton.widthAnchor),
-            likeButton.heightAnchor.constraint(equalTo: shareButton.widthAnchor),
+            likeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.12),
+            likeButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.12),
 
             commentButton.topAnchor.constraint(equalTo: shareButton.topAnchor),
             commentButton.trailingAnchor.constraint(equalTo: cardStack.trailingAnchor),
-            commentButton.widthAnchor.constraint(equalTo: shareButton.widthAnchor),
-            commentButton.heightAnchor.constraint(equalTo: commentButton.widthAnchor),
+            commentButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.12),
+            commentButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.12),
 
             likeNumberLabel.centerXAnchor.constraint(equalTo: likeButton.centerXAnchor),
             likeNumberLabel.topAnchor.constraint(equalTo: likeButton.bottomAnchor, constant: 6),

@@ -31,13 +31,7 @@
                             <constraint firstItem="9Fd-z7-s85" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="gXf-na-yVG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vij-LD-egM">
-                        <barButtonItem key="rightBarButtonItem" title="收藏" id="ExV-3S-zAA">
-                            <connections>
-                                <segue destination="Hd2-qK-GGC" kind="show" id="a2I-1v-fQc"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="vij-LD-egM"/>
                     <connections>
                         <outlet property="loadingLabel" destination="9Fd-z7-s85" id="xpR-Ut-xZf"/>
                     </connections>
@@ -71,7 +65,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lwZ-0Z-Se9">
-                                <rect key="frame" x="0.0" y="108" width="414" height="754"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="798"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
