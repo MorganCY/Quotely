@@ -77,11 +77,11 @@ class WriteViewController: BaseImagePickerViewController {
     var postID: String? {
         didSet {
             guard postID != nil else { return }
-            navTitle = "編輯摘語"
+            navTitle = "編輯"
             navButtonTitle = "更新"
         }
     }
-    private var navTitle = "撰寫摘語"
+    private var navTitle = "撰寫"
     private var navButtonTitle = "分享"
 
     var contentHandler: ((String) -> Void) = {_ in}

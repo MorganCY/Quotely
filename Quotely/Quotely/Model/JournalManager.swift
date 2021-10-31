@@ -90,4 +90,26 @@ class JournalManager {
                 }
             }
     }
+
+    func deleteJournal(
+        journalID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        journals.whereField("journalID", isEqualTo: journalID).getDocuments { querySnapshot, error in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetPost = querySnapshot?.documents.first
+
+                targetPost?.reference.delete()
+
+                completion(.success("Deleted journal"))
+            }
+        }
+    }
 }

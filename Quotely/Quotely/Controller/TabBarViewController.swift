@@ -34,7 +34,7 @@ private enum Tab {
 
         controller.tabBarItem = tabBarItem()
 
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 24.0, left: 0.0, bottom: -6.0, right: 0.0)
+        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 24.0, left: 0.0, bottom: 12.0, right: 0.0)
 
         return controller
     }
@@ -45,28 +45,28 @@ private enum Tab {
 
         case .journal:
             return UITabBarItem(
-                title: nil,
+                title: "隨筆",
                 image: UIImage.sfsymbol(.write),
                 selectedImage: UIImage.sfsymbol(.write)
             )
 
         case .swipe:
             return UITabBarItem(
-                title: nil,
-                image: UIImage.sfsymbol(.cardsNormal),
-                selectedImage: UIImage.sfsymbol(.cardsSelected)
-            )
-
-        case .explore:
-            return UITabBarItem(
-                title: nil,
+                title: "靈感",
                 image: UIImage.sfsymbol(.lightbulbNormal),
                 selectedImage: UIImage.sfsymbol(.lightbulbSelected)
             )
 
+        case .explore:
+            return UITabBarItem(
+                title: "探索",
+                image: UIImage.sfsymbol(.quoteNormal),
+                selectedImage: UIImage.sfsymbol(.quoteSelected)
+            )
+
         case .myAccount:
             return UITabBarItem(
-                title: nil,
+                title: "我的",
                 image: UIImage.sfsymbol(.personNormal),
                 selectedImage: UIImage.sfsymbol(.personSelected)
             )
@@ -86,6 +86,8 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         delegate = self
 
         setupTabbarStyle()
+
+        tabBar.tintColor = .M1
     }
 
     override func viewDidLayoutSubviews() {
