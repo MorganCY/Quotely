@@ -61,6 +61,8 @@ enum SFSymbol: String {
     case delete = "trash"
     case dislike = "heart.slash"
     case cards = "rectangle.on.rectangle.angled"
+    case quoteNormal = "quote.bubble"
+    case quoteSelected = "quote.bubble.fill"
 }
 
 extension UIImage {

@@ -18,6 +18,14 @@ class JournalListTableViewCell: UITableViewCell {
     @IBOutlet weak var journalContent: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
 
+    var isDateDuplicate = false {
+        didSet {
+            dateView.isHidden = isDateDuplicate
+            dateLabel.isHidden = isDateDuplicate
+            monthLabel.isHidden = isDateDuplicate
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -29,15 +37,9 @@ class JournalListTableViewCell: UITableViewCell {
         timeLabel.textColor = .gray
     }
 
-    func layoutCell(
-        date: String,
-        month: String,
-        emoji: UIImage,
-        content: String,
-        time: String
-    ) {
+    func layoutCell(journal: Journal, month: String) {
 
-        dateLabel.text = date
+        dateLabel.text = Date.dateFormatter.string(from: Date.init(milliseconds: journal.createdTime))
         monthLabel.text = {
             switch month {
 
@@ -56,8 +58,24 @@ class JournalListTableViewCell: UITableViewCell {
             default: return ""
             }
         }()
-        emojiImageView.image = emoji
-        journalContent.text = content
-        timeLabel.text = time
+        emojiImageView.image = UIImage.sfsymbol(SFSymbol(rawValue: journal.emoji) ?? .smile) ?? UIImage()
+        journalContent.text = journal.content
+        timeLabel.text = Date.timeFormatter.string(from: Date.init(milliseconds: journal.createdTime))
+    }
+
+    func checkIfHideLabel(
+        row: Journal,
+        previousRow: Journal
+    ) {
+
+        isDateDuplicate = false
+
+        if "\(Date.dateFormatter.string(from: Date.init(milliseconds: row.createdTime)))"
+            ==
+            "\(Date.dateFormatter.string(from: Date.init(milliseconds: previousRow.createdTime)))" {
+
+            isDateDuplicate = true
+        }
+
     }
 }

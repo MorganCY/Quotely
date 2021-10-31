@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 class JournalListViewController: UIViewController {
 
@@ -80,6 +81,22 @@ class JournalListViewController: UIViewController {
             }
         }
     }
+
+    func deleteJournal(journalID: String) {
+
+        JournalManager.shared.deleteJournal(
+            journalID: journalID) { result in
+
+                switch result {
+
+                case .success(let success):
+                    print(success)
+
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
 }
 
 extension JournalListViewController: UICollectionViewDataSource {
@@ -87,6 +104,7 @@ extension JournalListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date()).reversed() as [String]
+        
         return monthlist.count
     }
 
@@ -100,7 +118,9 @@ extension JournalListViewController: UICollectionViewDataSource {
         guard let item = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: JournalListCollectionViewCell.self),
             for: indexPath
-        ) as? JournalListCollectionViewCell else { fatalError("Cannot create item")
+        ) as? JournalListCollectionViewCell else {
+
+            fatalError("Cannot create item")
         }
 
         item.layoutItem(month: monthlist[indexPath.item])
@@ -111,7 +131,11 @@ extension JournalListViewController: UICollectionViewDataSource {
 
 extension JournalListViewController: UICollectionViewDelegate {
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
 
         cell.alpha = 0
 
@@ -159,7 +183,7 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
+        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.3, delayFactor: 0.1)
         let animator = Animator(animation: animation)
             animator.animate(cell: cell, at: indexPath, in: tableView)
     }
@@ -179,18 +203,59 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
         let row = indexPath.row
 
-        cell.layoutCell(
-            date: Date.dateFormatter.string(from: Date.init(milliseconds: journals[row].createdTime)),
-            month: selectedMonth,
-            emoji: UIImage.sfsymbol(SFSymbol(rawValue: journals[row].emoji) ?? .smile) ?? UIImage(),
-            content: journals[row].content,
-            time: Date.timeFormatter.string(from: Date.init(milliseconds: journals[row].createdTime))
-        )
+        cell.layoutCell(journal: journals[row], month: selectedMonth)
+
+        if row == 0 {
+
+            cell.isDateDuplicate = false
+
+        } else if row >= 1 {
+
+            cell.checkIfHideLabel(row: journals[row], previousRow: journals[row-1])
+        }
 
         return cell
     }
 
+    func tableView(
+        _ tableView: UITableView,
+        contextMenuConfigurationForRowAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+
+        let share = UIAction(title: "分享至社群",
+                             image: UIImage.sfsymbol(.shareNormal)) { _ in
+
+            Toast.showFailure(text: "建置中")
+        }
+
+        let delete = UIAction(title: "刪除",
+                              image: UIImage.sfsymbol(.delete),
+                              attributes: .destructive) { _ in
+
+            let alert = UIAlertController(title: "要刪除嗎？", message: nil, preferredStyle: .alert)
+
+            let alertAction = UIAlertAction(title: "刪除", style: .destructive) { _ in
+
+                self.deleteJournal(journalID: self.journals[indexPath.row].journalID ?? "")
+                self.journals.remove(at: indexPath.row)
+            }
+
+            alert.addAction(UIAlertAction.init(title: "取消", style: .cancel, handler: nil))
+
+            alert.addAction(alertAction)
+
+            self.present(alert, animated: true, completion: nil)
+        }
+
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+
+            UIMenu(title: "", children: [share, delete])
+        }
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
         UITableView.automaticDimension
     }
 }

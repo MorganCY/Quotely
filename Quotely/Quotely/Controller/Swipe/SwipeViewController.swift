@@ -38,7 +38,7 @@ class SwipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "瀏覽"
+        navigationItem.title = "靈感"
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.cards)!,

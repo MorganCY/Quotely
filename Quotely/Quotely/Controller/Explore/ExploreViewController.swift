@@ -13,7 +13,11 @@ import Vision
 class ExploreViewController: UIViewController {
 
     let filters: [PostManager.FilterType] = [.latest, .popular, .following]
-    var currentFilter: PostManager.FilterType = .latest
+    var currentFilter: PostManager.FilterType = .latest {
+        didSet {
+            fetchPost(type: currentFilter)
+        }
+    }
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
