@@ -159,7 +159,8 @@ class JournalViewController: UIViewController {
 
             } else {
 
-                self.dailyQuoteLabel.text = defaults.string(forKey: "LastJournalQuote")
+                self.dailyQuoteLabel.text = defaults.string(forKey: "LastJournalQuote")?
+                    .replacingOccurrences(of: "\\n", with: "\n")
             }
 
         } else {
@@ -178,7 +179,7 @@ class JournalViewController: UIViewController {
 
                 case .success(let cards):
 
-                    let lastJournalQuote = "\(cards.first?.content ?? "")\n\n\(cards.first?.author ?? "")"
+                    let lastJournalQuote = "\(cards.first?.content.replacingOccurrences(of: "\\n", with: "\n") ?? "")\n\n\(cards.first?.author ?? "")"
 
                     self.defaults.set(lastJournalQuote, forKey: "LastJournalQuote")
 
