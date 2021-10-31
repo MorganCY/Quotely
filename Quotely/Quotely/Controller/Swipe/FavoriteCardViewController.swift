@@ -82,27 +82,6 @@ class FavoriteCardViewController: UIViewController {
         }
     }
 
-    func goToDetailPage(index: Int) {
-
-        guard let detailVC =
-                UIStoryboard.swipe
-                .instantiateViewController(
-                    withIdentifier: String(describing: CardDetailViewController.self)
-                ) as? CardDetailViewController else {
-
-                    return
-                }
-
-        let card = likeCardList[index]
-
-        detailVC.cardID = card.cardID
-        detailVC.hasLiked = card.likeUser.contains("test123456") ? true : false
-        detailVC.uid = "test123456"
-        detailVC.content = "\(card.content)\n\n\n\(card.author)"
-
-        navigationController?.pushViewController(detailVC, animated: true)
-    }
-
     func disLikeCard(index: Int) {
 
         let card = likeCardList[index]
@@ -143,6 +122,27 @@ class FavoriteCardViewController: UIViewController {
                 }
             }
     }
+
+    func goToDetailPage(index: Int) {
+
+        guard let detailVC =
+                UIStoryboard.swipe
+                .instantiateViewController(
+                    withIdentifier: String(describing: CardDetailViewController.self)
+                ) as? CardDetailViewController else {
+
+                    return
+                }
+
+        let card = likeCardList[index]
+
+        detailVC.cardID = card.cardID
+        detailVC.hasLiked = card.likeUser.contains("test123456") ? true : false
+        detailVC.uid = "test123456"
+        detailVC.content = "\(card.content)\n\n\n\(card.author)"
+
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate {
@@ -180,27 +180,31 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
             animator.animate(cell: cell, at: indexPath, in: tableView)
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
 
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-        alert.addAction(UIAlertAction(title: "查看討論", style: .default, handler: { _ in
+        let comment = UIAction(title: "查看討論",
+                               image: UIImage.sfsymbol(.comment)) { _ in
 
             self.goToDetailPage(index: indexPath.row)
-        }))
+        }
 
-        alert.addAction(UIAlertAction(title: "分享至社群", style: .default, handler: { _ in
+        let share = UIAction(title: "分享至社群",
+                             image: UIImage.sfsymbol(.shareNormal)) { _ in
 
             Toast.showFailure(text: "建置中")
-        }))
+        }
 
-        alert.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { _ in
+        let delete = UIAction(title: "不喜歡",
+                              image: UIImage.sfsymbol(.dislike),
+                              attributes: .destructive) { _ in
 
             self.disLikeCard(index: indexPath.row)
-        }))
+        }
 
-        alert.addAction(UIAlertAction.init(title: "取消", style: .cancel, handler: nil))
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
 
-        self.present(alert, animated: true, completion: nil)
+            UIMenu(title: "", children: [comment, share, delete])
+
+        }
     }
 }
