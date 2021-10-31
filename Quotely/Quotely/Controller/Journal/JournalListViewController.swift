@@ -50,6 +50,8 @@ class JournalListViewController: UIViewController {
 
         fetchJournals()
 
+        navigationController?.setupBackButton(color: .white)
+
         tabBarController?.tabBar.isHidden = true
 
         collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .left)

@@ -34,10 +34,10 @@ class FavoriteCardViewController: UIViewController {
         super.viewDidLoad()
 
         fetchUserInfo()
+
         self.view.backgroundColor = .M1
 
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.setupBackButton(color: .white)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -164,7 +164,7 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         cell.layoutCell(
             imageUrl: likeCardList[indexPath.row].imageUrl ?? "",
-            content: likeCardList[indexPath.row].content,
+            content: likeCardList[indexPath.row].content.replacingOccurrences(of: "\\n", with: "\n"),
             author: likeCardList[indexPath.row].author
         )
 

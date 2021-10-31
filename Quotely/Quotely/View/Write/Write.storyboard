@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="125.89285714285714"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Base Navigation Controller-->
         <scene sceneID="Z7t-TF-gqX">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7yQ-Te-WnY" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7yQ-Te-WnY" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="iaw-cG-N5R">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -80,10 +80,10 @@
             </objects>
             <point key="canvasLocation" x="1048" y="834"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Base Navigation Controller-->
         <scene sceneID="Phw-wM-VFJ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I6A-xX-oUV" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I6A-xX-oUV" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="XSk-Ri-ayg">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

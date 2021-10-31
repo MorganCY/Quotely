@@ -4,8 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,49 +21,18 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="g9W-qa-TTA">
-                                <rect key="frame" x="325" y="773" width="73" height="73"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jqc-9u-5FW">
-                                        <rect key="frame" x="0.0" y="0.0" width="73" height="73"/>
-                                        <color key="backgroundColor" name="M1"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="Jqc-9u-5FW" secondAttribute="height" multiplier="1:1" id="eX8-tL-vBb"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="">
-                                            <imageReference key="image" image="square.and.pencil" catalog="system" symbolScale="default"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font" scale="default" weight="regular">
-                                                <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="40"/>
-                                            </preferredSymbolConfiguration>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="addPost:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="vGG-xA-Gxb"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="Jqc-9u-5FW" firstAttribute="width" secondItem="Jqc-9u-5FW" secondAttribute="height" multiplier="1:1" id="Tig-AI-dQE"/>
-                                    <constraint firstItem="Jqc-9u-5FW" firstAttribute="width" secondItem="Jqc-9u-5FW" secondAttribute="height" multiplier="1:1" id="Yze-h5-c0d"/>
-                                </constraints>
-                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bvf-Gv-ruw" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Kqv-WW-1An"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="g9W-qa-TTA" secondAttribute="trailing" constant="16" id="Lv8-4i-0wC"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="bvf-Gv-ruw" secondAttribute="trailing" id="PST-JU-G7I"/>
                             <constraint firstItem="bvf-Gv-ruw" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="TW8-vV-jwX"/>
-                            <constraint firstItem="Jqc-9u-5FW" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.176329" id="adq-2u-OZ4"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="g9W-qa-TTA" secondAttribute="bottom" constant="16" id="jfa-9V-Ofx"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="bvf-Gv-ruw" secondAttribute="bottom" id="pvs-Da-Eye"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YxJ-g2-Xcs"/>
                     <connections>
-                        <outlet property="addPostButton" destination="Jqc-9u-5FW" id="rO2-vt-Gdp"/>
                         <outlet property="tableView" destination="bvf-Gv-ruw" id="jOb-Cl-9kQ"/>
                     </connections>
                 </viewController>
@@ -89,10 +56,10 @@
             </objects>
             <point key="canvasLocation" x="1855.072463768116" y="125.89285714285714"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Base Navigation Controller-->
         <scene sceneID="VUX-yS-M3a">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YEL-5D-CSV" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YEL-5D-CSV" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KBR-0l-abl">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -109,10 +76,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="square.and.pencil" catalog="system" width="128" height="115"/>
-        <namedColor name="M1">
-            <color red="0.45882352941176469" green="0.49411764705882355" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -34,7 +34,7 @@
                     <navigationItem key="navigationItem" id="vij-LD-egM">
                         <barButtonItem key="rightBarButtonItem" title="收藏" id="ExV-3S-zAA">
                             <connections>
-                                <segue destination="Hd2-qK-GGC" kind="show" id="F0c-2a-KvU"/>
+                                <segue destination="Hd2-qK-GGC" kind="show" id="a2I-1v-fQc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -60,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IuR-sM-QtF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1799" y="126"/>
+            <point key="canvasLocation" x="1048" y="804"/>
         </scene>
         <!--Favorite Card View Controller-->
         <scene sceneID="WMI-Fk-bw8">
@@ -91,12 +91,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amp-zs-Ugy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1799" y="836"/>
+            <point key="canvasLocation" x="1932" y="126"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Base Navigation Controller-->
         <scene sceneID="NmJ-Jl-LHl">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Ie-uf-mnA" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Ie-uf-mnA" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KhU-JF-SAV">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

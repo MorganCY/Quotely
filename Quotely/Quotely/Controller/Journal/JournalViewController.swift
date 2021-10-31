@@ -58,10 +58,6 @@ class JournalViewController: UIViewController {
 
         view.backgroundColor = UIColor.BG
 
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-
-        navigationController?.navigationBar.shadowImage = UIImage()
-
         setupBackgroundView()
 
         setupEditPanel()
