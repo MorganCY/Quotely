@@ -29,14 +29,6 @@ class CardDetailViewController: BaseDetailViewController {
 
         let likeAction: LikeAction = hasLiked ? .dislike : .like
 
-        let buttonImage: UIImage = hasLiked
-        ?
-        UIImage.sfsymbol(.heartNormal)! :
-        UIImage.sfsymbol(.heartSelected)!
-
-        let buttonColor: UIColor = hasLiked
-        ? .gray : .red
-
         hasLiked.toggle()
 
         guard let cardID = cardID else { return }
@@ -52,14 +44,6 @@ class CardDetailViewController: BaseDetailViewController {
             case .success(let success):
 
                 print(success)
-
-                UIView.animate(
-                    withDuration: 1 / 3, delay: 0,
-                    options: .curveEaseIn) { [weak self] in
-
-                        self?.likeButton.setBackgroundImage(buttonImage, for: .normal)
-                        self?.likeButton.tintColor = buttonColor
-                    }
 
             case .failure(let error):
 

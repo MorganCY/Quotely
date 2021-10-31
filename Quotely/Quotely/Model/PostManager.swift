@@ -11,11 +11,17 @@ import FirebaseFirestore
 enum LikeAction: Int64 {
 
     case like = 1
-
     case dislike = -1
 }
 
 class PostManager {
+
+    enum FilterType: String {
+
+        case latest = "最新"
+        case popular = "熱門"
+        case following = "追蹤"
+    }
 
     static let shared = PostManager()
 
@@ -78,36 +84,80 @@ class PostManager {
         }
     }
 
-    func fetchPost(completion: @escaping (Result<[Post], Error>) -> Void) {
+    func fetchPost(type: FilterType, completion: @escaping (Result<[Post], Error>) -> Void) {
 
-        posts.order(by: "createdTime", descending: true).getDocuments { (querySnapshot, error) in
+        switch type {
 
-            if let error = error {
+        case .latest:
 
-                completion(.failure(error))
+            posts
+                .order(by: "createdTime", descending: true)
+                .getDocuments { (querySnapshot, error) in
 
-            } else {
+                if let error = error {
 
-                var posts = [Post]()
+                    completion(.failure(error))
 
-                for document in querySnapshot!.documents {
+                } else {
 
-                    do {
-                        if let post = try document.data(
-                            as: Post.self, decoder: Firestore.Decoder()
-                        ) {
+                    var posts = [Post]()
 
-                            posts.append(post)
+                    for document in querySnapshot!.documents {
+
+                        do {
+                            if let post = try document.data(
+                                as: Post.self, decoder: Firestore.Decoder()
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
                         }
-
-                    } catch {
-
-                        completion(.failure(error))
                     }
-                }
 
-                completion(.success(posts))
+                    completion(.success(posts))
+                }
             }
+
+        case .popular:
+
+            posts
+                .order(by: "likeNumber", descending: true)
+                .order(by: "createdTime", descending: true)
+                .getDocuments { (querySnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in querySnapshot!.documents {
+
+                        do {
+                            if let post = try document.data(
+                                as: Post.self, decoder: Firestore.Decoder()
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+
+                    completion(.success(posts))
+                }
+            }
+
+        case .following: break
         }
     }
 
@@ -167,36 +217,83 @@ class PostManager {
         }
     }
 
-    func listenToPostUpdate(completion: @escaping (Result<[Post], Error>) -> Void) {
+    func listenToPostUpdate(
+        type: FilterType,
+        completion: @escaping (Result<[Post], Error>
+        ) -> Void) {
 
-        posts.order(by: "createdTime", descending: true).addSnapshotListener { (documentSnapshot, error) in
+        switch type {
 
-            if let error = error {
+        case .latest:
 
-                completion(.failure(error))
+            posts
+                .order(by: "createdTime", descending: true)
+                .addSnapshotListener { (documentSnapshot, error) in
 
-            } else {
+                if let error = error {
 
-                var posts = [Post]()
+                    completion(.failure(error))
 
-                for document in documentSnapshot!.documents {
+                } else {
 
-                    do {
+                    var posts = [Post]()
 
-                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+                    for document in documentSnapshot!.documents {
 
-                        ) {
+                        do {
 
-                            posts.append(post)
+                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
                         }
-
-                    } catch {
-
-                        completion(.failure(error))
                     }
+                    completion(.success(posts))
                 }
-                completion(.success(posts))
             }
+
+        case .popular:
+
+            posts
+                .order(by: "likeNumber", descending: true)
+                .order(by: "createdTime", descending: true)
+                .addSnapshotListener { (documentSnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in documentSnapshot!.documents {
+
+                        do {
+
+                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+                    completion(.success(posts))
+                }
+            }
+
+        case.following: break
         }
     }
 }

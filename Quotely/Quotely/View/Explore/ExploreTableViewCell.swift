@@ -19,6 +19,8 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
+    @IBOutlet weak var likeNumberLabel: UILabel!
+    @IBOutlet weak var commentNumberLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,7 +49,7 @@ class ExploreTableViewCell: UITableViewCell {
     ) {
 
         let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = hasLiked ? .red : .gray
+        let buttonColor: UIColor = hasLiked ? UIColor.M2! : .gray
 
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
@@ -78,11 +80,6 @@ class ExploreTableViewCell: UITableViewCell {
             userImageView.image = UIImage.sfsymbol(.personNormal)
         }
 
-        if let likeNumber = post.likeNumber,
-           let commentNumber = post.commentNumber {
-
-            likeButton.setTitle("\(likeNumber)", for: .normal)
-            commentButton.setTitle("\(commentNumber)", for: .normal)
-        }
+        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
     }
 }

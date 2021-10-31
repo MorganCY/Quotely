@@ -14,8 +14,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     let commentPanel = UIView()
     let userImageView = UIImageView()
     let commentTextField = CommentTextField()
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .gray)
-    let submitButton = ImageButton(image: UIImage.sfsymbol(.send)!, color: .blue)
+    let submitButton = ImageButton(image: UIImage.sfsymbol(.send)!, color: .M2!)
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -75,8 +74,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.registerCellWithNib(
             identifier: BaseDetailCommentCell.identifier, bundle: nil
         )
-
-        setupLikeButtonState()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,29 +88,9 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @objc func addComment(_ sender: UIButton) {
 
         commentTextField.resignFirstResponder()
-
-        displayButtons()
-    }
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-
-        displayButtons()
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-
-        displayButtons()
     }
 
     // MARK: SetupViews
-    func setupLikeButtonState() {
-
-        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = hasLiked ?  .red : .gray
-
-        likeButton.setBackgroundImage(buttonImage, for: .normal)
-        likeButton.tintColor = buttonColor
-    }
 
     func setupTableVIew() {
 
@@ -136,7 +113,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func layoutCommentPanel() {
 
         let commentPanelObject = [
-            commentPanel, userImageView, commentTextField, likeButton, submitButton
+            commentPanel, userImageView, commentTextField, submitButton
         ]
 
         commentPanelObject.forEach {
@@ -161,18 +138,13 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
             commentTextField.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
             commentTextField.heightAnchor.constraint(equalTo: userImageView.heightAnchor),
-            commentTextField.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -10),
+            commentTextField.trailingAnchor.constraint(equalTo: submitButton.leadingAnchor, constant: -10),
             commentTextField.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
-
-            likeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            likeButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
-            likeButton.widthAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1),
-            likeButton.heightAnchor.constraint(equalTo: likeButton.widthAnchor),
 
             submitButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
             submitButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
             submitButton.widthAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1),
-            submitButton.heightAnchor.constraint(equalTo: likeButton.widthAnchor)
+            submitButton.heightAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1)
         ])
 
         commentPanel.backgroundColor = .white
@@ -180,21 +152,11 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         userImageView.backgroundColor = .gray
         userImageView.image = userImage
         commentTextField.delegate = self
-        submitButton.isHidden = true
 
-        likeButton.addTarget(
-            self, action: #selector(like(_:)), for: .touchUpInside)
         submitButton.addTarget(
             self, action: #selector(addComment(_:)),
             for: .touchUpInside
         )
-    }
-
-    func displayButtons() {
-
-        likeButton.isHidden = commentTextField.isFirstResponder
-        ? true : false
-        submitButton.isHidden = commentTextField.isFirstResponder ? false : true
     }
 
     // MARK: TableView
