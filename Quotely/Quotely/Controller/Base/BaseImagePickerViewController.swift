@@ -24,8 +24,6 @@ class BaseImagePickerViewController: UIViewController,
 
     @objc func openImagePicker(_ sender: UIButton) {
 
-        print("clicked")
-
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         alert.addAction(UIAlertAction(title: "打開相機", style: .default, handler: { _ in
