@@ -66,7 +66,7 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
             userImageView.image = userImage
             userNameLabel.text = name
-            timeLabel.text = Date.dateFormatter.string(from: Date.init(milliseconds: time))
+            timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: time))
 
             userImageView.cornerRadius = userImageView.frame.width / 2
         }

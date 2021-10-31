@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Ie-uf-mnA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Ie-uf-mnA">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,26 +23,17 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每天只有六張卡片喔！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsS-sY-UdR">
-                                <rect key="frame" x="97" y="392.5" width="220" height="31"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="22"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9Fd-z7-s85" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="HSc-od-ShF"/>
-                            <constraint firstItem="vsS-sY-UdR" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" constant="-40" id="Ma0-KG-EFI"/>
-                            <constraint firstItem="vsS-sY-UdR" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="VD2-5L-qvv"/>
                             <constraint firstItem="9Fd-z7-s85" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="gXf-na-yVG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vij-LD-egM"/>
                     <connections>
                         <outlet property="loadingLabel" destination="9Fd-z7-s85" id="xpR-Ut-xZf"/>
-                        <outlet property="reminderLabel" destination="vsS-sY-UdR" id="gyW-V1-41i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -63,12 +54,43 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IuR-sM-QtF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1887" y="126"/>
+            <point key="canvasLocation" x="1048" y="804"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Favorite Card View Controller-->
+        <scene sceneID="WMI-Fk-bw8">
+            <objects>
+                <viewController storyboardIdentifier="FavoriteCardViewController" id="Hd2-qK-GGC" customClass="FavoriteCardViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b7H-2E-JSD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lwZ-0Z-Se9">
+                                <rect key="frame" x="0.0" y="64" width="414" height="798"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5ju-MW-e6G"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="lwZ-0Z-Se9" firstAttribute="top" secondItem="5ju-MW-e6G" secondAttribute="top" constant="20" id="6SV-fW-eik"/>
+                            <constraint firstItem="lwZ-0Z-Se9" firstAttribute="bottom" secondItem="5ju-MW-e6G" secondAttribute="bottom" id="7S1-fd-BaD"/>
+                            <constraint firstItem="5ju-MW-e6G" firstAttribute="trailing" secondItem="lwZ-0Z-Se9" secondAttribute="trailing" id="7o5-rW-mPW"/>
+                            <constraint firstItem="lwZ-0Z-Se9" firstAttribute="leading" secondItem="5ju-MW-e6G" secondAttribute="leading" id="il1-tr-Rjb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="jWz-b6-x6h"/>
+                    <connections>
+                        <outlet property="tableView" destination="lwZ-0Z-Se9" id="cd8-of-ge6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="amp-zs-Ugy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1932" y="126"/>
+        </scene>
+        <!--Base Navigation Controller-->
         <scene sceneID="NmJ-Jl-LHl">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Ie-uf-mnA" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Ie-uf-mnA" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KhU-JF-SAV">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

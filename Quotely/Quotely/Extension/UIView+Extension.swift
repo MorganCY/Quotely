@@ -9,7 +9,7 @@ import UIKit
 
 enum CornerRadius: CGFloat {
 
-    case standard = 10.0
+    case standard = 15.0
 }
 
 extension UIView {
@@ -50,7 +50,85 @@ extension UIView {
         }
     }
 
-    // Shadow settings
+    func setSpecificCorner(radius: CGFloat = CornerRadius.standard.rawValue, corners: UIRectCorner) {
+
+        self.layer.cornerRadius = radius
+
+        if #available(iOS 11.0, *) {
+
+            var arr: CACornerMask = []
+
+            let allCorners: [UIRectCorner] = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+
+            for corn in allCorners {
+                if corners.contains(corn) {
+                    switch corn {
+                    case .topLeft:
+                        arr.insert(.layerMinXMinYCorner)
+                    case .topRight:
+                        arr.insert(.layerMaxXMinYCorner)
+                    case .bottomLeft:
+                        arr.insert(.layerMinXMaxYCorner)
+                    case .bottomRight:
+                        arr.insert(.layerMaxXMaxYCorner)
+                    default: break
+                    }
+                }
+            }
+
+            self.layer.maskedCorners = arr
+
+        } else {
+
+            self.roundCornersBezierPath(corners: corners, radius: radius)
+        }
+    }
+
+    private func roundCornersBezierPath(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(
+            roundedRect: bounds,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
+}
+
+extension UIView {
+
+    func stickSubView(_ objectView: UIView) {
+
+        objectView.removeFromSuperview()
+
+        addSubview(objectView)
+
+        objectView.translatesAutoresizingMaskIntoConstraints = false
+
+        objectView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+
+        objectView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+
+        objectView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+
+        objectView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+}
+
+// Shadow settings
+extension UIView {
+
+    func dropShadow(opacity: Float = 0.3, width: Int = 4, height: Int = 4, radius: CGFloat = 8) {
+        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowOpacity = opacity
+        layer.shadowOffset = CGSize(width: width, height: height)
+        layer.shadowRadius = radius
+//        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+    }
+
     @IBInspectable var shadowColor: CGColor? {
         get {
             return layer.shadowColor
@@ -76,39 +154,5 @@ extension UIView {
         set {
             layer.shadowOffset = newValue
         }
-    }
-}
-
-extension UIView {
-
-    func stickSubView(_ objectView: UIView) {
-
-        objectView.removeFromSuperview()
-
-        addSubview(objectView)
-
-        objectView.translatesAutoresizingMaskIntoConstraints = false
-
-        objectView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-
-        objectView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-
-        objectView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-
-        objectView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-    }
-}
-
-extension UIView {
-
-    func dropShadow() {
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.5
-        layer.shadowOffset = CGSize(width: -1, height: 1)
-        layer.shadowRadius = 1
-        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
     }
 }

@@ -32,14 +32,6 @@ class PostDetailViewController: BaseDetailViewController {
 
         let likeAction: LikeAction = hasLiked ? .dislike : .like
 
-        let buttonImage: UIImage = hasLiked
-        ?
-        UIImage.sfsymbol(.heartNormal)! :
-        UIImage.sfsymbol(.heartSelected)!
-
-        let buttonColor: UIColor = hasLiked
-        ? .gray : .red
-
         hasLiked.toggle()
 
         PostManager.shared.updateLikes(postID: postID, likeAction: likeAction) { result in
@@ -49,14 +41,6 @@ class PostDetailViewController: BaseDetailViewController {
             case .success(let action):
 
                 print(action)
-
-                UIView.animate(
-                    withDuration: 1 / 3, delay: 0,
-                    options: .curveEaseIn) { [weak self] in
-
-                        self?.likeButton.setBackgroundImage(buttonImage, for: .normal)
-                        self?.likeButton.tintColor = buttonColor
-                    }
 
             case .failure(let error):
 
@@ -82,8 +66,6 @@ class PostDetailViewController: BaseDetailViewController {
             PostCommentManager.shared.addComment(
                 comment: &comment
             ) { _ in
-
-                Toast.showSuccess(text: "已發布")
 
                 self.commentTextField.text = ""
 
@@ -216,7 +198,7 @@ class PostDetailViewController: BaseDetailViewController {
             isAuthor: isAuthor,
             editTime: comments[row].editTime)
 
-        cell.noSelectionStyle()
+        cell.hideSelectionStyle()
 
         cell.editHandler = { text in
 
