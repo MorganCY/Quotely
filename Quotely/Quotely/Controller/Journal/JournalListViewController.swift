@@ -22,7 +22,7 @@ class JournalListViewController: UIViewController {
         }
     }
     var selectedYear = Date().getCurrentTime(format: .yyyy)
-    let startDate = DateComponents(calendar: .current, year: 2021, month: 2, day: 2).date!
+    let startDate = DateComponents(calendar: .current, year: 2021, month: 2, day: 1).date!
 
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -103,8 +103,8 @@ extension JournalListViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date()).reversed() as [String]
-        
+        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))).reversed() as [String]
+
         return monthlist.count
     }
 
@@ -113,7 +113,7 @@ extension JournalListViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
 
-        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date()).reversed() as [String]
+        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))).reversed() as [String]
 
         guard let item = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: JournalListCollectionViewCell.self),
