@@ -232,7 +232,7 @@ extension JournalViewController: SelectionViewDataSource {
     // swiftlint:disable identifier_name
     func numberOfButtonsAt(_ view: SelectionView) -> Int { buttonImages.count }
 
-    func buttonStyle(_view: SelectionView) -> ButtonStyle { .image }
+    func buttonStyle(_ view: SelectionView) -> ButtonStyle { .image }
 
     func buttonColor(_ view: SelectionView) -> UIColor { .lightGray }
 
@@ -251,9 +251,7 @@ extension JournalViewController: SelectionViewDelegate {
 
     func didSelectButtonAt(_ view: SelectionView, at index: Int) {
 
-        view.buttons.forEach {
-            $0.tintColor = .lightGray
-        }
+        view.buttons.forEach { $0.tintColor = .lightGray }
         view.buttons[index].tintColor = .black
 
         if isEditPanelExpand == false {
@@ -278,8 +276,8 @@ extension JournalViewController: SelectionViewDelegate {
 extension JournalViewController: UITextViewDelegate {
 
     func textViewDidBeginEditing(_ textView: UITextView) {
+
         isEditPanelExpand = journalTextView.isFirstResponder
-        ? true : false
     }
 }
 
@@ -290,6 +288,9 @@ extension JournalViewController {
 
         dateLabel.text = "\(Date().getCurrentTime(format: .dd))"
         monthLabel.text = "\(Date().getCurrentTime(format: .MM))月"
+
+        dateLabel.textColor = .M2
+        monthLabel.textColor = .M2
     }
 
     func setupEditPanel() {

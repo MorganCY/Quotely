@@ -422,6 +422,7 @@ PODS:
   - JGProgressHUD (2.2)
   - Kingfisher (7.1.1)
   - leveldb-library (1.22.1)
+  - lottie-ios (3.2.3)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -439,6 +440,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - JGProgressHUD
   - Kingfisher
+  - lottie-ios
   - SwiftLint
   - "UITextView+Placeholder"
 
@@ -462,6 +464,7 @@ SPEC REPOS:
     - JGProgressHUD
     - Kingfisher
     - leveldb-library
+    - lottie-ios
     - nanopb
     - PromisesObjC
     - SwiftLint
@@ -486,11 +489,12 @@ SPEC CHECKSUMS:
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SwiftLint: e5c7f1fba68eccfc51509d5b2ce1699f5502e0c7
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: 6b663eb9bce69a3d3b0c9ccf711e27f11b3d3d74
+PODFILE CHECKSUM: 0eeaae377ac44266cb1d9d094cf0e6e89bef0f7c
 
 COCOAPODS: 1.11.2

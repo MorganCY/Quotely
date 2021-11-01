@@ -81,9 +81,9 @@ extension Date {
         to end: Date
     ) -> [String] {
 
-        var allDates: [String] = []
+        var allMonths: [String] = []
 
-        guard start < end else { return allDates }
+        guard start < end else { return allMonths }
 
         let calendar = Calendar.current
 
@@ -93,9 +93,9 @@ extension Date {
 
             if let date = calendar.date(byAdding: .month, value: i, to: start) {
 
-                allDates.append(Date.monthFormatter.string(from: date))
+                allMonths.append(Date.monthFormatter.string(from: date))
             }
         }
-        return allDates
+        return allMonths
     }
 }

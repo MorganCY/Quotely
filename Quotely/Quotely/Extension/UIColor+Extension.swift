@@ -5,8 +5,8 @@ enum BaseColor: String {
 
     // swiftlint:disable identifier_name
     case BG
-    case M1
-    case M2
+    case M1, M2
+    case A1, A2, A3, B1, B2, B3, C1, C2, C3, D1, D2, D3
 }
 
 extension UIColor {

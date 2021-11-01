@@ -384,7 +384,10 @@ class WriteViewController: BaseImagePickerViewController {
 
         case true:
 
-            picker.dismiss(animated: true)
+            picker.dismiss(animated: true) {
+
+                Toast.showLoading(text: "載入中")
+            }
 
             guard !results.isEmpty else { return }
 
