@@ -101,7 +101,7 @@ class SwipeCardView: UIView {
 
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.textColor = .white
-        contentLabel.font = UIFont(name: "PingFang TC", size: 22)
+        contentLabel.font = UIFont(name: "PingFang TC", size: 20)
         contentLabel.numberOfLines = 0
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.textColor = .white
@@ -111,8 +111,7 @@ class SwipeCardView: UIView {
         NSLayoutConstraint.activate([
             contentLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             contentLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            contentLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3),
-            contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
+            contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75),
 
             authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
             authorLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)

@@ -42,6 +42,7 @@ class SwipeViewController: UIViewController {
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.cards)!,
+            text: nil,
             target: self,
             action: #selector(goToFavoritePage(_:)),
             color: .M1!
@@ -165,6 +166,30 @@ class SwipeViewController: UIViewController {
         navigationController?.pushViewController(detailVC, animated: true)
     }
 
+    @objc func goToSharePage(_ sender: UIButton) {
+
+        guard let shareVC =
+                UIStoryboard.share
+                .instantiateViewController(
+                    withIdentifier: String(describing: ShareViewController.self)
+                ) as? ShareViewController else {
+
+            return
+        }
+
+        let card = cards[currentCardIndex]
+        let nav = BaseNavigationController(rootViewController: shareVC)
+
+        shareVC.templateContent = [
+            card.content.replacingOccurrences(of: "\\n", with: "\n"),
+            card.author
+        ]
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
+
     @objc func goToFavoritePage(_ sender: UIBarButtonItem) {
 
         guard let favCardVC =
@@ -203,6 +228,7 @@ class SwipeViewController: UIViewController {
         }
 
         commentButton.addTarget(self, action: #selector(goToDetailPage(_:)), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(goToSharePage(_:)), for: .touchUpInside)
 
         view.addSubview(likeNumberLabel)
         view.addSubview(commentNumberLabel)

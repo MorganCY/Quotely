@@ -51,6 +51,7 @@ class ExploreViewController: UIViewController {
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.addPost)!,
+            text: nil,
             target: self,
             action: #selector(addPost(_:)),
             color: .M1!
@@ -125,7 +126,7 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { filters.count }
 
     // swiftlint:disable identifier_name
-    func buttonStyle(_view: SelectionView) -> ButtonStyle { .text }
+    func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
     func buttonTitle(_ view: SelectionView, index: Int) -> String {
         filters[index].rawValue

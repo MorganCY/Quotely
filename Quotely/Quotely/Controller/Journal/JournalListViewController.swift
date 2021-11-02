@@ -97,13 +97,39 @@ class JournalListViewController: UIViewController {
                 }
             }
     }
+
+    func goToSharePage(content: String, author: String) {
+
+        guard let shareVC =
+                UIStoryboard.share
+                .instantiateViewController(
+                    withIdentifier: String(describing: ShareViewController.self)
+                ) as? ShareViewController else {
+
+            return
+        }
+
+        let nav = BaseNavigationController(rootViewController: shareVC)
+
+        shareVC.templateContent = [
+            content.replacingOccurrences(of: "\\n", with: "\n"),
+            author
+        ]
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
 }
 
 extension JournalListViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))).reversed() as [String]
+        let monthlist = Date.getMonthAndYearBetween(
+            from: startDate,
+            to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))
+        ).reversed() as [String]
 
         return monthlist.count
     }
@@ -113,7 +139,10 @@ extension JournalListViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
 
-        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))).reversed() as [String]
+        let monthlist = Date.getMonthAndYearBetween(
+            from: startDate,
+            to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))
+        ).reversed() as [String]
 
         guard let item = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: JournalListCollectionViewCell.self),
@@ -226,7 +255,7 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
         let share = UIAction(title: "分享至社群",
                              image: UIImage.sfsymbol(.shareNormal)) { _ in
 
-            Toast.showFailure(text: "建置中")
+            self.goToSharePage(content: self.journals[indexPath.row].content, author: "Morgan Yu")
         }
 
         let delete = UIAction(title: "刪除",

@@ -20,7 +20,7 @@ import UIKit
 @objc protocol SelectionViewDataSource: AnyObject {
 
     // swiftlint:disable identifier_name
-    @objc func buttonStyle(_view: SelectionView) -> ButtonStyle
+    @objc func buttonStyle(_ view: SelectionView) -> ButtonStyle
 
     @objc func numberOfButtonsAt(_ view: SelectionView) -> Int
 
@@ -127,7 +127,7 @@ class SelectionView: UIView {
 
             button.addTarget(self, action: #selector(didSelectButton(_:)), for: .touchUpInside)
 
-            switch dataSource?.buttonStyle(_view: self) {
+            switch dataSource?.buttonStyle(self) {
 
             case .text:
 

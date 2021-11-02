@@ -76,6 +76,5 @@ class JournalListTableViewCell: UITableViewCell {
 
             isDateDuplicate = true
         }
-
     }
 }

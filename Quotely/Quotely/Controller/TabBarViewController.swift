@@ -15,7 +15,7 @@ private enum Tab {
 
     case explore
 
-    case myAccount
+    case profile
 
     func controller() -> UIViewController {
 
@@ -29,7 +29,7 @@ private enum Tab {
 
         case .explore: controller = UIStoryboard.explore.instantiateInitialViewController()!
 
-        case .myAccount: controller = UIStoryboard.myAccount.instantiateInitialViewController()!
+        case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
         }
 
         controller.tabBarItem = tabBarItem()
@@ -64,7 +64,7 @@ private enum Tab {
                 selectedImage: UIImage.sfsymbol(.quoteSelected)
             )
 
-        case .myAccount:
+        case .profile:
             return UITabBarItem(
                 title: "我的",
                 image: UIImage.sfsymbol(.personNormal),
@@ -76,7 +76,7 @@ private enum Tab {
 
 class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
-    private let tabs: [Tab] = [.journal, .swipe, .explore, .myAccount]
+    private let tabs: [Tab] = [.journal, .swipe, .explore, .profile]
 
     override func viewDidLoad() {
         super.viewDidLoad()
