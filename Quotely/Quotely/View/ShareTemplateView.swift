@@ -151,6 +151,9 @@ class ShareTemplateView: UIView {
             smallImageView.translatesAutoresizingMaskIntoConstraints = false
             smallImageView.contentMode = .scaleAspectFill
             smallImageView.clipsToBounds = true
+            contentLabel.textAlignment = .center
+            authorLabel.textAlignment = .center
+            quoteLabel.textAlignment = .center
             quoteLabel.textColor = .gray
 
             NSLayoutConstraint.activate([
@@ -161,15 +164,15 @@ class ShareTemplateView: UIView {
                 smallImageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.45),
 
                 contentLabel.topAnchor.constraint(equalTo: smallImageView.bottomAnchor, constant: 32),
-                contentLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
-                contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+                contentLabel.centerXAnchor.constraint(equalTo: smallImageView.centerXAnchor),
+                contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
 
                 authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),
-                authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-                authorLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
+                authorLabel.centerXAnchor.constraint(equalTo: smallImageView.centerXAnchor),
+                authorLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
 
-                quoteLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-                quoteLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
+                quoteLabel.centerXAnchor.constraint(equalTo: smallImageView.centerXAnchor),
+                quoteLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
                 quoteLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 24),
                 quoteLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32)
             ])
