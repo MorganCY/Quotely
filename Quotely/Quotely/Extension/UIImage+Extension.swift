@@ -22,6 +22,8 @@ enum ImageAsset: String {
     case bg3
 
     case bg4
+
+    case plant
 }
 
 enum SFSymbol: String {

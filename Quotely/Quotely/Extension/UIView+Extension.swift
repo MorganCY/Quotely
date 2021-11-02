@@ -124,7 +124,7 @@ extension UIView {
         layer.shadowOpacity = opacity
         layer.shadowOffset = CGSize(width: width, height: height)
         layer.shadowRadius = radius
-//        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
     }

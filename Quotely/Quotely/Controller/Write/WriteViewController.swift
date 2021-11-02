@@ -321,6 +321,7 @@ class WriteViewController: BaseImagePickerViewController {
         picker.dismiss(animated: true) {
 
             Toast.showLoading(text: "載入中")
+            fatalError("Cannot load image")
         }
 
         guard let selectedImage = info[.editedImage] as? UIImage else {

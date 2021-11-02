@@ -54,7 +54,6 @@
 		5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */; };
 		5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */; };
 		5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E627300E3B00B71DA8 /* Share.storyboard */; };
-		5C6CC7E92730199C00B71DA8 /* ShareTemplateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E82730199C00B71DA8 /* ShareTemplateViewController.swift */; };
 		5C7B6395272A798700E18B96 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6394272A798700E18B96 /* UserManager.swift */; };
 		5C7B6397272A799000E18B96 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6396272A799000E18B96 /* User.swift */; };
 		5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */; };
@@ -88,6 +87,7 @@
 		5CE8F1D3272F77950026864C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D2272F77950026864C /* ProfileViewController.swift */; };
 		5CE8F1D5272F79210026864C /* ball.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D4272F79210026864C /* ball.json */; };
 		5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D6272F7BD50026864C /* nothingFound.json */; };
+		5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,7 +142,6 @@
 		5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseImagePickerViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
-		5C6CC7E82730199C00B71DA8 /* ShareTemplateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTemplateViewController.swift; sourceTree = "<group>"; };
 		5C7B6394272A798700E18B96 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		5C7B6396272A799000E18B96 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCardTableViewCell.swift; sourceTree = "<group>"; };
@@ -176,6 +175,7 @@
 		5CE8F1D2272F77950026864C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5CE8F1D4272F79210026864C /* ball.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ball.json; sourceTree = "<group>"; };
 		5CE8F1D6272F7BD50026864C /* nothingFound.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nothingFound.json; sourceTree = "<group>"; };
+		5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTemplateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,6 +303,7 @@
 				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
 				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
 				5CD9DDEF272D3394009618FA /* RowButton.swift */,
+				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
 				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
 				5C7B6398272A84D500E18B96 /* Swipe */,
@@ -395,7 +396,6 @@
 			isa = PBXGroup;
 			children = (
 				5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */,
-				5C6CC7E82730199C00B71DA8 /* ShareTemplateViewController.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -614,7 +614,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C6CC7E92730199C00B71DA8 /* ShareTemplateViewController.swift in Sources */,
 				5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */,
 				5C8C0EA32725AD480054480A /* CardCommentManager.swift in Sources */,
 				5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */,
@@ -657,6 +656,7 @@
 				5C4B9699271FC0D3008B21C7 /* Comment.swift in Sources */,
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,
 				5C2846FB2729B2FA00393562 /* FavoriteCardViewController.swift in Sources */,
+				5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */,
 				5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */,
 				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,
 				5C2846EA2728ED2C00393562 /* JournalListViewController.swift in Sources */,

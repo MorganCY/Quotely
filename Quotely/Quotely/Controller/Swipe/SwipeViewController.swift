@@ -179,8 +179,10 @@ class SwipeViewController: UIViewController {
         let card = cards[currentCardIndex]
         let nav = BaseNavigationController(rootViewController: shareVC)
 
-        shareVC.content = card.content
-        shareVC.author = card.author
+        shareVC.templateContent = [
+            card.content.replacingOccurrences(of: "\\n", with: "\n"),
+            card.author
+        ]
 
         nav.modalPresentationStyle = .fullScreen
 
