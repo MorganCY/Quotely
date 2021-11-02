@@ -85,6 +85,7 @@ class ShareTemplateView: UIView {
         templateImageView.clipsToBounds = true
 
         textBackgroundView.backgroundColor = .white
+        textBackgroundView.cornerRadius = CornerRadius.standard.rawValue
 
         quoteLabel.text = "分享自隻字片語App"
 
@@ -107,13 +108,12 @@ class ShareTemplateView: UIView {
                 textBackgroundView.bottomAnchor.constraint(equalTo: templateImageView.bottomAnchor, constant: -32),
 
                 contentLabel.leadingAnchor.constraint(equalTo: textBackgroundView.leadingAnchor, constant: 24),
-                contentLabel.topAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: 24),
+                contentLabel.topAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: 32),
                 contentLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor, constant: -24),
 
-                authorLabel.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: 24),
+                authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),
                 authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
                 authorLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
-                authorLabel.bottomAnchor.constraint(equalTo: textBackgroundView.bottomAnchor, constant: 24),
 
                 quoteLabel.bottomAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: -8),
                 quoteLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor)

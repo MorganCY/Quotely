@@ -42,6 +42,7 @@ class SwipeViewController: UIViewController {
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.cards)!,
+            text: nil,
             target: self,
             action: #selector(goToFavoritePage(_:)),
             color: .M1!

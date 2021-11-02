@@ -96,6 +96,25 @@ extension UIView {
     }
 }
 
+// Convert View to Image
+extension UIView {
+
+    func convertToImage() -> UIImage {
+
+        let imageRenderer = UIGraphicsImageRenderer(bounds: bounds)
+
+        if let format = imageRenderer.format as? UIGraphicsImageRendererFormat {
+            format.opaque = true
+        }
+
+        let image = imageRenderer.image { context in
+            return layer.render(in: context.cgContext)
+        }
+
+        return image
+    }
+}
+
 extension UIView {
 
     func stickSubView(_ objectView: UIView) {

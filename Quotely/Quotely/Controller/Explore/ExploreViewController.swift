@@ -51,6 +51,7 @@ class ExploreViewController: UIViewController {
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.addPost)!,
+            text: nil,
             target: self,
             action: #selector(addPost(_:)),
             color: .M1!
