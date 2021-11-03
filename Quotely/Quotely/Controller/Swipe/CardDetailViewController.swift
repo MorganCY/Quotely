@@ -136,44 +136,43 @@ class CardDetailViewController: BaseDetailViewController {
             fatalError("Cannot create cell.")
         }
 
-        let row = indexPath.row
+        let comment = comments[indexPath.row]
 
         isAuthor = uid == "test123456" ? true : false
 
         cell.layoutCell(
+            comment: comment,
             userImage: UIImage.asset(.testProfile)!,
             userName: "Morgan Yu",
-            createdTime: comments[row].createdTime,
-            content: comments[row].content,
-            isAuthor: isAuthor,
-            editTime: comments[row].editTime)
+            isAuthor: isAuthor
+        )
 
         cell.hideSelectionStyle()
 
         cell.editHandler = { text in
 
-            guard let cardCommentID = self.comments[row].cardCommentID else { return }
+            guard let cardCommentID = comment.cardCommentID else { return }
 
             CardCommentManager.shared.updateComment( cardCommentID: cardCommentID, newContent: text) { result in
 
-                    switch result {
+                switch result {
 
-                    case .success(let success):
+                case .success(let success):
+                    
+                    print(success)
 
-                        print(success)
+                    self.comments[indexPath.row].content = text
 
-                        self.comments[row].content = text
+                case .failure(let error):
 
-                    case .failure(let error):
-
-                        print(error)
-                    }
+                    print(error)
                 }
+            }
         }
 
         cell.deleteHandler = {
 
-            guard let cardCommentID = self.comments[row].cardCommentID else { return }
+            guard let cardCommentID = self.comments[indexPath.row].cardCommentID else { return }
 
             let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
 

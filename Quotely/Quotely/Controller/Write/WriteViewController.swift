@@ -167,8 +167,10 @@ class WriteViewController: BaseImagePickerViewController {
 
         if !contentTextView.text.isEmpty || hasImage == true {
 
+            guard let uid = SignInManager.shared.uid else { return }
+
             var post = Post(
-                uid: "test123456",
+                uid: uid,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
                 content: contentTextView.text   ,
@@ -318,28 +320,31 @@ class WriteViewController: BaseImagePickerViewController {
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
 
-        picker.dismiss(animated: true) {
-
-            Toast.showLoading(text: "載入中")
-            fatalError("Cannot load image")
-        }
-
-        guard let selectedImage = info[.editedImage] as? UIImage else {
-
-            return
-        }
-
-//        postImageView.image = selectedImage
-//
-//        dismiss(animated: true)
-
         switch isRecognizedTextButtonTapped {
 
         case true:
 
+            picker.dismiss(animated: true)
+
+            Toast.showLoading(text: "載入中")
+
+            guard let selectedImage = info[.editedImage] as? UIImage else {
+
+                return
+            }
+
             self.recognizedImage = selectedImage
 
         case false:
+
+            picker.dismiss(animated: true)
+
+            Toast.showLoading(text: "載入中")
+
+            guard let selectedImage = info[.editedImage] as? UIImage else {
+
+                return
+            }
 
             ImageManager.shared.uploadImage(image: selectedImage) { result in
 
@@ -385,10 +390,9 @@ class WriteViewController: BaseImagePickerViewController {
 
         case true:
 
-            picker.dismiss(animated: true) {
+            picker.dismiss(animated: true)
 
-                Toast.showLoading(text: "載入中")
-            }
+            Toast.showLoading(text: "載入中")
 
             guard !results.isEmpty else { return }
 
@@ -407,10 +411,9 @@ class WriteViewController: BaseImagePickerViewController {
 
         case false:
 
-            picker.dismiss(animated: true) {
+            picker.dismiss(animated: true)
 
-                Toast.showLoading(text: "載入中")
-            }
+            Toast.showLoading(text: "載入中")
 
             guard !results.isEmpty else { return }
 
@@ -464,7 +467,6 @@ class WriteViewController: BaseImagePickerViewController {
                     }
                 })
             }
-
         }
     }
 }

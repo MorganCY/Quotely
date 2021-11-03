@@ -43,7 +43,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupTableVIew()
+        setupTableView()
 
         layoutCommentPanel()
 
@@ -92,7 +92,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     // MARK: SetupViews
 
-    func setupTableVIew() {
+    func setupTableView() {
 
         if tableView == nil {
 

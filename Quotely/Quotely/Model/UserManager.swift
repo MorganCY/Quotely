@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import CoreMedia
 
 class UserManager {
 
@@ -86,5 +87,35 @@ class UserManager {
                     }
                 }
             }
+    }
+
+    func createUser(
+        user: User,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        do {
+
+            _ = try users
+                .document(user.uid)
+                .setData(
+                from: user,
+                encoder: Firestore.Encoder(),
+                completion: { error in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    completion(.success("Created user"))
+                }
+            })
+
+        } catch {
+
+            completion(.failure(error))
+        }
     }
 }

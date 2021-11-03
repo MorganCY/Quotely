@@ -21,6 +21,7 @@ class PostManager {
         case latest = "最新"
         case popular = "熱門"
         case following = "追蹤"
+        case user
     }
 
     static let shared = PostManager()
@@ -84,7 +85,11 @@ class PostManager {
         }
     }
 
-    func fetchPost(type: FilterType, completion: @escaping (Result<[Post], Error>) -> Void) {
+    func fetchPost(
+        type: FilterType,
+        uid: String?,
+        completion: @escaping (Result<[Post], Error>) -> Void
+    ) {
 
         switch type {
 
@@ -158,6 +163,43 @@ class PostManager {
             }
 
         case .following: break
+
+        case .user:
+
+            guard let uid = uid else { return }
+
+            posts
+                .whereField("uid", isEqualTo: uid)
+                .order(by: "createdTime", descending: true)
+                .getDocuments { (querySnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in querySnapshot!.documents {
+
+                        do {
+                            if let post = try document.data(
+                                as: Post.self, decoder: Firestore.Decoder()
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+
+                    completion(.success(posts))
+                }
+            }
         }
     }
 
@@ -294,6 +336,7 @@ class PostManager {
             }
 
         case.following: break
+        case .user: break
         }
     }
 }

@@ -187,16 +187,15 @@ class PostDetailViewController: BaseDetailViewController {
         }
 
         let row = indexPath.row
+        let comment = comments[indexPath.row]
 
         isAuthor = uid == "test123456" ? true : false
 
         cell.layoutCell(
+            comment: comment,
             userImage: UIImage.asset(.testProfile)!,
             userName: "Morgan Yu",
-            createdTime: comments[row].createdTime,
-            content: comments[row].content,
-            isAuthor: isAuthor,
-            editTime: comments[row].editTime)
+            isAuthor: isAuthor)
 
         cell.hideSelectionStyle()
 

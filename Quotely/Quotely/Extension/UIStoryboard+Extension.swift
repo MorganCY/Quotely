@@ -9,9 +9,11 @@ import UIKit
 
 private struct StoryboardCategory {
 
-    static let journal = "Journal"
+    static let auth = "Auth"
 
     static let main = "Main"
+
+    static let journal = "Journal"
 
     static let swipe = "Swipe"
 
@@ -25,6 +27,8 @@ private struct StoryboardCategory {
 }
 
 extension UIStoryboard {
+
+    static var auth: UIStoryboard { return getStoryboard(name: StoryboardCategory.auth) }
 
     static var main: UIStoryboard { return getStoryboard(name: StoryboardCategory.main) }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Decodable {
+struct User: Codable {
 
     var uid: String
     var name: String?
@@ -21,4 +21,7 @@ struct User: Decodable {
     var following: [String]?
     var follower: [String]?
     var blocklist: [String]?
+    var followingNumber: Int
+    var followerNumber: Int
+    var postNumber: Int
 }

@@ -14,7 +14,7 @@
         <!--Journal View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="JournalViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="JournalViewController" id="Y6W-OH-hqX" customClass="JournalViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -149,7 +149,7 @@
     </scenes>
     <resources>
         <namedColor name="A3">
-            <color red="0.89019608500000003" green="0.85098040100000005" blue="0.8156862855" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.88999998569488525" green="0.85100001096725464" blue="0.81599998474121094" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

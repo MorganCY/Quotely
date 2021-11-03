@@ -33,18 +33,16 @@ class BaseDetailCommentCell: UITableViewCell {
     }
 
     func layoutCell(
+        comment: Comment,
         userImage: UIImage,
         userName: String,
-        createdTime: Int64,
-        content: String,
-        isAuthor: Bool,
-        editTime: Int64?
+        isAuthor: Bool
     ) {
 
         userImageView.image = userImage
         nameLabel.text = userName
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: createdTime))
-        contentLabel.text = content
+        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: comment.createdTime))
+        contentLabel.text = comment.content
 
         contentLabel.isHidden = isEnableEdit
         editButton.isHidden = !isAuthor
@@ -52,7 +50,7 @@ class BaseDetailCommentCell: UITableViewCell {
         doneEditingButton.isHidden = !isEnableEdit
         deleteButton.isHidden = !isAuthor
 
-        guard let editTime = editTime else { return }
+        guard let editTime = comment.editTime else { return }
 
         timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
     }

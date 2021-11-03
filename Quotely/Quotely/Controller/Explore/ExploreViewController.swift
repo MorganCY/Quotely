@@ -82,7 +82,7 @@ class ExploreViewController: UIViewController {
 
     func fetchPost(type: PostManager.FilterType) {
 
-        PostManager.shared.fetchPost(type: type) { result in
+        PostManager.shared.fetchPost(type: type, uid: nil) { result in
 
             switch result {
 
