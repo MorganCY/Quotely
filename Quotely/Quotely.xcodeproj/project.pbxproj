@@ -43,6 +43,8 @@
 		5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */; };
 		5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969C2721575B008B21C7 /* CommentTextField.swift */; };
 		5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969E27216007008B21C7 /* ImageButton.swift */; };
+		5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C5186C7273233E4007C5221 /* Auth.storyboard */; };
+		5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C54F4D72732338500E62DBF /* AuthViewController.swift */; };
 		5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5820FE271D6D80002E21C9 /* PostManager.swift */; };
 		5C582101271D6FBE002E21C9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582100271D6FBE002E21C9 /* Post.swift */; };
 		5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582102271D71CC002E21C9 /* Date+Extension.swift */; };
@@ -74,6 +76,8 @@
 		5CC04ACB2727A38B00EC0D71 /* JournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC04ACA2727A38B00EC0D71 /* JournalViewController.swift */; };
 		5CC40AE4272E94C300DF51D9 /* UINavigationItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */; };
 		5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */; };
+		5CD1FAD52732793600F87B98 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */; };
+		5CD1FAD72732840F00F87B98 /* SignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD1FAD62732840F00F87B98 /* SignInManager.swift */; };
 		5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765F9271EAE24008E8D00 /* ImageManager.swift */; };
 		5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FC271ECE33008E8D00 /* Kingfisher.swift */; };
 		5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */; };
@@ -131,6 +135,9 @@
 		5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUD.swift; sourceTree = "<group>"; };
 		5C4B969C2721575B008B21C7 /* CommentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTextField.swift; sourceTree = "<group>"; };
 		5C4B969E27216007008B21C7 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
+		5C5186C7273233E4007C5221 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
+		5C54F4D527322ABD00E62DBF /* Quotely.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quotely.entitlements; sourceTree = "<group>"; };
+		5C54F4D72732338500E62DBF /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		5C5820FE271D6D80002E21C9 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		5C582100271D6FBE002E21C9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		5C582102271D71CC002E21C9 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -162,6 +169,8 @@
 		5CC04ACA2727A38B00EC0D71 /* JournalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViewController.swift; sourceTree = "<group>"; };
 		5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extension.swift"; sourceTree = "<group>"; };
 		5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigaitonController.swift; sourceTree = "<group>"; };
+		5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		5CD1FAD62732840F00F87B98 /* SignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInManager.swift; sourceTree = "<group>"; };
 		5CD765F9271EAE24008E8D00 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		5CD765FC271ECE33008E8D00 /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
 		5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -240,6 +249,7 @@
 		5C2C72F7271D12E100F8B9EC /* Quotely */ = {
 			isa = PBXGroup;
 			children = (
+				5C54F4D527322ABD00E62DBF /* Quotely.entitlements */,
 				5C2846F827297D0200393562 /* Animation.swift */,
 				5CD765FB271ECE08008E8D00 /* ThirdPartyWrapper */,
 				5C2C7317271D1C4E00F8B9EC /* Extension */,
@@ -273,6 +283,7 @@
 				5C4B9696271FBF4C008B21C7 /* PostCommentManager.swift */,
 				5C8C0EA22725AD480054480A /* CardCommentManager.swift */,
 				5CE2A59D272D727C00CAE328 /* HashtagManager.swift */,
+				5CD1FAD62732840F00F87B98 /* SignInManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -282,6 +293,7 @@
 			children = (
 				5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */,
 				5C4B9684271FA70C008B21C7 /* Base */,
+				5C54F4D62732337500E62DBF /* Auth */,
 				5C2846E72728E92500393562 /* Journal */,
 				5C8C0E9F2725A4A20054480A /* Swipe */,
 				5CA65BF4271D4E5F00B877FB /* Write */,
@@ -304,13 +316,14 @@
 				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
 				5CD9DDEF272D3394009618FA /* RowButton.swift */,
 				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
+				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
 				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
 				5C7B6398272A84D500E18B96 /* Swipe */,
 				5C4B9685271FA724008B21C7 /* Write */,
 				5C582106271D79B5002E21C9 /* Explore */,
 				5C6CC7E327300CF800B71DA8 /* Share */,
-				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
+				5C5186C7273233E4007C5221 /* Auth.storyboard */,
 				5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */,
 				5C58210F271E8997002E21C9 /* VerticalButton.swift */,
 			);
@@ -330,6 +343,7 @@
 				5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */,
 				5C2846F02729248B00393562 /* UICollectionView+Extension.swift */,
 				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
+				5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -372,6 +386,14 @@
 				5C4B9694271FBCCF008B21C7 /* BaseDetailCommentCell.xib */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		5C54F4D62732337500E62DBF /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				5C54F4D72732338500E62DBF /* AuthViewController.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		5C582106271D79B5002E21C9 /* Explore */ = {
@@ -538,6 +560,7 @@
 				5CE8F1D5272F79210026864C /* ball.json in Resources */,
 				5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */,
 				5C2C7302271D12E300F8B9EC /* Assets.xcassets in Resources */,
+				5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */,
 				5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */,
 				5C4B9695271FBCCF008B21C7 /* BaseDetailCommentCell.xib in Resources */,
 				5C2C7321271D3D5500F8B9EC /* Explore.storyboard in Resources */,
@@ -638,12 +661,14 @@
 				5CE2A5A0272D750500CAE328 /* HashtagListViewController.swift in Sources */,
 				5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */,
 				5C4B9693271FBCC1008B21C7 /* BaseDetailCommentCell.swift in Sources */,
+				5CD1FAD52732793600F87B98 /* UIScreen+Extension.swift in Sources */,
 				5C8C0EA12725A4B40054480A /* CardDetailViewController.swift in Sources */,
 				5C2846EF2728F4F500393562 /* JournalListTableViewCell.swift in Sources */,
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
 				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
+				5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */,
 				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,
 				5CC40AE4272E94C300DF51D9 /* UINavigationItem+Extension.swift in Sources */,
 				5C4B9697271FBF4C008B21C7 /* PostCommentManager.swift in Sources */,
@@ -661,6 +686,7 @@
 				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,
 				5C2846EA2728ED2C00393562 /* JournalListViewController.swift in Sources */,
 				5C582105271D791B002E21C9 /* ExploreViewController.swift in Sources */,
+				5CD1FAD72732840F00F87B98 /* SignInManager.swift in Sources */,
 				5CC04ACB2727A38B00EC0D71 /* JournalViewController.swift in Sources */,
 				5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */,
 				5CE2A5A4272D75FC00CAE328 /* HashtagListTableViewCell.swift in Sources */,
@@ -822,6 +848,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Quotely/Quotely.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D68W2FWD7S;
@@ -855,6 +882,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Quotely/Quotely.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D68W2FWD7S;
