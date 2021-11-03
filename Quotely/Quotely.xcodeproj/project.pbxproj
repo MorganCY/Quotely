@@ -60,6 +60,7 @@
 		5C7B6397272A799000E18B96 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6396272A799000E18B96 /* User.swift */; };
 		5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */; };
 		5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */; };
+		5C7CE5FE2732F444005D0D18 /* ProfileTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CE5FD2732F444005D0D18 /* ProfileTableViewHeaderView.swift */; };
 		5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8A04B52722911800289431 /* SceneDelegate.swift */; };
 		5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E8C272425980054480A /* SwipeViewController.swift */; };
 		5C8C0E8F2724261F0054480A /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */; };
@@ -93,6 +94,7 @@
 		5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D6272F7BD50026864C /* nothingFound.json */; };
 		5CF36A142732C3B000F6B3BD /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */; };
 		5CF36A172732C3E400F6B3BD /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */; };
+		5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */; };
 		5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +157,7 @@
 		5C7B6396272A799000E18B96 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCardTableViewCell.swift; sourceTree = "<group>"; };
 		5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCardTableViewCell.xib; sourceTree = "<group>"; };
+		5C7CE5FD2732F444005D0D18 /* ProfileTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewHeaderView.swift; sourceTree = "<group>"; };
 		5C8A04B52722911800289431 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5C8C0E8C272425980054480A /* SwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeViewController.swift; sourceTree = "<group>"; };
 		5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 		5CE8F1D6272F7BD50026864C /* nothingFound.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nothingFound.json; sourceTree = "<group>"; };
 		5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
+		5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewHeaderView.xib; sourceTree = "<group>"; };
 		5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTemplateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -488,6 +492,8 @@
 				5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */,
 				5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */,
 				5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */,
+				5C7CE5FD2732F444005D0D18 /* ProfileTableViewHeaderView.swift */,
+				5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -563,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */,
+				5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */,
 				5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */,
 				5C2C7305271D12E300F8B9EC /* LaunchScreen.storyboard in Resources */,
 				5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */,
@@ -692,6 +699,7 @@
 				5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */,
 				5C8C0E9A2725293E0054480A /* CardManager.swift in Sources */,
 				5C2C7316271D19AD00F8B9EC /* WriteViewController.swift in Sources */,
+				5C7CE5FE2732F444005D0D18 /* ProfileTableViewHeaderView.swift in Sources */,
 				5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */,
 				5C4B9699271FC0D3008B21C7 /* Comment.swift in Sources */,
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,
