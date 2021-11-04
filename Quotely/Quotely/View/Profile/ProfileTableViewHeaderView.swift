@@ -35,13 +35,19 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         }
     }
 
+    var isVisitorProfile = true {
+        didSet {
+            defineIfDisplay()
+        }
+    }
+
     override func awakeFromNib() {
 
         setupProfileImage()
         setupButtons()
 
+        defineIfDisplay()
         userNameLabel.isHidden = isEnableEdit
-        editNameButton.isHidden = isEnableEdit
         editNameTextField.isHidden = !isEnableEdit
         doneEditNameButton.isHidden = !isEnableEdit
     }
@@ -74,6 +80,14 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     @IBAction func follow(_ sender: UIButton) {
 
         followHandler()
+    }
+
+    func defineIfDisplay() {
+
+        editImageButton.isHidden = !isVisitorProfile
+        editNameButton.isHidden = !isVisitorProfile
+        blockButton.isHidden = isVisitorProfile
+        followButton.isHidden = isVisitorProfile
     }
 
     func layoutHeader(userInfo: User) {

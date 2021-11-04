@@ -138,7 +138,6 @@ class FavoriteCardViewController: UIViewController {
 
         detailVC.cardID = card.cardID
         detailVC.hasLiked = card.likeUser.contains("test123456") ? true : false
-        detailVC.uid = "test123456"
         detailVC.content = "\(card.content)\n\n\n\(card.author)"
 
         navigationController?.pushViewController(detailVC, animated: true)

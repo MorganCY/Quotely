@@ -13,6 +13,8 @@ class CardDetailViewController: BaseDetailViewController {
 
     var isAuthor = false
 
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,32 +27,6 @@ class CardDetailViewController: BaseDetailViewController {
         fetchComments()
     }
 
-    override func like(_ sender: UIButton) {
-
-        let likeAction: LikeAction = hasLiked ? .dislike : .like
-
-        hasLiked.toggle()
-
-        guard let cardID = cardID else { return }
-
-        CardManager.shared.updateCards(
-            cardID: cardID,
-            likeAction: likeAction,
-            uid: uid
-        ) { result in
-
-            switch result {
-
-            case .success(let success):
-
-                print(success)
-
-            case .failure(let error):
-
-                print("updateData.failure: \(error)")
-            }
-        }
-    }
 
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
@@ -58,7 +34,7 @@ class CardDetailViewController: BaseDetailViewController {
         if let message = commentTextField.text {
 
             var comment = Comment(
-                uid: uid,
+                uid: visitorUid,
                 content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
@@ -113,7 +89,7 @@ class CardDetailViewController: BaseDetailViewController {
         }
 
         header.layoutHeader(
-            userImage: nil,
+            userImageUrl: nil,
             userName: nil,
             time: nil,
             content: content.replacingOccurrences(of: "\\n", with: "\n"),
@@ -136,14 +112,28 @@ class CardDetailViewController: BaseDetailViewController {
             fatalError("Cannot create cell.")
         }
 
+        var userInfo: User?
+
         let comment = comments[indexPath.row]
 
-        isAuthor = uid == "test123456" ? true : false
+        isAuthor = comment.uid == visitorUid ? true : false
+
+        UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
+
+            switch result {
+
+            case .success(let user):
+                userInfo = user
+
+            case .failure(let error):
+                print(error)
+            }
+        }
 
         cell.layoutCell(
             comment: comment,
-            userImage: UIImage.asset(.testProfile)!,
-            userName: "Morgan Yu",
+            userImageUrl: userInfo?.profileImageUrl ?? "",
+            userName: userInfo?.name ?? "",
             isAuthor: isAuthor
         )
 

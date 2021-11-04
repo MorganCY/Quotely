@@ -7,8 +7,6 @@
 
 import Foundation
 import UIKit
-import PhotosUI
-import Vision
 
 class ExploreViewController: UIViewController {
 
@@ -99,11 +97,6 @@ class ExploreViewController: UIViewController {
 
     @objc func addPost(_ sender: UIBarButtonItem) {
 
-        goToWritePage()
-    }
-
-    func goToWritePage() {
-
         guard let writeVC =
                 UIStoryboard.write
                 .instantiateViewController(
@@ -119,13 +112,29 @@ class ExploreViewController: UIViewController {
 
         present(nav, animated: true)
     }
+
+    @objc func goToProfile(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let profileVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
+
+            return
+        }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+
+        profileVC.visitedUid = postList[currentRow].uid
+
+        self.show(profileVC, sender: nil)
+    }
 }
 
 extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate {
 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { filters.count }
 
-    // swiftlint:disable identifier_name
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
     func buttonTitle(_ view: SelectionView, index: Int) -> String {
@@ -165,7 +174,10 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         UITableView.automaticDimension
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ExploreTableViewCell.identifier,
@@ -174,10 +186,26 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 fatalError("Cannot create cell.")
             }
 
-        let row = indexPath.row
-        let post = postList[row]
+        let post = postList[indexPath.row]
 
-        if let likeUserList = postList[row].likeUser {
+        UserManager.shared.fetchUserInfo(uid: post.uid) { result in
+
+            switch result {
+
+            case .success(let user):
+                cell.layoutCell(
+                    userImageUrl: user.profileImageUrl ?? "",
+                    userName: user.name ?? "",
+                    post: post,
+                    hasLiked: self.isLikePost
+                )
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+        if let likeUserList = post.likeUser {
 
             isLikePost = likeUserList.contains("test123456") ?
             true : false
@@ -189,17 +217,11 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.hideSelectionStyle()
 
-        cell.layoutCell(
-            userImage: UIImage.asset(.testProfile),
-            userName: "Morgan Yu",
-            post: post,
-            hasLiked: isLikePost
-        )
-
         cell.likeHandler = {
 
             // When tapping on the like button, check if the user has likedPost
-            if let likeUserList = self.postList[row].likeUser {
+
+            if let likeUserList = post.likeUser {
 
                 self.isLikePost = likeUserList.contains("test123456") ?
                 true : false
@@ -209,7 +231,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 self.isLikePost = false
             }
 
-            guard let postID = self.postList[row].postID else { return }
+            guard let postID = post.postID else { return }
 
             let likeAction: LikeAction = self.isLikePost
             ? .dislike : .like
@@ -232,6 +254,23 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
+        // go to user's profile when tapping image, name, and time
+
+        let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+        let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+        let tapGoToProfileGesture3 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+
+        cell.userImageView.addGestureRecognizer(tapGoToProfileGesture)
+        cell.userImageView.isUserInteractionEnabled = true
+        cell.userNameLabel.addGestureRecognizer(tapGoToProfileGesture2)
+        cell.userNameLabel.isUserInteractionEnabled = true
+        cell.timeLabel.addGestureRecognizer(tapGoToProfileGesture3)
+        cell.timeLabel.isUserInteractionEnabled = true
+
+        cell.userImageView.tag = indexPath.row
+        cell.userNameLabel.tag = indexPath.row
+        cell.timeLabel.tag = indexPath.row
+
         return cell
     }
 
@@ -247,19 +286,22 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
         let row = indexPath.row
+        let post = postList[indexPath.row]
 
-        detailVC.postID = postList[row].postID ?? ""
+        detailVC.postID = post.postID ?? ""
+        detailVC.postAuthorUid = post.uid
         detailVC.userImage = UIImage.asset(.testProfile)
         detailVC.userName = "Morgan Yu"
-        detailVC.time = postList[row].createdTime
-        detailVC.content = postList[row].content
-        detailVC.imageUrl = postList[row].imageUrl
-        detailVC.uid = postList[row].uid
+        detailVC.time = post.createdTime
+        detailVC.content = post.content
+        detailVC.imageUrl = post.imageUrl
+        detailVC.postAuthorUid = post.uid
 
         if let likeUserList = postList[row].likeUser {
 
             detailVC.hasLiked = likeUserList.contains("test123456")
         }
+
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

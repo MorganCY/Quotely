@@ -10,12 +10,14 @@ import UIKit
 
 class PostDetailViewController: BaseDetailViewController {
 
-    var post: Post?
-
     var isAuthor = false
+
+    let visitorUid = SignInManager.shared.uid ?? ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        fetchComments()
 
         navigationItem.title = "摘語"
     }
@@ -23,30 +25,40 @@ class PostDetailViewController: BaseDetailViewController {
     // MARK: LiftCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        fetchComments()
     }
 
     // MARK: Action
-    override func like(_ sender: UIButton) {
 
-        let likeAction: LikeAction = hasLiked ? .dislike : .like
+    @objc func goToProfileFromHeader(_ gestureRecognizer: UITapGestureRecognizer) {
 
-        hasLiked.toggle()
+        guard let profileVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
 
-        PostManager.shared.updateLikes(postID: postID, likeAction: likeAction) { result in
-
-            switch result {
-
-            case .success(let action):
-
-                print(action)
-
-            case .failure(let error):
-
-                print("updateData.failure: \(error)")
-            }
+            return
         }
+
+        profileVC.visitedUid = postAuthorUid
+
+        self.show(profileVC, sender: nil)
+    }
+
+    @objc func goToProfileFromCell(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let profileVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
+
+            return
+        }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+
+        profileVC.visitedUid = comments[currentRow].uid
+
+        self.show(profileVC, sender: nil)
     }
 
     override func addComment(_ sender: UIButton) {
@@ -54,8 +66,10 @@ class PostDetailViewController: BaseDetailViewController {
 
         if let message = commentTextField.text {
 
+            guard let visitorUid = SignInManager.shared.uid else { return }
+
             var comment = Comment(
-                uid: "test123456",
+                uid: visitorUid,
                 content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
@@ -93,18 +107,27 @@ class PostDetailViewController: BaseDetailViewController {
             fatalError("Cannot load header view.")
         }
 
-        isAuthor = uid == "test123456"
+        isAuthor = postAuthorUid == visitorUid
         ? true : false
 
-        header.layoutHeader(
-            userImage: userImage,
-            userName: userName,
-            time: time,
-            content: content,
-            imageUrl: imageUrl,
-            isAuthor: isAuthor
-        )
+        UserManager.shared.fetchUserInfo(uid: postAuthorUid) { result in
 
+            switch result {
+
+            case .success(let user):
+                header.layoutHeader(
+                    userImageUrl: user.profileImageUrl,
+                    userName: user.name,
+                    time: self.time,
+                    content: self.content,
+                    imageUrl: self.imageUrl,
+                    isAuthor: self.isAuthor
+                )
+
+            case .failure(let error):
+                print(error)
+            }
+        }
         // Pass data from Post Detail page to Write page
         header.editHandler = {
 
@@ -174,11 +197,24 @@ class PostDetailViewController: BaseDetailViewController {
             self.present(alert, animated: true, completion: nil)
         }
 
+        // go to user's profile when tapping image, name, and time
+
+        let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
+        let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
+
+        header.userImageView.addGestureRecognizer(tapGoToProfileGesture)
+        header.userImageView.isUserInteractionEnabled = true
+        header.userInfoStackView.addGestureRecognizer(tapGoToProfileGesture2)
+        header.userInfoStackView.isUserInteractionEnabled = true
+
         return header
     }
 
     // Cells: comments
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
@@ -186,22 +222,32 @@ class PostDetailViewController: BaseDetailViewController {
             fatalError("Cannot create cell.")
         }
 
-        let row = indexPath.row
         let comment = comments[indexPath.row]
 
-        isAuthor = uid == "test123456" ? true : false
+        isAuthor = postAuthorUid == visitorUid ? true : false
 
-        cell.layoutCell(
-            comment: comment,
-            userImage: UIImage.asset(.testProfile)!,
-            userName: "Morgan Yu",
-            isAuthor: isAuthor)
+        UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
+
+            switch result {
+
+            case .success(let user):
+                cell.layoutCell(
+                    comment: comment,
+                    userImageUrl: user.profileImageUrl ?? "",
+                    userName: user.name ?? "",
+                    isAuthor: self.isAuthor
+                )
+
+            case .failure(let error):
+                print(error)
+            }
+        }
 
         cell.hideSelectionStyle()
 
         cell.editHandler = { text in
 
-            guard let postCommentID = self.comments[row].postCommentID else { return }
+            guard let postCommentID = comment.postCommentID else { return }
 
             PostCommentManager.shared.updateComment( postCommentID: postCommentID, newContent: text) { result in
 
@@ -211,7 +257,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        self.comments[row].content = text
+                        self.comments[indexPath.row].content = text
 
                     case .failure(let error):
 
@@ -222,7 +268,7 @@ class PostDetailViewController: BaseDetailViewController {
 
         cell.deleteHandler = {
 
-            guard let postCommentID = self.comments[row].postCommentID else { return }
+            guard let postCommentID = comment.postCommentID else { return }
 
             let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
 
@@ -252,6 +298,25 @@ class PostDetailViewController: BaseDetailViewController {
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
+
+        // go to user's profile when tapping image, name, and time
+
+        let tapGoToProfileGesture3 = UITapGestureRecognizer(
+            target: self,
+            action: #selector(self.goToProfileFromCell(_:))
+        )
+        let tapGoToProfileGesture4 = UITapGestureRecognizer(
+            target: self,
+            action: #selector(self.goToProfileFromCell(_:))
+        )
+
+        cell.userImageView.addGestureRecognizer(tapGoToProfileGesture3)
+        cell.userImageView.isUserInteractionEnabled = true
+        cell.nameLabel  .addGestureRecognizer(tapGoToProfileGesture4)
+        cell.nameLabel.isUserInteractionEnabled = true
+
+        cell.userImageView.tag = indexPath.row
+        cell.nameLabel.tag = indexPath.row
 
         return cell
     }

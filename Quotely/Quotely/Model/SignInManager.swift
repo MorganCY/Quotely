@@ -150,7 +150,7 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                 if let user = authResult?.user {
                     print("User has already signed in as \(user.uid), \(String(describing: user.email))")
 
-                    if user.metadata.creationDate == user.metadata.lastSignInDate {
+                    if authResult?.additionalUserInfo?.isNewUser == true {
 
                         let user = User(
                             uid: user.uid,

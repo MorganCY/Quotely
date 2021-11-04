@@ -26,7 +26,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var cardID: String?
     var postID: String = ""
     var postCommentID: String?
-    var uid = ""
+    var postAuthorUid = ""
 
     var comments: [Comment] = [] {
         didSet {
@@ -49,7 +49,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         if #available(iOS 15.0, *) {
 
-            tableView.sectionHeaderTopPadding = 0
+          tableView.sectionHeaderTopPadding = 0
         }
 
         navigationController?.setupBackButton(color: .gray)
@@ -82,8 +82,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     // MARK: Action
-    // Should be properly overridden by subclasses
-    @objc func like(_ sender: UIButton) {}
 
     @objc func addComment(_ sender: UIButton) {
 

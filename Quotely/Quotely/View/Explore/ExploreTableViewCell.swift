@@ -14,6 +14,7 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var userInfoStackView: UIStackView!
     @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
@@ -25,16 +26,19 @@ class ExploreTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        postImageView.contentMode = .scaleAspectFill
+        userImageView.contentMode = .scaleAspectFill
+        userImageView.clipsToBounds = true
 
+        postImageView.contentMode = .scaleAspectFill
         postImageView.cornerRadius = CornerRadius.standard.rawValue
+
         hashtagLabel.cornerRadius = CornerRadius.standard.rawValue / 3
         hashtagLabel.layer.masksToBounds = true
 
         likeButton.isEnabled = true
     }
 
-    var likeHandler: (() -> Void) = {}
+    var likeHandler: () -> Void = {}
 
     @IBAction func like(_ sender: UIButton) {
 
@@ -42,7 +46,7 @@ class ExploreTableViewCell: UITableViewCell {
     }
 
     func layoutCell(
-        userImage: UIImage?,
+        userImageUrl: String,
         userName: String,
         post: Post,
         hasLiked: Bool
@@ -56,8 +60,20 @@ class ExploreTableViewCell: UITableViewCell {
 
         userNameLabel.text = userName
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
-        hashtagLabel.text = post.hashtag
         contentLabel.text = post.content
+
+        userImageView.loadImage(userImageUrl, placeHolder: nil)
+        userImageView.cornerRadius = userImageView.frame.width / 2
+
+        if let hashtag = post.hashtag {
+
+            hashtagLabel.isHidden = false
+            hashtagLabel.text = hashtag
+
+        } else if post.hashtag == "" {
+
+            hashtagLabel.isHidden = true
+        }
 
         if let postImageUrl = post.imageUrl {
 
@@ -65,19 +81,9 @@ class ExploreTableViewCell: UITableViewCell {
             postImageView.isHidden = false
             postImageView.loadImage(postImageUrl, placeHolder: nil)
 
-        } else {
+        } else if post.imageUrl == nil {
 
             postImageView.isHidden = true
-        }
-
-        if let userImage = userImage {
-
-            userImageView.image = userImage
-            userImageView.cornerRadius = userImageView.frame.width / 2
-
-        } else {
-
-            userImageView.image = UIImage.sfsymbol(.personNormal)
         }
 
         likeNumberLabel.text = "\(post.likeNumber ?? 0)"

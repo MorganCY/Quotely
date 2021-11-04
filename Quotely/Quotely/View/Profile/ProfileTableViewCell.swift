@@ -26,7 +26,12 @@ class ProfileTableViewCell: UITableViewCell {
 
         if let imageUrl = post.imageUrl {
 
+            postImageView.isHidden = false
             postImageView.loadImage(imageUrl, placeHolder: nil)
+
+        } else if post.imageUrl == nil {
+
+            postImageView.isHidden = true
         }
 
         if let editTime = post.editTime {

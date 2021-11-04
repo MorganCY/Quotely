@@ -33,6 +33,7 @@ class BaseDetailCommentCell: UITableViewCell {
         self.backgroundColor = .clear
 
         userImageView.cornerRadius = userImageView.frame.width / 2
+        userImageView.clipsToBounds = true
 
         editButton.tintColor = .gray
         deleteButton.tintColor = .gray
@@ -44,12 +45,12 @@ class BaseDetailCommentCell: UITableViewCell {
 
     func layoutCell(
         comment: Comment,
-        userImage: UIImage,
+        userImageUrl: String,
         userName: String,
         isAuthor: Bool
     ) {
 
-        userImageView.image = userImage
+        userImageView.loadImage(userImageUrl, placeHolder: nil)
         nameLabel.text = userName
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: comment.createdTime))
         contentLabel.text = comment.content

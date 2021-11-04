@@ -20,7 +20,20 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    let uid = SignInManager.shared.uid
+    // the user who is visiting other's profile
+
+    let visitorUid = SignInManager.shared.uid
+
+    // the user who is visited by others
+
+    var visitedUid = SignInManager.shared.uid {
+        didSet {
+            isVisitorProfile = visitorUid == visitedUid
+        }
+    }
+
+    var isVisitorProfile = true
+
     var userInfo: User? {
         didSet {
             tableView.dataSource = self
@@ -40,32 +53,30 @@ class ProfileViewController: BaseImagePickerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchUserInfo()
-        fetchUserPost()
-
         navigationItem.title = "個人資訊"
 
-        navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.settings),
-            text: nil,
-            target: self,
-            action: #selector(goToSettingsPage(_:)),
-            color: .M1!
-        )
+        if isVisitorProfile {
+
+            navigationItem.setupRightBarButton(
+                image: UIImage.sfsymbol(.settings),
+                text: nil,
+                target: self,
+                action: #selector(goToSettingsPage(_:)),
+                color: .M1!
+            )
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if #available(iOS 15.0, *) {
-
-            tableView.sectionHeaderTopPadding = 0
-        }
+        fetchUserInfo()
+        fetchUserPost()
     }
 
     func fetchUserInfo() {
 
-        guard let uid = uid else { return }
+        guard let uid = visitedUid else { return }
 
         UserManager.shared.listenToUserUpdate(uid: uid) { result in
 
@@ -82,7 +93,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
     func fetchUserPost() {
 
-        guard let uid = uid else { return }
+        guard let uid = visitedUid else { return }
 
         PostManager.shared.listenToPostUpdate(type: .user, uid: uid) { result in
 
@@ -287,6 +298,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
             fatalError("Cannot fetch user info")
         }
+
+        header.isVisitorProfile = isVisitorProfile
 
         header.layoutHeader(userInfo: userInfo)
 
