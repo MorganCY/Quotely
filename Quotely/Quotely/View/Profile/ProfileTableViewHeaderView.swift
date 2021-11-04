@@ -16,6 +16,8 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var editNameButton: UIButton!
+    @IBOutlet weak var editNameTextField: UITextField!
+    @IBOutlet weak var doneEditNameButton: UIButton!
 
     @IBOutlet weak var postNumberLabel: UILabel!
     @IBOutlet weak var followerNumberLabel: UILabel!
@@ -23,23 +25,50 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var blockButton: UIButton!
     @IBOutlet weak var followButton: UIButton!
 
+    var isEnableEdit = false {
+        didSet {
+
+            userNameLabel.isHidden = isEnableEdit
+            editNameButton.isHidden = isEnableEdit
+            editNameTextField.isHidden = !isEnableEdit
+            doneEditNameButton.isHidden = !isEnableEdit
+        }
+    }
+
     override func awakeFromNib() {
 
         setupProfileImage()
         setupButtons()
+
+        userNameLabel.isHidden = isEnableEdit
+        editNameButton.isHidden = isEnableEdit
+        editNameTextField.isHidden = !isEnableEdit
+        doneEditNameButton.isHidden = !isEnableEdit
     }
 
     var editImageHandler: () -> Void = {}
-    var editNameHandler: (() -> Void) = {}
+    var editNameHandler: ((String) -> Void) = {_ in }
     var followHandler: (() -> Void) = {}
 
     @IBAction func editImage(_ sender: UIButton) {
+
         editImageHandler()
     }
 
     @IBAction func editName(_ sender: UIButton) {
 
-        editNameHandler()
+        isEnableEdit = true
+
+        editNameTextField.text = userNameLabel.text
+    }
+
+    @IBAction func doneEditing(_ sender: UIButton) {
+
+        guard let text = editNameTextField.text else { return }
+
+        editNameHandler(text)
+        userNameLabel.text = text
+        isEnableEdit = false
     }
 
     @IBAction func follow(_ sender: UIButton) {

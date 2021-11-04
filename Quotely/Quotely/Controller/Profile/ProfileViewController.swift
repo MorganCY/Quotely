@@ -138,9 +138,11 @@ class ProfileViewController: BaseImagePickerViewController {
 
                             // update user profile image in firestore
 
-                            UserManager.shared.updateProfileImage(
+                            UserManager.shared.updateUserInfo(
                                 uid: self.userInfo?.uid ?? "",
-                                profileImageUrl: url) { result in
+                                profileImageUrl: url,
+                                userName: nil
+                            ) { result in
 
                                     switch result {
 
@@ -223,9 +225,11 @@ class ProfileViewController: BaseImagePickerViewController {
 
                                     // update profile image in firestore
 
-                                    UserManager.shared.updateProfileImage(
+                                    UserManager.shared.updateUserInfo(
                                         uid: self.userInfo?.uid ?? "",
-                                        profileImageUrl: url) { result in
+                                        profileImageUrl: url,
+                                        userName: nil
+                                    ) { result in
 
                                             switch result {
 
@@ -289,6 +293,25 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         header.editImageHandler = {
 
             self.openImagePicker()
+        }
+
+        header.editNameHandler = { userName in
+
+            UserManager.shared.updateUserInfo(
+                uid: userInfo.uid,
+                profileImageUrl: nil,
+                userName: userName
+            ) { result in
+
+                    switch result {
+
+                    case .success(let success):
+                        print(success)
+
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
         }
 
         return header

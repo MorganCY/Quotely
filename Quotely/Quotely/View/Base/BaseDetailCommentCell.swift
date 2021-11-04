@@ -19,7 +19,13 @@ class BaseDetailCommentCell: UITableViewCell {
     @IBOutlet weak var doneEditingButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
 
-    var isEnableEdit = false
+    var isEnableEdit = false {
+        didSet {
+            contentLabel.isHidden = isEnableEdit
+            editTextField.isHidden = !isEnableEdit
+            doneEditingButton.isHidden = !isEnableEdit
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,6 +36,10 @@ class BaseDetailCommentCell: UITableViewCell {
 
         editButton.tintColor = .gray
         deleteButton.tintColor = .gray
+
+        contentLabel.isHidden = isEnableEdit
+        editTextField.isHidden = !isEnableEdit
+        doneEditingButton.isHidden = !isEnableEdit
     }
 
     func layoutCell(
@@ -44,10 +54,7 @@ class BaseDetailCommentCell: UITableViewCell {
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: comment.createdTime))
         contentLabel.text = comment.content
 
-        contentLabel.isHidden = isEnableEdit
         editButton.isHidden = !isAuthor
-        editTextField.isHidden = !isEnableEdit
-        doneEditingButton.isHidden = !isEnableEdit
         deleteButton.isHidden = !isAuthor
 
         guard let editTime = comment.editTime else { return }
@@ -63,9 +70,6 @@ class BaseDetailCommentCell: UITableViewCell {
 
         isEnableEdit = true
         editTextField.text = contentLabel.text
-        contentLabel.isHidden = isEnableEdit
-        editTextField.isHidden = !isEnableEdit
-        doneEditingButton.isHidden = !isEnableEdit
     }
 
     @IBAction func doneEditing(_ sender: UIButton) {
@@ -74,10 +78,7 @@ class BaseDetailCommentCell: UITableViewCell {
 
         editHandler(text)
         contentLabel.text = text
-        isEnableEdit.toggle()
-
-        editTextField.isHidden = !isEnableEdit
-        doneEditingButton.isHidden = !isEnableEdit
+        isEnableEdit = false
     }
 
     @IBAction func deleteComment(_ sender: UIButton) {

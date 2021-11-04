@@ -120,9 +120,10 @@ class UserManager {
         }
     }
 
-    func updateProfileImage(
+    func updateUserInfo(
         uid: String,
-        profileImageUrl: String,
+        profileImageUrl: String?,
+        userName: String?,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
@@ -132,12 +133,23 @@ class UserManager {
 
             if let document = document, document.exists {
 
-                document.reference.updateData([
+                if let profileImageUrl = profileImageUrl {
 
-                    "profileImageUrl": profileImageUrl
-                ])
+                    document.reference.updateData([
 
-                completion(.success("Profile image was updated"))
+                        "profileImageUrl": profileImageUrl
+                    ])
+                }
+
+                if let userName = userName {
+
+                    document.reference.updateData([
+
+                        "name": userName
+                    ])
+                }
+
+                completion(.success("User information was updated"))
 
             } else {
 
