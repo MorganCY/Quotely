@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 import CoreMedia
+import UIKit
 
 class UserManager {
 
@@ -87,7 +88,7 @@ class UserManager {
                     }
                 }
             }
-    }
+        }
 
     func createUser(
         user: User,
@@ -116,6 +117,65 @@ class UserManager {
         } catch {
 
             completion(.failure(error))
+        }
+    }
+
+    func updateProfileImage(
+        uid: String,
+        profileImageUrl: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        let reference = users.document(uid)
+
+        reference.getDocument { document, error in
+
+            if let document = document, document.exists {
+
+                document.reference.updateData([
+
+                    "profileImageUrl": profileImageUrl
+                ])
+
+                completion(.success("Profile image was updated"))
+
+            } else {
+
+                if let error = error {
+
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    func listenToUserUpdate(
+        uid: String,
+        completion: @escaping (Result<User, Error>
+        ) -> Void) {
+
+        users.document(uid).addSnapshotListener { documentSnapshot, error in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                do {
+
+                    if let userInfo = try documentSnapshot?.data(
+                        as: User.self
+                    ) {
+
+                        completion(.success(userInfo))
+                    }
+
+                } catch {
+
+                    completion(.failure(error))
+                }
+            }
         }
     }
 }

@@ -24,4 +24,5 @@ struct User: Codable {
     var followingNumber: Int
     var followerNumber: Int
     var postNumber: Int
+    var profileImageUrl: String?
 }

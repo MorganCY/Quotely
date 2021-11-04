@@ -68,6 +68,7 @@ enum SFSymbol: String {
     case quoteNormal = "quote.bubble"
     case quoteSelected = "quote.bubble.fill"
     case download = "icloud.and.arrow.down"
+    case settings = "gearshape"
 }
 
 extension UIImage {

@@ -65,7 +65,7 @@ class ExploreViewController: UIViewController {
     // MARK: Data
     func addPostListener(type: PostManager.FilterType) {
 
-        PostManager.shared.listenToPostUpdate(type: type) { result in
+        PostManager.shared.listenToPostUpdate(type: type, uid: nil) { result in
 
             switch result {
 

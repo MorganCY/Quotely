@@ -490,10 +490,10 @@
 			isa = PBXGroup;
 			children = (
 				5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */,
-				5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */,
-				5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */,
 				5C7CE5FD2732F444005D0D18 /* ProfileTableViewHeaderView.swift */,
 				5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */,
+				5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */,
+				5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

@@ -8,13 +8,15 @@
 import Foundation
 import Lottie
 import UIKit
+import PhotosUI
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: BaseImagePickerViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
             tableView.registerCellWithNib(identifier: ProfileTableViewCell.identifier, bundle: nil)
+            tableView.backgroundColor = .C3?.withAlphaComponent(0.3)
         }
     }
 
@@ -26,6 +28,7 @@ class ProfileViewController: UIViewController {
             tableView.reloadData()
         }
     }
+
     var userPostList = [Post]() {
         didSet {
             tableView.reloadData()
@@ -42,9 +45,21 @@ class ProfileViewController: UIViewController {
 
         navigationItem.title = "個人資訊"
 
+        navigationItem.setupRightBarButton(
+            image: UIImage.sfsymbol(.settings),
+            text: nil,
+            target: self,
+            action: #selector(goToSettingsPage(_:)),
+            color: .M1!
+        )
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         if #available(iOS 15.0, *) {
 
-          tableView.sectionHeaderTopPadding = 0
+            tableView.sectionHeaderTopPadding = 0
         }
     }
 
@@ -52,24 +67,24 @@ class ProfileViewController: UIViewController {
 
         guard let uid = uid else { return }
 
-        UserManager.shared.fetchUserInfo(uid: uid) { result in
+        UserManager.shared.listenToUserUpdate(uid: uid) { result in
 
-                switch result {
+            switch result {
 
-                case .success(let userInfo):
-                    self.userInfo = userInfo
+            case .success(let userInfo):
+                self.userInfo = userInfo
 
-                case.failure(let error):
-                    print(error)
-                }
+            case .failure(let error):
+                print(error)
             }
+        }
     }
 
     func fetchUserPost() {
 
         guard let uid = uid else { return }
 
-        PostManager.shared.fetchPost(type: .user, uid: uid) { result in
+        PostManager.shared.listenToPostUpdate(type: .user, uid: uid) { result in
 
             switch result {
 
@@ -79,6 +94,171 @@ class ProfileViewController: UIViewController {
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+
+    @objc func goToSettingsPage(_ sender: UIBarButtonItem) {}
+
+    override func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+
+        picker.dismiss(animated: true)
+
+        Toast.showLoading(text: "載入中")
+
+        guard let selectedImage = info[.editedImage] as? UIImage else {
+
+            return
+        }
+
+        // remove original image from firebase storage
+
+        ImageManager.shared.deleteImage(
+            imageUrl: self.userInfo?.profileImageUrl ?? "") { result in
+
+                switch result {
+
+                case .failure(let error): print(error)
+
+                case .success(let success):
+
+                    print(success)
+
+                    // upload new image to firebase storage
+
+                    ImageManager.shared.uploadImage(image: selectedImage) { result in
+
+                        switch result {
+
+                        case .success(let url):
+
+                            Toast.shared.hud.dismiss()
+
+                            // update user profile image in firestore
+
+                            UserManager.shared.updateProfileImage(
+                                uid: self.userInfo?.uid ?? "",
+                                profileImageUrl: url) { result in
+
+                                    switch result {
+
+                                    case .success(let success):
+
+                                        print(success)
+
+                                    case .failure(let error):
+
+                                        print(error)
+                                    }
+                                }
+
+                        case .failure(let error):
+
+                            Toast.shared.hud.dismiss()
+
+                            print(error)
+
+                            self.present(
+                                UIAlertController(
+                                    title: "上傳失敗",
+                                    message: nil,
+                                    preferredStyle: .alert
+                                ), animated: true, completion: nil
+                            )
+
+                            picker.dismiss(animated: true)
+                        }
+                    }
+                }
+            }
+    }
+
+    @available(iOS 14, *)
+    override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+
+        picker.dismiss(animated: true)
+
+        Toast.showLoading(text: "載入中")
+
+        guard !results.isEmpty else { return }
+
+        for result in results {
+
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+
+                guard let selectedImage = image as? UIImage else {
+
+                    DispatchQueue.main.async {
+
+                        picker.dismiss(animated: true)
+                    }
+
+                    return
+                }
+
+                // remove original image from firebase storage
+
+                ImageManager.shared.deleteImage(
+                    imageUrl: self.userInfo?.profileImageUrl ?? "") { result in
+
+                        switch result {
+
+                        case .failure(let error): print(error)
+
+                        case .success(let success):
+
+                            print(success)
+
+                            // upload new image to firebase storage
+
+                            ImageManager.shared.uploadImage(image: selectedImage) { result in
+
+                                switch result {
+
+                                case .success(let url):
+
+                                    Toast.shared.hud.dismiss()
+
+                                    // update profile image in firestore
+
+                                    UserManager.shared.updateProfileImage(
+                                        uid: self.userInfo?.uid ?? "",
+                                        profileImageUrl: url) { result in
+
+                                            switch result {
+
+                                            case .success(let success):
+
+                                                print(success)
+
+                                            case .failure(let error):
+
+                                                print(error)
+                                            }
+                                        }
+
+                                case .failure(let error):
+
+                                    Toast.shared.hud.dismiss()
+
+                                    print(error)
+
+                                    self.present(
+                                        UIAlertController(
+                                            title: "上傳失敗",
+                                            message: nil,
+                                            preferredStyle: .alert
+                                        ), animated: true, completion: nil
+                                    )
+
+                                    picker.dismiss(animated: true)
+                                }
+                            }
+                        }
+                    }
+            })
         }
     }
 }
@@ -106,6 +286,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
         header.layoutHeader(userInfo: userInfo)
 
+        header.editImageHandler = {
+
+            self.openImagePicker()
+        }
+
         return header
     }
 
@@ -127,6 +312,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         let post = userPostList[indexPath.row]
 
         cell.layoutCell(post: post)
+        cell.hideSelectionStyle()
 
         return cell
     }

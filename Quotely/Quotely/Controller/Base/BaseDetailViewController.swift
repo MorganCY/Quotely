@@ -49,7 +49,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         if #available(iOS 15.0, *) {
 
-          tableView.sectionHeaderTopPadding = 0
+            tableView.sectionHeaderTopPadding = 0
         }
 
         navigationController?.setupBackButton(color: .gray)

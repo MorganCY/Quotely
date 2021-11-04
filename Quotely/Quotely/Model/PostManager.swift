@@ -261,6 +261,7 @@ class PostManager {
 
     func listenToPostUpdate(
         type: FilterType,
+        uid: String?,
         completion: @escaping (Result<[Post], Error>
         ) -> Void) {
 
@@ -336,7 +337,41 @@ class PostManager {
             }
 
         case.following: break
-        case .user: break
+
+        case .user:
+
+            posts
+                .whereField("uid", isEqualTo: uid)
+                .order(by: "createdTime", descending: true)
+                .addSnapshotListener { (documentSnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in documentSnapshot!.documents {
+
+                        do {
+
+                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+                    completion(.success(posts))
+                }
+            }
         }
     }
 }

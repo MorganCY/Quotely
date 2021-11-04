@@ -478,13 +478,24 @@ extension WriteViewController {
 
         guard let imageUrl = imageUrl else { return }
 
-        ImageManager.shared.deleteImage(imageUrl: imageUrl, removeUrlHandler: { [weak self] in
+        ImageManager.shared.deleteImage(imageUrl: imageUrl, completion: { result in
 
-            self?.postImageView.image = nil
+            switch result {
 
-            self?.imageUrl = nil
+            case .success(let success):
 
-            self?.hasImage = false
+                print(success)
+
+                self.postImageView.image = nil
+
+                self.imageUrl = nil
+
+                self.hasImage = false
+
+            case .failure(let error):
+
+                print(error)
+            }
         })
     }
 }
