@@ -27,9 +27,9 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         }
     }
 
-    var profileHandler: () -> Void = {}
-
     var isEnableEdit = false
+
+    var profileHandler: () -> Void = {}
 
     var editHandler: () -> Void = {}
 
@@ -52,35 +52,57 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
     }
 
     func layoutHeader(
-        userImageUrl: String?,
-        userName: String?,
-        time: Int64?,
-        content: String,
-        imageUrl: String?,
+        isCard: Bool,
+        card: Card?,
+        post: Post?,
+        postAuthor: User?,
         isAuthor: Bool
     ) {
 
-        contentLabel.text = content
-        editButton.isHidden = !isAuthor
-        deleteButton.isHidden = !isAuthor
+        switch isCard {
 
-        if let userImageUrl = userImageUrl,
-           let name = userName,
-           let time = time {
+        case true:
 
-            hasUserInfo = true
+            contentLabel.text = "\(card?.content ?? "")\n\n\(card?.author ?? "")"
+            postImageView.isHidden = !isAuthor
+            timeLabel.isHidden = !isAuthor
+            userImageView.isHidden = !isAuthor
+            userNameLabel.isHidden = !isAuthor
+            timeLabel.isHidden = !isAuthor
+            editButton.isHidden = !isAuthor
+            deleteButton.isHidden = !isAuthor
 
-            userImageView.loadImage(userImageUrl, placeHolder: nil)
-            userNameLabel.text = name
-            timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: time))
+        case false:
 
-            userImageView.cornerRadius = userImageView.frame.width / 2
-        }
+            contentLabel.text = post?.content
+            editButton.isHidden = !isAuthor
+            deleteButton.isHidden = !isAuthor
 
-        if let imageUrl = imageUrl {
+            if let createdTime = post?.createdTime {
 
-            postImageView.loadImage(imageUrl, placeHolder: nil)
-            postImageView.isHidden = false
+                timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: createdTime))
+            }
+
+            if let userImageUrl = postAuthor?.profileImageUrl,
+               let name = postAuthor?.name {
+
+                hasUserInfo = true
+
+                userImageView.loadImage(userImageUrl, placeHolder: nil)
+                userNameLabel.text = name
+
+                userImageView.cornerRadius = userImageView.frame.width / 2
+            }
+
+            if let postImageUrl = post?.imageUrl {
+
+                postImageView.loadImage(postImageUrl, placeHolder: nil)
+                postImageView.isHidden = false
+
+            } else {
+
+                postImageView.isHidden = true
+            }
         }
     }
 

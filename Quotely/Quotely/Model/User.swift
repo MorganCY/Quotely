@@ -25,4 +25,8 @@ struct User: Codable {
     var followerNumber: Int
     var postNumber: Int
     var profileImageUrl: String?
+
+    // default user when no data found
+
+    static let `default` = User(uid: "404", name: "找不到用戶", followingNumber: 0, followerNumber: 0, postNumber: 0)
 }

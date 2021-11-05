@@ -19,19 +19,22 @@ class ExploreViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
             tableView.registerCellWithNib(
                 identifier: ExploreTableViewCell.identifier,
-                bundle: nil)
+                bundle: nil
+            )
             tableView.separatorStyle = .none
         }
     }
 
     let filterView = SelectionView()
 
-    var postList: [Post] = [] {
+    var postList: [Post] = []
+
+    var userList: [User?] = [] {
         didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
             tableView.reloadData()
         }
     }
@@ -88,9 +91,49 @@ class ExploreViewController: UIViewController {
 
                 self.postList = posts
 
+                self.fetchUserList(postList: posts)
+
             case .failure(let error):
 
                 print(error)
+            }
+        }
+    }
+
+    func fetchUserList(postList: [Post]) {
+
+        var userList: [User] = Array(repeating: User.default, count: postList.count)
+
+        let group = DispatchGroup()
+
+        DispatchQueue.main.async {
+
+            for (index, post) in postList.enumerated() {
+
+                group.enter()
+
+                UserManager.shared.fetchUserInfo(uid: post.uid) { result in
+
+                    switch result {
+
+                    case .success(let user):
+
+                        userList[index] = user
+
+                        group.leave()
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        group.leave()
+                    }
+                }
+            }
+
+            group.notify(queue: DispatchQueue.main) {
+
+                self.userList = userList
             }
         }
     }
@@ -164,15 +207,11 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 // MARK: TableView
 extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { postList.count }
 
-        postList.count
-    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        UITableView.automaticDimension
-    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { UITableView.automaticDimension }
 
     func tableView(
         _ tableView: UITableView,
@@ -188,23 +227,6 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let post = postList[indexPath.row]
 
-        UserManager.shared.fetchUserInfo(uid: post.uid) { result in
-
-            switch result {
-
-            case .success(let user):
-                cell.layoutCell(
-                    userImageUrl: user.profileImageUrl ?? "",
-                    userName: user.name ?? "",
-                    post: post,
-                    hasLiked: self.isLikePost
-                )
-
-            case .failure(let error):
-                print(error)
-            }
-        }
-
         if let likeUserList = post.likeUser {
 
             isLikePost = likeUserList.contains("test123456") ?
@@ -214,6 +236,12 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
             isLikePost = false
         }
+
+        cell.layoutCell(
+            userInfo: userList[indexPath.row]!,
+            post: post,
+            hasLiked: self.isLikePost
+        )
 
         cell.hideSelectionStyle()
 
@@ -286,16 +314,9 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
         let row = indexPath.row
-        let post = postList[indexPath.row]
 
-        detailVC.postID = post.postID ?? ""
-        detailVC.postAuthorUid = post.uid
-        detailVC.userImage = UIImage.asset(.testProfile)
-        detailVC.userName = "Morgan Yu"
-        detailVC.time = post.createdTime
-        detailVC.content = post.content
-        detailVC.imageUrl = post.imageUrl
-        detailVC.postAuthorUid = post.uid
+        detailVC.post = postList[indexPath.row]
+        detailVC.postAuthor = userList[indexPath.row]
 
         if let likeUserList = postList[row].likeUser {
 

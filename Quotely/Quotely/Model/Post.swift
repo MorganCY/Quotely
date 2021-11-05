@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Post: Codable {
+struct Post: Codable, Equatable {
 
     var postID: String?
     var uid: String

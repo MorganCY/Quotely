@@ -160,9 +160,8 @@ class SwipeViewController: UIViewController {
 
         let card = cards[currentCardIndex]
 
-        detailVC.cardID = card.cardID
+        detailVC.card = card
         detailVC.hasLiked = card.likeUser.contains(visitorUid) ? true : false
-        detailVC.content = "\(card.content)\n\n\n\(card.author)"
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

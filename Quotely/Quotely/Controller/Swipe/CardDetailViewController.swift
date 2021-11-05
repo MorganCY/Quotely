@@ -13,20 +13,17 @@ class CardDetailViewController: BaseDetailViewController {
 
     var isAuthor = false
 
-    let visitorUid = SignInManager.shared.uid ?? ""
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.title = "隻字片語"
+
+        fetchComments(type: .card)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        fetchComments()
     }
-
 
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
@@ -38,7 +35,7 @@ class CardDetailViewController: BaseDetailViewController {
                 content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
-                cardID: cardID,
+                cardID: card?.cardID,
                 postID: nil,
                 postCommentID: nil)
 
@@ -49,11 +46,11 @@ class CardDetailViewController: BaseDetailViewController {
 
                     self.commentTextField.text = ""
 
-                    self.fetchComments()
+                    self.fetchComments(type: .card)
                 }
 
             CardCommentManager.shared.updateCommentNumber(
-                cardID: self.cardID ?? "",
+                cardID: card?.cardID ?? "",
                 commentAction: .add
             ) { result in
 
@@ -89,22 +86,19 @@ class CardDetailViewController: BaseDetailViewController {
         }
 
         header.layoutHeader(
-            userImageUrl: nil,
-            userName: nil,
-            time: nil,
-            content: content.replacingOccurrences(of: "\\n", with: "\n"),
-            imageUrl: nil,
-            isAuthor: false
-        )
-
-        header.userImageView.isHidden = true
-        header.userNameLabel.isHidden = true
-        header.timeLabel.isHidden = true
+            isCard: true,
+            card: card,
+            post: nil,
+            postAuthor: nil,
+            isAuthor: false)
 
         return header
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
@@ -112,30 +106,28 @@ class CardDetailViewController: BaseDetailViewController {
             fatalError("Cannot create cell.")
         }
 
-        var userInfo: User?
-
         let comment = comments[indexPath.row]
 
-        isAuthor = comment.uid == visitorUid ? true : false
+        var isCommentAuthor = false
+
+        isCommentAuthor = comment.uid == visitorUid ? true : false
 
         UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
 
             switch result {
 
             case .success(let user):
-                userInfo = user
+                cell.layoutCell(
+                    comment: comment,
+                    userImageUrl: user.profileImageUrl ?? "",
+                    userName: user.name ?? "",
+                    isAuthor: isCommentAuthor
+                )
 
             case .failure(let error):
                 print(error)
             }
         }
-
-        cell.layoutCell(
-            comment: comment,
-            userImageUrl: userInfo?.profileImageUrl ?? "",
-            userName: userInfo?.name ?? "",
-            isAuthor: isAuthor
-        )
 
         cell.hideSelectionStyle()
 
@@ -148,7 +140,7 @@ class CardDetailViewController: BaseDetailViewController {
                 switch result {
 
                 case .success(let success):
-                    
+
                     print(success)
 
                     self.comments[indexPath.row].content = text
@@ -177,7 +169,7 @@ class CardDetailViewController: BaseDetailViewController {
 
                             print(success)
 
-                            self.fetchComments()
+                            self.fetchComments(type: .card)
 
                         case .failure(let error):
 
@@ -186,7 +178,7 @@ class CardDetailViewController: BaseDetailViewController {
                     }
 
                 CardCommentManager.shared.updateCommentNumber(
-                    cardID: self.cardID ?? "",
+                    cardID: self.card?.cardID ?? "",
                     commentAction: .delete
                 ) { result in
 
@@ -196,7 +188,7 @@ class CardDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        self.fetchComments()
+                        self.fetchComments(type: .card)
 
                     case .failure(let error):
 
@@ -213,24 +205,5 @@ class CardDetailViewController: BaseDetailViewController {
         }
 
         return cell
-    }
-
-    func fetchComments() {
-
-        guard let cardID = cardID else { return }
-
-        CardCommentManager.shared.fetchComment(cardID: cardID) { result in
-
-            switch result {
-
-            case .success(let comments):
-
-                self.comments = comments
-
-            case .failure(let error):
-
-                print("fetchData.failure: \(error)")
-            }
-        }
     }
 }

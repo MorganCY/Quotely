@@ -28,7 +28,8 @@ class UserManager {
 
         reference.getDocument { document, error in
 
-            if let document = document, document.exists {
+            if let document = document,
+                document.exists {
 
                 do {
 

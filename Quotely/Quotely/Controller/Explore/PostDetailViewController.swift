@@ -12,12 +12,16 @@ class PostDetailViewController: BaseDetailViewController {
 
     var isAuthor = false
 
-    let visitorUid = SignInManager.shared.uid ?? ""
+    var author: User? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchComments()
+        fetchComments(type: .post)
 
         navigationItem.title = "摘語"
     }
@@ -39,7 +43,7 @@ class PostDetailViewController: BaseDetailViewController {
             return
         }
 
-        profileVC.visitedUid = postAuthorUid
+        profileVC.visitedUid = postAuthor?.uid
 
         self.show(profileVC, sender: nil)
     }
@@ -74,7 +78,7 @@ class PostDetailViewController: BaseDetailViewController {
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
                 cardID: nil,
-                postID: postID
+                postID: post?.postID
             )
 
             PostCommentManager.shared.addComment(
@@ -83,7 +87,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                 self.commentTextField.text = ""
 
-                self.fetchComments()
+                self.fetchComments(type: .post)
             }
 
         } else {
@@ -98,7 +102,10 @@ class PostDetailViewController: BaseDetailViewController {
 
     // MARK: TableView
     // Header: post content
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
 
         guard let header = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: BaseDetailTableViewHeader.identifier
@@ -107,28 +114,25 @@ class PostDetailViewController: BaseDetailViewController {
             fatalError("Cannot load header view.")
         }
 
-        isAuthor = postAuthorUid == visitorUid
+        isAuthor = postAuthor?.uid == visitorUid
         ? true : false
 
-        UserManager.shared.fetchUserInfo(uid: postAuthorUid) { result in
+        guard let post = post,
+              let postAuthor = postAuthor else {
 
-            switch result {
+                  fatalError("Cannot fetch post data")
+              }
 
-            case .success(let user):
-                header.layoutHeader(
-                    userImageUrl: user.profileImageUrl,
-                    userName: user.name,
-                    time: self.time,
-                    content: self.content,
-                    imageUrl: self.imageUrl,
-                    isAuthor: self.isAuthor
-                )
+        header.layoutHeader(
+            isCard: false,
+            card: nil,
+            post: post,
+            postAuthor: postAuthor,
+            isAuthor: self.isAuthor
+        )
 
-            case .failure(let error):
-                print(error)
-            }
-        }
         // Pass data from Post Detail page to Write page
+
         header.editHandler = {
 
             guard let writeVC = UIStoryboard.write.instantiateViewController(
@@ -141,11 +145,11 @@ class PostDetailViewController: BaseDetailViewController {
 
             self.navigationController?.present(nav, animated: true) {
 
-                writeVC.contentTextView.text = self.content
+                writeVC.contentTextView.text = self.post?.content
 
-                writeVC.postID = self.postID
+                writeVC.postID = self.post?.postID
 
-                if let imageUrl = self.imageUrl {
+                if let imageUrl = self.post?.imageUrl {
 
                     writeVC.imageUrl = imageUrl
 
@@ -154,7 +158,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                 writeVC.contentHandler = { content in
 
-                    self.content = content
+                    self.post?.content = content
 
                     tableView.reloadData()
                 }
@@ -167,7 +171,9 @@ class PostDetailViewController: BaseDetailViewController {
 
             let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
 
-                PostManager.shared.deletePost(postID: self.postID) { result in
+                guard let postID = post.postID else { return }
+
+                PostManager.shared.deletePost(postID: postID) { result in
 
                     switch result {
 
@@ -201,11 +207,14 @@ class PostDetailViewController: BaseDetailViewController {
 
         let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
         let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
+        let tapGoToProfileGesture3 = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
 
         header.userImageView.addGestureRecognizer(tapGoToProfileGesture)
         header.userImageView.isUserInteractionEnabled = true
-        header.userInfoStackView.addGestureRecognizer(tapGoToProfileGesture2)
-        header.userInfoStackView.isUserInteractionEnabled = true
+        header.userNameLabel.addGestureRecognizer(tapGoToProfileGesture2)
+        header.userNameLabel.isUserInteractionEnabled = true
+        header.timeLabel.addGestureRecognizer(tapGoToProfileGesture3)
+        header.timeLabel.isUserInteractionEnabled = true
 
         return header
     }
@@ -224,7 +233,9 @@ class PostDetailViewController: BaseDetailViewController {
 
         let comment = comments[indexPath.row]
 
-        isAuthor = postAuthorUid == visitorUid ? true : false
+        var isCommentAuthor = false
+
+        isCommentAuthor = comment.uid == visitorUid
 
         UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
 
@@ -235,7 +246,7 @@ class PostDetailViewController: BaseDetailViewController {
                     comment: comment,
                     userImageUrl: user.profileImageUrl ?? "",
                     userName: user.name ?? "",
-                    isAuthor: self.isAuthor
+                    isAuthor: isCommentAuthor
                 )
 
             case .failure(let error):
@@ -283,7 +294,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                             print(success)
 
-                            self.fetchComments()
+                            self.fetchComments(type: .post)
 
                         case .failure(let error):
 
@@ -319,23 +330,5 @@ class PostDetailViewController: BaseDetailViewController {
         cell.nameLabel.tag = indexPath.row
 
         return cell
-    }
-
-    // MARK: Data
-    func fetchComments() {
-
-        PostCommentManager.shared.fetchComment(postID: postID) { result in
-
-            switch result {
-
-            case .success(let comments):
-
-                self.comments = comments
-
-            case .failure(let error):
-
-                print("fetchData.failure: \(error)")
-            }
-        }
     }
 }

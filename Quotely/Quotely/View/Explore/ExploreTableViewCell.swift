@@ -14,7 +14,6 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var userInfoStackView: UIStackView!
     @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
@@ -46,8 +45,7 @@ class ExploreTableViewCell: UITableViewCell {
     }
 
     func layoutCell(
-        userImageUrl: String,
-        userName: String,
+        userInfo: User,
         post: Post,
         hasLiked: Bool
     ) {
@@ -55,15 +53,16 @@ class ExploreTableViewCell: UITableViewCell {
         let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
         let buttonColor: UIColor = hasLiked ? UIColor.M2! : .gray
 
-        likeButton.setImage(buttonImage, for: .normal)
-        likeButton.tintColor = buttonColor
+        userImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
+        userImageView.cornerRadius = userImageView.frame.width / 2
 
-        userNameLabel.text = userName
+        userNameLabel.text = userInfo.name
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
         contentLabel.text = post.content
 
-        userImageView.loadImage(userImageUrl, placeHolder: nil)
-        userImageView.cornerRadius = userImageView.frame.width / 2
+        likeButton.setImage(buttonImage, for: .normal)
+        likeButton.tintColor = buttonColor
+        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
 
         if let hashtag = post.hashtag {
 
@@ -78,14 +77,13 @@ class ExploreTableViewCell: UITableViewCell {
         if let postImageUrl = post.imageUrl {
 
             // Define postImageView display state in case of wrongly reusing cell
+
             postImageView.isHidden = false
             postImageView.loadImage(postImageUrl, placeHolder: nil)
 
-        } else if post.imageUrl == nil {
+        } else {
 
             postImageView.isHidden = true
         }
-
-        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
     }
 }
