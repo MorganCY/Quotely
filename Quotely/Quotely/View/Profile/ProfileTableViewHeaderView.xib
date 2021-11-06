@@ -32,51 +32,59 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="s50-HV-YAe">
-                    <rect key="frame" x="142" y="262.5" width="130.5" height="20"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="h8u-n5-ts1">
+                    <rect key="frame" x="95.5" y="281.5" width="223" height="86.5"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xv3-xs-B8s">
-                            <rect key="frame" x="0.0" y="0.0" width="35.5" height="20"/>
-                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
-                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov3-mI-aNJ">
-                            <rect key="frame" x="47.5" y="0.0" width="35.5" height="20"/>
-                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
-                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHp-Nu-ri1">
-                            <rect key="frame" x="95" y="0.0" width="35.5" height="20"/>
-                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
-                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                </stackView>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Vke-Gx-7ZC">
-                    <rect key="frame" x="95.5" y="314.5" width="223" height="53.5"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHh-Of-L8w">
-                            <rect key="frame" x="0.0" y="0.0" width="103.5" height="53.5"/>
-                            <color key="tintColor" name="M1"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="封鎖他">
-                                <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
-                            </buttonConfiguration>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOO-Ws-b6W">
-                            <rect key="frame" x="119.5" y="0.0" width="103.5" height="53.5"/>
-                            <color key="tintColor" name="M1"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="追蹤他">
-                                <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
-                            </buttonConfiguration>
-                            <connections>
-                                <action selector="follow:" destination="iN0-l3-epB" eventType="touchUpInside" id="dX7-8I-czR"/>
-                            </connections>
-                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="s50-HV-YAe">
+                            <rect key="frame" x="46.5" y="0.0" width="130.5" height="20"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xv3-xs-B8s">
+                                    <rect key="frame" x="0.0" y="0.0" width="35.5" height="20"/>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov3-mI-aNJ">
+                                    <rect key="frame" x="47.5" y="0.0" width="35.5" height="20"/>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHp-Nu-ri1">
+                                    <rect key="frame" x="95" y="0.0" width="35.5" height="20"/>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Vke-Gx-7ZC">
+                            <rect key="frame" x="0.0" y="52" width="223" height="34.5"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHh-Of-L8w">
+                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="34.5"/>
+                                    <color key="tintColor" name="M2"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="封鎖他">
+                                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
+                                    </buttonConfiguration>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOO-Ws-b6W">
+                                    <rect key="frame" x="119.5" y="0.0" width="103.5" height="34.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="bOO-Ws-b6W" secondAttribute="height" multiplier="3:1" id="Bja-5w-Rph"/>
+                                    </constraints>
+                                    <color key="tintColor" name="M1"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="追蹤他">
+                                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
+                                    </buttonConfiguration>
+                                    <connections>
+                                        <action selector="follow:" destination="iN0-l3-epB" eventType="touchUpInside" id="dX7-8I-czR"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
                     </subviews>
                 </stackView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8dU-OT-KB1">
@@ -108,7 +116,7 @@
                     </connections>
                 </button>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pie-XK-PW3">
-                    <rect key="frame" x="83" y="201" width="248" height="54.5"/>
+                    <rect key="frame" x="83" y="182.5" width="248" height="91"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="32"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
@@ -127,26 +135,24 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="h8u-n5-ts1" secondAttribute="bottom" constant="32" id="8xW-Ls-cmx"/>
                 <constraint firstItem="Pie-XK-PW3" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.6" id="9wM-7X-xrh"/>
+                <constraint firstItem="h8u-n5-ts1" firstAttribute="top" secondItem="Pie-XK-PW3" secondAttribute="bottom" constant="8" id="DnZ-ro-4aG"/>
                 <constraint firstItem="8dU-OT-KB1" firstAttribute="bottom" secondItem="ez7-go-5eO" secondAttribute="bottom" id="HXU-q4-Em9"/>
+                <constraint firstItem="bOO-Ws-b6W" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.25" id="JY3-cN-O2f"/>
                 <constraint firstItem="ez7-go-5eO" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="JYP-Mj-g82"/>
                 <constraint firstItem="Pdp-Hl-Jjz" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.08" id="LgF-Dc-WF0"/>
-                <constraint firstItem="s50-HV-YAe" firstAttribute="top" secondItem="aLR-Xb-dVD" secondAttribute="bottom" constant="12" id="MAE-Og-QGV"/>
+                <constraint firstItem="h8u-n5-ts1" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Lr0-ip-jVn"/>
                 <constraint firstItem="o3M-7Y-8aS" firstAttribute="centerY" secondItem="Pie-XK-PW3" secondAttribute="centerY" id="MJt-XT-xd7"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Vke-Gx-7ZC" secondAttribute="bottom" constant="32" id="Oqb-GR-NFZ"/>
                 <constraint firstItem="aLR-Xb-dVD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="PP9-Qw-5mS"/>
                 <constraint firstItem="Pdp-Hl-Jjz" firstAttribute="leading" secondItem="aLR-Xb-dVD" secondAttribute="trailing" constant="8" id="QbB-sP-Tgu"/>
-                <constraint firstItem="IHh-Of-L8w" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.25" id="U0j-2k-m76"/>
-                <constraint firstItem="s50-HV-YAe" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="WFX-Wb-imu"/>
                 <constraint firstItem="ez7-go-5eO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Wec-Nn-eq1"/>
                 <constraint firstItem="8dU-OT-KB1" firstAttribute="width" secondItem="ez7-go-5eO" secondAttribute="width" multiplier="0.289157" id="X5F-ls-xN2"/>
-                <constraint firstItem="Vke-Gx-7ZC" firstAttribute="top" secondItem="s50-HV-YAe" secondAttribute="bottom" constant="32" id="XVA-aD-SFP"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="width" secondItem="ez7-go-5eO" secondAttribute="width" id="axf-qf-fGN"/>
                 <constraint firstItem="Pie-XK-PW3" firstAttribute="centerX" secondItem="aLR-Xb-dVD" secondAttribute="centerX" id="fkE-cx-RGn"/>
-                <constraint firstItem="Vke-Gx-7ZC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ftS-0U-Oir"/>
                 <constraint firstItem="8dU-OT-KB1" firstAttribute="trailing" secondItem="ez7-go-5eO" secondAttribute="trailing" id="hN8-Zt-XBa"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="centerY" secondItem="ez7-go-5eO" secondAttribute="centerY" id="hk2-FF-qnC"/>
-                <constraint firstItem="bOO-Ws-b6W" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.25" id="oZA-Mj-SPu"/>
+                <constraint firstItem="IHh-Of-L8w" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.25" id="muX-wR-J0K"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="centerX" secondItem="ez7-go-5eO" secondAttribute="centerX" id="sgU-fh-Wou"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="height" secondItem="ez7-go-5eO" secondAttribute="height" id="stl-0K-1eb"/>
                 <constraint firstItem="Pie-XK-PW3" firstAttribute="centerY" secondItem="aLR-Xb-dVD" secondAttribute="centerY" id="voj-Lf-hTM"/>
@@ -178,6 +184,9 @@
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>
         <namedColor name="M1">
             <color red="0.45882352941176469" green="0.49411764705882355" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="M2">
+            <color red="0.60000002384185791" green="0.63499999046325684" blue="0.53700000047683716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

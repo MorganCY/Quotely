@@ -90,7 +90,10 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         followButton.isHidden = isVisitorProfile
     }
 
-    func layoutHeader(userInfo: User) {
+    func layoutHeader(
+        userInfo: User,
+        isFollow: Bool
+    ) {
 
         if let profileImageUrl = userInfo.profileImageUrl {
 
@@ -99,6 +102,17 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         } else {
 
             profileImageView.image = UIImage.asset(.plant)
+        }
+
+        if isFollow {
+
+            followButton.setTitle("追蹤中", for: .normal)
+            followButton.setTitleColor(.gray, for: .normal)
+
+        } else {
+
+            followButton.setTitle("追蹤他", for: .normal)
+            followButton.setTitleColor(.M1, for: .normal)
         }
 
         profileImageView.borderColor = .white

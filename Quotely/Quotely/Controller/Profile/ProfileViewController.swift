@@ -12,6 +12,13 @@ import PhotosUI
 
 class ProfileViewController: BaseImagePickerViewController {
 
+    enum UserType {
+
+        case visited
+
+        case visitor
+    }
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
@@ -32,9 +39,15 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    var isVisitorProfile = true
+    var isVisitorProfile = false
 
-    var userInfo: User? {
+    var isFollow = false {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    var visitedUserInfo: User? {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
@@ -70,32 +83,49 @@ class ProfileViewController: BaseImagePickerViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchUserInfo()
-        fetchUserPost()
+        fetchUserInfo(userType: .visited)
+        fetchUserInfo(userType: .visitor)
+        listenToVisitedUserPost()
     }
 
-    func fetchUserInfo() {
+    func fetchUserInfo(userType: UserType) {
 
-        guard let uid = visitedUid else { return }
+        let uid: String = {
+            switch userType {
+            case .visited: return visitedUid ?? ""
+            case .visitor: return visitorUid ?? ""
+            }
+        }()
 
         UserManager.shared.listenToUserUpdate(uid: uid) { result in
 
             switch result {
 
             case .success(let userInfo):
-                self.userInfo = userInfo
+
+                if userType == .visited {
+
+                    self.visitedUserInfo = userInfo
+
+                } else if userType == .visitor {
+
+                    guard let followingList = userInfo.following else { return }
+
+                    self.isFollow = followingList.contains(self.visitedUid ?? "")
+                }
 
             case .failure(let error):
+
                 print(error)
             }
         }
     }
 
-    func fetchUserPost() {
+    func listenToVisitedUserPost() {
 
         guard let uid = visitedUid else { return }
 
-        PostManager.shared.listenToPostUpdate(type: .user, uid: uid) { result in
+        _ = PostManager.shared.listenToPostUpdate(type: .user, uid: uid) { result in
 
             switch result {
 
@@ -127,7 +157,7 @@ class ProfileViewController: BaseImagePickerViewController {
         // remove original image from firebase storage
 
         ImageManager.shared.deleteImage(
-            imageUrl: self.userInfo?.profileImageUrl ?? "") { result in
+            imageUrl: self.visitedUserInfo?.profileImageUrl ?? "") { result in
 
                 switch result {
 
@@ -150,7 +180,7 @@ class ProfileViewController: BaseImagePickerViewController {
                             // update user profile image in firestore
 
                             UserManager.shared.updateUserInfo(
-                                uid: self.userInfo?.uid ?? "",
+                                uid: self.visitedUserInfo?.uid ?? "",
                                 profileImageUrl: url,
                                 userName: nil
                             ) { result in
@@ -214,7 +244,7 @@ class ProfileViewController: BaseImagePickerViewController {
                 // remove original image from firebase storage
 
                 ImageManager.shared.deleteImage(
-                    imageUrl: self.userInfo?.profileImageUrl ?? "") { result in
+                    imageUrl: self.visitedUserInfo?.profileImageUrl ?? "") { result in
 
                         switch result {
 
@@ -237,7 +267,7 @@ class ProfileViewController: BaseImagePickerViewController {
                                     // update profile image in firestore
 
                                     UserManager.shared.updateUserInfo(
-                                        uid: self.userInfo?.uid ?? "",
+                                        uid: self.visitedUserInfo?.uid ?? "",
                                         profileImageUrl: url,
                                         userName: nil
                                     ) { result in
@@ -276,6 +306,28 @@ class ProfileViewController: BaseImagePickerViewController {
             })
         }
     }
+
+    func tapFollowButton(followAction: UserManager.FollowAction) {
+
+        UserManager.shared.updateUserFollow(
+            visitorUid: visitorUid ?? "",
+            visitedUid: visitedUid ?? "",
+            followAction: followAction) { result in
+
+                switch result {
+
+                case .success(let success): print(success)
+
+                    if followAction == .follow {
+                        self.isFollow = true
+                    } else if followAction == .unfollow {
+                        self.isFollow = false
+                    }
+
+                case .failure(let error): print(error)
+                }
+            }
+    }
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
@@ -294,14 +346,14 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot create header view")
         }
 
-        guard let userInfo = userInfo else {
+        guard let userInfo = visitedUserInfo else {
 
             fatalError("Cannot fetch user info")
         }
 
         header.isVisitorProfile = isVisitorProfile
 
-        header.layoutHeader(userInfo: userInfo)
+        header.layoutHeader(userInfo: userInfo, isFollow: isFollow)
 
         header.editImageHandler = {
 
@@ -325,6 +377,15 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                         print(error)
                     }
                 }
+        }
+
+        header.followHandler = {
+
+            var followAction: UserManager.FollowAction = .follow
+
+            followAction = self.isFollow ? .unfollow : .follow
+
+            self.tapFollowButton(followAction: followAction)
         }
 
         return header
@@ -367,7 +428,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         let row = indexPath.row
 
         detailVC.post = userPostList[row]
-        detailVC.postAuthor = userInfo
+        detailVC.postAuthor = visitedUserInfo
 
         if let likeUserList = userPostList[row].likeUser {
 

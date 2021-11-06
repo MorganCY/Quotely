@@ -13,6 +13,13 @@ import UIKit
 
 class UserManager {
 
+    enum FollowAction: Int {
+
+        case follow = 1
+
+        case unfollow = -1
+    }
+
     static let shared = UserManager()
 
     private init() {}
@@ -151,6 +158,88 @@ class UserManager {
                 }
 
                 completion(.success("User information was updated"))
+
+            } else {
+
+                if let error = error {
+
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    func updateUserFollow(
+        visitorUid: String,
+        visitedUid: String,
+        followAction: FollowAction,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        let visitorReference = users.document(visitorUid)
+
+        let visitedReference = users.document(visitedUid)
+
+        visitorReference.getDocument { document, error in
+
+            if let document = document, document.exists {
+
+                switch followAction {
+                case .follow:
+
+                    document.reference.updateData([
+
+                        "followingNumber": FieldValue.increment(Int64(followAction.rawValue)),
+
+                        "following": FieldValue.arrayUnion([visitedUid])
+                    ])
+
+                case .unfollow:
+
+                    document.reference.updateData([
+
+                        "followingNumber": FieldValue.increment(Int64(followAction.rawValue)),
+
+                        "following": FieldValue.arrayRemove([visitedUid])
+                    ])
+                }
+
+                completion(.success("Visitor follow was updated"))
+
+            } else {
+
+                if let error = error {
+
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        visitedReference.getDocument { document, error in
+
+            if let document = document, document.exists {
+
+                switch followAction {
+                case .follow:
+
+                    document.reference.updateData([
+
+                        "followerNumber": FieldValue.increment(Int64(followAction.rawValue)),
+
+                        "follower": FieldValue.arrayUnion([visitorUid])
+                    ])
+
+                case .unfollow:
+
+                    document.reference.updateData([
+
+                        "followerNumber": FieldValue.increment(Int64(followAction.rawValue)),
+
+                        "follower": FieldValue.arrayRemove([visitorUid])
+                    ])
+                }
+
+                completion(.success("Visitor follow was updated"))
 
             } else {
 
