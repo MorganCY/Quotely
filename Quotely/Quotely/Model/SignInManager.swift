@@ -163,7 +163,7 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                             saying: nil,
                             registerTime: user.metadata.creationDate?.millisecondsSince1970,
                             provider: "Apple",
-                            postID: nil,
+                            postList: nil,
                             likeCardID: nil,
                             dislikeCardID: nil,
                             journalID: nil,

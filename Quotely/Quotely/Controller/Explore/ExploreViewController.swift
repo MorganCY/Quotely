@@ -7,15 +7,24 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestore
 
 class ExploreViewController: UIViewController {
 
     let visitorUid = SignInManager.shared.uid
 
+    var listener: ListenerRegistration?
+
+    var visitorFollowingList: [String] = []
+
     let filters: [PostManager.FilterType] = [.latest, .popular, .following]
     var currentFilter: PostManager.FilterType = .latest {
         didSet {
-            addPostListener(type: currentFilter, removeListener: false)
+            if currentFilter == .following {
+                listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
+            } else {
+                listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
+            }
         }
     }
 
@@ -62,13 +71,33 @@ class ExploreViewController: UIViewController {
 
         setupFilterView()
 
-        addPostListener(type: .latest, removeListener: false)
+        fetchVisitorFollowingList()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        listener?.remove()
     }
 
     // MARK: Data
-    func addPostListener(type: PostManager.FilterType, removeListener: Bool) {
+    func addPostListener(
+        type: PostManager.FilterType,
+        uid: String?,
+        followingList: [String]?
+    ) -> ListenerRegistration {
 
-        let listener = PostManager.shared.listenToPostUpdate(type: type, uid: nil) { result in
+        return PostManager.shared.listenToPostUpdate(
+            type: type,
+            uid: uid,
+            followingList: followingList
+        ) { result in
 
             switch result {
 
@@ -83,8 +112,6 @@ class ExploreViewController: UIViewController {
                 print(error)
             }
         }
-
-        if removeListener == true { listener?.remove() }
     }
 
     func fetchUserList(postList: [Post]) {
@@ -123,6 +150,22 @@ class ExploreViewController: UIViewController {
                 self.userList = userList
             }
         }
+    }
+
+    func fetchVisitorFollowingList() {
+
+        UserManager.shared.fetchUserInfo(
+            uid: visitorUid ?? "") { result in
+                switch result {
+
+                case .success(let user):
+
+                    self.visitorFollowingList = user.following ?? [""]
+
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
 
     @objc func addPost(_ sender: UIBarButtonItem) {
@@ -182,16 +225,16 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
         switch index {
 
         case 0:
-            addPostListener(type: currentFilter, removeListener: true)
+            listener?.remove()
             currentFilter = .latest
         case 1:
-            addPostListener(type: currentFilter, removeListener: true)
+            listener?.remove()
             currentFilter = .popular
         case 2:
-            addPostListener(type: currentFilter, removeListener: true)
+            listener?.remove()
             currentFilter = .following
         default:
-            addPostListener(type: currentFilter, removeListener: true)
+            listener?.remove()
             currentFilter = .latest
         }
     }

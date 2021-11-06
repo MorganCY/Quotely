@@ -264,9 +264,10 @@ class PostManager {
     func listenToPostUpdate(
         type: FilterType,
         uid: String?,
+        followingList: [String]?,
         completion: @escaping (Result<[Post], Error>
         ) -> Void
-    ) -> ListenerRegistration? {
+    ) -> ListenerRegistration {
 
         switch type {
 
@@ -342,6 +343,7 @@ class PostManager {
         case.following:
 
             return posts
+                .whereField("uid", in: followingList ?? [""])
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
 

@@ -219,7 +219,21 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        self.navigationController?.popViewController(animated: true)
+                        UserManager.shared.updateUserPost(
+                            uid: self.postAuthor?.uid ?? "",
+                            postID: postID,
+                            postAction: .delete) { result in
+
+                                switch result {
+
+                                case .success(let success):
+                                    print(success)
+
+                                    self.navigationController?.popViewController(animated: true)
+
+                                case .failure(let error): print(error)
+                                }
+                            }
 
                     case .failure(let error):
 

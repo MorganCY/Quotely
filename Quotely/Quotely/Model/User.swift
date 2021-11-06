@@ -14,7 +14,7 @@ struct User: Codable {
     var saying: String?
     var registerTime: Int64?
     var provider: String?
-    var postID: [String]?
+    var postList: [String]?
     var likeCardID: [String]?
     var dislikeCardID: [String]?
     var journalID: [String]?

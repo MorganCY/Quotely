@@ -20,6 +20,13 @@ class UserManager {
         case unfollow = -1
     }
 
+    enum PostAction: Int {
+
+        case publish = 1
+
+        case delete = -1
+    }
+
     static let shared = UserManager()
 
     private init() {}
@@ -125,6 +132,53 @@ class UserManager {
         } catch {
 
             completion(.failure(error))
+        }
+    }
+
+    func updateUserPost(
+        uid: String,
+        postID: String,
+        postAction: PostAction,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        let reference = users.document(uid)
+
+        reference.getDocument { document, error in
+
+            if let document = document, document.exists {
+
+                switch postAction {
+
+                case .publish:
+
+                    document.reference.updateData([
+
+                        "postNumber": FieldValue.increment(Int64(postAction.rawValue)),
+
+                        "postList": FieldValue.arrayUnion([postID])
+                    ])
+
+                case .delete:
+
+                    document.reference.updateData([
+
+                        "postNumber": FieldValue.increment(Int64(postAction.rawValue)),
+
+                        "postList": FieldValue.arrayRemove([postID])
+                    ])
+
+                }
+
+                completion(.success("Updated user post number and post list"))
+
+            } else {
+
+                if let error = error {
+
+                    completion(.failure(error))
+                }
+            }
         }
     }
 

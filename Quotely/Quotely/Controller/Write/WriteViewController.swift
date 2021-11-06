@@ -204,7 +204,22 @@ class WriteViewController: BaseImagePickerViewController {
 
                             print(success)
 
-                            self.dismiss(animated: true, completion: nil)
+                            UserManager.shared.updateUserPost(
+                                uid: SignInManager.shared.uid ?? "",
+                                postID: postID,
+                                postAction: .publish) { result in
+
+                                    switch result {
+
+                                    case .success(let success):
+                                        print(success)
+
+                                        self.dismiss(animated: true, completion: nil)
+
+                                    case .failure(let error):
+                                        print(error)
+                                    }
+                                }
 
                         case .failure(let error):
 

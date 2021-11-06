@@ -127,7 +127,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
         guard let uid = visitedUid else { return }
 
-        _ = PostManager.shared.listenToPostUpdate(type: .user, uid: uid) { result in
+        _ = PostManager.shared.listenToPostUpdate(type: .user, uid: uid, followingList: nil) { result in
 
             switch result {
 
