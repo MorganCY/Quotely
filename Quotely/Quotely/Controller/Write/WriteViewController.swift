@@ -79,6 +79,7 @@ class WriteViewController: BaseImagePickerViewController {
             guard postID != nil else { return }
             navTitle = "編輯"
             navButtonTitle = "更新"
+            setupNavigation()
         }
     }
     private var navTitle = "撰寫"
@@ -167,14 +168,16 @@ class WriteViewController: BaseImagePickerViewController {
 
         if !contentTextView.text.isEmpty || hasImage == true {
 
+            guard let uid = SignInManager.shared.uid else { return }
+
             var post = Post(
-                uid: "test123456",
+                uid: uid,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
                 content: contentTextView.text   ,
                 imageUrl: imageUrl,
                 hashtag: hashtagTitle,
-                likeNumber: nil,
+                likeNumber: 0,
                 likeUser: nil,
                 commentNumber: nil)
 
@@ -201,7 +204,22 @@ class WriteViewController: BaseImagePickerViewController {
 
                             print(success)
 
-                            self.dismiss(animated: true, completion: nil)
+                            UserManager.shared.updateUserPost(
+                                uid: SignInManager.shared.uid ?? "",
+                                postID: postID,
+                                postAction: .publish) { result in
+
+                                    switch result {
+
+                                    case .success(let success):
+                                        print(success)
+
+                                        self.dismiss(animated: true, completion: nil)
+
+                                    case .failure(let error):
+                                        print(error)
+                                    }
+                                }
 
                         case .failure(let error):
 
@@ -318,28 +336,31 @@ class WriteViewController: BaseImagePickerViewController {
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
 
-        picker.dismiss(animated: true) {
-
-            Toast.showLoading(text: "載入中")
-            fatalError("Cannot load image")
-        }
-
-        guard let selectedImage = info[.editedImage] as? UIImage else {
-
-            return
-        }
-
-//        postImageView.image = selectedImage
-//
-//        dismiss(animated: true)
-
         switch isRecognizedTextButtonTapped {
 
         case true:
 
+            picker.dismiss(animated: true)
+
+            Toast.showLoading(text: "載入中")
+
+            guard let selectedImage = info[.editedImage] as? UIImage else {
+
+                return
+            }
+
             self.recognizedImage = selectedImage
 
         case false:
+
+            picker.dismiss(animated: true)
+
+            Toast.showLoading(text: "載入中")
+
+            guard let selectedImage = info[.editedImage] as? UIImage else {
+
+                return
+            }
 
             ImageManager.shared.uploadImage(image: selectedImage) { result in
 
@@ -385,10 +406,9 @@ class WriteViewController: BaseImagePickerViewController {
 
         case true:
 
-            picker.dismiss(animated: true) {
+            picker.dismiss(animated: true)
 
-                Toast.showLoading(text: "載入中")
-            }
+            Toast.showLoading(text: "載入中")
 
             guard !results.isEmpty else { return }
 
@@ -407,10 +427,9 @@ class WriteViewController: BaseImagePickerViewController {
 
         case false:
 
-            picker.dismiss(animated: true) {
+            picker.dismiss(animated: true)
 
-                Toast.showLoading(text: "載入中")
-            }
+            Toast.showLoading(text: "載入中")
 
             guard !results.isEmpty else { return }
 
@@ -464,7 +483,6 @@ class WriteViewController: BaseImagePickerViewController {
                     }
                 })
             }
-
         }
     }
 }
@@ -476,13 +494,24 @@ extension WriteViewController {
 
         guard let imageUrl = imageUrl else { return }
 
-        ImageManager.shared.deleteImage(imageUrl: imageUrl, removeUrlHandler: { [weak self] in
+        ImageManager.shared.deleteImage(imageUrl: imageUrl, completion: { result in
 
-            self?.postImageView.image = nil
+            switch result {
 
-            self?.imageUrl = nil
+            case .success(let success):
 
-            self?.hasImage = false
+                print(success)
+
+                self.postImageView.image = nil
+
+                self.imageUrl = nil
+
+                self.hasImage = false
+
+            case .failure(let error):
+
+                print(error)
+            }
         })
     }
 }

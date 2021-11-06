@@ -51,12 +51,14 @@ class JournalManager {
     }
 
     func fetchJournal(
+        uid: String,
         month: String,
         year: String,
         completion: @escaping (Result<[Journal], Error>) -> Void
     ) {
 
         journals
+            .whereField("uid", isEqualTo: uid)
             .whereField("createdMonth", isEqualTo: month)
             .whereField("createdYear", isEqualTo: year)
             .order(by: "createdTime", descending: true)

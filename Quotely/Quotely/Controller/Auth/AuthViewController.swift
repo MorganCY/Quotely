@@ -20,15 +20,15 @@ class AuthViewController: UIViewController {
     func setupSignInWithAppleButton() {
 
         let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-        let signOutButton = UIButton()
+//        let signOutButton = UIButton()
 
         view.addSubview(signInButton)
-        view.addSubview(signOutButton)
+//        view.addSubview(signOutButton)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
-        signOutButton.translatesAutoresizingMaskIntoConstraints = false
+//        signOutButton.translatesAutoresizingMaskIntoConstraints = false
 
         signInButton.addTarget(self, action: #selector(handleSignInWithAppleTapped(_:)), for: .touchUpInside)
-        signOutButton.addTarget(self, action: #selector(handleSignOutTapped(_:)), for: .touchUpInside)
+//        signOutButton.addTarget(self, action: #selector(handleSignOutTapped(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
 
@@ -37,14 +37,14 @@ class AuthViewController: UIViewController {
             signInButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             signInButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
 
-            signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signOutButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 16),
-            signOutButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            signOutButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
+//            signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            signOutButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 16),
+//            signOutButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+//            signOutButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
         ])
 
-        signOutButton.setTitle("登出", for: .normal)
-        signOutButton.setTitleColor(.black, for: .normal)
+//        signOutButton.setTitle("登出", for: .normal)
+//        signOutButton.setTitleColor(.black, for: .normal)
     }
 
     @objc func handleSignInWithAppleTapped(_ sender: ASAuthorizationAppleIDButton) {
@@ -52,9 +52,8 @@ class AuthViewController: UIViewController {
         SignInManager.shared.performSignIn()
     }
 
-    @objc func handleSignOutTapped(_ sender: UIButton) {
-
-        SignInManager.shared.performSignOut()
-    }
-
+//    @objc func handleSignOutTapped(_ sender: UIButton) {
+//
+//        SignInManager.shared.performSignOut()
+//    }
 }

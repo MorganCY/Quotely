@@ -138,14 +138,18 @@ extension UIView {
 // Shadow settings
 extension UIView {
 
-    func dropShadow(opacity: Float = 0.3, width: Int = 4, height: Int = 4, radius: CGFloat = 8) {
+    func dropShadow(opacity: Float = 0.3, width: Int = 4, height: Int = 4, radius: CGFloat = 8, isPath: Bool = true) {
         layer.shadowColor = UIColor.gray.cgColor
         layer.shadowOpacity = opacity
         layer.shadowOffset = CGSize(width: width, height: height)
         layer.shadowRadius = radius
-        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
+
+        if isPath {
+
+            layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        }
     }
 
     @IBInspectable var shadowColor: CGColor? {

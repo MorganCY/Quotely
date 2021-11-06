@@ -33,7 +33,9 @@ class Toast {
 
         shared.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
 
-        shared.hud.show(in: shared.view ?? UIView())
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+
+        shared.hud.show(in: sceneDelegate?.window ?? UIView())
 
         shared.hud.dismiss(afterDelay: 1.5)
     }
@@ -53,7 +55,9 @@ class Toast {
 
         shared.hud.textLabel.text = text
 
-        shared.hud.show(in: shared.view ?? UIView())
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+
+        shared.hud.show(in: sceneDelegate?.window ?? UIView())
     }
 
     static func showFailure(text: String) {
@@ -71,7 +75,9 @@ class Toast {
 
         shared.hud.indicatorView = JGProgressHUDErrorIndicatorView()
 
-        shared.hud.show(in: shared.view ?? UIView())
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+
+        shared.hud.show(in: sceneDelegate?.window ?? UIView())
 
         shared.hud.dismiss(afterDelay: 1.5)
     }

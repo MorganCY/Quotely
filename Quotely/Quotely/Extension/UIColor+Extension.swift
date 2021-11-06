@@ -17,6 +17,8 @@ extension UIColor {
 
     static let M2 = baseColor(.M2)
 
+    static let C3 = baseColor(.C3)
+
     private static func baseColor(_ color: BaseColor) -> UIColor? {
 
         return UIColor(named: color.rawValue)

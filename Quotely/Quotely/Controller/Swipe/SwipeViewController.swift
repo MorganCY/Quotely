@@ -10,6 +10,8 @@ import UIKit
 
 class SwipeViewController: UIViewController {
 
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     var cards = [Card]() {
         didSet {
             cardStack.dataSource = self
@@ -114,7 +116,7 @@ class SwipeViewController: UIViewController {
 
     func updateCard(cardID: String, likeAction: LikeAction) {
 
-        CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: "test123456") { result in
+        CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: visitorUid) { result in
 
             switch result {
 
@@ -130,7 +132,7 @@ class SwipeViewController: UIViewController {
     func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
 
         UserManager.shared.updateFavoriteCard(
-            uid: "test123456",
+            uid: visitorUid,
             cardID: cardID,
             likeAction: likeAction) { result in
 
@@ -158,10 +160,8 @@ class SwipeViewController: UIViewController {
 
         let card = cards[currentCardIndex]
 
-        detailVC.cardID = card.cardID
-        detailVC.hasLiked = card.likeUser.contains("test123456") ? true : false
-        detailVC.uid = "test123456"
-        detailVC.content = "\(card.content)\n\n\n\(card.author)"
+        detailVC.card = card
+        detailVC.isLike = card.likeUser.contains(visitorUid)
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

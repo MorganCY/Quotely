@@ -35,16 +35,21 @@ class SignInManager: NSObject {
         authorizationController.performRequests()
     }
 
-    func performSignOut() {
+    func performSignOut(completion: @escaping (Result<String, Error>) -> Void) {
 
         do {
 
-            try Auth.auth().signOut()
+            if Auth.auth().currentUser != nil {
 
-        } catch {
+                try Auth.auth().signOut()
+            }
 
-            print("Cannot sign out")
+        } catch let signOutError as NSError {
+
+            completion(.failure(signOutError))
         }
+
+        completion(.success("Signed out successfully"))
     }
 
     func createAppleIDRequest() -> ASAuthorizationAppleIDRequest {
@@ -150,7 +155,7 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                 if let user = authResult?.user {
                     print("User has already signed in as \(user.uid), \(String(describing: user.email))")
 
-                    if user.metadata.creationDate == user.metadata.lastSignInDate {
+                    if authResult?.additionalUserInfo?.isNewUser == true {
 
                         let user = User(
                             uid: user.uid,
@@ -158,7 +163,7 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                             saying: nil,
                             registerTime: user.metadata.creationDate?.millisecondsSince1970,
                             provider: "Apple",
-                            postID: nil,
+                            postList: nil,
                             likeCardID: nil,
                             dislikeCardID: nil,
                             journalID: nil,

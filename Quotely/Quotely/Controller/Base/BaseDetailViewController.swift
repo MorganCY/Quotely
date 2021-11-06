@@ -10,6 +10,14 @@ import UIKit
 
 class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
+    enum DetailPageType {
+
+        case card
+        case post
+    }
+
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     // MARK: ViewControls
     let commentPanel = UIView()
     let userImageView = UIImageView()
@@ -19,33 +27,35 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableView: UITableView!
 
     // MARK: DetailDataProperty
-    var userImage: UIImage?
-    var userName: String?
+    var card: Card?
+    var post: Post?
+    var postAuthor: User?
+    var visitor: User? {
+        didSet {
+            layoutCommentPanel()
+        }
+    }
     var time: Int64?
     var likeNumber: Int?
-    var cardID: String?
-    var postID: String = ""
-    var postCommentID: String?
-    var uid = ""
 
-    var comments: [Comment] = [] {
+    var comments: [Comment] = []
+
+    var commentUser: [User] = [] {
         didSet {
             tableView.reloadData()
         }
     }
-    var content: String = ""
-    var imageUrl: String?
 
     var hasTabBar = false
-    var hasLiked = false
+    var isLike = false
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupTableVIew()
+        fetchUserInfo()
 
-        layoutCommentPanel()
+        setupTableView()
 
         if #available(iOS 15.0, *) {
 
@@ -81,9 +91,24 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tabBarController?.tabBar.isHidden = hasTabBar
     }
 
+    func fetchUserInfo() {
+
+        guard let uid = SignInManager.shared.uid else { return }
+
+        UserManager.shared.fetchUserInfo(uid: uid) { result in
+
+                switch result {
+
+                case .success(let user):
+                    self.visitor = user
+
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+
     // MARK: Action
-    // Should be properly overridden by subclasses
-    @objc func like(_ sender: UIButton) {}
 
     @objc func addComment(_ sender: UIButton) {
 
@@ -92,7 +117,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     // MARK: SetupViews
 
-    func setupTableVIew() {
+    func setupTableView() {
 
         if tableView == nil {
 
@@ -108,6 +133,88 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.delegate = self
 
         tableView.backgroundColor = .white
+    }
+
+    func fetchComments(type: DetailPageType) {
+
+        switch type {
+
+        case .card:
+
+            guard let cardID = card?.cardID else { return }
+
+            CardCommentManager.shared.fetchComment(cardID: cardID) { result in
+
+                switch result {
+
+                case .success(let comments):
+
+                    self.comments = comments
+
+                case .failure(let error):
+
+                    print("fetchData.failure: \(error)")
+                }
+            }
+
+        case .post:
+
+            guard let postID = post?.postID else { return }
+
+            PostCommentManager.shared.fetchComment(postID: postID) { result in
+
+                switch result {
+
+                case .success(let comments):
+
+                    self.comments = comments
+
+                    self.fetchCommentUserInfo(commentList: comments)
+
+                case .failure(let error):
+
+                    print("fetchData.failure: \(error)")
+                }
+            }
+        }
+    }
+
+    func fetchCommentUserInfo(commentList: [Comment]) {
+
+        var userList: [User] = Array(repeating: User.default, count: commentList.count)
+
+        let group = DispatchGroup()
+
+        DispatchQueue.main.async {
+
+            for (index, comment) in commentList.enumerated() {
+
+                group.enter()
+
+                UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
+
+                    switch result {
+
+                    case .success(let user):
+
+                        userList[index] = user
+
+                        group.leave()
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        group.leave()
+                    }
+                }
+            }
+
+            group.notify(queue: DispatchQueue.main) {
+
+                self.commentUser = userList
+            }
+        }
     }
 
     func layoutCommentPanel() {
@@ -150,7 +257,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         commentPanel.backgroundColor = .white
 
         userImageView.backgroundColor = .gray
-        userImageView.image = userImage
+        userImageView.clipsToBounds = true
+        userImageView.loadImage(visitor?.profileImageUrl ?? "", placeHolder: nil)
         commentTextField.delegate = self
 
         submitButton.addTarget(
@@ -165,6 +273,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         return UIView()
     }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat { 200 }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 

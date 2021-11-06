@@ -19,7 +19,13 @@ class BaseDetailCommentCell: UITableViewCell {
     @IBOutlet weak var doneEditingButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
 
-    var isEnableEdit = false
+    var isEnableEdit = false {
+        didSet {
+            contentLabel.isHidden = isEnableEdit
+            editTextField.isHidden = !isEnableEdit
+            doneEditingButton.isHidden = !isEnableEdit
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,32 +33,32 @@ class BaseDetailCommentCell: UITableViewCell {
         self.backgroundColor = .clear
 
         userImageView.cornerRadius = userImageView.frame.width / 2
+        userImageView.clipsToBounds = true
 
         editButton.tintColor = .gray
         deleteButton.tintColor = .gray
+
+        contentLabel.isHidden = isEnableEdit
+        editTextField.isHidden = !isEnableEdit
+        doneEditingButton.isHidden = !isEnableEdit
     }
 
     func layoutCell(
-        userImage: UIImage,
+        comment: Comment,
+        userImageUrl: String,
         userName: String,
-        createdTime: Int64,
-        content: String,
-        isAuthor: Bool,
-        editTime: Int64?
+        isAuthor: Bool
     ) {
 
-        userImageView.image = userImage
+        userImageView.loadImage(userImageUrl, placeHolder: nil)
         nameLabel.text = userName
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: createdTime))
-        contentLabel.text = content
+        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: comment.createdTime))
+        contentLabel.text = comment.content
 
-        contentLabel.isHidden = isEnableEdit
         editButton.isHidden = !isAuthor
-        editTextField.isHidden = !isEnableEdit
-        doneEditingButton.isHidden = !isEnableEdit
         deleteButton.isHidden = !isAuthor
 
-        guard let editTime = editTime else { return }
+        guard let editTime = comment.editTime else { return }
 
         timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
     }
@@ -65,9 +71,6 @@ class BaseDetailCommentCell: UITableViewCell {
 
         isEnableEdit = true
         editTextField.text = contentLabel.text
-        contentLabel.isHidden = isEnableEdit
-        editTextField.isHidden = !isEnableEdit
-        doneEditingButton.isHidden = !isEnableEdit
     }
 
     @IBAction func doneEditing(_ sender: UIButton) {
@@ -76,10 +79,7 @@ class BaseDetailCommentCell: UITableViewCell {
 
         editHandler(text)
         contentLabel.text = text
-        isEnableEdit.toggle()
-
-        editTextField.isHidden = !isEnableEdit
-        doneEditingButton.isHidden = !isEnableEdit
+        isEnableEdit = false
     }
 
     @IBAction func deleteComment(_ sender: UIButton) {

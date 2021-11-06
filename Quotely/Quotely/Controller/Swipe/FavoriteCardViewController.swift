@@ -11,6 +11,8 @@ import AVFoundation
 
 class FavoriteCardViewController: UIViewController {
 
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     var likeCardList = [Card]() {
         didSet {
             tableView.reloadData()
@@ -38,6 +40,8 @@ class FavoriteCardViewController: UIViewController {
         self.view.backgroundColor = .M1
 
         navigationController?.setupBackButton(color: .white)
+
+        navigationItem.title = "收藏清單"
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +57,7 @@ class FavoriteCardViewController: UIViewController {
 
     func fetchUserInfo() {
 
-        UserManager.shared.fetchUserInfo(uid: "test123456") { result in
+        UserManager.shared.fetchUserInfo(uid: visitorUid) { result in
 
             switch result {
 
@@ -87,7 +91,7 @@ class FavoriteCardViewController: UIViewController {
         let card = likeCardList[index]
 
         UserManager.shared.updateFavoriteCard(
-            uid: "test123456",
+            uid: visitorUid,
             cardID: card.cardID ?? "",
             likeAction: .dislike
         ) { result in
@@ -110,7 +114,7 @@ class FavoriteCardViewController: UIViewController {
         CardManager.shared.updateCards(
             cardID: cardID,
             likeAction: .dislike,
-            uid: "test123456") { result in
+            uid: visitorUid) { result in
 
                 switch result {
 
@@ -136,10 +140,8 @@ class FavoriteCardViewController: UIViewController {
 
         let card = likeCardList[index]
 
-        detailVC.cardID = card.cardID
-        detailVC.hasLiked = card.likeUser.contains("test123456") ? true : false
-        detailVC.uid = "test123456"
-        detailVC.content = "\(card.content)\n\n\n\(card.author)"
+        detailVC.card = card
+        detailVC.isLike = card.likeUser.contains(SignInManager.shared.uid ?? "")
 
         navigationController?.pushViewController(detailVC, animated: true)
     }
