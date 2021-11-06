@@ -96,7 +96,7 @@ class JournalViewController: UIViewController {
         var journal = Journal(
             uid: SignInManager.shared.uid ?? "",
             createdTime: Date().millisecondsSince1970,
-            emoji: "\(selectedEmoji ?? .smile)",
+            emoji: "\(selectedEmoji?.rawValue ?? "face.smiling")",
             content: journalTextView.text)
 
         JournalManager.shared.addJournal(
