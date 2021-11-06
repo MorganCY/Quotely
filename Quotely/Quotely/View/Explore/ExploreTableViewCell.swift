@@ -25,16 +25,12 @@ class ExploreTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        userImageView.contentMode = .scaleAspectFill
         userImageView.clipsToBounds = true
 
-        postImageView.contentMode = .scaleAspectFill
         postImageView.cornerRadius = CornerRadius.standard.rawValue
 
         hashtagLabel.cornerRadius = CornerRadius.standard.rawValue / 3
         hashtagLabel.layer.masksToBounds = true
-
-        likeButton.isEnabled = true
     }
 
     var likeHandler: () -> Void = {}
@@ -47,11 +43,11 @@ class ExploreTableViewCell: UITableViewCell {
     func layoutCell(
         userInfo: User,
         post: Post,
-        hasLiked: Bool
+        isLikePost: Bool
     ) {
 
-        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = hasLiked ? UIColor.M2! : .gray
+        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
+        let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
 
         userImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
         userImageView.cornerRadius = userImageView.frame.width / 2

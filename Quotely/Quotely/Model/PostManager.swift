@@ -26,6 +26,8 @@ class PostManager {
 
     static let shared = PostManager()
 
+    let visitorUid = SignInManager.shared.uid
+
     private init() {}
 
     let posts = Firestore.firestore().collection("posts")
@@ -221,14 +223,14 @@ class PostManager {
 
                     targetPost?.reference.updateData(
                         ["likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                         "likeUser": FieldValue.arrayUnion(["test123456"] as [Any])
+                         "likeUser": FieldValue.arrayUnion([self.visitorUid as Any])
                         ])
 
                 case .dislike:
 
                     targetPost?.reference.updateData(
                         ["likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                         "likeUser": FieldValue.arrayRemove(["test123456"] as [Any])
+                         "likeUser": FieldValue.arrayRemove([self.visitorUid as Any])
                         ])
                 }
 
@@ -263,13 +265,14 @@ class PostManager {
         type: FilterType,
         uid: String?,
         completion: @escaping (Result<[Post], Error>
-        ) -> Void) {
+        ) -> Void
+    ) -> ListenerRegistration? {
 
         switch type {
 
         case .latest:
 
-            posts
+            return posts
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
 
@@ -303,7 +306,7 @@ class PostManager {
 
         case .popular:
 
-            posts
+            return posts
                 .order(by: "likeNumber", descending: true)
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
@@ -336,11 +339,43 @@ class PostManager {
                 }
             }
 
-        case.following: break
+        case.following:
+
+            return posts
+                .order(by: "createdTime", descending: true)
+                .addSnapshotListener { (documentSnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in documentSnapshot!.documents {
+
+                        do {
+
+                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+                    completion(.success(posts))
+                }
+            }
 
         case .user:
 
-            posts
+            return posts
                 .whereField("uid", isEqualTo: uid)
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in

@@ -90,7 +90,9 @@ class CardDetailViewController: BaseDetailViewController {
             card: card,
             post: nil,
             postAuthor: nil,
-            isAuthor: false)
+            isAuthor: false,
+            isLike: isLike
+        )
 
         return header
     }

@@ -92,7 +92,15 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
     func layoutHeader(userInfo: User) {
 
-        profileImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
+        if let profileImageUrl = userInfo.profileImageUrl {
+
+            profileImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            profileImageView.image = UIImage.asset(.plant)
+        }
+
         profileImageView.borderColor = .white
         profileImageView.borderWidth = 2
         userNameLabel.text = userInfo.name

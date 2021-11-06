@@ -16,7 +16,7 @@ class ProfileViewController: BaseImagePickerViewController {
         didSet {
             tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
             tableView.registerCellWithNib(identifier: ProfileTableViewCell.identifier, bundle: nil)
-            tableView.backgroundColor = .C3?.withAlphaComponent(0.3)
+            tableView.backgroundColor = .C3?.withAlphaComponent(0.5)
         }
     }
 
@@ -351,6 +351,30 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         cell.hideSelectionStyle()
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        guard let detailVC =
+                UIStoryboard.explore
+                .instantiateViewController(
+                    withIdentifier: String(describing: PostDetailViewController.self)
+                ) as? PostDetailViewController else {
+
+                    return
+                }
+
+        let row = indexPath.row
+
+        detailVC.post = userPostList[row]
+        detailVC.postAuthor = userInfo
+
+        if let likeUserList = userPostList[row].likeUser {
+
+            detailVC.isLike = likeUserList.contains(visitorUid ?? "")
+        }
+
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

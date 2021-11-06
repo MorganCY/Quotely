@@ -79,6 +79,7 @@ class WriteViewController: BaseImagePickerViewController {
             guard postID != nil else { return }
             navTitle = "編輯"
             navButtonTitle = "更新"
+            setupNavigation()
         }
     }
     private var navTitle = "撰寫"
@@ -176,7 +177,7 @@ class WriteViewController: BaseImagePickerViewController {
                 content: contentTextView.text   ,
                 imageUrl: imageUrl,
                 hashtag: hashtagTitle,
-                likeNumber: nil,
+                likeNumber: 0,
                 likeUser: nil,
                 commentNumber: nil)
 

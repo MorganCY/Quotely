@@ -13,11 +13,13 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var userInfoStackView: UIStackView!
     @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var likeNumberLabel: UILabel!
 
     var hasUserInfo = false {
         didSet {
@@ -35,6 +37,14 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
     var deleteHandler: () -> Void = {}
 
+    var likeHandler: () -> Void = {}
+
+    @IBAction func like(_ sender: UIButton) { likeHandler() }
+
+    @IBAction func edit(_ sender: UIButton) { editHandler() }
+
+    @IBAction func deleteComment(_ sender: UIButton) { deleteHandler() }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -49,6 +59,8 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
         editButton.tintColor = .gray
         deleteButton.tintColor = .gray
+
+        likeButton.isUserInteractionEnabled = true
     }
 
     func layoutHeader(
@@ -56,19 +68,29 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         card: Card?,
         post: Post?,
         postAuthor: User?,
-        isAuthor: Bool
+        isAuthor: Bool,
+        isLike: Bool
     ) {
+
+        let buttonImage: UIImage = isLike ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
+        let buttonColor: UIColor = isLike ? UIColor.M2! : .gray
+
+        likeButton.setImage(buttonImage, for: .normal)
+        likeButton.tintColor = buttonColor
+        likeNumberLabel.text = "\(post?.likeNumber ?? 0)"
 
         switch isCard {
 
         case true:
 
-            contentLabel.text = "\(card?.content ?? "")\n\n\(card?.author ?? "")"
+            contentLabel.text = "\(card?.content ?? "")\n\n\n\(card?.author ?? "")"
+            hashtagLabel.text = post?.hashtag
             postImageView.isHidden = !isAuthor
             timeLabel.isHidden = !isAuthor
             userImageView.isHidden = !isAuthor
             userNameLabel.isHidden = !isAuthor
             timeLabel.isHidden = !isAuthor
+            hashtagLabel.isHidden = !isAuthor
             editButton.isHidden = !isAuthor
             deleteButton.isHidden = !isAuthor
 
@@ -94,6 +116,16 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
                 userImageView.cornerRadius = userImageView.frame.width / 2
             }
 
+            if let hashtag = post?.hashtag {
+
+                hashtagLabel.isHidden = false
+                hashtagLabel.text = hashtag
+
+            } else if post?.hashtag == "" {
+
+                hashtagLabel.isHidden = true
+            }
+
             if let postImageUrl = post?.imageUrl {
 
                 postImageView.loadImage(postImageUrl, placeHolder: nil)
@@ -105,16 +137,4 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
             }
         }
     }
-
-    @IBAction func edit(_ sender: UIButton) {
-
-        editHandler()
-    }
-
-    @IBAction func deleteComment(_ sender: UIButton) {
-
-        deleteHandler()
-    }
 }
-
-extension BaseDetailTableViewHeader:  UIGestureRecognizerDelegate { }

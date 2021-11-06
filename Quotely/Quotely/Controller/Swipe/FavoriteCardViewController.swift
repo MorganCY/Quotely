@@ -137,7 +137,7 @@ class FavoriteCardViewController: UIViewController {
         let card = likeCardList[index]
 
         detailVC.card = card
-        detailVC.hasLiked = card.likeUser.contains("test123456")
+        detailVC.isLike = card.likeUser.contains(SignInManager.shared.uid ?? "")
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

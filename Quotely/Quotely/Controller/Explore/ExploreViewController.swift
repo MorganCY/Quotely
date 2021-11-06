@@ -10,10 +10,12 @@ import UIKit
 
 class ExploreViewController: UIViewController {
 
+    let visitorUid = SignInManager.shared.uid
+
     let filters: [PostManager.FilterType] = [.latest, .popular, .following]
     var currentFilter: PostManager.FilterType = .latest {
         didSet {
-            addPostListener(type: currentFilter)
+            addPostListener(type: currentFilter, removeListener: false)
         }
     }
 
@@ -60,30 +62,13 @@ class ExploreViewController: UIViewController {
 
         setupFilterView()
 
-        fetchPost(type: .latest)
+        addPostListener(type: .latest, removeListener: false)
     }
 
     // MARK: Data
-    func addPostListener(type: PostManager.FilterType) {
+    func addPostListener(type: PostManager.FilterType, removeListener: Bool) {
 
-        PostManager.shared.listenToPostUpdate(type: type, uid: nil) { result in
-
-            switch result {
-
-            case .success(let posts):
-
-                self.postList = posts
-
-            case .failure(let error):
-
-                print(error)
-            }
-        }
-    }
-
-    func fetchPost(type: PostManager.FilterType) {
-
-        PostManager.shared.fetchPost(type: type, uid: nil) { result in
+        let listener = PostManager.shared.listenToPostUpdate(type: type, uid: nil) { result in
 
             switch result {
 
@@ -98,6 +83,8 @@ class ExploreViewController: UIViewController {
                 print(error)
             }
         }
+
+        if removeListener == true { listener?.remove() }
     }
 
     func fetchUserList(postList: [Post]) {
@@ -194,10 +181,18 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
         switch index {
 
-        case 0: return currentFilter = .latest
-        case 1: return currentFilter = .popular
-        case 2: return currentFilter = .following
-        default: return currentFilter = .latest
+        case 0:
+            addPostListener(type: currentFilter, removeListener: true)
+            currentFilter = .latest
+        case 1:
+            addPostListener(type: currentFilter, removeListener: true)
+            currentFilter = .popular
+        case 2:
+            addPostListener(type: currentFilter, removeListener: true)
+            currentFilter = .following
+        default:
+            addPostListener(type: currentFilter, removeListener: true)
+            currentFilter = .latest
         }
     }
 
@@ -229,8 +224,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = post.likeUser {
 
-            isLikePost = likeUserList.contains("test123456") ?
-            true : false
+            isLikePost = likeUserList.contains(visitorUid ?? "")
 
         } else {
 
@@ -240,7 +234,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layoutCell(
             userInfo: userList[indexPath.row]!,
             post: post,
-            hasLiked: self.isLikePost
+            isLikePost: self.isLikePost
         )
 
         cell.hideSelectionStyle()
@@ -251,8 +245,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
             if let likeUserList = post.likeUser {
 
-                self.isLikePost = likeUserList.contains("test123456") ?
-                true : false
+                self.isLikePost = likeUserList.contains(SignInManager.shared.uid ?? "")
 
             } else {
 
@@ -273,7 +266,6 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 case .success(let action):
 
                     print(action)
-                    self.fetchPost(type: self.currentFilter)
 
                 case .failure(let error):
 
@@ -315,13 +307,18 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let row = indexPath.row
 
-        detailVC.post = postList[indexPath.row]
-        detailVC.postAuthor = userList[indexPath.row]
-
         if let likeUserList = postList[row].likeUser {
 
-            detailVC.hasLiked = likeUserList.contains("test123456")
+            isLikePost = likeUserList.contains(visitorUid ?? "")
+
+        } else {
+
+            isLikePost = false
         }
+
+        detailVC.post = postList[row]
+        detailVC.postAuthor = userList[row]
+        detailVC.isLike = isLikePost
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

@@ -50,7 +50,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     var hasTabBar = false
-    var hasLiked = false
+    var isLike = false
 
     // MARK: LifeCycle
     override func viewDidLoad() {

@@ -117,8 +117,8 @@ class PostDetailViewController: BaseDetailViewController {
         isAuthor = postAuthor?.uid == visitorUid
         ? true : false
 
-        guard let post = post,
-              let postAuthor = postAuthor else {
+        guard post != nil,
+              postAuthor != nil else {
 
                   fatalError("Cannot fetch post data")
               }
@@ -128,10 +128,48 @@ class PostDetailViewController: BaseDetailViewController {
             card: nil,
             post: post,
             postAuthor: postAuthor,
-            isAuthor: self.isAuthor
+            isAuthor: self.isAuthor,
+            isLike: isLike
         )
 
         // Pass data from Post Detail page to Write page
+
+        header.likeHandler = {
+
+            // When tapping on the like button, check if the user has likedPost
+
+            guard let postID = self.post?.postID else { return }
+
+            let likeAction: LikeAction = self.isLike
+            ? .dislike : .like
+
+            PostManager.shared.updateLikes(
+                postID: postID, likeAction: likeAction
+            ) { result in
+
+                switch result {
+
+                case .success(let action):
+
+                    print(action)
+
+                    if likeAction == .like {
+                        self.post?.likeNumber += 1
+                        self.isLike = true
+                        tableView.reloadData()
+                    } else if likeAction == .dislike {
+                        self.post?.likeNumber -= 1
+                        self.isLike = false
+                    }
+
+                    tableView.reloadData()
+
+                case .failure(let error):
+
+                    print(error)
+                }
+            }
+        }
 
         header.editHandler = {
 
@@ -171,7 +209,7 @@ class PostDetailViewController: BaseDetailViewController {
 
             let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
 
-                guard let postID = post.postID else { return }
+                guard let postID = self.post?.postID else { return }
 
                 PostManager.shared.deletePost(postID: postID) { result in
 
