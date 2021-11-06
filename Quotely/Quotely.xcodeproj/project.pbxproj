@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		162163FFB6518EC3632F3366 /* Pods_Quotely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05474F971FBF3D667593F52F /* Pods_Quotely.framework */; };
+		5C19204A27369591008B9F0D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C19204927369591008B9F0D /* SettingsViewController.swift */; };
+		5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */; };
+		5C19204E27369710008B9F0D /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C19204D27369710008B9F0D /* SettingsTableViewCell.swift */; };
 		5C2846E02727EEB400393562 /* ContentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846DF2727EEB400393562 /* ContentTextView.swift */; };
 		5C2846E22727F0B200393562 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846E12727F0B200393562 /* UITextView+Extension.swift */; };
 		5C2846E427280EA600393562 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846E327280EA600393562 /* JournalManager.swift */; };
@@ -102,6 +105,9 @@
 		05474F971FBF3D667593F52F /* Pods_Quotely.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quotely.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763E90984B855FC8226C461 /* Pods-Quotely.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.debug.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.debug.xcconfig"; sourceTree = "<group>"; };
 		4D42660FC57C60DE17A5B7D4 /* Pods-Quotely.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.release.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.release.xcconfig"; sourceTree = "<group>"; };
+		5C19204927369591008B9F0D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsTableViewCell.xib; sourceTree = "<group>"; };
+		5C19204D27369710008B9F0D /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		5C2846DF2727EEB400393562 /* ContentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextView.swift; sourceTree = "<group>"; };
 		5C2846E12727F0B200393562 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		5C2846E327280EA600393562 /* JournalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalManager.swift; sourceTree = "<group>"; };
@@ -482,6 +488,7 @@
 			isa = PBXGroup;
 			children = (
 				5CE8F1D2272F77950026864C /* ProfileViewController.swift */,
+				5C19204927369591008B9F0D /* SettingsViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -494,6 +501,8 @@
 				5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */,
 				5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */,
 				5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */,
+				5C19204D27369710008B9F0D /* SettingsTableViewCell.swift */,
+				5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -581,6 +590,7 @@
 				5CE8F1D5272F79210026864C /* ball.json in Resources */,
 				5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */,
 				5C2C7302271D12E300F8B9EC /* Assets.xcassets in Resources */,
+				5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */,
 				5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */,
 				5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */,
 				5C4B9695271FBCCF008B21C7 /* BaseDetailCommentCell.xib in Resources */,
@@ -678,6 +688,7 @@
 				5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */,
 				5C2846F52729251500393562 /* JournalListCollectionViewCell.swift in Sources */,
 				5C2846F12729248B00393562 /* UICollectionView+Extension.swift in Sources */,
+				5C19204A27369591008B9F0D /* SettingsViewController.swift in Sources */,
 				5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */,
 				5C2846E627280EE000393562 /* Journal.swift in Sources */,
 				5CE2A5A0272D750500CAE328 /* HashtagListViewController.swift in Sources */,
@@ -720,6 +731,7 @@
 				5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */,
 				5C582101271D6FBE002E21C9 /* Post.swift in Sources */,
 				5C2846E22727F0B200393562 /* UITextView+Extension.swift in Sources */,
+				5C19204E27369710008B9F0D /* SettingsTableViewCell.swift in Sources */,
 				5CE2A59E272D727C00CAE328 /* HashtagManager.swift in Sources */,
 				5C8C0E9827246EB50054480A /* SwipeCardStack.swift in Sources */,
 				5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */,

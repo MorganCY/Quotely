@@ -38,11 +38,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var time: Int64?
     var likeNumber: Int?
 
-    var comments: [Comment] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var comments: [Comment] = []
+
     var commentUser: [User] = [] {
         didSet {
             tableView.reloadData()

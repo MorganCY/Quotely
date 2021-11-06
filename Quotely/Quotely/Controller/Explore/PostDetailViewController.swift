@@ -306,7 +306,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        self.comments[indexPath.row].content = text
+                        self.fetchComments(type: .post)
 
                     case .failure(let error):
 

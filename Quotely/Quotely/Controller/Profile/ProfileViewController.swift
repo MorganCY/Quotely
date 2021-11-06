@@ -39,7 +39,9 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    var isVisitorProfile = false
+    // if the profile visitor is the profile owener. set true by default.
+
+    var isVisitorProfile = true
 
     var isFollow = false {
         didSet {
@@ -138,7 +140,23 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    @objc func goToSettingsPage(_ sender: UIBarButtonItem) {}
+    @objc func goToSettingsPage(_ sender: UIBarButtonItem) {
+
+        guard let settingsVC =
+                UIStoryboard.profile
+                .instantiateViewController(
+                    withIdentifier: String(describing: SettingsViewController.self)
+                ) as? SettingsViewController else {
+
+                    return
+                }
+
+        let nav = BaseNavigationController(rootViewController: settingsVC)
+
+        nav.modalPresentationStyle = .automatic
+
+        present(nav, animated: true)
+    }
 
     override func imagePickerController(
         _ picker: UIImagePickerController,

@@ -35,16 +35,21 @@ class SignInManager: NSObject {
         authorizationController.performRequests()
     }
 
-    func performSignOut() {
+    func performSignOut(completion: @escaping (Result<String, Error>) -> Void) {
 
         do {
 
-            try Auth.auth().signOut()
+            if Auth.auth().currentUser != nil {
 
-        } catch {
+                try Auth.auth().signOut()
+            }
 
-            print("Cannot sign out")
+        } catch let signOutError as NSError {
+
+            completion(.failure(signOutError))
         }
+
+        completion(.success("Signed out successfully"))
     }
 
     func createAppleIDRequest() -> ASAuthorizationAppleIDRequest {

@@ -107,12 +107,16 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         if isFollow {
 
             followButton.setTitle("追蹤中", for: .normal)
-            followButton.setTitleColor(.gray, for: .normal)
+            followButton.setTitleColor(.M2, for: .normal)
+            followButton.backgroundColor = .M1
+            followButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
 
         } else {
 
             followButton.setTitle("追蹤他", for: .normal)
             followButton.setTitleColor(.M1, for: .normal)
+            followButton.backgroundColor = .white
+            followButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         }
 
         profileImageView.borderColor = .white
