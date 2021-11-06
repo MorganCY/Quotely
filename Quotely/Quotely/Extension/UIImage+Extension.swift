@@ -23,8 +23,6 @@ enum ImageAsset: String {
 
     case bg4
 
-    case plant
-
     case instagram
 }
 

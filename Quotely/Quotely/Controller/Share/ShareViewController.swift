@@ -79,7 +79,15 @@ class ShareViewController: BaseImagePickerViewController {
         }
     }
 
+    let bg1ImageButton = UIButton()
+    let bg2ImageButton = UIButton()
+    let bg3ImageButton = UIButton()
+    let bg4ImageButton = UIButton()
     let uploadImageButton = ImageButton(image: UIImage.sfsymbol(.photo)!, color: .white, bgColor: .black)
+    let imageButtonStackView = UIStackView()
+    var imageButtons: [UIButton] {
+        return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton, uploadImageButton]
+    }
 
     /*
      * Share to social media
@@ -106,7 +114,7 @@ class ShareViewController: BaseImagePickerViewController {
         setupNavigaiton()
         layoutTemplateView()
         layoutSelectionView()
-        configureUploadImageButton(templateType: .fullImage)
+        configureImageButtons(templateType: .fullImage)
         configureShareOption()
     }
 
@@ -114,7 +122,13 @@ class ShareViewController: BaseImagePickerViewController {
         super.viewDidLayoutSubviews()
 
         templateViews.forEach { $0.dropShadow(opacity: 0.5) }
-        uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
+        imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        imageButtonStackView.subviews.forEach { $0.cornerRadius = $0.frame.width / 2 }
     }
 
     @objc func dismissSelf(_ sender: UIBarButtonItem) {
@@ -165,6 +179,11 @@ class ShareViewController: BaseImagePickerViewController {
         isSharing = false
         Toast.showSuccess(text: "已下載")
     }
+
+    @objc func changeTemplateImageToBg1(_ sender: UIButton) { templateImage = UIImage.asset(.bg1) }
+    @objc func changeTemplateImageToBg2(_ sender: UIButton) { templateImage = UIImage.asset(.bg2) }
+    @objc func changeTemplateImageToBg3(_ sender: UIButton) { templateImage = UIImage.asset(.bg3) }
+    @objc func changeTemplateImageToBg4(_ sender: UIButton) { templateImage = UIImage.asset(.bg4) }
 
     override func imagePickerController(
         _ picker: UIImagePickerController,
@@ -231,7 +250,7 @@ extension ShareViewController: ShareTemplateViewDataSource {
 
     func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage {
 
-        return templateImage ?? UIImage.asset(.plant)!
+        return templateImage ?? UIImage.asset(.bg4)!
     }
 }
 
@@ -266,17 +285,17 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
 
         case 0:
 
-            configureUploadImageButton(templateType: .fullImage)
+            configureImageButtons(templateType: .fullImage)
             currentTemplateType = .fullImage
 
         case 1:
 
-            configureUploadImageButton(templateType: .halfImage)
+            configureImageButtons(templateType: .halfImage)
             currentTemplateType = .halfImage
 
         case 2:
 
-            configureUploadImageButton(templateType: .smallImage)
+            configureImageButtons(templateType: .smallImage)
             currentTemplateType = .smallImage
 
         default: break
@@ -354,45 +373,72 @@ extension ShareViewController {
         ])
     }
 
-    func configureUploadImageButton(templateType: TemplateType) {
+    func configureImageButtons(templateType: TemplateType) {
 
+        imageButtons.forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.borderColor = .white
+            $0.borderWidth = 1
+            $0.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1).isActive = true
+            $0.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1).isActive = true
+            $0.clipsToBounds = true
+            $0.imageView?.contentMode = .scaleToFill
+        }
+
+        bg1ImageButton.setBackgroundImage(UIImage.asset(.bg1), for: .normal)
+        bg2ImageButton.setBackgroundImage(UIImage.asset(.bg2), for: .normal)
+        bg3ImageButton.setBackgroundImage(UIImage.asset(.bg3), for: .normal)
+        bg4ImageButton.setBackgroundImage(UIImage.asset(.bg4), for: .normal)
+
+        bg1ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg1(_:)), for: .touchUpInside)
+        bg2ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg2(_:)), for: .touchUpInside)
+        bg3ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg3(_:)), for: .touchUpInside)
+        bg4ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg4(_:)), for: .touchUpInside)
         uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
-
-        view.addSubview(uploadImageButton)
-        uploadImageButton.translatesAutoresizingMaskIntoConstraints = false
-        uploadImageButton.borderColor = .white
-        uploadImageButton.borderWidth = 1
 
         switch templateType {
 
         case .fullImage:
 
-            NSLayoutConstraint.activate([
+            imageButtons.forEach {
+                $0.bottomAnchor.constraint(equalTo: fullImageTemplateView.topAnchor, constant: -16).isActive = true
+            }
 
-                uploadImageButton.topAnchor.constraint(equalTo: fullImageTemplateView.topAnchor, constant: 16),
-                uploadImageButton.trailingAnchor.constraint(equalTo: fullImageTemplateView.trailingAnchor, constant: -16),
-                uploadImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1),
-                uploadImageButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1)
+            NSLayoutConstraint.activate([
+                uploadImageButton.trailingAnchor.constraint(equalTo: fullImageTemplateView.trailingAnchor),
+                bg4ImageButton.trailingAnchor.constraint(equalTo: uploadImageButton.leadingAnchor, constant: -6),
+                bg3ImageButton.trailingAnchor.constraint(equalTo: bg4ImageButton.leadingAnchor, constant: -6),
+                bg2ImageButton.trailingAnchor.constraint(equalTo: bg3ImageButton.leadingAnchor, constant: -6),
+                bg1ImageButton.trailingAnchor.constraint(equalTo: bg2ImageButton.leadingAnchor, constant: -6)
             ])
 
         case .halfImage:
 
-            NSLayoutConstraint.activate([
+            imageButtons.forEach {
+                $0.bottomAnchor.constraint(equalTo: halfImageTemplateView.topAnchor, constant: -16).isActive = true
+            }
 
-                uploadImageButton.topAnchor.constraint(equalTo: halfImageTemplateView.topAnchor, constant: 16),
-                uploadImageButton.trailingAnchor.constraint(equalTo: halfImageTemplateView.trailingAnchor, constant: -16),
-                uploadImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1),
-                uploadImageButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1)
+            NSLayoutConstraint.activate([
+                uploadImageButton.trailingAnchor.constraint(equalTo: halfImageTemplateView.trailingAnchor),
+                bg4ImageButton.trailingAnchor.constraint(equalTo: uploadImageButton.leadingAnchor, constant: -6),
+                bg3ImageButton.trailingAnchor.constraint(equalTo: bg4ImageButton.leadingAnchor, constant: -6),
+                bg2ImageButton.trailingAnchor.constraint(equalTo: bg3ImageButton.leadingAnchor, constant: -6),
+                bg1ImageButton.trailingAnchor.constraint(equalTo: bg2ImageButton.leadingAnchor, constant: -6)
             ])
 
         case .smallImage:
 
-            NSLayoutConstraint.activate([
+            imageButtons.forEach {
+                $0.bottomAnchor.constraint(equalTo: smallImageTemplateView.topAnchor, constant: -16).isActive = true
+            }
 
-                uploadImageButton.topAnchor.constraint(equalTo: smallImageTemplateView.topAnchor, constant: 16),
-                uploadImageButton.trailingAnchor.constraint(equalTo: smallImageTemplateView.trailingAnchor, constant: -16),
-                uploadImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1),
-                uploadImageButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1)
+            NSLayoutConstraint.activate([
+                uploadImageButton.trailingAnchor.constraint(equalTo: smallImageTemplateView.trailingAnchor),
+                bg4ImageButton.trailingAnchor.constraint(equalTo: uploadImageButton.leadingAnchor, constant: -6),
+                bg3ImageButton.trailingAnchor.constraint(equalTo: bg4ImageButton.leadingAnchor, constant: -6),
+                bg2ImageButton.trailingAnchor.constraint(equalTo: bg3ImageButton.leadingAnchor, constant: -6),
+                bg1ImageButton.trailingAnchor.constraint(equalTo: bg2ImageButton.leadingAnchor, constant: -6)
             ])
         }
     }

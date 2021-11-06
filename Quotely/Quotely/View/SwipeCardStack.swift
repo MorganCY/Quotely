@@ -35,8 +35,6 @@ class SwipeCardStackView: UIStackView {
 
     weak var delegate: SwipeCardStackViewDelegate?
 
-    let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3]
-
     var nextCardIndex = 0
 
     override init(frame: CGRect) {
@@ -63,8 +61,6 @@ class SwipeCardStackView: UIStackView {
                 .replacingOccurrences(of: "\\n", with: "\n")
 
             swipeCard.authorLabel.text = dataSource.authorForCardsIn(self, index: index)
-
-            swipeCard.backgroundImageView.image = UIImage.asset(backgroundImages[Int.random(in: 0...2)])
 
             addSubview(swipeCard)
 

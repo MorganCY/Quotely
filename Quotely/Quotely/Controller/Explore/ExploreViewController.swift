@@ -35,6 +35,8 @@ class ExploreViewController: UIViewController {
                 bundle: nil
             )
             tableView.separatorStyle = .none
+
+            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
         }
     }
 
@@ -66,12 +68,14 @@ class ExploreViewController: UIViewController {
             text: nil,
             target: self,
             action: #selector(addPost(_:)),
-            color: .M1!
+            color: .white
         )
 
         setupFilterView()
 
         fetchVisitorFollowingList()
+
+        view.backgroundColor = .M2?.withAlphaComponent(0.8)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -210,11 +214,9 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String {
-        filters[index].rawValue
-    }
+    func buttonTitle(_ view: SelectionView, index: Int) -> String { filters[index].rawValue }
 
-    func buttonColor(_ view: SelectionView) -> UIColor { .gray }
+    func buttonColor(_ view: SelectionView) -> UIColor { .white }
 
     func indicatorColor(_ view: SelectionView) -> UIColor { .lightGray }
 

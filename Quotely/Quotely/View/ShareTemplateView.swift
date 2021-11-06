@@ -17,7 +17,7 @@ extension ShareTemplateViewDataSource {
 
     func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage {
 
-        return UIImage.asset(.plant)!
+        return UIImage.asset(.bg4)!
     }
 }
 
