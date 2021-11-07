@@ -20,11 +20,11 @@ class WriteViewController: BaseImagePickerViewController {
 
     // MARK: ViewControls
     var contentTextView = ContentTextView() {
-
         didSet {
             contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
         }
     }
+    let textNumberLabel = UILabel()
     private let addHashtagButton = UIButton()
     private let hashtagButton = UIButton()
     private var postImageView = UIImageView()
@@ -544,6 +544,21 @@ extension WriteViewController {
     }
 }
 
+extension WriteViewController: UITextViewDelegate {
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
+
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+
+        textNumberLabel.text = "\(updatedText.count) / 140"
+
+        return updatedText.count <= 140
+    }
+}
+
 // MARK: SetupViews
 extension WriteViewController {
 
@@ -571,7 +586,7 @@ extension WriteViewController {
     func layoutViews() {
 
         let views = [
-            contentTextView, addHashtagButton, hashtagButton, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
+            contentTextView, textNumberLabel, addHashtagButton, hashtagButton, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
         ]
 
         views.forEach {
@@ -585,6 +600,9 @@ extension WriteViewController {
             contentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             contentTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
+
+            textNumberLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -12),
+            textNumberLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: -8),
 
             addHashtagButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
             addHashtagButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
@@ -623,6 +641,11 @@ extension WriteViewController {
     func setupViews() {
 
         contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+        contentTextView.delegate = self
+
+        textNumberLabel.text = "\(contentTextView.text.count) / 140"
+        textNumberLabel.textColor = .black
+        textNumberLabel.font = UIFont.systemFont(ofSize: 14)
 
         recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
         uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
