@@ -20,13 +20,23 @@ class ExploreViewController: UIViewController {
     let filters: [PostManager.FilterType] = [.latest, .popular, .following]
     var currentFilter: PostManager.FilterType = .latest {
         didSet {
-            if currentFilter == .following {
+            if currentFilter == .following,
+               visitorFollowingList.count > 0 {
                 listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
             } else {
                 listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
             }
+
+            if currentFilter == .following,
+               visitorFollowingList.count == 0 {
+                setupEmptyAnimation()
+            } else {
+                emptyReminderView.removeFromSuperview()
+            }
         }
     }
+
+    let emptyReminderView = UIView()
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -81,7 +91,11 @@ class ExploreViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
+        if visitorFollowingList.count > 0 {
+            listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
+        } else {
+            listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
+        }
     }
 
     // MARK: Data
@@ -152,8 +166,9 @@ class ExploreViewController: UIViewController {
 
     func fetchVisitorFollowingList() {
 
-        UserManager.shared.fetchUserInfo(
+        UserManager.shared.listenToUserUpdate(
             uid: visitorUid ?? "") { result in
+                
                 switch result {
 
                 case .success(let user):
@@ -231,8 +246,7 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
             currentFilter = .following
         default:
             listener?.remove()
-            currentFilter = .latest
-        }
+            currentFilter = .latest        }
     }
 
     func shouldSelectButtonAt(_ view: SelectionView, at index: Int) -> Bool { true }
@@ -375,6 +389,39 @@ extension ExploreViewController {
             filterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             filterView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             filterView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -16)
+        ])
+    }
+
+    func setupEmptyAnimation() {
+
+        let emptyAnimationView = LottieAnimationView(animationName: "empty")
+        let reminderLabel = UILabel()
+
+        view.addSubview(emptyReminderView)
+        view.bringSubviewToFront(emptyReminderView)
+        emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
+        emptyReminderView.addSubview(emptyAnimationView)
+        emptyReminderView.addSubview(reminderLabel)
+        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        reminderLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        reminderLabel.text = "還沒有追蹤的用戶...QQ"
+        reminderLabel.textColor = .gray
+        reminderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+
+        NSLayoutConstraint.activate([
+            emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+
+            emptyAnimationView.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor),
+            emptyAnimationView.centerYAnchor.constraint(equalTo: emptyReminderView.centerYAnchor),
+            emptyAnimationView.heightAnchor.constraint(equalTo: emptyReminderView.heightAnchor, multiplier: 0.8),
+            emptyAnimationView.widthAnchor.constraint(equalTo: emptyReminderView.widthAnchor),
+
+            reminderLabel.topAnchor.constraint(equalTo: emptyReminderView.topAnchor),
+            reminderLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
         ])
     }
 }
