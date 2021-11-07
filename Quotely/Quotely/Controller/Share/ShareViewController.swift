@@ -110,12 +110,14 @@ class ShareViewController: BaseImagePickerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor(red: 242 / 255, green: 255 / 255, blue: 243 / 255, alpha: 1)
+        view.backgroundColor = .BG
         setupNavigaiton()
         layoutTemplateView()
         layoutSelectionView()
         configureImageButtons(templateType: .fullImage)
         configureShareOption()
+
+        navigationItem.title = "分享隻字片語"
     }
 
     override func viewDidLayoutSubviews() {
@@ -251,9 +253,9 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
 
     func buttonColor(_ view: SelectionView) -> UIColor { .lightGray }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .clear }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M2! }
 
-    func indicatorWidth(_ view: SelectionView) -> CGFloat { 0 }
+    func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.7 }
 
     func shouldSelectButtonAt(_ view: SelectionView, at index: Int) -> Bool { true }
 

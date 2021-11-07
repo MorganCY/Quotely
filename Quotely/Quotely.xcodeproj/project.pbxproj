@@ -75,6 +75,8 @@
 		5C8C0EA32725AD480054480A /* CardCommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0EA22725AD480054480A /* CardCommentManager.swift */; };
 		5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91FFC72737986700A216D4 /* LottieAnimation.swift */; };
 		5C91FFCA27379A3F00A216D4 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C91FFC927379A3F00A216D4 /* loading.json */; };
+		5C91FFCC2737B78A00A216D4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */; };
+		5C91FFCE2737B8D500A216D4 /* swipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C91FFCD2737B8D500A216D4 /* swipe.json */; };
 		5C9A15C7272280FD00A13CC7 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */; };
 		5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */; };
 		5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */; };
@@ -177,6 +179,8 @@
 		5C8C0EA22725AD480054480A /* CardCommentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCommentManager.swift; sourceTree = "<group>"; };
 		5C91FFC72737986700A216D4 /* LottieAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimation.swift; sourceTree = "<group>"; };
 		5C91FFC927379A3F00A216D4 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		5C91FFCD2737B8D500A216D4 /* swipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swipe.json; sourceTree = "<group>"; };
 		5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -362,6 +366,7 @@
 				5C2846F02729248B00393562 /* UICollectionView+Extension.swift */,
 				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
 				5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */,
+				5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -453,6 +458,7 @@
 		5C8C0E93272436380054480A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				5C91FFCD2737B8D500A216D4 /* swipe.json */,
 				5C91FFC927379A3F00A216D4 /* loading.json */,
 				5CE8F1D4272F79210026864C /* ball.json */,
 				5CE8F1D6272F7BD50026864C /* nothingFound.json */,
@@ -590,6 +596,7 @@
 				5C2C7305271D12E300F8B9EC /* LaunchScreen.storyboard in Resources */,
 				5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */,
 				5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */,
+				5C91FFCE2737B8D500A216D4 /* swipe.json in Resources */,
 				5C2846F32729250900393562 /* JournalListCollectionViewCell.xib in Resources */,
 				5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */,
 				5C2846ED2728F4E500393562 /* JournalListTableViewCell.xib in Resources */,
@@ -724,6 +731,7 @@
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,
 				5C2846FB2729B2FA00393562 /* FavoriteCardViewController.swift in Sources */,
 				5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */,
+				5C91FFCC2737B78A00A216D4 /* UIApplication+Extension.swift in Sources */,
 				5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */,
 				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,
 				5C2846EA2728ED2C00393562 /* JournalListViewController.swift in Sources */,

@@ -22,7 +22,7 @@ class ProfileViewController: BaseImagePickerViewController {
         didSet {
             tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
             tableView.registerCellWithNib(identifier: ProfileTableViewCell.identifier, bundle: nil)
-            tableView.backgroundColor = .C3?.withAlphaComponent(0.5)
+            tableView.backgroundColor = .M3
         }
     }
 

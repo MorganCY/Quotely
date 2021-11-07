@@ -75,7 +75,7 @@ class ExploreViewController: UIViewController {
 
         fetchVisitorFollowingList()
 
-        view.backgroundColor = .M2?.withAlphaComponent(0.8)
+        view.backgroundColor = .M1
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -218,7 +218,7 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
     func buttonColor(_ view: SelectionView) -> UIColor { .white }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .lightGray }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M3! }
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.4 }
 

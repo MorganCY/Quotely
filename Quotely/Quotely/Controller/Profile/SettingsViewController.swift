@@ -15,7 +15,7 @@ class SettingsViewController: UIViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.backgroundColor = .M2?.withAlphaComponent(0.5)
+            tableView.backgroundColor = .M3
             tableView.separatorStyle = .none
             tableView.registerCellWithNib(identifier: SettingsTableViewCell.identifier, bundle: nil)
         }
