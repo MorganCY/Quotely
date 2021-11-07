@@ -181,28 +181,29 @@ class PostDetailViewController: BaseDetailViewController {
 
             nav.modalPresentationStyle = .automatic
 
-            self.navigationController?.present(nav, animated: true) {
+            writeVC.contentTextView.text = self.post?.content
 
-                writeVC.contentTextView.text = self.post?.content
+            writeVC.postID = self.post?.postID
 
-                writeVC.postID = self.post?.postID
+            writeVC.hashtagTitle = self.post?.hashtag ?? ""
 
-                writeVC.hashtagTitle = self.post?.hashtag ?? ""
+            if let imageUrl = self.post?.imageUrl {
 
-                if let imageUrl = self.post?.imageUrl {
+                writeVC.imageUrl = imageUrl
 
-                    writeVC.imageUrl = imageUrl
-
-                    writeVC.hasImage = true
-                }
-
-                writeVC.contentHandler = { content in
-
-                    self.post?.content = content
-
-                    tableView.reloadData()
-                }
+                writeVC.hasImage = true
             }
+
+            writeVC.contentHandler = { content, hashtag in
+
+                self.post?.content = content
+
+                self.post?.hashtag = hashtag
+
+                tableView.reloadData()
+            }
+
+            self.navigationController?.present(nav, animated: true)
         }
 
         header.deleteHandler = {

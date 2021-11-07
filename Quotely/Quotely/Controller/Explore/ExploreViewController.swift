@@ -81,13 +81,7 @@ class ExploreViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        listener?.remove()
+        listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
     }
 
     // MARK: Data

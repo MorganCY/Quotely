@@ -85,7 +85,7 @@ class WriteViewController: BaseImagePickerViewController {
     private var navTitle = "撰寫"
     private var navButtonTitle = "分享"
 
-    var contentHandler: ((String) -> Void) = {_ in}
+    var contentHandler: ((String, String) -> Void) = {_, _ in}
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -120,7 +120,7 @@ class WriteViewController: BaseImagePickerViewController {
     @objc func onPublish(_ sender: UIBarButtonItem) {
 
         // Pass edited content to post detail page
-        self.contentHandler(self.contentTextView.text)
+        self.contentHandler(self.contentTextView.text, self.hashtagTitle)
 
         // Check if the page is under edit state
         if let postID = postID {
@@ -141,6 +141,25 @@ class WriteViewController: BaseImagePickerViewController {
                         self.dismiss(animated: true) {
 
                             Toast.showSuccess(text: "更新成功")
+                        }
+
+                        let hashtag = Hashtag(
+                            title: self.hashtagTitle,
+                            newPostID: postID,
+                            postList: [])
+
+                        HashtagManager.shared.checkDuplicateHashtag(
+                            hashtag: hashtag,
+                            postID: postID
+                        ) { result in
+
+                            switch result {
+
+                            case .success(let success): print(success)
+
+                            case .failure(let error): print(error)
+
+                            }
                         }
 
                     case .failure(let error):
