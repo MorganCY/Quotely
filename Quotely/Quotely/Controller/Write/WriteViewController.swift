@@ -85,7 +85,7 @@ class WriteViewController: BaseImagePickerViewController {
     private var navTitle = "撰寫"
     private var navButtonTitle = "分享"
 
-    var contentHandler: ((String, String) -> Void) = {_, _ in}
+    var contentHandler: ((String, String, Int64) -> Void) = {_, _, _ in}
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -119,14 +119,12 @@ class WriteViewController: BaseImagePickerViewController {
 
     @objc func onPublish(_ sender: UIBarButtonItem) {
 
-        // Pass edited content to post detail page
-        self.contentHandler(self.contentTextView.text, self.hashtagTitle)
-
         // Check if the page is under edit state
         if let postID = postID {
 
             PostManager.shared.updatePost(
                 postID: postID,
+                editTime: Date().millisecondsSince1970,
                 content: contentTextView.text,
                 imageUrl: imageUrl ?? nil,
                 hashtag: hashtagTitle
@@ -141,6 +139,14 @@ class WriteViewController: BaseImagePickerViewController {
                         self.dismiss(animated: true) {
 
                             Toast.showSuccess(text: "更新成功")
+
+                            // Pass edited content to post detail page
+
+                            self.contentHandler(
+                                self.contentTextView.text,
+                                self.hashtagTitle,
+                                Date().millisecondsSince1970
+                            )
                         }
 
                         let hashtag = Hashtag(

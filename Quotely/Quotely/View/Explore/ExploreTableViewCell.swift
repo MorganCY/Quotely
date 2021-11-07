@@ -81,5 +81,9 @@ class ExploreTableViewCell: UITableViewCell {
 
             postImageView.isHidden = true
         }
+
+        guard let editTime = post.editTime else { return }
+
+        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
     }
 }

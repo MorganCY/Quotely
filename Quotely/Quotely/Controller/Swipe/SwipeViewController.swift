@@ -16,7 +16,7 @@ class SwipeViewController: UIViewController {
 
     var cards = [Card]() {
         didSet {
-            likeNumberLabel.text = "\(cards[currentCardIndex].likeNumber)"
+            if cards.count >= 1 { likeNumberLabel.text = "\(cards[currentCardIndex].likeNumber)" }
         }
     }
 
