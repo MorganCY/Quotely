@@ -56,7 +56,7 @@ class JournalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.BG
+        view.backgroundColor = .BG
 
         setupBackgroundView()
 

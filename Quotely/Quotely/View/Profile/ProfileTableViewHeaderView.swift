@@ -101,7 +101,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         } else {
 
-            profileImageView.image = UIImage.asset(.plant)
+            profileImageView.image = UIImage.asset(.bg4)
         }
 
         if isFollow {

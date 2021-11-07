@@ -16,25 +16,10 @@
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="召喚卡片中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Fd-z7-s85">
-                                <rect key="frame" x="143" y="432.5" width="128.5" height="31"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="22"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="9Fd-z7-s85" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="HSc-od-ShF"/>
-                            <constraint firstItem="9Fd-z7-s85" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="gXf-na-yVG"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vij-LD-egM"/>
-                    <connections>
-                        <outlet property="loadingLabel" destination="9Fd-z7-s85" id="xpR-Ut-xZf"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

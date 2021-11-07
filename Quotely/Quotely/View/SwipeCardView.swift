@@ -20,7 +20,7 @@ class SwipeCardView: UIView {
     weak var delegate: SwipeCardViewDelegate?
 
     let backgroundImageView = UIImageView()
-    let overlayView = UIView()
+    let textBackgroundView = UIView()
     let contentLabel = UILabel()
     let authorLabel = UILabel()
     let likeImageView = UIImageView()
@@ -33,6 +33,8 @@ class SwipeCardView: UIView {
     var xCenter: CGFloat = 0.0
     var yCenter: CGFloat = 0.0
     var originPoint = CGPoint.zero
+
+    let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3, .bg4]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,9 +54,6 @@ class SwipeCardView: UIView {
     func setupView() {
         cornerRadius = CornerRadius.standard.rawValue
         layer.shadowRadius = 3
-        shadowOpacity = 0.4
-        shadowOffset = CGSize(width: 0.5, height: 3)
-        shadowColor = UIColor.darkGray.cgColor
         layer.shouldRasterize = true
         borderWidth = 0.5
         borderColor = .gray
@@ -67,18 +66,20 @@ class SwipeCardView: UIView {
     func setupBackground() {
 
         addSubview(backgroundImageView)
-        addSubview(overlayView)
+        addSubview(textBackgroundView)
 
-        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        textBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
 
         backgroundImageView.contentMode = .scaleToFill
-        backgroundImageView.image = UIImage.asset(.bg1)
         backgroundImageView.cornerRadius = CornerRadius.standard.rawValue
         backgroundImageView.clipsToBounds = true
-        overlayView.backgroundColor = .black
-        overlayView.alpha = 0.5
-        overlayView.cornerRadius = CornerRadius.standard.rawValue
+
+        textBackgroundView.backgroundColor = .white
+        textBackgroundView.cornerRadius = CornerRadius.standard.rawValue
+        self.layer.shouldRasterize = false
+
+        backgroundImageView.image = UIImage.asset(backgroundImages[Int.random(in: 0...3)])
 
         NSLayoutConstraint.activate([
 
@@ -87,34 +88,37 @@ class SwipeCardView: UIView {
             backgroundImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             backgroundImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
 
-            overlayView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            overlayView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            overlayView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            overlayView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            textBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            textBackgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            textBackgroundView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3),
+            textBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24)
         ])
     }
 
     func setupContent() {
 
-        addSubview(contentLabel)
-        addSubview(authorLabel)
+        textBackgroundView.addSubview(contentLabel)
+        textBackgroundView.addSubview(authorLabel)
 
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.textColor = .white
-        contentLabel.font = UIFont(name: "PingFang TC", size: 20)
+        contentLabel.textColor = .black
+        contentLabel.font = UIFont.systemFont(ofSize: 16)
         contentLabel.numberOfLines = 0
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        authorLabel.textColor = .white
-        authorLabel.font = UIFont(name: "PingFang TC", size: 16)
+        authorLabel.textColor = .gray
+        authorLabel.font = UIFont.systemFont(ofSize: 12)
         authorLabel.numberOfLines = 1
 
         NSLayoutConstraint.activate([
-            contentLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            contentLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            contentLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75),
+            contentLabel.leadingAnchor.constraint(equalTo: textBackgroundView.leadingAnchor, constant: 24),
+            contentLabel.topAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: 32),
+            contentLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor, constant: -24),
 
+            authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),
             authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-            authorLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
+            authorLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
+            authorLabel.bottomAnchor.constraint(equalTo: textBackgroundView.bottomAnchor, constant: -24),
+            authorLabel.heightAnchor.constraint(equalTo: textBackgroundView.heightAnchor, multiplier: 0.1)
         ])
     }
 

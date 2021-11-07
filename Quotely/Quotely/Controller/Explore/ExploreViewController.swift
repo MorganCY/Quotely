@@ -35,6 +35,8 @@ class ExploreViewController: UIViewController {
                 bundle: nil
             )
             tableView.separatorStyle = .none
+
+            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
         }
     }
 
@@ -66,24 +68,20 @@ class ExploreViewController: UIViewController {
             text: nil,
             target: self,
             action: #selector(addPost(_:)),
-            color: .M1!
+            color: .white
         )
 
         setupFilterView()
 
         fetchVisitorFollowingList()
+
+        view.backgroundColor = .M1
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        listener?.remove()
+        listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
     }
 
     // MARK: Data
@@ -210,13 +208,11 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String {
-        filters[index].rawValue
-    }
+    func buttonTitle(_ view: SelectionView, index: Int) -> String { filters[index].rawValue }
 
-    func buttonColor(_ view: SelectionView) -> UIColor { .gray }
+    func buttonColor(_ view: SelectionView) -> UIColor { .white }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .lightGray }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M3! }
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.4 }
 

@@ -17,7 +17,7 @@ extension ShareTemplateViewDataSource {
 
     func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage {
 
-        return UIImage.asset(.plant)!
+        return UIImage.asset(.bg4)!
     }
 }
 
@@ -114,6 +114,8 @@ class ShareTemplateView: UIView {
                 authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),
                 authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
                 authorLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
+                authorLabel.bottomAnchor.constraint(equalTo: textBackgroundView.bottomAnchor, constant: -24),
+                authorLabel.heightAnchor.constraint(equalTo: textBackgroundView.heightAnchor, multiplier: 0.1),
 
                 quoteLabel.bottomAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: -8),
                 quoteLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor)

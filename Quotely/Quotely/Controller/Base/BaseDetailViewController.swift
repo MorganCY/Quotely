@@ -151,6 +151,8 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
                     self.comments = comments
 
+                    self.fetchCommentUserInfo(commentList: comments)
+
                 case .failure(let error):
 
                     print("fetchData.failure: \(error)")

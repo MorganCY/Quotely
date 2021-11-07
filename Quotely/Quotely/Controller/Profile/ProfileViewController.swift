@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Lottie
 import UIKit
 import PhotosUI
 
@@ -23,7 +22,7 @@ class ProfileViewController: BaseImagePickerViewController {
         didSet {
             tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
             tableView.registerCellWithNib(identifier: ProfileTableViewCell.identifier, bundle: nil)
-            tableView.backgroundColor = .C3?.withAlphaComponent(0.5)
+            tableView.backgroundColor = .M3
         }
     }
 
@@ -62,8 +61,6 @@ class ProfileViewController: BaseImagePickerViewController {
             tableView.reloadData()
         }
     }
-
-    private var animationView: AnimationView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -459,25 +456,5 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         UITableView.automaticDimension
-    }
-}
-
-extension ProfileViewController {
-
-    func lottie() {
-
-        animationView = .init(name: "ball")
-
-        animationView!.frame = view.bounds
-
-        animationView!.contentMode = .scaleAspectFit
-
-        animationView!.loopMode = .loop
-
-        animationView!.animationSpeed = 1
-
-        view.addSubview(animationView!)
-
-        animationView!.play()
     }
 }
