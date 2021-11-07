@@ -20,11 +20,11 @@ class WriteViewController: BaseImagePickerViewController {
 
     // MARK: ViewControls
     var contentTextView = ContentTextView() {
-
         didSet {
             contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
         }
     }
+    let textNumberLabel = UILabel()
     private let addHashtagButton = UIButton()
     private let hashtagButton = UIButton()
     private var postImageView = UIImageView()
@@ -85,7 +85,7 @@ class WriteViewController: BaseImagePickerViewController {
     private var navTitle = "撰寫"
     private var navButtonTitle = "分享"
 
-    var contentHandler: ((String, String) -> Void) = {_, _ in}
+    var contentHandler: ((String, String, Int64) -> Void) = {_, _, _ in}
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -119,14 +119,12 @@ class WriteViewController: BaseImagePickerViewController {
 
     @objc func onPublish(_ sender: UIBarButtonItem) {
 
-        // Pass edited content to post detail page
-        self.contentHandler(self.contentTextView.text, self.hashtagTitle)
-
         // Check if the page is under edit state
         if let postID = postID {
 
             PostManager.shared.updatePost(
                 postID: postID,
+                editTime: Date().millisecondsSince1970,
                 content: contentTextView.text,
                 imageUrl: imageUrl ?? nil,
                 hashtag: hashtagTitle
@@ -141,6 +139,14 @@ class WriteViewController: BaseImagePickerViewController {
                         self.dismiss(animated: true) {
 
                             Toast.showSuccess(text: "更新成功")
+
+                            // Pass edited content to post detail page
+
+                            self.contentHandler(
+                                self.contentTextView.text,
+                                self.hashtagTitle,
+                                Date().millisecondsSince1970
+                            )
                         }
 
                         let hashtag = Hashtag(
@@ -538,6 +544,21 @@ extension WriteViewController {
     }
 }
 
+extension WriteViewController: UITextViewDelegate {
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
+
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+
+        textNumberLabel.text = "\(updatedText.count) / 140"
+
+        return updatedText.count <= 140
+    }
+}
+
 // MARK: SetupViews
 extension WriteViewController {
 
@@ -565,7 +586,7 @@ extension WriteViewController {
     func layoutViews() {
 
         let views = [
-            contentTextView, addHashtagButton, hashtagButton, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
+            contentTextView, textNumberLabel, addHashtagButton, hashtagButton, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
         ]
 
         views.forEach {
@@ -580,9 +601,13 @@ extension WriteViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             contentTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
 
+            textNumberLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16),
+            textNumberLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: -8),
+
             addHashtagButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
             addHashtagButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
             addHashtagButton.heightAnchor.constraint(equalToConstant: 32),
+            addHashtagButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
 
             hashtagButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
             hashtagButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
@@ -617,6 +642,11 @@ extension WriteViewController {
     func setupViews() {
 
         contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+        contentTextView.delegate = self
+
+        textNumberLabel.text = "\(contentTextView.text.count) / 140"
+        textNumberLabel.textColor = .black
+        textNumberLabel.font = UIFont.systemFont(ofSize: 14)
 
         recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
         uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2

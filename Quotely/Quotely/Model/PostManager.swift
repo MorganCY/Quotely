@@ -60,6 +60,7 @@ class PostManager {
 
     func updatePost(
         postID: String,
+        editTime: Int64,
         content: String,
         imageUrl: String?,
         hashtag: String?,
@@ -77,6 +78,7 @@ class PostManager {
                 let targetPost = querySnapshot?.documents.first
 
                 targetPost?.reference.updateData([
+                    "editTime": editTime,
                     "content": content,
                     "imageUrl": imageUrl as Any,
                     "hashtag": hashtag as Any

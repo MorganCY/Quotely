@@ -194,11 +194,13 @@ class PostDetailViewController: BaseDetailViewController {
                 writeVC.hasImage = true
             }
 
-            writeVC.contentHandler = { content, hashtag in
+            writeVC.contentHandler = { content, hashtag, editTime in
 
                 self.post?.content = content
 
                 self.post?.hashtag = hashtag
+
+                self.post?.editTime = editTime
 
                 tableView.reloadData()
             }
