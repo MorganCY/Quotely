@@ -12,14 +12,14 @@ class SwipeViewController: UIViewController {
 
     let visitorUid = SignInManager.shared.uid ?? ""
 
+    let loadingAnimationView = LottieAnimationView(animationName: "loading")
+
     var cards = [Card]() {
         didSet {
             cardStack.dataSource = self
             cardStack.delegate = self
         }
     }
-
-    @IBOutlet weak var loadingLabel: UILabel!
 
     var cardStack = SwipeCardStackView()
     let shareButton = ImageButton(image: UIImage.sfsymbol(.shareNormal)!, color: .gray)
@@ -102,7 +102,7 @@ class SwipeViewController: UIViewController {
 
             group.notify(queue: DispatchQueue.main, execute: {
 
-                self.loadingLabel.isHidden = true
+                self.loadingAnimationView.removeFromSuperview()
 
                 self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
                 self.commentNumberLabel.text = "\(self.cards[0].commentNumber)"
@@ -206,13 +206,19 @@ class SwipeViewController: UIViewController {
 
     func setupCardView() {
 
+        view.addSubview(loadingAnimationView)
         view.addSubview(cardStack)
         cardStack.translatesAutoresizingMaskIntoConstraints = false
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
 
             cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -20),
             cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
         ])

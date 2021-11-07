@@ -68,8 +68,8 @@ class SwipeCardStackView: UIStackView {
 
             NSLayoutConstraint.activate([
 
-                swipeCard.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                swipeCard.topAnchor.constraint(equalTo: self.topAnchor, constant: CGFloat(-8 * index)),
+                swipeCard.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                swipeCard.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: CGFloat(8 * index)),
                 swipeCard.widthAnchor.constraint(equalTo: self.widthAnchor),
                 swipeCard.heightAnchor.constraint(equalTo: self.heightAnchor)
             ])

@@ -190,10 +190,7 @@ class ShareViewController: BaseImagePickerViewController {
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
     ) {
 
-        picker.dismiss(animated: true) {
-
-            Toast.showLoading(text: "載入中")
-        }
+        picker.dismiss(animated: true)
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
@@ -201,20 +198,13 @@ class ShareViewController: BaseImagePickerViewController {
             fatalError("Cannot load image")
         }
 
-        DispatchQueue.main.async {
-
-            Toast.shared.hud.dismiss()
-            self.templateImage = selectedImage
-        }
+        self.templateImage = selectedImage
     }
 
     @available(iOS 14, *)
     override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
-        picker.dismiss(animated: true) {
-
-            Toast.showLoading(text: "載入中")
-        }
+        picker.dismiss(animated: true)
 
         guard !results.isEmpty else {
 
@@ -228,19 +218,10 @@ class ShareViewController: BaseImagePickerViewController {
 
                 guard let selectedImage = image as? UIImage else {
 
-                    DispatchQueue.main.async {
-
-                        picker.dismiss(animated: true)
-                    }
-
                     return
                 }
 
-                DispatchQueue.main.async {
-
-                    Toast.shared.hud.dismiss()
-                    self.templateImage = selectedImage
-                }
+                self.templateImage = selectedImage
             })
         }
     }
@@ -318,7 +299,7 @@ extension ShareViewController {
 
         navigationItem.setupRightBarButton(
             image: nil,
-            text: "分享",
+            text: "完成",
             target: self,
             action: #selector(expandOptionPanel(_:)),
             color: .black

@@ -73,6 +73,8 @@
 		5C8C0E9C272529650054480A /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E9B272529650054480A /* Card.swift */; };
 		5C8C0EA12725A4B40054480A /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0EA02725A4B40054480A /* CardDetailViewController.swift */; };
 		5C8C0EA32725AD480054480A /* CardCommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0EA22725AD480054480A /* CardCommentManager.swift */; };
+		5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91FFC72737986700A216D4 /* LottieAnimation.swift */; };
+		5C91FFCA27379A3F00A216D4 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C91FFC927379A3F00A216D4 /* loading.json */; };
 		5C9A15C7272280FD00A13CC7 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */; };
 		5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */; };
 		5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */; };
@@ -173,6 +175,8 @@
 		5C8C0E9B272529650054480A /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		5C8C0EA02725A4B40054480A /* CardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
 		5C8C0EA22725AD480054480A /* CardCommentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCommentManager.swift; sourceTree = "<group>"; };
+		5C91FFC72737986700A216D4 /* LottieAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimation.swift; sourceTree = "<group>"; };
+		5C91FFC927379A3F00A216D4 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -449,6 +453,7 @@
 		5C8C0E93272436380054480A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				5C91FFC927379A3F00A216D4 /* loading.json */,
 				5CE8F1D4272F79210026864C /* ball.json */,
 				5CE8F1D6272F7BD50026864C /* nothingFound.json */,
 				5C2C7301271D12E300F8B9EC /* Assets.xcassets */,
@@ -480,6 +485,7 @@
 			children = (
 				5CD765FC271ECE33008E8D00 /* Kingfisher.swift */,
 				5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */,
+				5C91FFC72737986700A216D4 /* LottieAnimation.swift */,
 			);
 			path = ThirdPartyWrapper;
 			sourceTree = "<group>";
@@ -579,6 +585,7 @@
 			files = (
 				5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */,
 				5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */,
+				5C91FFCA27379A3F00A216D4 /* loading.json in Resources */,
 				5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */,
 				5C2C7305271D12E300F8B9EC /* LaunchScreen.storyboard in Resources */,
 				5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */,
@@ -695,6 +702,7 @@
 				5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */,
 				5C4B9693271FBCC1008B21C7 /* BaseDetailCommentCell.swift in Sources */,
 				5CD1FAD52732793600F87B98 /* UIScreen+Extension.swift in Sources */,
+				5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */,
 				5C8C0EA12725A4B40054480A /* CardDetailViewController.swift in Sources */,
 				5C2846EF2728F4F500393562 /* JournalListTableViewCell.swift in Sources */,
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
