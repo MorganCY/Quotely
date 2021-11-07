@@ -77,19 +77,18 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
-        likeNumberLabel.text = "\(post?.likeNumber ?? 0)"
 
         switch isCard {
 
         case true:
 
             contentLabel.text = "\(card?.content ?? "")\n\n\n\(card?.author ?? "")"
+            likeNumberLabel.text = "\(card?.likeNumber ?? 0)"
             hashtagLabel.text = post?.hashtag
             postImageView.isHidden = !isAuthor
-            timeLabel.isHidden = !isAuthor
-            userImageView.isHidden = !isAuthor
-            userNameLabel.isHidden = !isAuthor
-            timeLabel.isHidden = !isAuthor
+            userImageView.image = UIImage.asset(.bg4)
+            userNameLabel.text = "隻字片語"
+            timeLabel.text = "某一天的夜半時分"
             hashtagLabel.isHidden = !isAuthor
             editButton.isHidden = !isAuthor
             deleteButton.isHidden = !isAuthor
@@ -99,6 +98,7 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
             contentLabel.text = post?.content
             editButton.isHidden = !isAuthor
             deleteButton.isHidden = !isAuthor
+            likeNumberLabel.text = "\(post?.likeNumber ?? 0)"
 
             if let createdTime = post?.createdTime {
 

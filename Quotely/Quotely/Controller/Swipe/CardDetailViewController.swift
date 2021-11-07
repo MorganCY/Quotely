@@ -16,9 +16,9 @@ class CardDetailViewController: BaseDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "隻字片語"
-
         fetchComments(type: .card)
+
+        navigationItem.title = "隻字片語"
     }
 
     override func viewWillAppear(_ animated: Bool) {

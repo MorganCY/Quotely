@@ -23,7 +23,7 @@ class PostDetailViewController: BaseDetailViewController {
 
         fetchComments(type: .post)
 
-        navigationItem.title = "摘語"
+        navigationItem.title = "想法"
     }
 
     // MARK: LiftCycle
