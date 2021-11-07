@@ -191,12 +191,15 @@ class WriteViewController: BaseImagePickerViewController {
 
                     guard let postID = post.postID else { return }
 
-                    var hashtag = Hashtag(
+                    let hashtag = Hashtag(
                         title: self.hashtagTitle,
                         newPostID: postID,
                         postList: [])
 
-                    HashtagManager.shared.addHashtag(hashtag: &hashtag) { result in
+                    HashtagManager.shared.checkDuplicateHashtag(
+                        hashtag: hashtag,
+                        postID: post.postID ?? ""
+                    ) { result in
 
                         switch result {
 
