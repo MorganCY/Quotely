@@ -601,12 +601,13 @@ extension WriteViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             contentTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
 
-            textNumberLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -12),
+            textNumberLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16),
             textNumberLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: -8),
 
             addHashtagButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
             addHashtagButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
             addHashtagButton.heightAnchor.constraint(equalToConstant: 32),
+            addHashtagButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
 
             hashtagButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
             hashtagButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),

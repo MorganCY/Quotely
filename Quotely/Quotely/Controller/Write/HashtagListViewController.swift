@@ -66,7 +66,13 @@ class HashtagListViewController: UIViewController {
             }
         }
 
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+
+        alert.textFields?[0].delegate = self
+
         alert.addAction(submitAction)
+
+        alert.addAction(cancel)
 
         present(alert, animated: true)
     }
@@ -115,18 +121,12 @@ extension HashtagListViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
     }
 
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-
-        filteredHashtagList = hashtagList
-    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) { filteredHashtagList = hashtagList }
 }
 
 extension HashtagListViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        filteredHashtagList.count
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { filteredHashtagList.count }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -162,5 +162,23 @@ extension HashtagListViewController: UITableViewDataSource, UITableViewDelegate 
         let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.3, delayFactor: 0.1)
         let animator = Animator(animation: animation)
             animator.animate(cell: cell, at: indexPath, in: tableView)
+    }
+}
+
+extension HashtagListViewController: UITextFieldDelegate {
+
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+
+        let currentText = textField.text ?? ""
+
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+        return updatedText.count <= 12 && !updatedText.contains("#")
     }
 }
