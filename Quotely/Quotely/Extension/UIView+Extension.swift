@@ -146,10 +146,7 @@ extension UIView {
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
 
-        if isPath {
-
-            layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
-        }
+        if isPath { layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath }
     }
 
     @IBInspectable var shadowColor: CGColor? {

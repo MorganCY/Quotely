@@ -12,6 +12,8 @@ class SwipeViewController: UIViewController {
 
     let visitorUid = SignInManager.shared.uid ?? ""
 
+    let notificationCenter = NotificationCenter.default
+
     let loadingAnimationView = LottieAnimationView(animationName: "loading")
 
     var cards = [Card]() {
@@ -62,14 +64,6 @@ class SwipeViewController: UIViewController {
         setupButton()
         setupResetButton()
 
-        // open share template when a user takes screenshot
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(goToSharePage(_:)),
-            name: UIApplication.userDidTakeScreenshotNotification, object: nil
-        )
-
         if UIApplication.isFirstLaunch() { setEducationAnimation() }
     }
 
@@ -78,6 +72,24 @@ class SwipeViewController: UIViewController {
 
         resetBackgroundView.cornerRadius = resetBackgroundView.frame.width / 2
         resetButton.cornerRadius = resetButton.frame.width / 2
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // open share template when a user takes screenshot
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(goToSharePage(_:)),
+            name: UIApplication.userDidTakeScreenshotNotification, object: nil
+        )
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        notificationCenter.removeObserver(self)
     }
 
     func fetchCards() {
