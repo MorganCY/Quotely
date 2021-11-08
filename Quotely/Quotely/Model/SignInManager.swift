@@ -172,7 +172,8 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                             blocklist: nil,
                             followingNumber: 0,
                             followerNumber: 0,
-                            postNumber: 0
+                            postNumber: 0,
+                            profileImageUrl: "gs://quotely-morganyu.appspot.com/default_profile.JPG"
                         )
 
                         UserManager.shared.createUser(user: user) { result in
