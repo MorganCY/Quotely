@@ -19,20 +19,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wc-RG-8IV">
-                                <rect key="frame" x="32" y="92" width="136.5" height="89.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wc-RG-8IV">
+                                <rect key="frame" x="32" y="92" width="143.5" height="98.5"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="90"/>
                                 <color key="textColor" name="A3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10月" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYF-e6-6ht">
-                                <rect key="frame" x="32" y="169.5" width="128.5" height="76.5"/>
+                                <rect key="frame" x="32" y="178.5" width="128.5" height="76.5"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="56"/>
                                 <color key="textColor" name="A3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quote Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9S-TK-NMd">
-                                <rect key="frame" x="184.5" y="96" width="197.5" height="22.5"/>
+                                <rect key="frame" x="191.5" y="100" width="198.5" height="22.5"/>
                                 <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -41,14 +41,14 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="p9S-TK-NMd" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.477053" id="18j-lT-hPg"/>
+                            <constraint firstItem="p9S-TK-NMd" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.48" id="18j-lT-hPg"/>
                             <constraint firstItem="9wc-RG-8IV" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="49E-s8-77z"/>
                             <constraint firstItem="kYF-e6-6ht" firstAttribute="leading" secondItem="9wc-RG-8IV" secondAttribute="leading" id="AwM-kN-8hV"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="p9S-TK-NMd" secondAttribute="trailing" constant="32" id="Dyn-4j-NXu"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="p9S-TK-NMd" secondAttribute="trailing" constant="24" id="Dyn-4j-NXu"/>
                             <constraint firstItem="p9S-TK-NMd" firstAttribute="leading" secondItem="9wc-RG-8IV" secondAttribute="trailing" constant="16" id="Qyj-l4-08L"/>
                             <constraint firstItem="9wc-RG-8IV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="32" id="VZW-Ae-Jje"/>
-                            <constraint firstItem="9wc-RG-8IV" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.1" id="cH1-Kk-WIy"/>
-                            <constraint firstItem="p9S-TK-NMd" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="top" constant="4" id="dbE-fe-Y2q"/>
+                            <constraint firstItem="p9S-TK-NMd" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="top" constant="8" id="dbE-fe-Y2q"/>
+                            <constraint firstItem="9wc-RG-8IV" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.11" id="q9d-2g-m1U"/>
                             <constraint firstItem="kYF-e6-6ht" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="bottom" constant="-12" id="wGZ-0q-PDy"/>
                         </constraints>
                     </view>

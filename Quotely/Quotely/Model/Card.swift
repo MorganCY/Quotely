@@ -16,5 +16,4 @@ struct Card: Codable {
     var commentNumber: Int
     var likeUser: [String]
     var dislikeUser: [String]
-    var imageUrl: String?
 }
