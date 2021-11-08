@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import SwiftUI
 
 class HashtagManager {
 
@@ -17,16 +18,63 @@ class HashtagManager {
 
     let hashtags = Firestore.firestore().collection("hashtags")
 
-    func addHashtag(
-        hashtag: inout Hashtag,
+    func checkDuplicateHashtag(
+        hashtag: Hashtag,
+        postID: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+
+        // check if there's same hashtag in database
+
+        hashtags
+            .whereField("title", isEqualTo: hashtag.title)
+            .limit(to: 1)
+            .getDocuments { querySnapshot, error in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    // find same hashtag in database, and update the data
+
+                    if let document = querySnapshot?.documents, !document.isEmpty {
+
+                        let targetHashtag = querySnapshot?.documents.first
+
+                        targetHashtag?.reference.updateData([
+                            "postList": FieldValue.arrayUnion([postID]),
+                            "postNumber": FieldValue.increment(Int64(1))
+                        ])
+
+                        completion(.success("Added post to existing hashtag"))
+
+                    } else {
+
+                        // find no same hashtag in database, and create new one
+
+                        var newHashtag = hashtag
+
+                        self.addHashag(hashtag: &newHashtag) { result in
+
+                            switch result {
+
+                            case .success(let success): print(success)
+
+                            case .failure(let error): print(error)
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
+    func addHashag(hashtag: inout Hashtag, completion: @escaping (Result<String, Error>) -> Void) {
 
         let document = hashtags.document()
 
         hashtag.hashtagID = document.documentID
-        hashtag.postNumber = 1
-        hashtag.postList?.append(hashtag.newPostID ?? "")
 
         do {
 
@@ -38,7 +86,7 @@ class HashtagManager {
 
                 } else {
 
-                    completion(.success("Added hashtag"))
+                    completion(.success("Added new hashtag"))
                 }
             })
 
@@ -87,6 +135,7 @@ class HashtagManager {
                         completion(.success(hashtags))
                     }
                 }
+
         } else {
 
             hashtags
@@ -121,5 +170,32 @@ class HashtagManager {
                     }
                 }
         }
+    }
+
+    func deletePostFromHashtag(
+        hashtag: String,
+        postID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        hashtags.whereField("title", isEqualTo: hashtag)
+            .getDocuments { querySnapshot, error in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    let targetHashtag = querySnapshot?.documents.first
+
+                    targetHashtag?.reference.updateData([
+                        "postList": FieldValue.arrayRemove([postID]),
+                        "postNumber": FieldValue.increment(Int64(-1))
+                    ])
+
+                    completion(.success("Deleted post from hashtag post list"))
+                }
+            }
     }
 }

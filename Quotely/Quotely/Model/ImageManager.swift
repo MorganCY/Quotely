@@ -71,21 +71,28 @@ class ImageManager {
         }
     }
 
-    func deleteImage(imageUrl: String, removeUrlHandler: @escaping () -> Void) {
+    func deleteImage(
+        imageUrl: String,
+        completion: @escaping (Result<String, Error>) -> Void) {
 
-        let reference = imagePath.storage.reference(forURL: imageUrl)
+        if imageUrl == "" {
 
-        reference.delete { error in
+            completion(.success("There was no image so no need to delete"))
 
-            if let error = error {
+        } else {
 
-                print(error.localizedDescription)
+            let reference = imagePath.storage.reference(forURL: imageUrl)
 
-            } else {
+            reference.delete { error in
 
-                print("Delete image successfully")
+                if let error = error {
 
-                removeUrlHandler()
+                    completion(.failure(error))
+
+                } else {
+
+                    completion(.success("Image was deleted"))
+                }
             }
         }
     }

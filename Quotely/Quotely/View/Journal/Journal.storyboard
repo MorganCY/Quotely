@@ -14,25 +14,25 @@
         <!--Journal View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="JournalViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="JournalViewController" id="Y6W-OH-hqX" customClass="JournalViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wc-RG-8IV">
-                                <rect key="frame" x="32" y="92" width="136.5" height="80"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="88"/>
-                                <color key="textColor" name="M2"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wc-RG-8IV">
+                                <rect key="frame" x="32" y="92" width="143.5" height="98.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="90"/>
+                                <color key="textColor" name="A3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10月" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYF-e6-6ht">
-                                <rect key="frame" x="32" y="160" width="115" height="68.5"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="50"/>
-                                <color key="textColor" name="M2"/>
+                                <rect key="frame" x="32" y="178.5" width="128.5" height="76.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="56"/>
+                                <color key="textColor" name="A3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quote Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9S-TK-NMd">
-                                <rect key="frame" x="184.5" y="96" width="197.5" height="22.5"/>
+                                <rect key="frame" x="191.5" y="100" width="198.5" height="22.5"/>
                                 <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -41,14 +41,14 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="p9S-TK-NMd" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.48" id="18j-lT-hPg"/>
                             <constraint firstItem="9wc-RG-8IV" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="49E-s8-77z"/>
-                            <constraint firstItem="9wc-RG-8IV" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.33" id="52a-Iy-pGq"/>
                             <constraint firstItem="kYF-e6-6ht" firstAttribute="leading" secondItem="9wc-RG-8IV" secondAttribute="leading" id="AwM-kN-8hV"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="p9S-TK-NMd" secondAttribute="trailing" constant="32" id="Dyn-4j-NXu"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="p9S-TK-NMd" secondAttribute="trailing" constant="24" id="Dyn-4j-NXu"/>
                             <constraint firstItem="p9S-TK-NMd" firstAttribute="leading" secondItem="9wc-RG-8IV" secondAttribute="trailing" constant="16" id="Qyj-l4-08L"/>
                             <constraint firstItem="9wc-RG-8IV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="32" id="VZW-Ae-Jje"/>
-                            <constraint firstItem="9wc-RG-8IV" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.0892857" id="cH1-Kk-WIy"/>
-                            <constraint firstItem="p9S-TK-NMd" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="top" constant="4" id="dbE-fe-Y2q"/>
+                            <constraint firstItem="p9S-TK-NMd" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="top" constant="8" id="dbE-fe-Y2q"/>
+                            <constraint firstItem="9wc-RG-8IV" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.11" id="q9d-2g-m1U"/>
                             <constraint firstItem="kYF-e6-6ht" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="bottom" constant="-12" id="wGZ-0q-PDy"/>
                         </constraints>
                     </view>
@@ -103,7 +103,8 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="spV-HQ-O7T"/>
-                        <color key="backgroundColor" name="M1"/>
+                        <color key="backgroundColor" red="0.6002750993" green="0.64010483029999998" blue="0.53507155179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" name="M2"/>
                         <constraints>
                             <constraint firstItem="spV-HQ-O7T" firstAttribute="trailing" secondItem="AI4-kb-QK1" secondAttribute="trailing" id="0mN-Hu-wI5"/>
                             <constraint firstItem="AI4-kb-QK1" firstAttribute="top" secondItem="7VL-nz-hTd" secondAttribute="bottom" constant="10" id="2iF-1v-NR7"/>
@@ -148,11 +149,11 @@
         </scene>
     </scenes>
     <resources>
-        <namedColor name="M1">
-            <color red="0.45882352941176469" green="0.49411764705882355" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="A3">
+            <color red="0.88999998569488525" green="0.85100001096725464" blue="0.81599998474121094" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="M2">
-            <color red="0.60000002384185791" green="0.63499999046325684" blue="0.53700000047683716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.74509803921568629" green="0.75294117647058822" blue="0.6705882352941176" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

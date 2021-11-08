@@ -7,33 +7,57 @@
 
 import Foundation
 import UIKit
-import PhotosUI
-import Vision
+import FirebaseFirestore
 
 class ExploreViewController: UIViewController {
+
+    let visitorUid = SignInManager.shared.uid
+
+    var listener: ListenerRegistration?
+
+    var visitorFollowingList: [String] = []
 
     let filters: [PostManager.FilterType] = [.latest, .popular, .following]
     var currentFilter: PostManager.FilterType = .latest {
         didSet {
-            addPostListener(type: currentFilter)
+            if currentFilter == .following,
+               visitorFollowingList.count > 0 {
+                listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
+            } else {
+                listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
+            }
+
+            if currentFilter == .following,
+               visitorFollowingList.count == 0 {
+                setupEmptyAnimation()
+            } else {
+                emptyReminderView.removeFromSuperview()
+            }
         }
     }
 
+    let emptyReminderView = UIView()
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
             tableView.registerCellWithNib(
                 identifier: ExploreTableViewCell.identifier,
-                bundle: nil)
+                bundle: nil
+            )
             tableView.separatorStyle = .none
+
+            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
         }
     }
 
     let filterView = SelectionView()
 
-    var postList: [Post] = [] {
+    var postList: [Post] = []
+
+    var userList: [User?] = [] {
         didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
             tableView.reloadData()
         }
     }
@@ -51,26 +75,49 @@ class ExploreViewController: UIViewController {
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.addPost)!,
+            text: nil,
             target: self,
             action: #selector(addPost(_:)),
-            color: .M1!
+            color: .white
         )
 
         setupFilterView()
 
-        fetchPost(type: .latest)
+        fetchVisitorFollowingList()
+
+        view.backgroundColor = .M1
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if visitorFollowingList.count > 0 {
+            listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
+        } else {
+            listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
+        }
     }
 
     // MARK: Data
-    func addPostListener(type: PostManager.FilterType) {
+    func addPostListener(
+        type: PostManager.FilterType,
+        uid: String?,
+        followingList: [String]?
+    ) -> ListenerRegistration {
 
-        PostManager.shared.listenToPostUpdate(type: type) { result in
+        return PostManager.shared.listenToPostUpdate(
+            type: type,
+            uid: uid,
+            followingList: followingList
+        ) { result in
 
             switch result {
 
             case .success(let posts):
 
                 self.postList = posts
+
+                self.fetchUserList(postList: posts)
 
             case .failure(let error):
 
@@ -79,29 +126,62 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    func fetchPost(type: PostManager.FilterType) {
+    func fetchUserList(postList: [Post]) {
 
-        PostManager.shared.fetchPost(type: type) { result in
+        var userList: [User] = Array(repeating: User.default, count: postList.count)
 
-            switch result {
+        let group = DispatchGroup()
 
-            case .success(let posts):
+        DispatchQueue.main.async {
 
-                self.postList = posts
+            for (index, post) in postList.enumerated() {
 
-            case .failure(let error):
+                group.enter()
 
-                print(error)
+                UserManager.shared.fetchUserInfo(uid: post.uid) { result in
+
+                    switch result {
+
+                    case .success(let user):
+
+                        userList[index] = user
+
+                        group.leave()
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        group.leave()
+                    }
+                }
+            }
+
+            group.notify(queue: DispatchQueue.main) {
+
+                self.userList = userList
             }
         }
+    }
+
+    func fetchVisitorFollowingList() {
+
+        UserManager.shared.listenToUserUpdate(
+            uid: visitorUid ?? "") { result in
+                
+                switch result {
+
+                case .success(let user):
+
+                    self.visitorFollowingList = user.following ?? [""]
+
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
 
     @objc func addPost(_ sender: UIBarButtonItem) {
-
-        goToWritePage()
-    }
-
-    func goToWritePage() {
 
         guard let writeVC =
                 UIStoryboard.write
@@ -118,22 +198,36 @@ class ExploreViewController: UIViewController {
 
         present(nav, animated: true)
     }
+
+    @objc func goToProfile(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let profileVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
+
+            return
+        }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+
+        profileVC.visitedUid = postList[currentRow].uid
+
+        self.show(profileVC, sender: nil)
+    }
 }
 
 extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate {
 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { filters.count }
 
-    // swiftlint:disable identifier_name
-    func buttonStyle(_view: SelectionView) -> ButtonStyle { .text }
+    func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String {
-        filters[index].rawValue
-    }
+    func buttonTitle(_ view: SelectionView, index: Int) -> String { filters[index].rawValue }
 
-    func buttonColor(_ view: SelectionView) -> UIColor { .gray }
+    func buttonColor(_ view: SelectionView) -> UIColor { .white }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .lightGray }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M3! }
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.4 }
 
@@ -141,11 +235,18 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
         switch index {
 
-        case 0: return currentFilter = .latest
-        case 1: return currentFilter = .popular
-        case 2: return currentFilter = .following
-        default: return currentFilter = .latest
-        }
+        case 0:
+            listener?.remove()
+            currentFilter = .latest
+        case 1:
+            listener?.remove()
+            currentFilter = .popular
+        case 2:
+            listener?.remove()
+            currentFilter = .following
+        default:
+            listener?.remove()
+            currentFilter = .latest        }
     }
 
     func shouldSelectButtonAt(_ view: SelectionView, at index: Int) -> Bool { true }
@@ -154,17 +255,16 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 // MARK: TableView
 extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { postList.count }
 
-        postList.count
-    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { UITableView.automaticDimension }
 
-        UITableView.automaticDimension
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ExploreTableViewCell.identifier,
@@ -173,42 +273,39 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 fatalError("Cannot create cell.")
             }
 
-        let row = indexPath.row
-        let post = postList[row]
+        let post = postList[indexPath.row]
 
-        if let likeUserList = postList[row].likeUser {
+        if let likeUserList = post.likeUser {
 
-            isLikePost = likeUserList.contains("test123456") ?
-            true : false
+            isLikePost = likeUserList.contains(visitorUid ?? "")
 
         } else {
 
             isLikePost = false
         }
 
-        cell.hideSelectionStyle()
-
         cell.layoutCell(
-            userImage: UIImage.asset(.testProfile),
-            userName: "Morgan Yu",
+            userInfo: userList[indexPath.row]!,
             post: post,
-            hasLiked: isLikePost
+            isLikePost: self.isLikePost
         )
+
+        cell.hideSelectionStyle()
 
         cell.likeHandler = {
 
             // When tapping on the like button, check if the user has likedPost
-            if let likeUserList = self.postList[row].likeUser {
 
-                self.isLikePost = likeUserList.contains("test123456") ?
-                true : false
+            if let likeUserList = post.likeUser {
+
+                self.isLikePost = likeUserList.contains(SignInManager.shared.uid ?? "")
 
             } else {
 
                 self.isLikePost = false
             }
 
-            guard let postID = self.postList[row].postID else { return }
+            guard let postID = post.postID else { return }
 
             let likeAction: LikeAction = self.isLikePost
             ? .dislike : .like
@@ -222,7 +319,6 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 case .success(let action):
 
                     print(action)
-                    self.fetchPost(type: self.currentFilter)
 
                 case .failure(let error):
 
@@ -230,6 +326,23 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
         }
+
+        // go to user's profile when tapping image, name, and time
+
+        let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+        let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+        let tapGoToProfileGesture3 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+
+        cell.userImageView.addGestureRecognizer(tapGoToProfileGesture)
+        cell.userImageView.isUserInteractionEnabled = true
+        cell.userNameLabel.addGestureRecognizer(tapGoToProfileGesture2)
+        cell.userNameLabel.isUserInteractionEnabled = true
+        cell.timeLabel.addGestureRecognizer(tapGoToProfileGesture3)
+        cell.timeLabel.isUserInteractionEnabled = true
+
+        cell.userImageView.tag = indexPath.row
+        cell.userNameLabel.tag = indexPath.row
+        cell.timeLabel.tag = indexPath.row
 
         return cell
     }
@@ -247,18 +360,19 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let row = indexPath.row
 
-        detailVC.postID = postList[row].postID ?? ""
-        detailVC.userImage = UIImage.asset(.testProfile)
-        detailVC.userName = "Morgan Yu"
-        detailVC.time = postList[row].createdTime
-        detailVC.content = postList[row].content
-        detailVC.imageUrl = postList[row].imageUrl
-        detailVC.uid = postList[row].uid
-
         if let likeUserList = postList[row].likeUser {
 
-            detailVC.hasLiked = likeUserList.contains("test123456")
+            isLikePost = likeUserList.contains(visitorUid ?? "")
+
+        } else {
+
+            isLikePost = false
         }
+
+        detailVC.post = postList[row]
+        detailVC.postAuthor = userList[row]
+        detailVC.isLike = isLikePost
+
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
@@ -275,6 +389,39 @@ extension ExploreViewController {
             filterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             filterView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             filterView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -16)
+        ])
+    }
+
+    func setupEmptyAnimation() {
+
+        let emptyAnimationView = LottieAnimationView(animationName: "empty")
+        let reminderLabel = UILabel()
+
+        view.addSubview(emptyReminderView)
+        view.bringSubviewToFront(emptyReminderView)
+        emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
+        emptyReminderView.addSubview(emptyAnimationView)
+        emptyReminderView.addSubview(reminderLabel)
+        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        reminderLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        reminderLabel.text = "還沒有追蹤的用戶...QQ"
+        reminderLabel.textColor = .gray
+        reminderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+
+        NSLayoutConstraint.activate([
+            emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+
+            emptyAnimationView.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor),
+            emptyAnimationView.centerYAnchor.constraint(equalTo: emptyReminderView.centerYAnchor),
+            emptyAnimationView.heightAnchor.constraint(equalTo: emptyReminderView.heightAnchor, multiplier: 0.8),
+            emptyAnimationView.widthAnchor.constraint(equalTo: emptyReminderView.widthAnchor),
+
+            reminderLabel.topAnchor.constraint(equalTo: emptyReminderView.topAnchor),
+            reminderLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
         ])
     }
 }

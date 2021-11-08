@@ -16,40 +16,13 @@ class CardDetailViewController: BaseDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        fetchComments(type: .card)
+
         navigationItem.title = "隻字片語"
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        fetchComments()
-    }
-
-    override func like(_ sender: UIButton) {
-
-        let likeAction: LikeAction = hasLiked ? .dislike : .like
-
-        hasLiked.toggle()
-
-        guard let cardID = cardID else { return }
-
-        CardManager.shared.updateCards(
-            cardID: cardID,
-            likeAction: likeAction,
-            uid: uid
-        ) { result in
-
-            switch result {
-
-            case .success(let success):
-
-                print(success)
-
-            case .failure(let error):
-
-                print("updateData.failure: \(error)")
-            }
-        }
     }
 
     override func addComment(_ sender: UIButton) {
@@ -58,11 +31,11 @@ class CardDetailViewController: BaseDetailViewController {
         if let message = commentTextField.text {
 
             var comment = Comment(
-                uid: uid,
+                uid: visitorUid,
                 content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
-                cardID: cardID,
+                cardID: card?.cardID,
                 postID: nil,
                 postCommentID: nil)
 
@@ -73,11 +46,11 @@ class CardDetailViewController: BaseDetailViewController {
 
                     self.commentTextField.text = ""
 
-                    self.fetchComments()
+                    self.fetchComments(type: .card)
                 }
 
             CardCommentManager.shared.updateCommentNumber(
-                cardID: self.cardID ?? "",
+                cardID: card?.cardID ?? "",
                 commentAction: .add
             ) { result in
 
@@ -113,22 +86,21 @@ class CardDetailViewController: BaseDetailViewController {
         }
 
         header.layoutHeader(
-            userImage: nil,
-            userName: nil,
-            time: nil,
-            content: content.replacingOccurrences(of: "\\n", with: "\n"),
-            imageUrl: nil,
-            isAuthor: false
+            isCard: true,
+            card: card,
+            post: nil,
+            postAuthor: nil,
+            isAuthor: false,
+            isLike: isLike
         )
-
-        header.userImageView.isHidden = true
-        header.userNameLabel.isHidden = true
-        header.timeLabel.isHidden = true
 
         return header
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
@@ -136,44 +108,55 @@ class CardDetailViewController: BaseDetailViewController {
             fatalError("Cannot create cell.")
         }
 
-        let row = indexPath.row
+        let comment = comments[indexPath.row]
 
-        isAuthor = uid == "test123456" ? true : false
+        var isCommentAuthor = false
 
-        cell.layoutCell(
-            userImage: UIImage.asset(.testProfile)!,
-            userName: "Morgan Yu",
-            createdTime: comments[row].createdTime,
-            content: comments[row].content,
-            isAuthor: isAuthor,
-            editTime: comments[row].editTime)
+        isCommentAuthor = comment.uid == visitorUid ? true : false
+
+        UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
+
+            switch result {
+
+            case .success(let user):
+                cell.layoutCell(
+                    comment: comment,
+                    userImageUrl: user.profileImageUrl ?? "",
+                    userName: user.name ?? "",
+                    isAuthor: isCommentAuthor
+                )
+
+            case .failure(let error):
+                print(error)
+            }
+        }
 
         cell.hideSelectionStyle()
 
         cell.editHandler = { text in
 
-            guard let cardCommentID = self.comments[row].cardCommentID else { return }
+            guard let cardCommentID = comment.cardCommentID else { return }
 
             CardCommentManager.shared.updateComment( cardCommentID: cardCommentID, newContent: text) { result in
 
-                    switch result {
+                switch result {
 
-                    case .success(let success):
+                case .success(let success):
 
-                        print(success)
+                    print(success)
 
-                        self.comments[row].content = text
+                    self.comments[indexPath.row].content = text
 
-                    case .failure(let error):
+                case .failure(let error):
 
-                        print(error)
-                    }
+                    print(error)
                 }
+            }
         }
 
         cell.deleteHandler = {
 
-            guard let cardCommentID = self.comments[row].cardCommentID else { return }
+            guard let cardCommentID = self.comments[indexPath.row].cardCommentID else { return }
 
             let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
 
@@ -188,7 +171,7 @@ class CardDetailViewController: BaseDetailViewController {
 
                             print(success)
 
-                            self.fetchComments()
+                            self.fetchComments(type: .card)
 
                         case .failure(let error):
 
@@ -197,7 +180,7 @@ class CardDetailViewController: BaseDetailViewController {
                     }
 
                 CardCommentManager.shared.updateCommentNumber(
-                    cardID: self.cardID ?? "",
+                    cardID: self.card?.cardID ?? "",
                     commentAction: .delete
                 ) { result in
 
@@ -207,7 +190,7 @@ class CardDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        self.fetchComments()
+                        self.fetchComments(type: .card)
 
                     case .failure(let error):
 
@@ -224,24 +207,5 @@ class CardDetailViewController: BaseDetailViewController {
         }
 
         return cell
-    }
-
-    func fetchComments() {
-
-        guard let cardID = cardID else { return }
-
-        CardCommentManager.shared.fetchComment(cardID: cardID) { result in
-
-            switch result {
-
-            case .success(let comments):
-
-                self.comments = comments
-
-            case .failure(let error):
-
-                print("fetchData.failure: \(error)")
-            }
-        }
     }
 }

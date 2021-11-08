@@ -21,9 +21,12 @@ class PostManager {
         case latest = "最新"
         case popular = "熱門"
         case following = "追蹤"
+        case user
     }
 
     static let shared = PostManager()
+
+    let visitorUid = SignInManager.shared.uid
 
     private init() {}
 
@@ -57,6 +60,7 @@ class PostManager {
 
     func updatePost(
         postID: String,
+        editTime: Int64,
         content: String,
         imageUrl: String?,
         hashtag: String?,
@@ -74,6 +78,7 @@ class PostManager {
                 let targetPost = querySnapshot?.documents.first
 
                 targetPost?.reference.updateData([
+                    "editTime": editTime,
                     "content": content,
                     "imageUrl": imageUrl as Any,
                     "hashtag": hashtag as Any
@@ -84,7 +89,11 @@ class PostManager {
         }
     }
 
-    func fetchPost(type: FilterType, completion: @escaping (Result<[Post], Error>) -> Void) {
+    func fetchPost(
+        type: FilterType,
+        uid: String?,
+        completion: @escaping (Result<[Post], Error>) -> Void
+    ) {
 
         switch type {
 
@@ -158,6 +167,43 @@ class PostManager {
             }
 
         case .following: break
+
+        case .user:
+
+            guard let uid = uid else { return }
+
+            posts
+                .whereField("uid", isEqualTo: uid)
+                .order(by: "createdTime", descending: true)
+                .getDocuments { (querySnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in querySnapshot!.documents {
+
+                        do {
+                            if let post = try document.data(
+                                as: Post.self, decoder: Firestore.Decoder()
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+
+                    completion(.success(posts))
+                }
+            }
         }
     }
 
@@ -179,14 +225,14 @@ class PostManager {
 
                     targetPost?.reference.updateData(
                         ["likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                         "likeUser": FieldValue.arrayUnion(["test123456"] as [Any])
+                         "likeUser": FieldValue.arrayUnion([self.visitorUid as Any])
                         ])
 
                 case .dislike:
 
                     targetPost?.reference.updateData(
                         ["likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                         "likeUser": FieldValue.arrayRemove(["test123456"] as [Any])
+                         "likeUser": FieldValue.arrayRemove([self.visitorUid as Any])
                         ])
                 }
 
@@ -219,14 +265,17 @@ class PostManager {
 
     func listenToPostUpdate(
         type: FilterType,
+        uid: String?,
+        followingList: [String]?,
         completion: @escaping (Result<[Post], Error>
-        ) -> Void) {
+        ) -> Void
+    ) -> ListenerRegistration {
 
         switch type {
 
         case .latest:
 
-            posts
+            return posts
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
 
@@ -260,7 +309,7 @@ class PostManager {
 
         case .popular:
 
-            posts
+            return posts
                 .order(by: "likeNumber", descending: true)
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
@@ -293,7 +342,75 @@ class PostManager {
                 }
             }
 
-        case.following: break
+        case.following:
+
+            return posts
+                .whereField("uid", in: followingList ?? [""])
+                .order(by: "createdTime", descending: true)
+                .addSnapshotListener { (documentSnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in documentSnapshot!.documents {
+
+                        do {
+
+                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+                    completion(.success(posts))
+                }
+            }
+
+        case .user:
+
+            return posts
+                .whereField("uid", isEqualTo: uid)
+                .order(by: "createdTime", descending: true)
+                .addSnapshotListener { (documentSnapshot, error) in
+
+                if let error = error {
+
+                    completion(.failure(error))
+
+                } else {
+
+                    var posts = [Post]()
+
+                    for document in documentSnapshot!.documents {
+
+                        do {
+
+                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+
+                            ) {
+
+                                posts.append(post)
+                            }
+
+                        } catch {
+
+                            completion(.failure(error))
+                        }
+                    }
+                    completion(.success(posts))
+                }
+            }
         }
     }
 }

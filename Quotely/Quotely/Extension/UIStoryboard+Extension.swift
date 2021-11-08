@@ -9,9 +9,11 @@ import UIKit
 
 private struct StoryboardCategory {
 
-    static let journal = "Journal"
+    static let auth = "Auth"
 
     static let main = "Main"
+
+    static let journal = "Journal"
 
     static let swipe = "Swipe"
 
@@ -19,10 +21,14 @@ private struct StoryboardCategory {
 
     static let write = "Write"
 
-    static let myAccount = "MyAccount"
+    static let profile = "Profile"
+
+    static let share = "Share"
 }
 
 extension UIStoryboard {
+
+    static var auth: UIStoryboard { return getStoryboard(name: StoryboardCategory.auth) }
 
     static var main: UIStoryboard { return getStoryboard(name: StoryboardCategory.main) }
 
@@ -34,7 +40,9 @@ extension UIStoryboard {
 
     static var write: UIStoryboard { return getStoryboard(name: StoryboardCategory.write) }
 
-    static var myAccount: UIStoryboard { return getStoryboard(name: StoryboardCategory.myAccount) }
+    static var profile: UIStoryboard { return getStoryboard(name: StoryboardCategory.profile) }
+
+    static var share: UIStoryboard { return getStoryboard(name: StoryboardCategory.share) }
 
     private static func getStoryboard(name: String) -> UIStoryboard {
 

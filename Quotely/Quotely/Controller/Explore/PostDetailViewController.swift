@@ -10,43 +10,59 @@ import UIKit
 
 class PostDetailViewController: BaseDetailViewController {
 
-    var post: Post?
-
     var isAuthor = false
+
+    var author: User? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "摘語"
+        fetchComments(type: .post)
+
+        navigationItem.title = "想法"
     }
 
     // MARK: LiftCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        fetchComments()
     }
 
     // MARK: Action
-    override func like(_ sender: UIButton) {
 
-        let likeAction: LikeAction = hasLiked ? .dislike : .like
+    @objc func goToProfileFromHeader(_ gestureRecognizer: UITapGestureRecognizer) {
 
-        hasLiked.toggle()
+        guard let profileVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
 
-        PostManager.shared.updateLikes(postID: postID, likeAction: likeAction) { result in
-
-            switch result {
-
-            case .success(let action):
-
-                print(action)
-
-            case .failure(let error):
-
-                print("updateData.failure: \(error)")
-            }
+            return
         }
+
+        profileVC.visitedUid = postAuthor?.uid
+
+        self.show(profileVC, sender: nil)
+    }
+
+    @objc func goToProfileFromCell(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let profileVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
+
+            return
+        }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+
+        profileVC.visitedUid = comments[currentRow].uid
+
+        self.show(profileVC, sender: nil)
     }
 
     override func addComment(_ sender: UIButton) {
@@ -54,13 +70,15 @@ class PostDetailViewController: BaseDetailViewController {
 
         if let message = commentTextField.text {
 
+            guard let visitorUid = SignInManager.shared.uid else { return }
+
             var comment = Comment(
-                uid: "test123456",
+                uid: visitorUid,
                 content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
                 cardID: nil,
-                postID: postID
+                postID: post?.postID
             )
 
             PostCommentManager.shared.addComment(
@@ -69,7 +87,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                 self.commentTextField.text = ""
 
-                self.fetchComments()
+                self.fetchComments(type: .post)
             }
 
         } else {
@@ -84,7 +102,10 @@ class PostDetailViewController: BaseDetailViewController {
 
     // MARK: TableView
     // Header: post content
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
 
         guard let header = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: BaseDetailTableViewHeader.identifier
@@ -93,19 +114,63 @@ class PostDetailViewController: BaseDetailViewController {
             fatalError("Cannot load header view.")
         }
 
-        isAuthor = uid == "test123456"
+        isAuthor = postAuthor?.uid == visitorUid
         ? true : false
 
+        guard post != nil,
+              postAuthor != nil else {
+
+                  fatalError("Cannot fetch post data")
+              }
+
         header.layoutHeader(
-            userImage: userImage,
-            userName: userName,
-            time: time,
-            content: content,
-            imageUrl: imageUrl,
-            isAuthor: isAuthor
+            isCard: false,
+            card: nil,
+            post: post,
+            postAuthor: postAuthor,
+            isAuthor: self.isAuthor,
+            isLike: isLike
         )
 
         // Pass data from Post Detail page to Write page
+
+        header.likeHandler = {
+
+            // When tapping on the like button, check if the user has likedPost
+
+            guard let postID = self.post?.postID else { return }
+
+            let likeAction: LikeAction = self.isLike
+            ? .dislike : .like
+
+            PostManager.shared.updateLikes(
+                postID: postID, likeAction: likeAction
+            ) { result in
+
+                switch result {
+
+                case .success(let action):
+
+                    print(action)
+
+                    if likeAction == .like {
+                        self.post?.likeNumber += 1
+                        self.isLike = true
+                        tableView.reloadData()
+                    } else if likeAction == .dislike {
+                        self.post?.likeNumber -= 1
+                        self.isLike = false
+                    }
+
+                    tableView.reloadData()
+
+                case .failure(let error):
+
+                    print(error)
+                }
+            }
+        }
+
         header.editHandler = {
 
             guard let writeVC = UIStoryboard.write.instantiateViewController(
@@ -116,26 +181,31 @@ class PostDetailViewController: BaseDetailViewController {
 
             nav.modalPresentationStyle = .automatic
 
-            self.navigationController?.present(nav, animated: true) {
+            writeVC.contentTextView.text = self.post?.content
 
-                writeVC.contentTextView.text = self.content
+            writeVC.postID = self.post?.postID
 
-                writeVC.postID = self.postID
+            writeVC.hashtagTitle = self.post?.hashtag ?? ""
 
-                if let imageUrl = self.imageUrl {
+            if let imageUrl = self.post?.imageUrl {
 
-                    writeVC.imageUrl = imageUrl
+                writeVC.imageUrl = imageUrl
 
-                    writeVC.hasImage = true
-                }
-
-                writeVC.contentHandler = { content in
-
-                    self.content = content
-
-                    tableView.reloadData()
-                }
+                writeVC.hasImage = true
             }
+
+            writeVC.contentHandler = { content, hashtag, editTime in
+
+                self.post?.content = content
+
+                self.post?.hashtag = hashtag
+
+                self.post?.editTime = editTime
+
+                tableView.reloadData()
+            }
+
+            self.navigationController?.present(nav, animated: true)
         }
 
         header.deleteHandler = {
@@ -144,7 +214,9 @@ class PostDetailViewController: BaseDetailViewController {
 
             let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
 
-                PostManager.shared.deletePost(postID: self.postID) { result in
+                guard let postID = self.post?.postID else { return }
+
+                PostManager.shared.deletePost(postID: postID) { result in
 
                     switch result {
 
@@ -152,7 +224,33 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        self.navigationController?.popViewController(animated: true)
+                        HashtagManager.shared.deletePostFromHashtag(
+                            hashtag: self.post?.hashtag ?? "",
+                            postID: postID) { result in
+
+                                switch result {
+
+                                case .success(let success): print(success)
+
+                                case .failure(let error): print(error)
+                                }
+                            }
+
+                        UserManager.shared.updateUserPost(
+                            uid: self.postAuthor?.uid ?? "",
+                            postID: postID,
+                            postAction: .delete) { result in
+
+                                switch result {
+
+                                case .success(let success):
+                                    print(success)
+
+                                    self.navigationController?.popViewController(animated: true)
+
+                                case .failure(let error): print(error)
+                                }
+                            }
 
                     case .failure(let error):
 
@@ -174,11 +272,27 @@ class PostDetailViewController: BaseDetailViewController {
             self.present(alert, animated: true, completion: nil)
         }
 
+        // go to user's profile when tapping image, name, and time
+
+        let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
+        let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
+        let tapGoToProfileGesture3 = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
+
+        header.userImageView.addGestureRecognizer(tapGoToProfileGesture)
+        header.userImageView.isUserInteractionEnabled = true
+        header.userNameLabel.addGestureRecognizer(tapGoToProfileGesture2)
+        header.userNameLabel.isUserInteractionEnabled = true
+        header.timeLabel.addGestureRecognizer(tapGoToProfileGesture3)
+        header.timeLabel.isUserInteractionEnabled = true
+
         return header
     }
 
     // Cells: comments
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
@@ -186,23 +300,34 @@ class PostDetailViewController: BaseDetailViewController {
             fatalError("Cannot create cell.")
         }
 
-        let row = indexPath.row
+        let comment = comments[indexPath.row]
 
-        isAuthor = uid == "test123456" ? true : false
+        var isCommentAuthor = false
 
-        cell.layoutCell(
-            userImage: UIImage.asset(.testProfile)!,
-            userName: "Morgan Yu",
-            createdTime: comments[row].createdTime,
-            content: comments[row].content,
-            isAuthor: isAuthor,
-            editTime: comments[row].editTime)
+        isCommentAuthor = comment.uid == visitorUid
+
+        UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
+
+            switch result {
+
+            case .success(let user):
+                cell.layoutCell(
+                    comment: comment,
+                    userImageUrl: user.profileImageUrl ?? "",
+                    userName: user.name ?? "",
+                    isAuthor: isCommentAuthor
+                )
+
+            case .failure(let error):
+                print(error)
+            }
+        }
 
         cell.hideSelectionStyle()
 
         cell.editHandler = { text in
 
-            guard let postCommentID = self.comments[row].postCommentID else { return }
+            guard let postCommentID = comment.postCommentID else { return }
 
             PostCommentManager.shared.updateComment( postCommentID: postCommentID, newContent: text) { result in
 
@@ -212,7 +337,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        self.comments[row].content = text
+                        self.fetchComments(type: .post)
 
                     case .failure(let error):
 
@@ -223,7 +348,7 @@ class PostDetailViewController: BaseDetailViewController {
 
         cell.deleteHandler = {
 
-            guard let postCommentID = self.comments[row].postCommentID else { return }
+            guard let postCommentID = comment.postCommentID else { return }
 
             let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
 
@@ -238,7 +363,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                             print(success)
 
-                            self.fetchComments()
+                            self.fetchComments(type: .post)
 
                         case .failure(let error):
 
@@ -254,24 +379,25 @@ class PostDetailViewController: BaseDetailViewController {
             self.present(alert, animated: true, completion: nil)
         }
 
+        // go to user's profile when tapping image, name, and time
+
+        let tapGoToProfileGesture3 = UITapGestureRecognizer(
+            target: self,
+            action: #selector(self.goToProfileFromCell(_:))
+        )
+        let tapGoToProfileGesture4 = UITapGestureRecognizer(
+            target: self,
+            action: #selector(self.goToProfileFromCell(_:))
+        )
+
+        cell.userImageView.addGestureRecognizer(tapGoToProfileGesture3)
+        cell.userImageView.isUserInteractionEnabled = true
+        cell.nameLabel  .addGestureRecognizer(tapGoToProfileGesture4)
+        cell.nameLabel.isUserInteractionEnabled = true
+
+        cell.userImageView.tag = indexPath.row
+        cell.nameLabel.tag = indexPath.row
+
         return cell
-    }
-
-    // MARK: Data
-    func fetchComments() {
-
-        PostCommentManager.shared.fetchComment(postID: postID) { result in
-
-            switch result {
-
-            case .success(let comments):
-
-                self.comments = comments
-
-            case .failure(let error):
-
-                print("fetchData.failure: \(error)")
-            }
-        }
     }
 }

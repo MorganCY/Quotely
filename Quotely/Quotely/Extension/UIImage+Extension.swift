@@ -22,6 +22,8 @@ enum ImageAsset: String {
     case bg3
 
     case bg4
+
+    case instagram
 }
 
 enum SFSymbol: String {
@@ -63,6 +65,8 @@ enum SFSymbol: String {
     case cards = "rectangle.on.rectangle.angled"
     case quoteNormal = "quote.bubble"
     case quoteSelected = "quote.bubble.fill"
+    case download = "icloud.and.arrow.down"
+    case settings = "gearshape"
 }
 
 extension UIImage {

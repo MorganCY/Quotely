@@ -14,6 +14,8 @@ class CardManager {
 
     private init() {}
 
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     let cards = Firestore.firestore().collection("cards")
 
     func fetchRandomCards(limitNumber: Int, completion: @escaping (Result<[Card], Error>) -> Void) {
@@ -101,16 +103,17 @@ class CardManager {
 
                     targetCard?.reference.updateData([
                         "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "likeUser": FieldValue.arrayUnion(["test123456"]),
-                        "dislikeUser": FieldValue.arrayRemove(["test123456"])
+                        "likeUser": FieldValue.arrayUnion([self.visitorUid]),
+                        "dislikeUser": FieldValue.arrayRemove([self.visitorUid])
                     ])
 
                 case .dislike:
+                    
 
                     targetCard?.reference.updateData([
                         "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "dislikeUser": FieldValue.arrayUnion(["test123456"]),
-                        "likeUser": FieldValue.arrayRemove(["test123456"])
+                        "dislikeUser": FieldValue.arrayUnion([self.visitorUid]),
+                        "likeUser": FieldValue.arrayRemove([self.visitorUid])
                     ])
                 }
 

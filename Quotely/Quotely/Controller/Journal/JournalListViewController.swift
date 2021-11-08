@@ -22,7 +22,13 @@ class JournalListViewController: UIViewController {
         }
     }
     var selectedYear = Date().getCurrentTime(format: .yyyy)
-    let startDate = DateComponents(calendar: .current, year: 2021, month: 2, day: 1).date!
+    var userRegisterDate: Date? {
+        didSet {
+            collectionView.reloadData()
+            collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .left)
+            collectionView(collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+        }
+    }
 
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -49,25 +55,47 @@ class JournalListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchJournals()
+        fetchUserInfo()
 
         navigationController?.setupBackButton(color: .white)
 
         tabBarController?.tabBar.isHidden = true
+    }
 
-        collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .left)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        collectionView(collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+        fetchJournals()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 
         tabBarController?.tabBar.isHidden = false
+    }
+
+    func fetchUserInfo() {
+
+        UserManager.shared.fetchUserInfo(
+            uid: SignInManager.shared.uid ?? "") { result in
+
+                switch result {
+
+                case .success(let user):
+
+                    self.userRegisterDate = Date.init(milliseconds: user.registerTime ?? 0)
+
+                case . failure(let error):
+
+                    print(error)
+                }
+            }
     }
 
     func fetchJournals() {
 
         JournalManager.shared.fetchJournal(
+            uid: SignInManager.shared.uid ?? "",
             month: selectedMonth,
             year: selectedYear) { result in
 
@@ -97,13 +125,41 @@ class JournalListViewController: UIViewController {
                 }
             }
     }
+
+    func goToSharePage(content: String, author: String) {
+
+        guard let shareVC =
+                UIStoryboard.share
+                .instantiateViewController(
+                    withIdentifier: String(describing: ShareViewController.self)
+                ) as? ShareViewController else {
+
+            return
+        }
+
+        let nav = BaseNavigationController(rootViewController: shareVC)
+
+        shareVC.templateContent = [
+            content.replacingOccurrences(of: "\\n", with: "\n"),
+            author
+        ]
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
 }
 
 extension JournalListViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))).reversed() as [String]
+        guard let userRegisterDate = userRegisterDate else { return 0 }
+
+        let monthlist = Date.getMonthAndYearBetween(
+            from: userRegisterDate,
+            to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))
+        ).reversed() as [String]
 
         return monthlist.count
     }
@@ -113,7 +169,12 @@ extension JournalListViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
 
-        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))).reversed() as [String]
+        guard let userRegisterDate = userRegisterDate else { fatalError("Cannot create item") }
+
+        let monthlist = Date.getMonthAndYearBetween(
+            from: userRegisterDate,
+            to: Date().addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))
+        ).reversed() as [String]
 
         guard let item = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: JournalListCollectionViewCell.self),
@@ -153,7 +214,9 @@ extension JournalListViewController: UICollectionViewDelegate {
 
         item.setSelectedStyle()
 
-        let monthlist = Date.getMonthAndYearBetween(from: startDate, to: Date()).reversed() as [String]
+        guard let userRegisterDate = userRegisterDate else { return }
+
+        let monthlist = Date.getMonthAndYearBetween(from: userRegisterDate, to: Date()).reversed() as [String]
 
         self.selectedMonth = monthlist[indexPath.item]
     }
@@ -226,7 +289,7 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
         let share = UIAction(title: "分享至社群",
                              image: UIImage.sfsymbol(.shareNormal)) { _ in
 
-            Toast.showFailure(text: "建置中")
+            self.goToSharePage(content: self.journals[indexPath.row].content, author: "Morgan Yu")
         }
 
         let delete = UIAction(title: "刪除",

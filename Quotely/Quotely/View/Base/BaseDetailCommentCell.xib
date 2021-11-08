@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,8 +15,8 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7tu-pI-aUC">
-                    <rect key="frame" x="16" y="9.5" width="50" height="47.5"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7tu-pI-aUC">
+                    <rect key="frame" x="16" y="17.5" width="50" height="47.5"/>
                     <color key="tintColor" systemColor="secondaryLabelColor"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="7tu-pI-aUC" secondAttribute="height" multiplier="1:1" id="HIk-VJ-IAu"/>
@@ -24,18 +24,18 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDb-sm-b5E">
-                    <rect key="frame" x="82" y="8" width="41.5" height="22.5"/>
+                    <rect key="frame" x="82" y="12" width="41.5" height="22.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yaq-N3-3Xi">
-                    <rect key="frame" x="82" y="36.5" width="316" height="132.5"/>
+                    <rect key="frame" x="82" y="40.5" width="316" height="128.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4a-QK-DKQ">
-                    <rect key="frame" x="82" y="32.5" width="40.5" height="140.5"/>
+                    <rect key="frame" x="82" y="36.5" width="40.5" height="136.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -47,7 +47,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yd0-Dd-P4T">
-                    <rect key="frame" x="338.5" y="8" width="59.5" height="28"/>
+                    <rect key="frame" x="338.5" y="12" width="59.5" height="28"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="highlighter" catalog="system" title="編輯">
                         <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
@@ -61,7 +61,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRa-XF-aC5">
-                    <rect key="frame" x="345" y="87.5" width="53" height="31"/>
+                    <rect key="frame" x="345" y="89.5" width="53" height="31"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="完成">
                         <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -71,7 +71,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O4c-Yl-bEP">
-                    <rect key="frame" x="273" y="8" width="57.5" height="28"/>
+                    <rect key="frame" x="273" y="12" width="57.5" height="28"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system" title="刪除">
                         <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
@@ -95,7 +95,7 @@
                 <constraint firstItem="Yd0-Dd-P4T" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="top" id="BGE-bU-GO8"/>
                 <constraint firstItem="Yaq-N3-3Xi" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="6" id="Cvg-BY-DhV"/>
                 <constraint firstItem="7tu-pI-aUC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="CwH-5q-va4"/>
-                <constraint firstItem="7tu-pI-aUC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="EhO-8y-akc"/>
+                <constraint firstItem="7tu-pI-aUC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="EhO-8y-akc"/>
                 <constraint firstItem="g4a-QK-DKQ" firstAttribute="leading" secondItem="LDb-sm-b5E" secondAttribute="leading" id="F9V-pT-Aq6"/>
                 <constraint firstItem="SgV-B3-cc4" firstAttribute="top" secondItem="Yaq-N3-3Xi" secondAttribute="bottom" constant="6" id="Imd-Oa-Xxd"/>
                 <constraint firstItem="kRa-XF-aC5" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" id="Lpc-Ct-gvf"/>
@@ -103,9 +103,9 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" constant="16" id="XSe-Ph-QPQ"/>
                 <constraint firstItem="SgV-B3-cc4" firstAttribute="leading" secondItem="LDb-sm-b5E" secondAttribute="leading" id="Zpj-9H-Pos"/>
                 <constraint firstItem="g4a-QK-DKQ" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="2" id="fHp-ZX-1mZ"/>
+                <constraint firstItem="LDb-sm-b5E" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="nBM-zd-uNc"/>
                 <constraint firstAttribute="bottom" secondItem="SgV-B3-cc4" secondAttribute="bottom" constant="8" id="rfQ-ay-5mh"/>
                 <constraint firstItem="LDb-sm-b5E" firstAttribute="leading" secondItem="7tu-pI-aUC" secondAttribute="trailing" constant="16" id="ukt-Gr-ibq"/>
-                <constraint firstItem="LDb-sm-b5E" firstAttribute="top" secondItem="7tu-pI-aUC" secondAttribute="top" id="vL9-aD-Af3"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Yd0-Dd-P4T" secondAttribute="trailing" constant="16" id="ykB-jR-fsn"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

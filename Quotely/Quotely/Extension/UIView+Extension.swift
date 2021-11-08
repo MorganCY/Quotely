@@ -96,6 +96,25 @@ extension UIView {
     }
 }
 
+// Convert View to Image
+extension UIView {
+
+    func convertToImage() -> UIImage {
+
+        let imageRenderer = UIGraphicsImageRenderer(bounds: bounds)
+
+        if let format = imageRenderer.format as? UIGraphicsImageRendererFormat {
+            format.opaque = true
+        }
+
+        let image = imageRenderer.image { context in
+            return layer.render(in: context.cgContext)
+        }
+
+        return image
+    }
+}
+
 extension UIView {
 
     func stickSubView(_ objectView: UIView) {
@@ -119,14 +138,15 @@ extension UIView {
 // Shadow settings
 extension UIView {
 
-    func dropShadow(opacity: Float = 0.3, width: Int = 4, height: Int = 4, radius: CGFloat = 8) {
+    func dropShadow(opacity: Float = 0.3, width: Int = 4, height: Int = 4, radius: CGFloat = 8, isPath: Bool = true) {
         layer.shadowColor = UIColor.gray.cgColor
         layer.shadowOpacity = opacity
         layer.shadowOffset = CGSize(width: width, height: height)
         layer.shadowRadius = radius
-//        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
+
+        if isPath { layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath }
     }
 
     @IBInspectable var shadowColor: CGColor? {

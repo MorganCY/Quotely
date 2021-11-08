@@ -35,8 +35,6 @@ class SwipeCardStackView: UIStackView {
 
     weak var delegate: SwipeCardStackViewDelegate?
 
-    let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3]
-
     var nextCardIndex = 0
 
     override init(frame: CGRect) {
@@ -64,16 +62,14 @@ class SwipeCardStackView: UIStackView {
 
             swipeCard.authorLabel.text = dataSource.authorForCardsIn(self, index: index)
 
-            swipeCard.backgroundImageView.image = UIImage.asset(backgroundImages[Int.random(in: 0...2)])
-
             addSubview(swipeCard)
 
             swipeCard.translatesAutoresizingMaskIntoConstraints = false
 
             NSLayoutConstraint.activate([
 
-                swipeCard.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                swipeCard.topAnchor.constraint(equalTo: self.topAnchor, constant: CGFloat(-8 * index)),
+                swipeCard.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                swipeCard.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: CGFloat(8 * index)),
                 swipeCard.widthAnchor.constraint(equalTo: self.widthAnchor),
                 swipeCard.heightAnchor.constraint(equalTo: self.heightAnchor)
             ])

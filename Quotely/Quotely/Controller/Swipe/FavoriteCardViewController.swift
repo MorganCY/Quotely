@@ -11,6 +11,8 @@ import AVFoundation
 
 class FavoriteCardViewController: UIViewController {
 
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     var likeCardList = [Card]() {
         didSet {
             tableView.reloadData()
@@ -38,6 +40,8 @@ class FavoriteCardViewController: UIViewController {
         self.view.backgroundColor = .M1
 
         navigationController?.setupBackButton(color: .white)
+
+        navigationItem.title = "收藏清單"
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +57,7 @@ class FavoriteCardViewController: UIViewController {
 
     func fetchUserInfo() {
 
-        UserManager.shared.fetchUserInfo(uid: "test123456") { result in
+        UserManager.shared.fetchUserInfo(uid: visitorUid) { result in
 
             switch result {
 
@@ -87,7 +91,7 @@ class FavoriteCardViewController: UIViewController {
         let card = likeCardList[index]
 
         UserManager.shared.updateFavoriteCard(
-            uid: "test123456",
+            uid: visitorUid,
             cardID: card.cardID ?? "",
             likeAction: .dislike
         ) { result in
@@ -110,7 +114,7 @@ class FavoriteCardViewController: UIViewController {
         CardManager.shared.updateCards(
             cardID: cardID,
             likeAction: .dislike,
-            uid: "test123456") { result in
+            uid: visitorUid) { result in
 
                 switch result {
 
@@ -136,12 +140,33 @@ class FavoriteCardViewController: UIViewController {
 
         let card = likeCardList[index]
 
-        detailVC.cardID = card.cardID
-        detailVC.hasLiked = card.likeUser.contains("test123456") ? true : false
-        detailVC.uid = "test123456"
-        detailVC.content = "\(card.content)\n\n\n\(card.author)"
+        detailVC.card = card
+        detailVC.isLike = card.likeUser.contains(SignInManager.shared.uid ?? "")
 
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+
+    func goToSharePage(content: String, author: String) {
+
+        guard let shareVC =
+                UIStoryboard.share
+                .instantiateViewController(
+                    withIdentifier: String(describing: ShareViewController.self)
+                ) as? ShareViewController else {
+
+            return
+        }
+
+        let nav = BaseNavigationController(rootViewController: shareVC)
+
+        shareVC.templateContent = [
+            content.replacingOccurrences(of: "\\n", with: "\n"),
+            author
+        ]
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
     }
 }
 
@@ -191,7 +216,10 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         let share = UIAction(title: "分享至社群",
                              image: UIImage.sfsymbol(.shareNormal)) { _ in
 
-            Toast.showFailure(text: "建置中")
+            self.goToSharePage(
+                content: self.likeCardList[indexPath.row].content,
+                author: self.likeCardList[indexPath.row].author
+            )
         }
 
         let delete = UIAction(title: "不喜歡",

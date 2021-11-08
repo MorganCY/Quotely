@@ -25,16 +25,15 @@ class ExploreTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        postImageView.contentMode = .scaleAspectFill
+        userImageView.clipsToBounds = true
 
         postImageView.cornerRadius = CornerRadius.standard.rawValue
+
         hashtagLabel.cornerRadius = CornerRadius.standard.rawValue / 3
         hashtagLabel.layer.masksToBounds = true
-
-        likeButton.isEnabled = true
     }
 
-    var likeHandler: (() -> Void) = {}
+    var likeHandler: () -> Void = {}
 
     @IBAction func like(_ sender: UIButton) {
 
@@ -42,26 +41,39 @@ class ExploreTableViewCell: UITableViewCell {
     }
 
     func layoutCell(
-        userImage: UIImage?,
-        userName: String,
+        userInfo: User,
         post: Post,
-        hasLiked: Bool
+        isLikePost: Bool
     ) {
 
-        let buttonImage: UIImage = hasLiked ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = hasLiked ? UIColor.M2! : .gray
+        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
+        let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
+
+        userImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
+        userImageView.cornerRadius = userImageView.frame.width / 2
+
+        userNameLabel.text = userInfo.name
+        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
+        contentLabel.text = post.content
 
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
+        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
 
-        userNameLabel.text = userName
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
-        hashtagLabel.text = post.hashtag
-        contentLabel.text = post.content
+        if let hashtag = post.hashtag {
+
+            hashtagLabel.isHidden = false
+            hashtagLabel.text = hashtag
+
+        } else if post.hashtag == "" {
+
+            hashtagLabel.isHidden = true
+        }
 
         if let postImageUrl = post.imageUrl {
 
             // Define postImageView display state in case of wrongly reusing cell
+
             postImageView.isHidden = false
             postImageView.loadImage(postImageUrl, placeHolder: nil)
 
@@ -70,16 +82,8 @@ class ExploreTableViewCell: UITableViewCell {
             postImageView.isHidden = true
         }
 
-        if let userImage = userImage {
+        guard let editTime = post.editTime else { return }
 
-            userImageView.image = userImage
-            userImageView.cornerRadius = userImageView.frame.width / 2
-
-        } else {
-
-            userImageView.image = UIImage.sfsymbol(.personNormal)
-        }
-
-        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
+        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
     }
 }
