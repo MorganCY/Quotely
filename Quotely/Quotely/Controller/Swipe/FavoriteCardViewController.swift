@@ -129,21 +129,21 @@ class FavoriteCardViewController: UIViewController {
 
     func goToDetailPage(index: Int) {
 
-        guard let detailVC =
-                UIStoryboard.swipe
-                .instantiateViewController(
-                    withIdentifier: String(describing: CardDetailViewController.self)
-                ) as? CardDetailViewController else {
-
-                    return
-                }
-
-        let card = likeCardList[index]
-
-        detailVC.card = card
-        detailVC.isLike = card.likeUser.contains(SignInManager.shared.uid ?? "")
-
-        navigationController?.pushViewController(detailVC, animated: true)
+//        guard let detailVC =
+//                UIStoryboard.swipe
+//                .instantiateViewController(
+//                    withIdentifier: String(describing: CardDetailViewController.self)
+//                ) as? CardDetailViewController else {
+//
+//                    return
+//                }
+//
+//        let card = likeCardList[index]
+//
+//        detailVC.card = card
+//        detailVC.isLike = card.likeUser.contains(SignInManager.shared.uid ?? "")
+//
+//        navigationController?.pushViewController(detailVC, animated: true)
     }
 
     func goToSharePage(content: String, author: String) {

@@ -24,9 +24,8 @@ class WriteViewController: BaseImagePickerViewController {
             contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
         }
     }
-    let textNumberLabel = UILabel()
-    private let addHashtagButton = UIButton()
-    private let hashtagButton = UIButton()
+    private let textNumberLabel = UILabel()
+    private var cardTopicView = CardTopicView(content: "", author: "")
     private var postImageView = UIImageView()
     private let deleteImageButton = DeleteButton()
     private let optionPanel = UIView()
@@ -42,22 +41,6 @@ class WriteViewController: BaseImagePickerViewController {
         labelColor: .black,
         text: "上傳圖片"
     )
-
-    var hashtagTitle = String() {
-        didSet {
-            self.hasHashtag = !self.hashtagTitle.isEmpty
-            self.hashtagButton.setTitle(" \(hashtagTitle) ", for: .normal)
-        }
-    }
-
-    var hasHashtag = false {
-        didSet {
-            DispatchQueue.main.async {
-                self.addHashtagButton.isHidden = self.hasHashtag
-                self.hashtagButton.isHidden = !self.hasHashtag
-            }
-        }
-    }
 
     var hasImage = false {
         didSet {
@@ -80,6 +63,12 @@ class WriteViewController: BaseImagePickerViewController {
             navTitle = "編輯"
             navButtonTitle = "更新"
             setupNavigation()
+        }
+    }
+    var card: Card? {
+        didSet {
+            guard let card = card else { return }
+            cardTopicView = CardTopicView(content: card.content, author: card.author)
         }
     }
     private var navTitle = "撰寫"
@@ -491,7 +480,7 @@ extension WriteViewController {
     func layoutViews() {
 
         let views = [
-            contentTextView, textNumberLabel, addHashtagButton, hashtagButton, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
+            contentTextView, textNumberLabel, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
         ]
 
         views.forEach {
@@ -509,16 +498,7 @@ extension WriteViewController {
             textNumberLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16),
             textNumberLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: -8),
 
-            addHashtagButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
-            addHashtagButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
-            addHashtagButton.heightAnchor.constraint(equalToConstant: 32),
-            addHashtagButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-
-            hashtagButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
-            hashtagButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
-            hashtagButton.heightAnchor.constraint(equalToConstant: 32),
-
-            postImageView.topAnchor.constraint(equalTo: addHashtagButton.bottomAnchor, constant: 24),
+            postImageView.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 24),
             postImageView.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
             postImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
             postImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
@@ -555,22 +535,6 @@ extension WriteViewController {
 
         recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
         uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
-
-        addHashtagButton.isHidden = hasHashtag
-        hashtagButton.isHidden = !hasHashtag
-
-        addHashtagButton.setTitle(" ＋ 選擇主題 ", for: .normal)
-        addHashtagButton.setTitleColor(.gray, for: .normal)
-        addHashtagButton.cornerRadius = CornerRadius.standard.rawValue / 3
-        addHashtagButton.borderColor = .gray
-        addHashtagButton.borderWidth = 1
-        addHashtagButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-
-        hashtagButton.setTitle(" \(hashtagTitle) X ", for: .normal)
-        hashtagButton.setTitleColor(.white, for: .normal)
-        hashtagButton.backgroundColor = .gray
-        hashtagButton.cornerRadius = CornerRadius.standard.rawValue / 3
-        hashtagButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
 
         postImageView.contentMode = .scaleAspectFill
         postImageView.clipsToBounds = true

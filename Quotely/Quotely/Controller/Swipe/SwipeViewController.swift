@@ -181,21 +181,18 @@ class SwipeViewController: UIViewController {
 
     @objc func goToDetailPage(_ sender: UIButton) {
 
-        guard let detailVC =
-                UIStoryboard.swipe
+        guard let writeVC =
+                UIStoryboard.write
                 .instantiateViewController(
-                    withIdentifier: String(describing: CardDetailViewController.self)
-                ) as? CardDetailViewController else {
+                    withIdentifier: String(describing: WriteViewController.self)
+                ) as? WriteViewController else {
 
                     return
                 }
 
-        let card = cards[currentCardIndex]
+        writeVC.card = cards[currentCardIndex]
 
-        detailVC.card = card
-        detailVC.isLike = card.likeUser.contains(visitorUid)
-
-        navigationController?.pushViewController(detailVC, animated: true)
+        navigationController?.pushViewController(writeVC, animated: true)
     }
 
     @objc func goToSharePage(_ sender: UIButton) {

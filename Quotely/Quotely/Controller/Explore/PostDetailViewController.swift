@@ -77,7 +77,6 @@ class PostDetailViewController: BaseDetailViewController {
                 content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
-                cardID: nil,
                 postID: post?.postID
             )
 

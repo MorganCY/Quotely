@@ -56,7 +56,6 @@
 		5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */; };
 		5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */; };
 		5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */; };
-		5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210F271E8997002E21C9 /* VerticalButton.swift */; };
 		5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */; };
 		5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */; };
 		5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E627300E3B00B71DA8 /* Share.storyboard */; };
@@ -72,13 +71,12 @@
 		5C8C0E9827246EB50054480A /* SwipeCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E9727246EB50054480A /* SwipeCardStack.swift */; };
 		5C8C0E9A2725293E0054480A /* CardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E992725293E0054480A /* CardManager.swift */; };
 		5C8C0E9C272529650054480A /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E9B272529650054480A /* Card.swift */; };
-		5C8C0EA12725A4B40054480A /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0EA02725A4B40054480A /* CardDetailViewController.swift */; };
-		5C8C0EA32725AD480054480A /* CardCommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0EA22725AD480054480A /* CardCommentManager.swift */; };
 		5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91FFC72737986700A216D4 /* LottieAnimation.swift */; };
 		5C91FFCA27379A3F00A216D4 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C91FFC927379A3F00A216D4 /* loading.json */; };
 		5C91FFCC2737B78A00A216D4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */; };
 		5C91FFCE2737B8D500A216D4 /* swipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C91FFCD2737B8D500A216D4 /* swipe.json */; };
 		5C9A15C7272280FD00A13CC7 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */; };
+		5C9F02652739179D00FAC2B1 /* CardTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9F02642739179D00FAC2B1 /* CardTopicView.swift */; };
 		5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */; };
 		5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */; };
 		5CBB57712727AE6E0035EB87 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBB57702727AE6E0035EB87 /* SelectionView.swift */; };
@@ -156,7 +154,6 @@
 		5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreTableViewCell.xib; sourceTree = "<group>"; };
 		5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
-		5C58210F271E8997002E21C9 /* VerticalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalButton.swift; sourceTree = "<group>"; };
 		5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseImagePickerViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
@@ -172,13 +169,12 @@
 		5C8C0E9727246EB50054480A /* SwipeCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCardStack.swift; sourceTree = "<group>"; };
 		5C8C0E992725293E0054480A /* CardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManager.swift; sourceTree = "<group>"; };
 		5C8C0E9B272529650054480A /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		5C8C0EA02725A4B40054480A /* CardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
-		5C8C0EA22725AD480054480A /* CardCommentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCommentManager.swift; sourceTree = "<group>"; };
 		5C91FFC72737986700A216D4 /* LottieAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimation.swift; sourceTree = "<group>"; };
 		5C91FFC927379A3F00A216D4 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		5C91FFCD2737B8D500A216D4 /* swipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swipe.json; sourceTree = "<group>"; };
 		5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
+		5C9F02642739179D00FAC2B1 /* CardTopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTopicView.swift; sourceTree = "<group>"; };
 		5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5CBB57702727AE6E0035EB87 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
@@ -294,7 +290,6 @@
 				5CD765F9271EAE24008E8D00 /* ImageManager.swift */,
 				5C7B6394272A798700E18B96 /* UserManager.swift */,
 				5C4B9696271FBF4C008B21C7 /* PostCommentManager.swift */,
-				5C8C0EA22725AD480054480A /* CardCommentManager.swift */,
 				5CD1FAD62732840F00F87B98 /* SignInManager.swift */,
 			);
 			path = Model;
@@ -328,6 +323,7 @@
 				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
 				5CD9DDEF272D3394009618FA /* RowButton.swift */,
 				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
+				5C9F02642739179D00FAC2B1 /* CardTopicView.swift */,
 				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
 				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
@@ -337,7 +333,6 @@
 				5CF36A152732C3BC00F6B3BD /* Profile */,
 				5C6CC7E327300CF800B71DA8 /* Share */,
 				5C5186C7273233E4007C5221 /* Auth.storyboard */,
-				5C58210F271E8997002E21C9 /* VerticalButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -460,7 +455,6 @@
 			isa = PBXGroup;
 			children = (
 				5C8C0E8C272425980054480A /* SwipeViewController.swift */,
-				5C8C0EA02725A4B40054480A /* CardDetailViewController.swift */,
 				5C2846FA2729B2FA00393562 /* FavoriteCardViewController.swift */,
 			);
 			path = Swipe;
@@ -672,7 +666,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */,
-				5C8C0EA32725AD480054480A /* CardCommentManager.swift in Sources */,
 				5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */,
 				5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */,
 				5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */,
@@ -685,6 +678,7 @@
 				5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */,
 				5CE8F1D3272F77950026864C /* ProfileViewController.swift in Sources */,
 				5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */,
+				5C9F02652739179D00FAC2B1 /* CardTopicView.swift in Sources */,
 				5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */,
 				5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */,
 				5C2846F52729251500393562 /* JournalListCollectionViewCell.swift in Sources */,
@@ -696,7 +690,6 @@
 				5C4B9693271FBCC1008B21C7 /* BaseDetailCommentCell.swift in Sources */,
 				5CD1FAD52732793600F87B98 /* UIScreen+Extension.swift in Sources */,
 				5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */,
-				5C8C0EA12725A4B40054480A /* CardDetailViewController.swift in Sources */,
 				5C2846EF2728F4F500393562 /* JournalListTableViewCell.swift in Sources */,
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
 				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
@@ -725,7 +718,6 @@
 				5C582105271D791B002E21C9 /* ExploreViewController.swift in Sources */,
 				5CD1FAD72732840F00F87B98 /* SignInManager.swift in Sources */,
 				5CC04ACB2727A38B00EC0D71 /* JournalViewController.swift in Sources */,
-				5C582110271E8997002E21C9 /* VerticalButton.swift in Sources */,
 				5CBB57712727AE6E0035EB87 /* SelectionView.swift in Sources */,
 				5C7B6397272A799000E18B96 /* User.swift in Sources */,
 				5C9A15C7272280FD00A13CC7 /* DeleteButton.swift in Sources */,
