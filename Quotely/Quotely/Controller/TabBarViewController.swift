@@ -34,7 +34,7 @@ private enum Tab {
 
         controller.tabBarItem = tabBarItem()
 
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 24.0, left: 0.0, bottom: 12.0, right: 0.0)
+        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 12.0, left: 0.0, bottom: 12.0, right: 0.0)
 
         return controller
     }
@@ -92,9 +92,9 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLayoutSubviews() {
 
-        tabBar.frame.size.height = 85
+//        tabBar.frame.size.height = 85
 
-        tabBar.frame.origin.y = view.frame.height - 85
+//        tabBar.frame.origin.y = view.frame.height - 85
     }
 
     func setupTabbarStyle() {

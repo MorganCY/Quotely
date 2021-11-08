@@ -15,16 +15,12 @@ protocol ShareTemplateViewDataSource: AnyObject {
 
 extension ShareTemplateViewDataSource {
 
-    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage {
-
-        return UIImage.asset(.bg4)!
-    }
+    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage { UIImage.asset(.bg4)! }
 }
 
 class ShareTemplateView: UIView {
 
     enum TemplateType {
-
         case fullImage
         case halfImage
         case smallImage
@@ -32,8 +28,10 @@ class ShareTemplateView: UIView {
 
     weak var dataSource: ShareTemplateViewDataSource? {
         didSet {
-            templateImageView.image = dataSource?.imageOfTemplateContent(self)
-            smallImageView.image = dataSource?.imageOfTemplateContent(self)
+            DispatchQueue.main.async {
+                self.templateImageView.image = self.dataSource?.imageOfTemplateContent(self)
+                self.smallImageView.image = self.dataSource?.imageOfTemplateContent(self)
+            }
         }
     }
 
@@ -42,7 +40,7 @@ class ShareTemplateView: UIView {
     let textBackgroundView = UIView()
     let contentLabel = UILabel()
     let authorLabel = UILabel()
-    let quoteLabel = UILabel()
+    let quotelyLabel = UILabel()
 
     init(type: TemplateType, content: String, author: String) {
         super.init(frame: .zero)
@@ -65,7 +63,7 @@ class ShareTemplateView: UIView {
 
     func configureView(templateType: TemplateType) {
 
-        let views = [templateImageView, textBackgroundView, contentLabel, authorLabel, quoteLabel]
+        let views = [templateImageView, textBackgroundView, contentLabel, authorLabel, quotelyLabel]
 
         views.forEach {
 
@@ -75,11 +73,11 @@ class ShareTemplateView: UIView {
 
         contentLabel.font = UIFont.systemFont(ofSize: 16)
         authorLabel.font = UIFont.systemFont(ofSize: 14)
-        quoteLabel.font = UIFont.systemFont(ofSize: 14)
+        quotelyLabel.font = UIFont.systemFont(ofSize: 14)
         contentLabel.textColor = .black
         authorLabel.textColor = .gray
         contentLabel.numberOfLines = 0
-        quoteLabel.textColor = .white
+        quotelyLabel.textColor = .white
 
         templateImageView.contentMode = .scaleAspectFill
         templateImageView.clipsToBounds = true
@@ -87,7 +85,7 @@ class ShareTemplateView: UIView {
         textBackgroundView.backgroundColor = .white
         textBackgroundView.cornerRadius = CornerRadius.standard.rawValue
 
-        quoteLabel.text = "分享自隻字片語App"
+        quotelyLabel.text = "分享自隻字片語App"
 
         switch templateType {
 
@@ -117,8 +115,8 @@ class ShareTemplateView: UIView {
                 authorLabel.bottomAnchor.constraint(equalTo: textBackgroundView.bottomAnchor, constant: -24),
                 authorLabel.heightAnchor.constraint(equalTo: textBackgroundView.heightAnchor, multiplier: 0.1),
 
-                quoteLabel.bottomAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: -8),
-                quoteLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor)
+                quotelyLabel.bottomAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: -8),
+                quotelyLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor)
             ])
 
         case .halfImage:
@@ -141,8 +139,8 @@ class ShareTemplateView: UIView {
                 authorLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
                 authorLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32),
 
-                quoteLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-                quoteLabel.bottomAnchor.constraint(equalTo: templateImageView.bottomAnchor, constant: -8)
+                quotelyLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
+                quotelyLabel.bottomAnchor.constraint(equalTo: templateImageView.bottomAnchor, constant: -8)
             ])
 
         case .smallImage:
@@ -155,8 +153,8 @@ class ShareTemplateView: UIView {
             smallImageView.clipsToBounds = true
             contentLabel.textAlignment = .center
             authorLabel.textAlignment = .center
-            quoteLabel.textAlignment = .center
-            quoteLabel.textColor = .gray
+            quotelyLabel.textAlignment = .center
+            quotelyLabel.textColor = .gray
 
             NSLayoutConstraint.activate([
 
@@ -173,10 +171,10 @@ class ShareTemplateView: UIView {
                 authorLabel.centerXAnchor.constraint(equalTo: smallImageView.centerXAnchor),
                 authorLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
 
-                quoteLabel.centerXAnchor.constraint(equalTo: smallImageView.centerXAnchor),
-                quoteLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
-                quoteLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 24),
-                quoteLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32)
+                quotelyLabel.centerXAnchor.constraint(equalTo: smallImageView.centerXAnchor),
+                quotelyLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
+                quotelyLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 24),
+                quotelyLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32)
             ])
         }
     }

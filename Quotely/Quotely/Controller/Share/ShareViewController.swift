@@ -14,12 +14,7 @@ class ShareViewController: BaseImagePickerViewController {
     /*
      * Templates
      */
-    enum TemplateType {
-
-        case fullImage
-        case halfImage
-        case smallImage
-    }
+    enum TemplateType { case fullImage, halfImage, smallImage }
 
     var currentTemplateType: TemplateType = .fullImage {
         didSet {
@@ -107,17 +102,19 @@ class ShareViewController: BaseImagePickerViewController {
         }
     }
 
+    var isLayoutFirstTime = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .BG
+        navigationItem.title = "分享隻字片語"
+
         setupNavigaiton()
         layoutTemplateView()
         layoutSelectionView()
         configureImageButtons(templateType: .fullImage)
         configureShareOption()
-
-        navigationItem.title = "分享隻字片語"
     }
 
     override func viewDidLayoutSubviews() {
@@ -125,6 +122,12 @@ class ShareViewController: BaseImagePickerViewController {
 
         templateViews.forEach { $0.dropShadow(opacity: 0.5) }
         imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
+
+        if isLayoutFirstTime {
+
+            currentTemplateType = .fullImage
+            isLayoutFirstTime = false
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -151,12 +154,14 @@ class ShareViewController: BaseImagePickerViewController {
 
             if UIApplication.shared.canOpenURL(storiesUrl) {
 
-                guard let imageData = sharingImage.pngData() else { return }
+                guard let imageData = sharingImage.pngData() else {
+                    return
+                }
 
                 let pasteboardItems: [String: Any] = [
                     "com.instagram.sharedSticker.stickerImage": imageData,
-                    "com.instagram.sharedSticker.backgroundTopColor": UIColor.M1?.toHexString() ?? "#757E66",
-                    "com.instagram.sharedSticker.backgroundBottomColor": UIColor.M2?.toHexString() ?? "#D3D6C9"
+                    "com.instagram.sharedSticker.backgroundTopColor": "#757E66",
+                    "com.instagram.sharedSticker.backgroundBottomColor": "#D3D6C9"
                 ]
 
                 let pasteboardOptions = [
@@ -348,8 +353,9 @@ extension ShareViewController {
 
             templateSelectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             templateSelectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            templateSelectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            selectionViewBackground.topAnchor.constraint(equalTo: templateSelectionView.topAnchor, constant: -24),
+            templateSelectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+            templateSelectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
+            selectionViewBackground.topAnchor.constraint(equalTo: templateSelectionView.topAnchor, constant: -12),
             selectionViewBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             selectionViewBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectionViewBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor)

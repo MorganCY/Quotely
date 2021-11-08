@@ -11,7 +11,7 @@ import UIKit
 class SwipeViewController: UIViewController {
 
     let visitorUid = SignInManager.shared.uid ?? ""
-
+    let notificationCenter = NotificationCenter.default
     let loadingAnimationView = LottieAnimationView(animationName: "loading")
 
     var cards = [Card]() {
@@ -62,14 +62,6 @@ class SwipeViewController: UIViewController {
         setupButton()
         setupResetButton()
 
-        // open share template when a user takes screenshot
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(goToSharePage(_:)),
-            name: UIApplication.userDidTakeScreenshotNotification, object: nil
-        )
-
         if UIApplication.isFirstLaunch() { setEducationAnimation() }
     }
 
@@ -78,6 +70,24 @@ class SwipeViewController: UIViewController {
 
         resetBackgroundView.cornerRadius = resetBackgroundView.frame.width / 2
         resetButton.cornerRadius = resetButton.frame.width / 2
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // open share template when a user takes screenshot
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(goToSharePage(_:)),
+            name: UIApplication.userDidTakeScreenshotNotification, object: nil
+        )
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        notificationCenter.removeObserver(self)
     }
 
     func fetchCards() {
@@ -365,7 +375,7 @@ class SwipeViewController: UIViewController {
 
         titleLabel.text = "試試看左右滑動卡片"
         titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         okButton.setTitle("好喔", for: .normal)
         okButton.setTitleColor(.black, for: .normal)
         okButton.backgroundColor = .white.withAlphaComponent(0.8)
@@ -386,11 +396,10 @@ class SwipeViewController: UIViewController {
             swipeAnimationView.heightAnchor.constraint(equalTo: educationDimmingView.heightAnchor, multiplier: 0.5),
             swipeAnimationView.widthAnchor.constraint(equalTo: educationDimmingView.widthAnchor, multiplier: 0.5),
 
-            titleLabel.bottomAnchor.constraint(equalTo: swipeAnimationView.topAnchor, constant: 20),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            titleLabel.bottomAnchor.constraint(equalTo: swipeAnimationView.topAnchor, constant: 30),
+            titleLabel.centerXAnchor.constraint(equalTo: educationDimmingView.centerXAnchor),
 
-            okButton.topAnchor.constraint(equalTo: swipeAnimationView.bottomAnchor, constant: -20),
+            okButton.topAnchor.constraint(equalTo: swipeAnimationView.bottomAnchor, constant: -30),
             okButton.centerXAnchor.constraint(equalTo: educationDimmingView.centerXAnchor),
             okButton.widthAnchor.constraint(equalTo: educationDimmingView.widthAnchor, multiplier: 0.3),
             okButton.heightAnchor.constraint(equalTo: educationDimmingView.heightAnchor, multiplier: 0.05)
