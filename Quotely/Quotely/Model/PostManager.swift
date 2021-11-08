@@ -63,7 +63,6 @@ class PostManager {
         editTime: Int64,
         content: String,
         imageUrl: String?,
-        hashtag: String?,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
@@ -80,8 +79,7 @@ class PostManager {
                 targetPost?.reference.updateData([
                     "editTime": editTime,
                     "content": content,
-                    "imageUrl": imageUrl as Any,
-                    "hashtag": hashtag as Any
+                    "imageUrl": imageUrl as Any
                 ])
 
                 completion(.success("Updated post content"))

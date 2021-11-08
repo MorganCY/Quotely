@@ -14,7 +14,6 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
@@ -28,9 +27,6 @@ class ExploreTableViewCell: UITableViewCell {
         userImageView.clipsToBounds = true
 
         postImageView.cornerRadius = CornerRadius.standard.rawValue
-
-        hashtagLabel.cornerRadius = CornerRadius.standard.rawValue / 3
-        hashtagLabel.layer.masksToBounds = true
     }
 
     var likeHandler: () -> Void = {}
@@ -59,16 +55,6 @@ class ExploreTableViewCell: UITableViewCell {
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
         likeNumberLabel.text = "\(post.likeNumber ?? 0)"
-
-        if let hashtag = post.hashtag {
-
-            hashtagLabel.isHidden = false
-            hashtagLabel.text = hashtag
-
-        } else if post.hashtag == "" {
-
-            hashtagLabel.isHidden = true
-        }
 
         if let postImageUrl = post.imageUrl {
 

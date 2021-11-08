@@ -185,8 +185,6 @@ class PostDetailViewController: BaseDetailViewController {
 
             writeVC.postID = self.post?.postID
 
-            writeVC.hashtagTitle = self.post?.hashtag ?? ""
-
             if let imageUrl = self.post?.imageUrl {
 
                 writeVC.imageUrl = imageUrl
@@ -194,11 +192,9 @@ class PostDetailViewController: BaseDetailViewController {
                 writeVC.hasImage = true
             }
 
-            writeVC.contentHandler = { content, hashtag, editTime in
+            writeVC.contentHandler = { content, editTime in
 
                 self.post?.content = content
-
-                self.post?.hashtag = hashtag
 
                 self.post?.editTime = editTime
 
@@ -223,18 +219,6 @@ class PostDetailViewController: BaseDetailViewController {
                     case .success(let success):
 
                         print(success)
-
-                        HashtagManager.shared.deletePostFromHashtag(
-                            hashtag: self.post?.hashtag ?? "",
-                            postID: postID) { result in
-
-                                switch result {
-
-                                case .success(let success): print(success)
-
-                                case .failure(let error): print(error)
-                                }
-                            }
 
                         UserManager.shared.updateUserPost(
                             uid: self.postAuthor?.uid ?? "",

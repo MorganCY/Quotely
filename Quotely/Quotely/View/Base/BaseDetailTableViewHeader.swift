@@ -14,7 +14,6 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
@@ -84,12 +83,10 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
             contentLabel.text = "\(card?.content ?? "")\n\n\n\(card?.author ?? "")"
             likeNumberLabel.text = "\(card?.likeNumber ?? 0)"
-            hashtagLabel.text = post?.hashtag
             postImageView.isHidden = !isAuthor
             userImageView.image = UIImage.asset(.bg4)
             userNameLabel.text = "隻字片語"
             timeLabel.text = "某一天的夜半時分"
-            hashtagLabel.isHidden = !isAuthor
             editButton.isHidden = !isAuthor
             deleteButton.isHidden = !isAuthor
 
@@ -114,16 +111,6 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
                 userNameLabel.text = name
 
                 userImageView.cornerRadius = userImageView.frame.width / 2
-            }
-
-            if let hashtag = post?.hashtag {
-
-                hashtagLabel.isHidden = false
-                hashtagLabel.text = hashtag
-
-            } else if post?.hashtag == "" {
-
-                hashtagLabel.isHidden = true
             }
 
             if let postImageUrl = post?.imageUrl {

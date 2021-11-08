@@ -26,12 +26,10 @@ class FavoriteCardTableViewCell: UITableViewCell {
     }
 
     func layoutCell(
-        imageUrl: String,
         content: String,
         author: String
     ) {
 
-        cardImageView.loadImage(imageUrl, placeHolder: nil)
         cardContent.text = content
         authorLabel.text = author
     }

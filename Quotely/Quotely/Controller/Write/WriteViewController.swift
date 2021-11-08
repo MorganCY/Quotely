@@ -85,7 +85,7 @@ class WriteViewController: BaseImagePickerViewController {
     private var navTitle = "撰寫"
     private var navButtonTitle = "分享"
 
-    var contentHandler: ((String, String, Int64) -> Void) = {_, _, _ in}
+    var contentHandler: ((String, Int64) -> Void) = {_, _ in}
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -93,8 +93,6 @@ class WriteViewController: BaseImagePickerViewController {
 
         recognizeTextButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
         uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
-        addHashtagButton.addTarget(self, action: #selector(addHashtag(_:)), for: .touchUpInside)
-        hashtagButton.addTarget(self, action: #selector(deleteHashtag(_:)), for: .touchUpInside)
     }
 
     override func viewDidLayoutSubviews() {
@@ -126,8 +124,7 @@ class WriteViewController: BaseImagePickerViewController {
                 postID: postID,
                 editTime: Date().millisecondsSince1970,
                 content: contentTextView.text,
-                imageUrl: imageUrl ?? nil,
-                hashtag: hashtagTitle
+                imageUrl: imageUrl ?? nil
             ) { result in
 
                     switch result {
@@ -144,28 +141,8 @@ class WriteViewController: BaseImagePickerViewController {
 
                             self.contentHandler(
                                 self.contentTextView.text,
-                                self.hashtagTitle,
                                 Date().millisecondsSince1970
                             )
-                        }
-
-                        let hashtag = Hashtag(
-                            title: self.hashtagTitle,
-                            newPostID: postID,
-                            postList: [])
-
-                        HashtagManager.shared.checkDuplicateHashtag(
-                            hashtag: hashtag,
-                            postID: postID
-                        ) { result in
-
-                            switch result {
-
-                            case .success(let success): print(success)
-
-                            case .failure(let error): print(error)
-
-                            }
                         }
 
                     case .failure(let error):
@@ -201,7 +178,6 @@ class WriteViewController: BaseImagePickerViewController {
                 editTime: nil,
                 content: contentTextView.text   ,
                 imageUrl: imageUrl,
-                hashtag: hashtagTitle,
                 likeNumber: 0,
                 likeUser: nil,
                 commentNumber: nil)
@@ -210,54 +186,9 @@ class WriteViewController: BaseImagePickerViewController {
 
                 switch result {
 
-                case .success(let success):
+                case .success(let success): print(success)
 
-                    print(success)
-
-                    guard let postID = post.postID else { return }
-
-                    let hashtag = Hashtag(
-                        title: self.hashtagTitle,
-                        newPostID: postID,
-                        postList: [])
-
-                    HashtagManager.shared.checkDuplicateHashtag(
-                        hashtag: hashtag,
-                        postID: post.postID ?? ""
-                    ) { result in
-
-                        switch result {
-
-                        case .success(let success):
-
-                            print(success)
-
-                            UserManager.shared.updateUserPost(
-                                uid: SignInManager.shared.uid ?? "",
-                                postID: postID,
-                                postAction: .publish) { result in
-
-                                    switch result {
-
-                                    case .success(let success):
-                                        print(success)
-
-                                        self.dismiss(animated: true, completion: nil)
-
-                                    case .failure(let error):
-                                        print(error)
-                                    }
-                                }
-
-                        case .failure(let error):
-
-                            print(error)
-                        }
-                    }
-
-                case .failure(let error):
-
-                    print(error)
+                case .failure(let error): print(error)
                 }
             }
 
@@ -265,32 +196,6 @@ class WriteViewController: BaseImagePickerViewController {
 
             Toast.showFailure(text: "請輸入內容")
         }
-    }
-
-    @objc func addHashtag(_ sender: UIButton) {
-
-        guard let hashtagVC =
-                UIStoryboard.write
-                .instantiateViewController(
-                    withIdentifier: String(describing: HashtagListViewController.self)
-                ) as? HashtagListViewController else {
-
-                    return
-                }
-
-        let navVC = UINavigationController(rootViewController: hashtagVC)
-
-        hashtagVC.hashtagHandler = { hashtag in
-
-            self.hashtagTitle = hashtag
-        }
-
-        present(navVC, animated: true, completion: nil)
-    }
-
-    @objc func deleteHashtag(_ sender: UIButton) {
-
-        hashtagTitle.removeAll()
     }
 
     override func openImagePicker(_ sender: UIButton) {
