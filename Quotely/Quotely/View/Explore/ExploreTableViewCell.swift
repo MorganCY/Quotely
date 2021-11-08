@@ -31,10 +31,7 @@ class ExploreTableViewCell: UITableViewCell {
 
     var likeHandler: () -> Void = {}
 
-    @IBAction func like(_ sender: UIButton) {
-
-        likeHandler()
-    }
+    @IBAction func like(_ sender: UIButton) { likeHandler() }
 
     func layoutCell(
         userInfo: User,
@@ -54,7 +51,7 @@ class ExploreTableViewCell: UITableViewCell {
 
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
-        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
+        likeNumberLabel.text = "\(post.likeNumber)"
 
         if let postImageUrl = post.imageUrl {
 

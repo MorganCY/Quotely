@@ -121,4 +121,29 @@ class CardManager {
             }
         }
     }
+
+    func updateCardPostList(
+        cardID: String,
+        postID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetCard = querySnapshot?.documents.first
+
+                targetCard?.reference.updateData([
+                    "postList": FieldValue.arrayUnion([postID])
+                ])
+
+                completion(.success("Card was updated"))
+            }
+        }
+    }
 }

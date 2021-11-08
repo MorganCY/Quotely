@@ -194,6 +194,8 @@ class ExploreViewController: UIViewController {
 
         let nav = BaseNavigationController(rootViewController: writeVC)
 
+        writeVC.isCard = false
+
         nav.modalPresentationStyle = .fullScreen
 
         present(nav, animated: true)

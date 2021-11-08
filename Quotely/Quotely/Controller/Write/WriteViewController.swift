@@ -25,6 +25,7 @@ class WriteViewController: BaseImagePickerViewController {
         }
     }
     private let textNumberLabel = UILabel()
+    private let cardTopicTitleLabel = UILabel()
     private var cardTopicView = CardTopicView(content: "", author: "")
     private var postImageView = UIImageView()
     private let deleteImageButton = DeleteButton()
@@ -35,26 +36,29 @@ class WriteViewController: BaseImagePickerViewController {
         labelColor: .black,
         text: "掃描文字"
     )
-    private let uploadImageButton = RowButton(
+    private var uploadImageButton = RowButton(
         image: UIImage.sfsymbol(.photo)!,
         imageColor: .M2!,
         labelColor: .black,
         text: "上傳圖片"
     )
 
-    var hasImage = false {
-        didSet {
-            DispatchQueue.main.async {
-                self.deleteImageButton.isHidden = !self.hasImage
-            }
-        }
-    }
+    var hasImage = false
 
     private var isRecognizedTextButtonTapped = false
 
-    var imageUrl: String? {
+    var card: Card? {
         didSet {
-            self.postImageView.loadImage(imageUrl ?? "", placeHolder: nil)
+            guard let card = card else { return }
+            cardTopicView = CardTopicView(content: card.content, author: card.author)
+            isCard = true
+            hasImage = true
+            uploadImageButton = RowButton(
+                image: UIImage.sfsymbol(.photo)!,
+                imageColor: .M2!,
+                labelColor: .black,
+                text: "上傳卡片圖片"
+            )
         }
     }
     var postID: String? {
@@ -63,14 +67,27 @@ class WriteViewController: BaseImagePickerViewController {
             navTitle = "編輯"
             navButtonTitle = "更新"
             setupNavigation()
+            isCard = false
         }
     }
-    var card: Card? {
+    var isCard = false {
         didSet {
-            guard let card = card else { return }
-            cardTopicView = CardTopicView(content: card.content, author: card.author)
+            cardTopicTitleLabel.isHidden = !isCard
+            cardTopicView.isHidden = !isCard
+            postImageView.isHidden = isCard
         }
     }
+    var imageUrl: String?
+    var uploadedImage = UIImage.asset(.bg4)! {
+        didSet {
+            if isCard == true {
+                cardTopicView.dataSource = self
+            } else {
+                DispatchQueue.main.async { self.postImageView.image = self.uploadedImage }
+            }
+        }
+    }
+
     private var navTitle = "撰寫"
     private var navButtonTitle = "分享"
 
@@ -79,6 +96,9 @@ class WriteViewController: BaseImagePickerViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        cardTopicView.dataSource = self
+
+        deleteImageButton.isHidden = true
 
         recognizeTextButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
         uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
@@ -144,46 +164,210 @@ class WriteViewController: BaseImagePickerViewController {
 
         } else {
 
-            guard let imageUrl = imageUrl else {
-
-                publishPost(imageUrl: nil)
-
-                return
-            }
-
-            self.publishPost(imageUrl: imageUrl)
+            self.publishPost()
         }
     }
 
-    func publishPost(imageUrl: String?) {
+    func publishPost() {
+
+        Toast.showLoading(text: "上傳中")
+
+        guard let uid = SignInManager.shared.uid else {
+
+            Toast.showFailure(text: "上傳失敗")
+
+            return
+        }
+
+        let cardID = isCard ? card?.cardID : nil
 
         if !contentTextView.text.isEmpty || hasImage == true {
 
-            guard let uid = SignInManager.shared.uid else { return }
+            // check if there's image
 
-            var post = Post(
-                uid: uid,
-                createdTime: Date().millisecondsSince1970,
-                editTime: nil,
-                content: contentTextView.text   ,
-                imageUrl: imageUrl,
-                likeNumber: 0,
-                likeUser: nil,
-                commentNumber: nil)
+            switch hasImage {
 
-            PostManager.shared.publishPost(post: &post) { result in
+            case true:
 
-                switch result {
+                // upload the image
 
-                case .success(let success): print(success)
+                ImageManager.shared.uploadImage(image: uploadedImage) { result in
 
-                case .failure(let error): print(error)
+                    switch result {
+
+                    case .success(let url):
+
+                        var post = Post(
+                            uid: uid,
+                            createdTime: Date().millisecondsSince1970,
+                            editTime: nil,
+                            content: self.contentTextView.text   ,
+                            imageUrl: url,
+                            likeNumber: 0,
+                            likeUser: nil,
+                            commentNumber: nil,
+                            cardID: cardID
+                        )
+
+                        // create post data with image url
+
+                        PostManager.shared.publishPost(post: &post) { result in
+
+                            switch result {
+
+                            case .success(let postID):
+
+                                // if it's a card post, update card data
+
+                                guard let cardID = cardID else {
+
+                                    // if not card post, update user post list
+
+                                    UserManager.shared.updateUserPost(
+                                        uid: uid,
+                                        postID: postID,
+                                        postAction: .publish
+                                    ) { result in
+
+                                        switch result {
+
+                                        case .success(let success):
+
+                                            print(success)
+
+                                            Toast.shared.hud.dismiss()
+
+                                            self.dismiss(animated: true, completion: nil)
+
+                                        case .failure(let error):
+
+                                            print(error)
+
+                                            Toast.showFailure(text: "上傳失敗")
+                                        }
+                                    }
+
+                                    return
+                                }
+
+                                CardManager.shared.updateCardPostList(
+                                    cardID: cardID,
+                                    postID: postID
+                                ) { result in
+
+                                    switch result {
+
+                                    case .success(let success):
+                                        print(success)
+
+                                        UserManager.shared.updateUserPost(
+                                            uid: uid,
+                                            postID: postID,
+                                            postAction: .publish
+                                        ) { result in
+
+                                            switch result {
+
+                                            case .success(let success):
+
+                                                print(success)
+
+                                                Toast.shared.hud.dismiss()
+
+                                                self.dismiss(animated: true, completion: nil)
+
+                                            case .failure(let error):
+
+                                                print(error)
+
+                                                Toast.showFailure(text: "上傳失敗")
+                                            }
+                                        }
+
+                                    case .failure(let error):
+                                        print(error)
+
+                                        Toast.showFailure(text: "上傳失敗")
+                                    }
+                                }
+
+                            case .failure(let error):
+
+                                print(error)
+
+                                Toast.showFailure(text: "上傳失敗")
+                            }
+                        }
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        Toast.showFailure(text: "上傳失敗")
+                    }
+                }
+
+            case false:
+
+                // create a post without image url
+
+                var post = Post(
+                    uid: uid,
+                    createdTime: Date().millisecondsSince1970,
+                    editTime: nil,
+                    content: self.contentTextView.text   ,
+                    imageUrl: nil,
+                    likeNumber: 0,
+                    likeUser: nil,
+                    commentNumber: nil,
+                    cardID: cardID
+                )
+
+                PostManager.shared.publishPost(post: &post) { result in
+
+                    switch result {
+
+                    case .success(let postID):
+
+                        // if it's a card post, update card data
+
+                        guard let cardID = cardID else {
+
+                            self.dismiss(animated: true, completion: nil)
+
+                            return
+                        }
+
+                        CardManager.shared.updateCardPostList(
+                            cardID: cardID,
+                            postID: postID) { result in
+
+                                switch result {
+
+                                case .success(let success):
+
+                                    print(success)
+
+                                    Toast.shared.hud.dismiss()
+
+                                    self.dismiss(animated: true, completion: nil)
+
+                                case .failure(let error):
+
+                                    print(error)
+
+                                    Toast.showFailure(text: "上傳失敗")
+                                }
+                            }
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        Toast.showFailure(text: "上傳失敗")
+                    }
                 }
             }
-
-        } else {
-
-            Toast.showFailure(text: "請輸入內容")
         }
     }
 
@@ -191,7 +375,6 @@ class WriteViewController: BaseImagePickerViewController {
         super.openImagePicker(sender)
 
         switch sender {
-
         case recognizeTextButton: isRecognizedTextButtonTapped = true
         case uploadImageButton: isRecognizedTextButtonTapped = false
         default: break
@@ -253,6 +436,11 @@ class WriteViewController: BaseImagePickerViewController {
         }
     }
 
+    @objc func deleteImage(_ sender: UIButton) {
+        deleteImageButton.isHidden = true
+        postImageView.image = nil
+    }
+
     override func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
@@ -264,8 +452,6 @@ class WriteViewController: BaseImagePickerViewController {
 
             picker.dismiss(animated: true)
 
-            Toast.showLoading(text: "載入中")
-
             guard let selectedImage = info[.editedImage] as? UIImage else {
 
                 return
@@ -275,64 +461,29 @@ class WriteViewController: BaseImagePickerViewController {
 
         case false:
 
-            picker.dismiss(animated: true)
-
-            Toast.showLoading(text: "載入中")
-
             guard let selectedImage = info[.editedImage] as? UIImage else {
 
                 return
             }
 
-            ImageManager.shared.uploadImage(image: selectedImage) { result in
+            self.hasImage = true
 
-                switch result {
+            self.uploadedImage = selectedImage
 
-                case .success(let url):
-
-                    self.imageUrl = url
-
-                    Toast.shared.hud.dismiss()
-
-                    DispatchQueue.main.async {
-
-                        self.hasImage = true
-
-                        self.postImageView.loadImage(url, placeHolder: nil)
-                    }
-
-                case .failure(let error):
-
-                    Toast.shared.hud.dismiss()
-
-                    print(error)
-
-                    self.present(
-                        UIAlertController(
-                            title: "上傳失敗",
-                            message: nil,
-                            preferredStyle: .alert
-                        ), animated: true, completion: nil
-                    )
-
-                    picker.dismiss(animated: true)
-                }
-            }
+            picker.dismiss(animated: true)
         }
     }
 
     @available(iOS 14, *)
     override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
+        picker.dismiss(animated: true)
+
+        guard !results.isEmpty else { return }
+
         switch isRecognizedTextButtonTapped {
 
         case true:
-
-            picker.dismiss(animated: true)
-
-            Toast.showLoading(text: "載入中")
-
-            guard !results.isEmpty else { return }
 
             for result in results {
 
@@ -349,59 +500,27 @@ class WriteViewController: BaseImagePickerViewController {
 
         case false:
 
-            picker.dismiss(animated: true)
-
-            Toast.showLoading(text: "載入中")
-
-            guard !results.isEmpty else { return }
-
             for result in results {
 
                 result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
 
-                    guard let image = image as? UIImage else {
+                    if let error = error {
 
-                        DispatchQueue.main.async {
+                        print(error)
 
-                            picker.dismiss(animated: true)
-                        }
+                    } else {
 
-                        return
-                    }
-
-                    ImageManager.shared.uploadImage(image: image) { result in
-
-                        switch result {
-
-                        case .success(let url):
-
-                            self.imageUrl = url
-
-                            Toast.shared.hud.dismiss()
-
-                            DispatchQueue.main.async {
-
-                                self.hasImage = true
-
-                                self.postImageView.loadImage(url, placeHolder: nil)
-                            }
-
-                        case .failure(let error):
-
-                            Toast.shared.hud.dismiss()
-
-                            print(error)
-
-                            self.present(
-                                UIAlertController(
-                                    title: "上傳失敗",
-                                    message: nil,
-                                    preferredStyle: .alert
-                                ), animated: true, completion: nil
-                            )
+                        guard let selectedImage = image as? UIImage else {
 
                             picker.dismiss(animated: true)
+
+                            return
                         }
+
+                        self.hasImage = true
+
+                        self.uploadedImage = selectedImage
+
                     }
                 })
             }
@@ -409,33 +528,9 @@ class WriteViewController: BaseImagePickerViewController {
     }
 }
 
-// MARK: Image
-extension WriteViewController {
+extension WriteViewController: CardTopicViewDataSource {
 
-    @objc func deleteImage(_ sender: UIButton) {
-
-        guard let imageUrl = imageUrl else { return }
-
-        ImageManager.shared.deleteImage(imageUrl: imageUrl, completion: { result in
-
-            switch result {
-
-            case .success(let success):
-
-                print(success)
-
-                self.postImageView.image = nil
-
-                self.imageUrl = nil
-
-                self.hasImage = false
-
-            case .failure(let error):
-
-                print(error)
-            }
-        })
-    }
+    func getCardImage(_ view: CardTopicView) -> UIImage { uploadedImage }
 }
 
 extension WriteViewController: UITextViewDelegate {
@@ -480,7 +575,7 @@ extension WriteViewController {
     func layoutViews() {
 
         let views = [
-            contentTextView, textNumberLabel, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
+            contentTextView, textNumberLabel, cardTopicTitleLabel, cardTopicView, postImageView, deleteImageButton, optionPanel, recognizeTextButton, uploadImageButton
         ]
 
         views.forEach {
@@ -498,10 +593,19 @@ extension WriteViewController {
             textNumberLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16),
             textNumberLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: -8),
 
+            cardTopicTitleLabel.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 24),
+            cardTopicTitleLabel.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
+            cardTopicTitleLabel.heightAnchor.constraint(equalToConstant: 20),
+
             postImageView.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 24),
             postImageView.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
             postImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
             postImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
+
+            cardTopicView.topAnchor.constraint(equalTo: cardTopicTitleLabel.bottomAnchor, constant: 8),
+            cardTopicView.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
+            cardTopicView.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor),
+            cardTopicView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
 
             deleteImageButton.centerXAnchor.constraint(equalTo: postImageView.trailingAnchor),
             deleteImageButton.centerYAnchor.constraint(equalTo: postImageView.topAnchor),
@@ -509,18 +613,18 @@ extension WriteViewController {
             deleteImageButton.heightAnchor.constraint(equalTo: deleteImageButton.widthAnchor),
 
             optionPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            optionPanel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 32),
+            optionPanel.topAnchor.constraint(equalTo: cardTopicView.bottomAnchor, constant: 56),
             optionPanel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             optionPanel.widthAnchor.constraint(equalTo: view.widthAnchor),
 
             recognizeTextButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
             recognizeTextButton.topAnchor.constraint(equalTo: optionPanel.topAnchor, constant: 8),
             recognizeTextButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
-            recognizeTextButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.3),
+            recognizeTextButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.25),
             uploadImageButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
             uploadImageButton.topAnchor.constraint(equalTo: recognizeTextButton.bottomAnchor),
             uploadImageButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
-            uploadImageButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.3)
+            uploadImageButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.25)
         ])
     }
 
@@ -529,18 +633,22 @@ extension WriteViewController {
         contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
         contentTextView.delegate = self
 
+        recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
+        uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
+
+        cardTopicTitleLabel.text = "引用卡片"
+        cardTopicTitleLabel.numberOfLines = 1
+        cardTopicTitleLabel.textColor = .M1
+        cardTopicTitleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+
         textNumberLabel.text = "\(contentTextView.text.count) / 140"
         textNumberLabel.textColor = .black
         textNumberLabel.font = UIFont.systemFont(ofSize: 14)
-
-        recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
-        uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
 
         postImageView.contentMode = .scaleAspectFill
         postImageView.clipsToBounds = true
         postImageView.layer.cornerRadius = 10
 
-        deleteImageButton.isHidden = !hasImage
         deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
         deleteImageButton.backgroundColor = .clear
 

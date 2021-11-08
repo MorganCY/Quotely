@@ -18,4 +18,5 @@ struct Post: Codable, Equatable {
     var likeNumber: Int
     var likeUser: [String]?
     var commentNumber: Int?
+    var cardID: String?
 }

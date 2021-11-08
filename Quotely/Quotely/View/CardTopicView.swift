@@ -8,13 +8,31 @@
 import Foundation
 import UIKit
 
+protocol CardTopicViewDataSource: AnyObject {
+
+    func getCardImage(_ view: CardTopicView) -> UIImage
+}
+
 protocol CardTopicViewDelegate: AnyObject {
 
     func didSelectCard(_ view: CardTopicView)
 }
 
+extension CardTopicViewDataSource {
+
+    func getCardImage(_ view: CardTopicView) -> UIImage { return UIImage.asset(.bg4)! }
+}
+
 class CardTopicView: UIView {
 
+    weak var dataSource: CardTopicViewDataSource? {
+        didSet {
+            setupViews()
+            configureImageButtons()
+        }
+    }
+
+    let backgroundView = UIView()
     let contentLabel = UILabel()
     let authorLabel = UILabel()
     let cardImageView = UIImageView()
@@ -26,10 +44,11 @@ class CardTopicView: UIView {
         return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton]
     }
 
-    init(content: String, author: String) {
+    init(content: String, author: String, hasButton: Bool = true) {
         super.init(frame: .zero)
-        setupViews(content: content, author: author)
-        configureImageButtons()
+        contentLabel.text = content
+        authorLabel.text = author
+        if hasButton == false { imageButtons.forEach{ $0.isHidden = true } }
     }
 
     required init?(coder: NSCoder) {
@@ -47,35 +66,48 @@ class CardTopicView: UIView {
     @objc func changeTemplateImageToBg3(_ sender: UIButton) { cardImageView.image = UIImage.asset(.bg3) }
     @objc func changeTemplateImageToBg4(_ sender: UIButton) { cardImageView.image = UIImage.asset(.bg4) }
 
-    func setupViews(content: String, author: String) {
+    func setupViews() {
 
-        let views = [contentLabel, authorLabel, cardImageView]
+        let views = [backgroundView, contentLabel, authorLabel, cardImageView]
         views.forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        contentLabel.text = content
-        contentLabel.font = UIFont.systemFont(ofSize: 16)
+        backgroundView.cornerRadius = CornerRadius.standard.rawValue
+        backgroundView.borderWidth = 0.5
+        backgroundView.borderColor = .lightGray
+        contentLabel.font = UIFont.systemFont(ofSize: 14)
         contentLabel.textColor = .black
-        authorLabel.text = author
-        authorLabel.font = UIFont.systemFont(ofSize: 12)
-        authorLabel.textColor = .gray
+        contentLabel.numberOfLines = 0
+        authorLabel.font = UIFont.systemFont(ofSize: 10)
+        authorLabel.textColor = .lightGray
+        authorLabel.numberOfLines = 1
 
         cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
-        cardImageView.image = UIImage.asset(.bg4)
-        cardImageView.contentMode = .scaleAspectFit
+        cardImageView.image = dataSource?.getCardImage(self)
+        cardImageView.contentMode = .scaleAspectFill
         cardImageView.clipsToBounds = true
 
         NSLayoutConstraint.activate([
-            contentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
-            contentLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),
+
+            backgroundView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
+
+            cardImageView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
+            cardImageView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
+            cardImageView.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.4),
+            cardImageView.heightAnchor.constraint(equalTo: backgroundView.heightAnchor),
+
+            contentLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 16),
+            contentLabel.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 16),
+            contentLabel.trailingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: -16),
+
+            authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 12),
             authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-            cardImageView.topAnchor.constraint(equalTo: topAnchor),
-            cardImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            cardImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.35),
-            cardImageView.heightAnchor.constraint(equalTo: heightAnchor)
+            authorLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -16)
         ])
     }
 
@@ -84,11 +116,9 @@ class CardTopicView: UIView {
         imageButtons.forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.borderColor = .white
-            $0.borderWidth = 1
             $0.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
             $0.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
-            $0.bottomAnchor.constraint(equalTo: topAnchor, constant: -8).isActive = true
+            $0.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 8).isActive = true
             $0.clipsToBounds = true
             $0.imageView?.contentMode = .scaleToFill
         }
@@ -104,7 +134,7 @@ class CardTopicView: UIView {
         bg4ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg4(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
-            bg4ImageButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bg4ImageButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
             bg3ImageButton.trailingAnchor.constraint(equalTo: bg4ImageButton.leadingAnchor, constant: -6),
             bg2ImageButton.trailingAnchor.constraint(equalTo: bg3ImageButton.leadingAnchor, constant: -6),
             bg1ImageButton.trailingAnchor.constraint(equalTo: bg2ImageButton.leadingAnchor, constant: -6)

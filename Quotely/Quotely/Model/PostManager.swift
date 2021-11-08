@@ -48,7 +48,7 @@ class PostManager {
 
                 } else {
 
-                    completion(.success("Success"))
+                    completion(.success(document.documentID))
                 }
             })
 
