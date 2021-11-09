@@ -144,6 +144,25 @@ class SwipeViewController: UIViewController {
         }
     }
 
+    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+
+        UserManager.shared.updateFavoriteCard(
+            uid: visitorUid,
+            cardID: cardID,
+            likeAction: likeAction
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
     func updateCard(cardID: String, likeAction: LikeAction) {
 
         CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: visitorUid) { result in
@@ -159,25 +178,7 @@ class SwipeViewController: UIViewController {
         }
     }
 
-    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
-
-        UserManager.shared.updateFavoriteCard(
-            uid: visitorUid,
-            cardID: cardID,
-            likeAction: likeAction) { result in
-
-                switch result {
-
-                case .success(let success):
-                    print(success)
-
-                case .failure(let error):
-                    print(error)
-                }
-            }
-    }
-
-    @objc func goToDetailPage(_ sender: UIButton) {
+    @objc func goToWritePage(_ sender: UIButton) {
 
         guard let writeVC =
                 UIStoryboard.write
@@ -266,7 +267,7 @@ class SwipeViewController: UIViewController {
             $0.cornerRadius = CornerRadius.standard.rawValue
         }
 
-        commentButton.addTarget(self, action: #selector(goToDetailPage(_:)), for: .touchUpInside)
+        commentButton.addTarget(self, action: #selector(goToWritePage(_:)), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(tapLikeButton(_:)), for: .touchUpInside)
         shareButton.addTarget(self, action: #selector(goToSharePage(_:)), for: .touchUpInside)
 

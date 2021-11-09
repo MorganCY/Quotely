@@ -16,6 +16,12 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="350"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="片語" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-Bu-Xp4">
+                    <rect key="frame" x="24" y="36" width="36" height="25.5"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Medium" family="PingFang TC" pointSize="18"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCW-Jg-q8E">
                     <rect key="frame" x="24" y="73.5" width="370" height="191"/>
                     <subviews>
@@ -69,6 +75,9 @@
                                     <real key="value" value="10"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="tapShareButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="A6p-La-P1J"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P3Y-j0-p12">
                             <rect key="frame" x="65.5" y="0.0" width="50" height="49.5"/>
@@ -86,6 +95,9 @@
                                     <real key="value" value="10"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="tapLikeButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="Bpm-Mc-j17"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L1w-Kc-q3Z">
                             <rect key="frame" x="131.5" y="0.0" width="49.5" height="49.5"/>
@@ -103,6 +115,9 @@
                                     <real key="value" value="10"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="tapWriteButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="HTR-yN-3uy"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>
@@ -115,8 +130,10 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="cNh-xt-2wH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="EYr-NO-5Ij"/>
+                <constraint firstItem="FCW-Jg-q8E" firstAttribute="top" secondItem="wW5-Bu-Xp4" secondAttribute="bottom" constant="12" id="GTl-c3-Sdi"/>
                 <constraint firstItem="FCW-Jg-q8E" firstAttribute="trailing" secondItem="cNh-xt-2wH" secondAttribute="trailing" id="MET-pT-DP3"/>
                 <constraint firstItem="W7e-AH-O1S" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="Oci-HP-qm9"/>
+                <constraint firstItem="wW5-Bu-Xp4" firstAttribute="leading" secondItem="W7e-AH-O1S" secondAttribute="leading" id="ToM-eV-Be0"/>
                 <constraint firstItem="FCW-Jg-q8E" firstAttribute="top" secondItem="cNh-xt-2wH" secondAttribute="bottom" constant="24" id="UHj-NK-Wu9"/>
                 <constraint firstItem="P3Y-j0-p12" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.12" id="gWx-o8-Dac"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="W7e-AH-O1S" secondAttribute="bottom" constant="12" id="hYQ-1G-nDX"/>

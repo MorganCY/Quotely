@@ -10,6 +10,8 @@ import UIKit
 
 class CardTopicViewController: UIViewController {
 
+    let visitorUid = SignInManager.shared.uid
+
     var card: Card?
 
     var postList: [Post]?
@@ -133,6 +135,54 @@ class CardTopicViewController: UIViewController {
         }
     }
 
+    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+
+        guard let visitorUid = visitorUid else {
+
+            Toast.showFailure(text: "讀取用戶資料失敗")
+
+            return
+        }
+
+        UserManager.shared.updateFavoriteCard(
+            uid: visitorUid,
+            cardID: cardID,
+            likeAction: likeAction
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+    func updateCard(cardID: String, likeAction: LikeAction) {
+
+        guard let visitorUid = visitorUid else {
+
+            Toast.showFailure(text: "讀取用戶資料失敗")
+
+            return
+        }
+
+        CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: visitorUid) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
     func goToCardPostPage(index: Int) {
 
         guard let cardPostVC =
@@ -152,6 +202,67 @@ class CardTopicViewController: UIViewController {
         cardPostVC.isLike = isLikePost
 
         navigationController?.pushViewController(cardPostVC, animated: true)
+    }
+
+    func goToSharePage() {
+
+        guard let shareVC =
+                UIStoryboard.share
+                .instantiateViewController(
+                    withIdentifier: String(describing: ShareViewController.self)
+                ) as? ShareViewController else {
+
+            return
+        }
+
+        let navigationVC = BaseNavigationController(rootViewController: shareVC)
+
+        guard let card = card else { return }
+
+        shareVC.templateContent = [
+            card.content.replacingOccurrences(of: "\\n", with: "\n"),
+            card.author
+        ]
+
+        navigationVC.modalPresentationStyle = .fullScreen
+
+        present(navigationVC, animated: true)
+    }
+
+    func goToWritePage() {
+
+        guard let writeVC =
+                UIStoryboard.write
+                .instantiateViewController(
+                    withIdentifier: String(describing: CardWriteViewController.self)
+                ) as? CardWriteViewController else {
+
+                    return
+                }
+
+        let nav = BaseNavigationController(rootViewController: writeVC)
+
+        writeVC.card = card
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
+
+    func tapLikeButton() {
+
+        guard let cardID = card?.cardID else {
+
+            Toast.showFailure(text: "收藏失敗")
+
+            return
+        }
+
+        updateUserLikeCardList(cardID: cardID, likeAction: .like)
+        updateCard(cardID: cardID, likeAction: .like)
+        card?.likeNumber += 1
+
+        Toast.showSuccess(text: "已收藏")
     }
 
     func setupBackButton() {
@@ -187,6 +298,12 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         header.layoutHeader(card: card)
+
+        header.shareHandler = { self.goToSharePage() }
+
+        header.likeHandler = { self.tapLikeButton() }
+
+        header.writeHandler = { self.goToWritePage() }
 
         return header
     }
