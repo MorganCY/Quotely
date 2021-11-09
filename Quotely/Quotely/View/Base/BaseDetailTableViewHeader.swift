@@ -15,6 +15,10 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var cardStackView: UIStackView!
+    @IBOutlet weak var cardContentLabel: UILabel!
+    @IBOutlet weak var cardAuthorLabel: UILabel!
+    @IBOutlet weak var cardImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
@@ -60,11 +64,13 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         deleteButton.tintColor = .gray
 
         likeButton.isUserInteractionEnabled = true
+
+        cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
+
+        cardImageView.clipsToBounds = true
     }
 
     func layoutHeader(
-        isCard: Bool,
-        card: Card?,
         post: Post?,
         postAuthor: User?,
         isAuthor: Bool,
@@ -77,55 +83,55 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
 
-        switch isCard {
+        contentLabel.text = post?.content
+        editButton.isHidden = !isAuthor
+        deleteButton.isHidden = !isAuthor
+        likeNumberLabel.text = "\(post?.likeNumber ?? 0)"
 
-        case true:
+        if let createdTime = post?.createdTime {
 
-            contentLabel.text = "\(card?.content ?? "")\n\n\n\(card?.author ?? "")"
-            likeNumberLabel.text = "\(card?.likeNumber ?? 0)"
-            postImageView.isHidden = !isAuthor
-            userImageView.image = UIImage.asset(.bg4)
-            userNameLabel.text = "隻字片語"
-            timeLabel.text = "某一天的夜半時分"
-            editButton.isHidden = !isAuthor
-            deleteButton.isHidden = !isAuthor
-
-        case false:
-
-            contentLabel.text = post?.content
-            editButton.isHidden = !isAuthor
-            deleteButton.isHidden = !isAuthor
-            likeNumberLabel.text = "\(post?.likeNumber ?? 0)"
-
-            if let createdTime = post?.createdTime {
-
-                timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: createdTime))
-            }
-
-            if let userImageUrl = postAuthor?.profileImageUrl,
-               let name = postAuthor?.name {
-
-                hasUserInfo = true
-
-                userImageView.loadImage(userImageUrl, placeHolder: nil)
-                userNameLabel.text = name
-
-                userImageView.cornerRadius = userImageView.frame.width / 2
-            }
-
-            if let postImageUrl = post?.imageUrl {
-
-                postImageView.loadImage(postImageUrl, placeHolder: nil)
-                postImageView.isHidden = false
-
-            } else {
-
-                postImageView.isHidden = true
-            }
-
-            guard let editTime = post?.editTime else { return }
-
-            timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+            timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: createdTime))
         }
+
+        if let userImageUrl = postAuthor?.profileImageUrl,
+           let name = postAuthor?.name {
+
+            hasUserInfo = true
+
+            userImageView.loadImage(userImageUrl, placeHolder: nil)
+            userNameLabel.text = name
+
+            userImageView.cornerRadius = userImageView.frame.width / 2
+        }
+
+        if let postImageUrl = post?.imageUrl {
+
+            postImageView.loadImage(postImageUrl, placeHolder: nil)
+            postImageView.isHidden = false
+
+        } else {
+
+            postImageView.isHidden = true
+        }
+
+        if let cardContent = post?.cardContent,
+           let cardAuthor = post?.cardAuthor,
+           let cardImageUrl = post?.imageUrl {
+
+            cardStackView.isHidden = false
+            postImageView.isHidden = true
+
+            cardContentLabel.text = cardContent
+            cardAuthorLabel.text = cardAuthor
+            cardImageView.loadImage(cardImageUrl, placeHolder: nil)
+
+        } else {
+
+            cardStackView.isHidden = true
+        }
+
+        guard let editTime = post?.editTime else { return }
+
+        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
     }
 }

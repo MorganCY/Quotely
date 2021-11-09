@@ -123,8 +123,6 @@ class PostDetailViewController: BaseDetailViewController {
               }
 
         header.layoutHeader(
-            isCard: false,
-            card: nil,
             post: post,
             postAuthor: postAuthor,
             isAuthor: self.isAuthor,

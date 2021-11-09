@@ -75,14 +75,15 @@ class ExploreTableViewCell: UITableViewCell {
         }
 
         if let cardContent = post.cardContent,
-           let cardAuthor = post.cardAuthor {
+           let cardAuthor = post.cardAuthor,
+           let cardImageUrl = post.imageUrl {
 
             cardStackView.isHidden = false
             postImageView.isHidden = true
 
             cardContentLabel.text = cardContent
             cardAuthorLabel.text = cardAuthor
-            cardImageView.loadImage(post.imageUrl ?? "", placeHolder: nil)
+            cardImageView.loadImage(cardImageUrl, placeHolder: nil)
 
         } else {
 
