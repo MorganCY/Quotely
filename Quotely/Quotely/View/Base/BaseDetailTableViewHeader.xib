@@ -58,12 +58,23 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="AI2-CX-N1o">
                             <rect key="frame" x="0.0" y="308.5" width="316" height="180.5"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="引用卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJJ-HB-Pwa">
-                                    <rect key="frame" x="0.0" y="0.0" width="64" height="22.5"/>
-                                    <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
-                                    <color key="textColor" name="M1"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DMn-FR-EWZ">
+                                    <rect key="frame" x="0.0" y="0.0" width="316" height="22.5"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="引用卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJJ-HB-Pwa">
+                                            <rect key="frame" x="0.0" y="0.0" width="210.5" height="22.5"/>
+                                            <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
+                                            <color key="textColor" name="M1"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看卡片討論 &gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQN-d4-yuY">
+                                            <rect key="frame" x="218.5" y="0.0" width="97.5" height="20"/>
+                                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Udo-IM-2qj">
                                     <rect key="frame" x="0.0" y="30.5" width="316" height="150"/>
                                     <subviews>
@@ -122,6 +133,9 @@
                                     </userDefinedRuntimeAttributes>
                                 </view>
                             </subviews>
+                            <constraints>
+                                <constraint firstItem="VQN-d4-yuY" firstAttribute="trailing" secondItem="TNn-ic-QD5" secondAttribute="trailing" id="4Hw-n0-2BA"/>
+                            </constraints>
                         </stackView>
                     </subviews>
                 </stackView>

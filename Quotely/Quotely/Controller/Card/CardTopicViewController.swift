@@ -12,7 +12,19 @@ class CardTopicViewController: UIViewController {
 
     let visitorUid = SignInManager.shared.uid
 
-    var card: Card?
+    var cardID: String? {
+        didSet {
+            guard let cardID = cardID else {return }
+            fetchCardData(cardID: cardID)
+        }
+    }
+
+    var card: Card? {
+        didSet {
+            guard let card = card else { return }
+            fetchPostList(card: card)
+        }
+    }
 
     var postList: [Post]?
 
@@ -46,8 +58,6 @@ class CardTopicViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        fetchCardData()
     }
 
     func setupBackgroundImage() {
@@ -57,9 +67,9 @@ class CardTopicViewController: UIViewController {
         backgroundImageView.image = images[Int.random(in: 0...3)]
     }
 
-    func fetchCardData() {
+    func fetchCardData(cardID: String) {
 
-        CardManager.shared.fetchSpecificCard(cardID: card?.cardID ?? "") { result in
+        CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
 
             switch result {
 

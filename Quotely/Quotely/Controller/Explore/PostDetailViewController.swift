@@ -65,6 +65,21 @@ class PostDetailViewController: BaseDetailViewController {
         self.show(profileVC, sender: nil)
     }
 
+    @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let cardTopicVC = UIStoryboard
+                .card
+                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)
+        ) as? CardTopicViewController else {
+
+            return
+        }
+
+        cardTopicVC.cardID = post?.cardID
+
+        self.show(cardTopicVC, sender: nil)
+    }
+
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
 
@@ -112,6 +127,11 @@ class PostDetailViewController: BaseDetailViewController {
 
             fatalError("Cannot load header view.")
         }
+
+        let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
+
+        header.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
+        header.cardStackView.isUserInteractionEnabled = true
 
         isAuthor = postAuthor?.uid == visitorUid
         ? true : false
