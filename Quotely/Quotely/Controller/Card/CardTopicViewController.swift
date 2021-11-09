@@ -22,6 +22,8 @@ class CardTopicViewController: UIViewController {
         }
     }
 
+    var isLikePost = false
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.registerCellWithNib(identifier: CardTopicTableViewCell.identifier, bundle: nil)
@@ -131,6 +133,27 @@ class CardTopicViewController: UIViewController {
         }
     }
 
+    func goToCardPostPage(index: Int) {
+
+        guard let cardPostVC =
+                UIStoryboard.explore
+                .instantiateViewController(
+                    withIdentifier: String(describing: PostDetailViewController.self)
+                ) as? PostDetailViewController else {
+
+                    return
+                }
+
+        let post = postList?[index]
+        let user = userList?[index]
+
+        cardPostVC.post = post
+        cardPostVC.postAuthor = user
+        cardPostVC.isLike = isLikePost
+
+        navigationController?.pushViewController(cardPostVC, animated: true)
+    }
+
     func setupBackButton() {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -189,11 +212,31 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let post = postList?[indexPath.row]
+
+        if let likeUserList = post?.likeUser {
+
+            isLikePost = likeUserList.contains(SignInManager.shared.uid ?? "")
+
+        } else {
+
+            isLikePost = false
+        }
+
+        goToCardPostPage(index: indexPath.row)
+    }
+
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat { 250 }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { UITableView.automaticDimension }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        UITableView.automaticDimension
+    }
 
 //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { UITableView.automaticDimension }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
 }

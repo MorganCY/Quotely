@@ -43,6 +43,8 @@ class ExploreWriteViewController: BaseWriteViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupQuoteButton()
+
         deleteImageButton.isHidden = true
     }
 
@@ -50,8 +52,6 @@ class ExploreWriteViewController: BaseWriteViewController {
         super.viewDidLayoutSubviews()
 
         layoutPostImage()
-
-        setupQuoteButton()
     }
 
     @objc func deleteImage(_ sender: UIButton) {
@@ -73,7 +73,9 @@ class ExploreWriteViewController: BaseWriteViewController {
         favCardVC.isFromWriteVC = true
         favCardVC.passedContentText = contentTextView.text
 
-        show(favCardVC, sender: nil)
+        let navigationVC = BaseNavigationController(rootViewController: favCardVC)
+
+        present(navigationVC, animated: true)
     }
 }
 

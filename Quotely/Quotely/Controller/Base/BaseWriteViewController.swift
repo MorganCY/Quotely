@@ -157,6 +157,15 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
     func publishNewPost() {
 
+        // check if text view has content
+
+        guard !contentTextView.text.isEmpty else {
+
+            Toast.showFailure(text: "請輸入內容")
+
+            return
+        }
+
         Toast.showLoading(text: "上傳中")
 
         guard let uid = SignInManager.shared.uid else {
@@ -166,158 +175,167 @@ class BaseWriteViewController: BaseImagePickerViewController {
             return
         }
 
-//        let cardID = card?.cardID == nil ? card.cardID : nil
+        // check if there's image
 
-        if !contentTextView.text.isEmpty || hasPostImage == true {
+        switch hasPostImage {
 
-            // check if there's image
+        case true:
 
-            switch hasPostImage {
+            // upload the image
 
-            case true:
+            ImageManager.shared.uploadImage(image: uploadedImage) { result in
 
-                // upload the image
+                switch result {
 
-                ImageManager.shared.uploadImage(image: uploadedImage) { result in
+                case .success(let url):
 
-                    switch result {
+                    var post = Post(
+                        uid: uid,
+                        createdTime: Date().millisecondsSince1970,
+                        editTime: nil,
+                        content: self.contentTextView.text   ,
+                        imageUrl: url,
+                        likeNumber: 0,
+                        likeUser: nil,
+                        commentNumber: nil,
+                        cardID: self.card?.cardID,
+                        cardContent: self.card?.content,
+                        cardAuthor: self.card?.author
+                    )
 
-                    case .success(let url):
+                    // create post data with image url
 
-                        var post = Post(
-                            uid: uid,
-                            createdTime: Date().millisecondsSince1970,
-                            editTime: nil,
-                            content: self.contentTextView.text   ,
-                            imageUrl: url,
-                            likeNumber: 0,
-                            likeUser: nil,
-                            commentNumber: nil,
-                            cardID: self.card?.cardID,
-                            cardContent: self.card?.content,
-                            cardAuthor: self.card?.author
-                        )
+                    PostManager.shared.publishPost(post: &post) { result in
 
-                        // create post data with image url
+                        switch result {
 
-                        PostManager.shared.publishPost(post: &post) { result in
+                        case .success(let postID):
 
-                            switch result {
+                            self.onPublishPostID = postID
 
-                            case .success(let postID):
+                            UserManager.shared.updateUserPost(
+                                uid: uid,
+                                postID: postID,
+                                postAction: .publish
+                            ) { result in
 
-                                self.onPublishPostID = postID
+                                switch result {
 
-                                UserManager.shared.updateUserPost(
-                                    uid: uid,
-                                    postID: postID,
-                                    postAction: .publish
-                                ) { result in
+                                case .success(let success):
 
-                                    switch result {
+                                    print(success)
 
-                                    case .success(let success):
+                                    guard let cardHandler = self.cardHandler else {
 
-                                        print(success)
+                                        Toast.shared.hud.dismiss()
 
-                                        guard let cardHandler = self.cardHandler else {
+                                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
-                                            Toast.shared.hud.dismiss()
+                                        let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
 
-                                            self.dismiss(animated: true, completion: nil)
+                                        sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
 
-                                            return
-                                        }
+                                            tabBar?.selectedIndex = 2
+                                        })
 
-                                        cardHandler
-
-                                    case .failure(let error):
-
-                                        print(error)
-
-                                        Toast.showFailure(text: "上傳失敗")
+                                        return
                                     }
+
+                                    cardHandler
+
+                                case .failure(let error):
+
+                                    print(error)
+
+                                    Toast.showFailure(text: "上傳失敗")
                                 }
-
-                            case .failure(let error):
-
-                                print(error)
-
-                                Toast.showFailure(text: "建立想法失敗")
                             }
+
+                        case .failure(let error):
+
+                            print(error)
+
+                            Toast.showFailure(text: "建立想法失敗")
                         }
-
-                    case .failure(let error):
-
-                        print(error)
-
-                        Toast.showFailure(text: "上傳圖片失敗")
                     }
+
+                case .failure(let error):
+
+                    print(error)
+
+                    Toast.showFailure(text: "上傳圖片失敗")
                 }
+            }
 
-            case false:
+        case false:
 
-                // create a post without image url
+            // create a post without image url
 
-                var post = Post(
-                    uid: uid,
-                    createdTime: Date().millisecondsSince1970,
-                    editTime: nil,
-                    content: self.contentTextView.text   ,
-                    imageUrl: nil,
-                    likeNumber: 0,
-                    likeUser: nil,
-                    commentNumber: nil,
-                    cardID: self.card?.cardID,
-                    cardContent: self.card?.content,
-                    cardAuthor: self.card?.author
-                )
+            var post = Post(
+                uid: uid,
+                createdTime: Date().millisecondsSince1970,
+                editTime: nil,
+                content: self.contentTextView.text   ,
+                imageUrl: nil,
+                likeNumber: 0,
+                likeUser: nil,
+                commentNumber: nil,
+                cardID: self.card?.cardID,
+                cardContent: self.card?.content,
+                cardAuthor: self.card?.author
+            )
 
-                PostManager.shared.publishPost(post: &post) { result in
+            PostManager.shared.publishPost(post: &post) { result in
 
-                    switch result {
+                switch result {
 
-                    case .success(let postID):
+                case .success(let postID):
 
-                        self.onPublishPostID = postID
+                    self.onPublishPostID = postID
 
-                        UserManager.shared.updateUserPost(
-                            uid: uid,
-                            postID: postID,
-                            postAction: .publish
-                        ) { result in
+                    UserManager.shared.updateUserPost(
+                        uid: uid,
+                        postID: postID,
+                        postAction: .publish
+                    ) { result in
 
-                            switch result {
+                        switch result {
 
-                            case .success(let success):
+                        case .success(let success):
 
-                                print(success)
+                            print(success)
 
-                                guard let cardHandler = self.cardHandler else {
+                            guard let cardHandler = self.cardHandler else {
 
-                                    Toast.shared.hud.dismiss()
+                                Toast.shared.hud.dismiss()
 
-                                    self.dismiss(animated: true, completion: nil)
+                                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
-                                    return
-                                }
+                                let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
 
-                                cardHandler
+                                sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
 
-                            case .failure(let error):
+                                    tabBar?.selectedIndex = 2
+                                })
 
-                                print(error)
-
-                                Toast.showFailure(text: "上傳失敗")
+                                return
                             }
+
+                            cardHandler
+
+                        case .failure(let error):
+
+                            print(error)
+
+                            Toast.showFailure(text: "上傳失敗")
                         }
-
-                    case .failure(let error):
-
-                        print(error)
-
-                        Toast.showFailure(text: "建立想法失敗")
                     }
+
+                case .failure(let error):
+
+                    print(error)
+
+                    Toast.showFailure(text: "建立想法失敗")
                 }
             }
         }
@@ -525,21 +543,23 @@ extension BaseWriteViewController {
 
         navigationItem.title = navTitle
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: navButtonTitle, style: .plain,
-            target: self, action: #selector(tapPublishButton(_:))
-        )
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
             target: self,
             action: #selector(dismissSelf(_:))
         )
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: navButtonTitle, style: .plain,
+            target: self, action: #selector(tapPublishButton(_:))
+        )
     }
 
     @objc func dismissSelf(_ sender: UIBarButtonItem) {
 
-        self.dismiss(animated: true)
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+
+        sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
 
     func layoutViews() {

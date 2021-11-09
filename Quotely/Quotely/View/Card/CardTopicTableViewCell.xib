@@ -42,10 +42,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzy-PJ-HfO">
-                    <rect key="frame" x="354" y="59.5" width="36" height="31"/>
+                    <rect key="frame" x="354" y="57" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Zzy-PJ-HfO" secondAttribute="height" multiplier="1:1" id="pSv-y9-WMc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <color key="tintColor" name="M1"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="tinted" image="chevron.right" catalog="system"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="chevron.right" catalog="system"/>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -54,6 +58,7 @@
                 <constraint firstItem="Zzy-PJ-HfO" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="BH9-k6-7bp"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="KHr-V4-Qc1"/>
                 <constraint firstItem="0Po-ZZ-1Km" firstAttribute="top" secondItem="JNL-Em-ja7" secondAttribute="bottom" constant="12" id="On0-hh-HnC"/>
+                <constraint firstItem="Zzy-PJ-HfO" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.0869565" id="PNG-Pa-5zf"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.108696" id="SOS-e1-hx1"/>
                 <constraint firstItem="JNL-Em-ja7" firstAttribute="leading" secondItem="W6Z-vX-3nh" secondAttribute="leading" id="TRT-Va-zJa"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="crH-Cj-E3i"/>

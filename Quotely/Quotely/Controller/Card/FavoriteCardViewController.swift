@@ -159,7 +159,7 @@ class FavoriteCardViewController: UIViewController {
         present(navVC, animated: true)
     }
 
-    func goToTopicPage(index: Int) {
+    func goToCardTopicPage(index: Int) {
 
         guard let cardTopicVC =
                 UIStoryboard.card
@@ -238,7 +238,7 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         case false:
 
-            goToTopicPage(index: indexPath.row)
+            goToCardTopicPage(index: indexPath.row)
         }
     }
 
@@ -247,7 +247,7 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         let comment = UIAction(title: "查看討論",
                                image: UIImage.sfsymbol(.comment)) { _ in
 
-            self.goToTopicPage(index: indexPath.row)
+            self.goToCardTopicPage(index: indexPath.row)
         }
 
         let share = UIAction(title: "分享至社群",

@@ -54,14 +54,14 @@ class CardWriteViewController: BaseWriteViewController {
 
                     Toast.shared.hud.dismiss()
 
-                    self.dismiss(animated: true) {
+                    let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
-                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                    let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
 
-                        let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
+                    sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
 
                         tabBar?.selectedIndex = 2
-                    }
+                    })
 
                 case .failure(let error):
                     print(error)
