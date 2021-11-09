@@ -146,4 +146,28 @@ class CardManager {
             }
         }
     }
+
+    func removePostFromCard(
+        postID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        cards.whereField("postList", arrayContains: postID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetCard = querySnapshot?.documents.first
+
+                targetCard?.reference.updateData([
+                    "postList": FieldValue.arrayRemove([postID])
+                ])
+
+                completion(.success("Post was deleted from card"))
+            }
+        }
+    }
 }

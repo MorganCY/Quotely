@@ -247,7 +247,21 @@ class PostDetailViewController: BaseDetailViewController {
                                 case .success(let success):
                                     print(success)
 
-                                    self.navigationController?.popViewController(animated: true)
+                                    CardManager.shared.removePostFromCard(postID: postID) { result in
+
+                                        switch result {
+
+                                        case .success(let success):
+
+                                            print(success)
+
+                                            self.navigationController?.popViewController(animated: true)
+
+                                        case .failure(let error):
+
+                                            print(error)
+                                        }
+                                    }
 
                                 case .failure(let error): print(error)
                                 }
@@ -257,19 +271,15 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(error)
 
-                        self.present(UIAlertController(
-                            title: "刪除失敗",
-                            message: nil,
-                            preferredStyle: .alert), animated: true, completion: nil
-                        )
+                        Toast.showFailure(text: "刪除失敗")
                     }
                 }
             }
 
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
 
-            alert.addAction(okAction)
             alert.addAction(cancelAction)
+            alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
         }
 
