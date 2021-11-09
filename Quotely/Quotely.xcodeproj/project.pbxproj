@@ -28,7 +28,7 @@
 		5C2C7300271D12E100F8B9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C72FE271D12E100F8B9EC /* Main.storyboard */; };
 		5C2C7302271D12E300F8B9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7301271D12E300F8B9EC /* Assets.xcassets */; };
 		5C2C7305271D12E300F8B9EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7303271D12E300F8B9EC /* LaunchScreen.storyboard */; };
-		5C2C7316271D19AD00F8B9EC /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C7315271D19AD00F8B9EC /* WriteViewController.swift */; };
+		5C2C7316271D19AD00F8B9EC /* ExploreWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */; };
 		5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */; };
 		5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */; };
 		5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */; };
@@ -93,6 +93,8 @@
 		5CE8F1D3272F77950026864C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D2272F77950026864C /* ProfileViewController.swift */; };
 		5CE8F1D5272F79210026864C /* ball.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D4272F79210026864C /* ball.json */; };
 		5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D6272F7BD50026864C /* nothingFound.json */; };
+		5CEE4B4B273A02B000CE7DE1 /* BaseWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */; };
+		5CEE4B4D273A149700CE7DE1 /* CardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */; };
 		5CF36A142732C3B000F6B3BD /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */; };
 		5CF36A172732C3E400F6B3BD /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */; };
 		5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */; };
@@ -125,7 +127,7 @@
 		5C2C7301271D12E300F8B9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C2C7304271D12E300F8B9EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C2C7306271D12E300F8B9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C2C7315271D19AD00F8B9EC /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreWriteViewController.swift; sourceTree = "<group>"; };
 		5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -191,6 +193,8 @@
 		5CE8F1D2272F77950026864C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5CE8F1D4272F79210026864C /* ball.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ball.json; sourceTree = "<group>"; };
 		5CE8F1D6272F7BD50026864C /* nothingFound.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nothingFound.json; sourceTree = "<group>"; };
+		5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWriteViewController.swift; sourceTree = "<group>"; };
+		5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWriteViewController.swift; sourceTree = "<group>"; };
 		5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewHeaderView.xib; sourceTree = "<group>"; };
@@ -327,7 +331,7 @@
 				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
 				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
-				5C7B6398272A84D500E18B96 /* Swipe */,
+				5C7B6398272A84D500E18B96 /* Card */,
 				5C4B9685271FA724008B21C7 /* Write */,
 				5C582106271D79B5002E21C9 /* Explore */,
 				5CF36A152732C3BC00F6B3BD /* Profile */,
@@ -371,6 +375,7 @@
 				5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */,
 				5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */,
 				5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */,
+				5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -428,14 +433,14 @@
 			path = Share;
 			sourceTree = "<group>";
 		};
-		5C7B6398272A84D500E18B96 /* Swipe */ = {
+		5C7B6398272A84D500E18B96 /* Card */ = {
 			isa = PBXGroup;
 			children = (
 				5C2C731E271D3D4B00F8B9EC /* Swipe.storyboard */,
 				5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */,
 				5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */,
 			);
-			path = Swipe;
+			path = Card;
 			sourceTree = "<group>";
 		};
 		5C8C0E93272436380054480A /* Resource */ = {
@@ -456,6 +461,7 @@
 			children = (
 				5C8C0E8C272425980054480A /* SwipeViewController.swift */,
 				5C2846FA2729B2FA00393562 /* FavoriteCardViewController.swift */,
+				5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */,
 			);
 			path = Swipe;
 			sourceTree = "<group>";
@@ -463,7 +469,7 @@
 		5CA65BF4271D4E5F00B877FB /* Write */ = {
 			isa = PBXGroup;
 			children = (
-				5C2C7315271D19AD00F8B9EC /* WriteViewController.swift */,
+				5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */,
 			);
 			path = Write;
 			sourceTree = "<group>";
@@ -703,13 +709,15 @@
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,
 				5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */,
 				5C8C0E9A2725293E0054480A /* CardManager.swift in Sources */,
-				5C2C7316271D19AD00F8B9EC /* WriteViewController.swift in Sources */,
+				5CEE4B4B273A02B000CE7DE1 /* BaseWriteViewController.swift in Sources */,
+				5C2C7316271D19AD00F8B9EC /* ExploreWriteViewController.swift in Sources */,
 				5C7CE5FE2732F444005D0D18 /* ProfileTableViewHeaderView.swift in Sources */,
 				5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */,
 				5C4B9699271FC0D3008B21C7 /* Comment.swift in Sources */,
 				5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */,
 				5C2846FB2729B2FA00393562 /* FavoriteCardViewController.swift in Sources */,
 				5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */,
+				5CEE4B4D273A149700CE7DE1 /* CardWriteViewController.swift in Sources */,
 				5C91FFCC2737B78A00A216D4 /* UIApplication+Extension.swift in Sources */,
 				5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */,
 				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,

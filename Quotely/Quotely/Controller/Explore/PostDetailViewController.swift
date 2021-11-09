@@ -173,8 +173,8 @@ class PostDetailViewController: BaseDetailViewController {
         header.editHandler = {
 
             guard let writeVC = UIStoryboard.write.instantiateViewController(
-                withIdentifier: String(describing: WriteViewController.self)
-            ) as? WriteViewController else { return }
+                withIdentifier: String(describing: ExploreWriteViewController.self)
+            ) as? ExploreWriteViewController else { return }
 
             let nav = UINavigationController(rootViewController: writeVC)
 
@@ -188,7 +188,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                 writeVC.imageUrl = imageUrl
 
-                writeVC.hasImage = true
+//                writeVC.hasImage = true
             }
 
             writeVC.contentHandler = { content, editTime in

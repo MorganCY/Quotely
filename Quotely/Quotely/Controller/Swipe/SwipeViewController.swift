@@ -180,10 +180,10 @@ class SwipeViewController: UIViewController {
     @objc func goToDetailPage(_ sender: UIButton) {
 
         guard let writeVC =
-                UIStoryboard.write
+                UIStoryboard.swipe
                 .instantiateViewController(
-                    withIdentifier: String(describing: WriteViewController.self)
-                ) as? WriteViewController else {
+                    withIdentifier: String(describing: CardWriteViewController.self)
+                ) as? CardWriteViewController else {
 
                     return
                 }

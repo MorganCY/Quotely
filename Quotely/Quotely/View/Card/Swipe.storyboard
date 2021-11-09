@@ -25,21 +25,20 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="125.89285714285714"/>
         </scene>
-        <!--Card Detail View Controller-->
-        <scene sceneID="W60-7Q-vMQ">
+        <!--Card Write View Controller-->
+        <scene sceneID="51d-HG-gnL">
             <objects>
-                <viewController storyboardIdentifier="CardDetailViewController" id="Ytf-Mb-HUI" customClass="CardDetailViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="oZI-sI-ygJ">
+                <viewController storyboardIdentifier="CardWriteViewController" id="0DH-6L-6x5" customClass="CardWriteViewController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2ID-cb-qPk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="xSn-dz-xbl"/>
+                        <viewLayoutGuide key="safeArea" id="4lc-ol-KAY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="aIS-BQ-hcR"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IuR-sM-QtF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b8o-kD-Mbo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="804"/>
+            <point key="canvasLocation" x="1048" y="814"/>
         </scene>
         <!--Favorite Card View Controller-->
         <scene sceneID="WMI-Fk-bw8">
@@ -89,24 +88,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sOI-Bp-fWF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="125.89285714285714"/>
-        </scene>
-        <!--Base Navigation Controller-->
-        <scene sceneID="CxE-LF-kK0">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VFm-Bz-7XG" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Byj-QW-NET">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Ytf-Mb-HUI" kind="relationship" relationship="rootViewController" id="rO7-k6-IkW"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XxE-qt-VTt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="138" y="804"/>
         </scene>
     </scenes>
     <resources>

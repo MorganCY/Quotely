@@ -186,15 +186,15 @@ class ExploreViewController: UIViewController {
         guard let writeVC =
                 UIStoryboard.write
                 .instantiateViewController(
-                    withIdentifier: String(describing: WriteViewController.self)
-                ) as? WriteViewController else {
+                    withIdentifier: String(describing: ExploreWriteViewController.self)
+                ) as? ExploreWriteViewController else {
 
                     return
                 }
 
         let nav = BaseNavigationController(rootViewController: writeVC)
 
-        writeVC.isCard = false
+//        writeVC.isCard = false
 
         nav.modalPresentationStyle = .fullScreen
 
