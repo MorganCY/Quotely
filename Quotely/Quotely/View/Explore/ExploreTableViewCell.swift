@@ -14,9 +14,13 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var cardStackView: UIStackView!
+    @IBOutlet weak var cardTopicView: UIView!
+    @IBOutlet weak var cardContentLabel: UILabel!
+    @IBOutlet weak var cardAuthorLabel: UILabel!
+    @IBOutlet weak var cardImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var likeNumberLabel: UILabel!
@@ -26,19 +30,15 @@ class ExploreTableViewCell: UITableViewCell {
         super.awakeFromNib()
 
         userImageView.clipsToBounds = true
-
+        userImageView.cornerRadius = userImageView.frame.width / 2
         postImageView.cornerRadius = CornerRadius.standard.rawValue
-
-        hashtagLabel.cornerRadius = CornerRadius.standard.rawValue / 3
-        hashtagLabel.layer.masksToBounds = true
+        cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
+        cardImageView.clipsToBounds = true
     }
 
     var likeHandler: () -> Void = {}
 
-    @IBAction func like(_ sender: UIButton) {
-
-        likeHandler()
-    }
+    @IBAction func like(_ sender: UIButton) { likeHandler() }
 
     func layoutCell(
         userInfo: User,
@@ -50,7 +50,6 @@ class ExploreTableViewCell: UITableViewCell {
         let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
 
         userImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
-        userImageView.cornerRadius = userImageView.frame.width / 2
 
         userNameLabel.text = userInfo.name
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
@@ -58,17 +57,7 @@ class ExploreTableViewCell: UITableViewCell {
 
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
-        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
-
-        if let hashtag = post.hashtag {
-
-            hashtagLabel.isHidden = false
-            hashtagLabel.text = hashtag
-
-        } else if post.hashtag == "" {
-
-            hashtagLabel.isHidden = true
-        }
+        likeNumberLabel.text = "\(post.likeNumber)"
 
         if let postImageUrl = post.imageUrl {
 
@@ -80,6 +69,22 @@ class ExploreTableViewCell: UITableViewCell {
         } else {
 
             postImageView.isHidden = true
+        }
+
+        if let cardContent = post.cardContent,
+           let cardAuthor = post.cardAuthor,
+           let cardImageUrl = post.imageUrl {
+
+            cardStackView.isHidden = false
+            postImageView.isHidden = true
+
+            cardContentLabel.text = cardContent
+            cardAuthorLabel.text = cardAuthor
+            cardImageView.loadImage(cardImageUrl, placeHolder: nil)
+
+        } else {
+
+            cardStackView.isHidden = true
         }
 
         guard let editTime = post.editTime else { return }

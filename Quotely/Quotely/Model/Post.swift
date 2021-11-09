@@ -15,8 +15,12 @@ struct Post: Codable, Equatable {
     var editTime: Int64?
     var content: String
     var imageUrl: String?
-    var hashtag: String?
     var likeNumber: Int
     var likeUser: [String]?
     var commentNumber: Int?
+    var cardID: String?
+    var cardContent: String?
+    var cardAuthor: String?
+
+    static let `default` = Post(uid: "404", createdTime: 0, content: "找不到內容", likeNumber: 404)
 }

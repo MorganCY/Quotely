@@ -13,7 +13,6 @@ struct Comment: Codable {
     var content: String
     var createdTime: Int64
     var editTime: Int64?
-    var cardID: String?
     var postID: String?
     var cardCommentID: String?
     var postCommentID: String?

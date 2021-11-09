@@ -24,11 +24,10 @@ class SwipeViewController: UIViewController {
     var cardStack = SwipeCardStackView()
     let shareButton = ImageButton(image: UIImage.sfsymbol(.shareNormal)!, color: .white)
     let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .white, hasLabel: true)
-    let commentButton = ImageButton(image: UIImage.sfsymbol(.comment)!, color: .white, hasLabel: true)
+    let commentButton = ImageButton(image: UIImage.sfsymbol(.writeCardPost)!, color: .white, hasLabel: true)
     let resetButton = ImageButton(image: UIImage.sfsymbol(.reset)!, color: .M1!)
     let resetBackgroundView = UIView()
     let likeNumberLabel = ImageButtonLabel(color: .M1!)
-    let commentNumberLabel = ImageButtonLabel(color: .M1!)
 
     var resetBackgroundViewHeight = NSLayoutConstraint()
     var resetBackgroundViewHeightHidden = NSLayoutConstraint()
@@ -137,12 +136,30 @@ class SwipeViewController: UIViewController {
                 self.loadingAnimationView.removeFromSuperview()
 
                 self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
-                self.commentNumberLabel.text = "\(self.cards[0].commentNumber)"
 
                 self.shareButton.isEnabled = true
                 self.likeButton.isEnabled = true
                 self.commentButton.isEnabled = true
             })
+        }
+    }
+
+    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+
+        UserManager.shared.updateFavoriteCard(
+            uid: visitorUid,
+            cardID: cardID,
+            likeAction: likeAction
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 
@@ -161,41 +178,24 @@ class SwipeViewController: UIViewController {
         }
     }
 
-    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+    @objc func goToWritePage(_ sender: UIButton) {
 
-        UserManager.shared.updateFavoriteCard(
-            uid: visitorUid,
-            cardID: cardID,
-            likeAction: likeAction) { result in
-
-                switch result {
-
-                case .success(let success):
-                    print(success)
-
-                case .failure(let error):
-                    print(error)
-                }
-            }
-    }
-
-    @objc func goToDetailPage(_ sender: UIButton) {
-
-        guard let detailVC =
-                UIStoryboard.swipe
+        guard let writeVC =
+                UIStoryboard.write
                 .instantiateViewController(
-                    withIdentifier: String(describing: CardDetailViewController.self)
-                ) as? CardDetailViewController else {
+                    withIdentifier: String(describing: CardWriteViewController.self)
+                ) as? CardWriteViewController else {
 
                     return
                 }
 
-        let card = cards[currentCardIndex]
+        let nav = BaseNavigationController(rootViewController: writeVC)
 
-        detailVC.card = card
-        detailVC.isLike = card.likeUser.contains(visitorUid)
+        writeVC.card = cards[currentCardIndex]
 
-        navigationController?.pushViewController(detailVC, animated: true)
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
     }
 
     @objc func goToSharePage(_ sender: UIButton) {
@@ -225,7 +225,7 @@ class SwipeViewController: UIViewController {
     @objc func goToFavoritePage(_ sender: UIBarButtonItem) {
 
         guard let favCardVC =
-                UIStoryboard.swipe
+                UIStoryboard.card
                 .instantiateViewController(
                     withIdentifier: String(describing: FavoriteCardViewController.self)
                 ) as? FavoriteCardViewController else {
@@ -267,14 +267,12 @@ class SwipeViewController: UIViewController {
             $0.cornerRadius = CornerRadius.standard.rawValue
         }
 
-        commentButton.addTarget(self, action: #selector(goToDetailPage(_:)), for: .touchUpInside)
+        commentButton.addTarget(self, action: #selector(goToWritePage(_:)), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(tapLikeButton(_:)), for: .touchUpInside)
         shareButton.addTarget(self, action: #selector(goToSharePage(_:)), for: .touchUpInside)
 
         view.addSubview(likeNumberLabel)
-        view.addSubview(commentNumberLabel)
         likeNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        commentNumberLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
 
@@ -294,9 +292,7 @@ class SwipeViewController: UIViewController {
             commentButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
             likeNumberLabel.centerXAnchor.constraint(equalTo: likeButton.centerXAnchor),
-            likeNumberLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
-            commentNumberLabel.centerXAnchor.constraint(equalTo: commentButton.centerXAnchor),
-            commentNumberLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24)
+            likeNumberLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24)
         ])
     }
 
@@ -428,13 +424,11 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
         if nextIndex < cards.count {
 
             likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
-            commentNumberLabel.text = "\(cards[nextIndex].commentNumber)"
             currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
 
             likeNumberLabel.text = ""
-            commentNumberLabel.text = ""
             currentCardIndex = 0
             isLastCardSwiped = true
         }
@@ -451,13 +445,11 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
         if nextIndex < cards.count {
 
             likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
-            commentNumberLabel.text = "\(cards[nextIndex].commentNumber)"
             currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
 
             likeNumberLabel.text = ""
-            commentNumberLabel.text = ""
             currentCardIndex = 0
             isLastCardSwiped = true
         }

@@ -65,6 +65,21 @@ class PostDetailViewController: BaseDetailViewController {
         self.show(profileVC, sender: nil)
     }
 
+    @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let cardTopicVC = UIStoryboard
+                .card
+                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)
+        ) as? CardTopicViewController else {
+
+            return
+        }
+
+        cardTopicVC.cardID = post?.cardID
+
+        self.show(cardTopicVC, sender: nil)
+    }
+
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
 
@@ -77,7 +92,6 @@ class PostDetailViewController: BaseDetailViewController {
                 content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
-                cardID: nil,
                 postID: post?.postID
             )
 
@@ -114,6 +128,11 @@ class PostDetailViewController: BaseDetailViewController {
             fatalError("Cannot load header view.")
         }
 
+        let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
+
+        header.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
+        header.cardStackView.isUserInteractionEnabled = true
+
         isAuthor = postAuthor?.uid == visitorUid
         ? true : false
 
@@ -124,8 +143,6 @@ class PostDetailViewController: BaseDetailViewController {
               }
 
         header.layoutHeader(
-            isCard: false,
-            card: nil,
             post: post,
             postAuthor: postAuthor,
             isAuthor: self.isAuthor,
@@ -174,8 +191,8 @@ class PostDetailViewController: BaseDetailViewController {
         header.editHandler = {
 
             guard let writeVC = UIStoryboard.write.instantiateViewController(
-                withIdentifier: String(describing: WriteViewController.self)
-            ) as? WriteViewController else { return }
+                withIdentifier: String(describing: ExploreWriteViewController.self)
+            ) as? ExploreWriteViewController else { return }
 
             let nav = UINavigationController(rootViewController: writeVC)
 
@@ -185,20 +202,16 @@ class PostDetailViewController: BaseDetailViewController {
 
             writeVC.postID = self.post?.postID
 
-            writeVC.hashtagTitle = self.post?.hashtag ?? ""
-
             if let imageUrl = self.post?.imageUrl {
 
                 writeVC.imageUrl = imageUrl
 
-                writeVC.hasImage = true
+//                writeVC.hasImage = true
             }
 
-            writeVC.contentHandler = { content, hashtag, editTime in
+            writeVC.contentHandler = { content, editTime in
 
                 self.post?.content = content
-
-                self.post?.hashtag = hashtag
 
                 self.post?.editTime = editTime
 
@@ -224,18 +237,6 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(success)
 
-                        HashtagManager.shared.deletePostFromHashtag(
-                            hashtag: self.post?.hashtag ?? "",
-                            postID: postID) { result in
-
-                                switch result {
-
-                                case .success(let success): print(success)
-
-                                case .failure(let error): print(error)
-                                }
-                            }
-
                         UserManager.shared.updateUserPost(
                             uid: self.postAuthor?.uid ?? "",
                             postID: postID,
@@ -246,7 +247,21 @@ class PostDetailViewController: BaseDetailViewController {
                                 case .success(let success):
                                     print(success)
 
-                                    self.navigationController?.popViewController(animated: true)
+                                    CardManager.shared.removePostFromCard(postID: postID) { result in
+
+                                        switch result {
+
+                                        case .success(let success):
+
+                                            print(success)
+
+                                            self.navigationController?.popViewController(animated: true)
+
+                                        case .failure(let error):
+
+                                            print(error)
+                                        }
+                                    }
 
                                 case .failure(let error): print(error)
                                 }
@@ -256,19 +271,15 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(error)
 
-                        self.present(UIAlertController(
-                            title: "刪除失敗",
-                            message: nil,
-                            preferredStyle: .alert), animated: true, completion: nil
-                        )
+                        Toast.showFailure(text: "刪除失敗")
                     }
                 }
             }
 
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
 
-            alert.addAction(okAction)
             alert.addAction(cancelAction)
+            alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
         }
 

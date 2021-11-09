@@ -17,7 +17,7 @@ class ExploreViewController: UIViewController {
 
     var visitorFollowingList: [String] = []
 
-    let filters: [PostManager.FilterType] = [.latest, .popular, .following]
+    let filters: [PostManager.FilterType] = [.latest, .following]
     var currentFilter: PostManager.FilterType = .latest {
         didSet {
             if currentFilter == .following,
@@ -186,8 +186,8 @@ class ExploreViewController: UIViewController {
         guard let writeVC =
                 UIStoryboard.write
                 .instantiateViewController(
-                    withIdentifier: String(describing: WriteViewController.self)
-                ) as? WriteViewController else {
+                    withIdentifier: String(describing: ExploreWriteViewController.self)
+                ) as? ExploreWriteViewController else {
 
                     return
                 }
@@ -215,6 +215,23 @@ class ExploreViewController: UIViewController {
 
         self.show(profileVC, sender: nil)
     }
+
+    @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let cardTopicVC = UIStoryboard
+                .card
+                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)
+        ) as? CardTopicViewController else {
+
+            return
+        }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+
+        cardTopicVC.cardID = postList[currentRow].cardID
+
+        self.show(cardTopicVC, sender: nil)
+    }
 }
 
 extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate {
@@ -239,9 +256,6 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
             listener?.remove()
             currentFilter = .latest
         case 1:
-            listener?.remove()
-            currentFilter = .popular
-        case 2:
             listener?.remove()
             currentFilter = .following
         default:
@@ -332,6 +346,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
         let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
         let tapGoToProfileGesture3 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
+        let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
 
         cell.userImageView.addGestureRecognizer(tapGoToProfileGesture)
         cell.userImageView.isUserInteractionEnabled = true
@@ -339,10 +354,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         cell.userNameLabel.isUserInteractionEnabled = true
         cell.timeLabel.addGestureRecognizer(tapGoToProfileGesture3)
         cell.timeLabel.isUserInteractionEnabled = true
+        cell.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
+        cell.cardStackView.isUserInteractionEnabled = true
 
         cell.userImageView.tag = indexPath.row
         cell.userNameLabel.tag = indexPath.row
         cell.timeLabel.tag = indexPath.row
+        cell.cardStackView.tag = indexPath.row
 
         return cell
     }

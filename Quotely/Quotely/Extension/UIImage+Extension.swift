@@ -24,6 +24,8 @@ enum ImageAsset: String {
     case bg4
 
     case instagram
+
+    case back
 }
 
 enum SFSymbol: String {
@@ -48,6 +50,7 @@ enum SFSymbol: String {
     case color = "paintpalette"
     case collapse = "arrow.up.circle"
 
+    case writeCardPost = "square.and.pencil"
     case reset = "arrow.clockwise"
     case shareNormal = "square.and.arrow.up"
     case cameraNormal = "camera"

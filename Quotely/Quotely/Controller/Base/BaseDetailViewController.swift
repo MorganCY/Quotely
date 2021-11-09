@@ -10,11 +10,7 @@ import UIKit
 
 class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
-    enum DetailPageType {
-
-        case card
-        case post
-    }
+    enum DetailPageType { case post }
 
     let visitorUid = SignInManager.shared.uid ?? ""
 
@@ -27,7 +23,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableView: UITableView!
 
     // MARK: DetailDataProperty
-    var card: Card?
     var post: Post?
     var postAuthor: User?
     var visitor: User? {
@@ -138,26 +133,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func fetchComments(type: DetailPageType) {
 
         switch type {
-
-        case .card:
-
-            guard let cardID = card?.cardID else { return }
-
-            CardCommentManager.shared.fetchComment(cardID: cardID) { result in
-
-                switch result {
-
-                case .success(let comments):
-
-                    self.comments = comments
-
-                    self.fetchCommentUserInfo(commentList: comments)
-
-                case .failure(let error):
-
-                    print("fetchData.failure: \(error)")
-                }
-            }
 
         case .post:
 

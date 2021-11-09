@@ -19,6 +19,16 @@ class FavoriteCardViewController: UIViewController {
         }
     }
 
+    var isFromWriteVC = false {
+        didSet {
+            navigationTitle = isFromWriteVC ? "點選引用卡片" : "收藏清單"
+        }
+    }
+
+    var navigationTitle = "收藏清單"
+
+    var passedContentText = ""
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -37,16 +47,16 @@ class FavoriteCardViewController: UIViewController {
 
         fetchUserInfo()
 
-        self.view.backgroundColor = .M1
+        view.backgroundColor = .M3
 
         navigationController?.setupBackButton(color: .white)
-
-        navigationItem.title = "收藏清單"
     }
 
     override func viewWillAppear(_ animated: Bool) {
 
         tabBarController?.tabBar.isHidden = true
+
+        navigationItem.title = navigationTitle
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,7 +83,7 @@ class FavoriteCardViewController: UIViewController {
     }
 
     func fetchFavoriteCard(cardID: String) {
-        CardManager.shared.fetchFavoriteCard(cardID: cardID) { result in
+        CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
 
             switch result {
 
@@ -127,23 +137,44 @@ class FavoriteCardViewController: UIViewController {
             }
     }
 
-    func goToDetailPage(index: Int) {
+    func goToCardWritePage(index: Int) {
 
-        guard let detailVC =
-                UIStoryboard.swipe
+        guard let writeVC =
+                UIStoryboard.write
                 .instantiateViewController(
-                    withIdentifier: String(describing: CardDetailViewController.self)
-                ) as? CardDetailViewController else {
+                    withIdentifier: String(describing: CardWriteViewController.self)
+                ) as? CardWriteViewController else {
+
+                    return
+                }
+
+        let card = likeCardList[index]
+        let navVC = BaseNavigationController(rootViewController: writeVC)
+
+        writeVC.card = card
+        writeVC.contentFromFavCard = passedContentText
+
+        navVC.modalPresentationStyle = .fullScreen
+
+        present(navVC, animated: true)
+    }
+
+    func goToCardTopicPage(index: Int) {
+
+        guard let cardTopicVC =
+                UIStoryboard.card
+                .instantiateViewController(
+                    withIdentifier: String(describing: CardTopicViewController.self)
+                ) as? CardTopicViewController else {
 
                     return
                 }
 
         let card = likeCardList[index]
 
-        detailVC.card = card
-        detailVC.isLike = card.likeUser.contains(SignInManager.shared.uid ?? "")
+        cardTopicVC.card = card
 
-        navigationController?.pushViewController(detailVC, animated: true)
+        navigationController?.pushViewController(cardTopicVC, animated: true)
     }
 
     func goToSharePage(content: String, author: String) {
@@ -188,7 +219,6 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         }
 
         cell.layoutCell(
-            imageUrl: likeCardList[indexPath.row].imageUrl ?? "",
             content: likeCardList[indexPath.row].content.replacingOccurrences(of: "\\n", with: "\n"),
             author: likeCardList[indexPath.row].author
         )
@@ -198,11 +228,18 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
-        let animator = Animator(animation: animation)
-            animator.animate(cell: cell, at: indexPath, in: tableView)
+        switch isFromWriteVC {
+
+        case true:
+
+            goToCardWritePage(index: indexPath.row)
+
+        case false:
+
+            goToCardTopicPage(index: indexPath.row)
+        }
     }
 
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -210,7 +247,7 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         let comment = UIAction(title: "查看討論",
                                image: UIImage.sfsymbol(.comment)) { _ in
 
-            self.goToDetailPage(index: indexPath.row)
+            self.goToCardTopicPage(index: indexPath.row)
         }
 
         let share = UIAction(title: "分享至社群",
@@ -234,5 +271,12 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
             UIMenu(title: "", children: [comment, share, delete])
 
         }
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
+        let animator = Animator(animation: animation)
+            animator.animate(cell: cell, at: indexPath, in: tableView)
     }
 }

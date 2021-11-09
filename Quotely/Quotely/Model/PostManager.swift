@@ -19,7 +19,6 @@ class PostManager {
     enum FilterType: String {
 
         case latest = "最新"
-        case popular = "熱門"
         case following = "追蹤"
         case user
     }
@@ -48,7 +47,7 @@ class PostManager {
 
                 } else {
 
-                    completion(.success("Success"))
+                    completion(.success(document.documentID))
                 }
             })
 
@@ -63,7 +62,6 @@ class PostManager {
         editTime: Int64,
         content: String,
         imageUrl: String?,
-        hashtag: String?,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
@@ -80,8 +78,7 @@ class PostManager {
                 targetPost?.reference.updateData([
                     "editTime": editTime,
                     "content": content,
-                    "imageUrl": imageUrl as Any,
-                    "hashtag": hashtag as Any
+                    "imageUrl": imageUrl as Any
                 ])
 
                 completion(.success("Updated post content"))
@@ -92,6 +89,7 @@ class PostManager {
     func fetchPost(
         type: FilterType,
         uid: String?,
+        cardID: String? = nil,
         completion: @escaping (Result<[Post], Error>) -> Void
     ) {
 
@@ -103,68 +101,33 @@ class PostManager {
                 .order(by: "createdTime", descending: true)
                 .getDocuments { (querySnapshot, error) in
 
-                if let error = error {
+                    if let error = error {
 
-                    completion(.failure(error))
+                        completion(.failure(error))
 
-                } else {
+                    } else {
 
-                    var posts = [Post]()
+                        var posts = [Post]()
 
-                    for document in querySnapshot!.documents {
+                        for document in querySnapshot!.documents {
 
-                        do {
-                            if let post = try document.data(
-                                as: Post.self, decoder: Firestore.Decoder()
-                            ) {
+                            do {
+                                if let post = try document.data(
+                                    as: Post.self, decoder: Firestore.Decoder()
+                                ) {
 
-                                posts.append(post)
+                                    posts.append(post)
+                                }
+
+                            } catch {
+
+                                completion(.failure(error))
                             }
-
-                        } catch {
-
-                            completion(.failure(error))
                         }
+
+                        completion(.success(posts))
                     }
-
-                    completion(.success(posts))
                 }
-            }
-
-        case .popular:
-
-            posts
-                .order(by: "likeNumber", descending: true)
-                .order(by: "createdTime", descending: true)
-                .getDocuments { (querySnapshot, error) in
-
-                if let error = error {
-
-                    completion(.failure(error))
-
-                } else {
-
-                    var posts = [Post]()
-
-                    for document in querySnapshot!.documents {
-
-                        do {
-                            if let post = try document.data(
-                                as: Post.self, decoder: Firestore.Decoder()
-                            ) {
-
-                                posts.append(post)
-                            }
-
-                        } catch {
-
-                            completion(.failure(error))
-                        }
-                    }
-
-                    completion(.success(posts))
-                }
-            }
 
         case .following: break
 
@@ -177,6 +140,43 @@ class PostManager {
                 .order(by: "createdTime", descending: true)
                 .getDocuments { (querySnapshot, error) in
 
+                    if let error = error {
+
+                        completion(.failure(error))
+
+                    } else {
+
+                        var posts = [Post]()
+
+                        for document in querySnapshot!.documents {
+
+                            do {
+                                if let post = try document.data(
+                                    as: Post.self, decoder: Firestore.Decoder()
+                                ) {
+
+                                    posts.append(post)
+                                }
+
+                            } catch {
+
+                                completion(.failure(error))
+                            }
+                        }
+
+                        completion(.success(posts))
+                    }
+                }
+        }
+    }
+
+    func fetchCardPost(cardID: String, completion: @escaping (Result<[Post], Error>) -> Void) {
+
+        posts
+            .whereField("cardID", isEqualTo: cardID)
+            .order(by: "createdTime", descending: true)
+            .getDocuments { (querySnapshot, error) in
+
                 if let error = error {
 
                     completion(.failure(error))
@@ -204,7 +204,6 @@ class PostManager {
                     completion(.success(posts))
                 }
             }
-        }
     }
 
     func updateLikes(postID: String, likeAction: LikeAction, completion: @escaping (Result<String, Error>) -> Void) {
@@ -279,68 +278,33 @@ class PostManager {
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
 
-                if let error = error {
+                    if let error = error {
 
-                    completion(.failure(error))
+                        completion(.failure(error))
 
-                } else {
+                    } else {
 
-                    var posts = [Post]()
+                        var posts = [Post]()
 
-                    for document in documentSnapshot!.documents {
+                        for document in documentSnapshot!.documents {
 
-                        do {
+                            do {
 
-                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+                                if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
 
-                            ) {
+                                ) {
 
-                                posts.append(post)
+                                    posts.append(post)
+                                }
+
+                            } catch {
+
+                                completion(.failure(error))
                             }
-
-                        } catch {
-
-                            completion(.failure(error))
                         }
+                        completion(.success(posts))
                     }
-                    completion(.success(posts))
                 }
-            }
-
-        case .popular:
-
-            return posts
-                .order(by: "likeNumber", descending: true)
-                .order(by: "createdTime", descending: true)
-                .addSnapshotListener { (documentSnapshot, error) in
-
-                if let error = error {
-
-                    completion(.failure(error))
-
-                } else {
-
-                    var posts = [Post]()
-
-                    for document in documentSnapshot!.documents {
-
-                        do {
-
-                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
-
-                            ) {
-
-                                posts.append(post)
-                            }
-
-                        } catch {
-
-                            completion(.failure(error))
-                        }
-                    }
-                    completion(.success(posts))
-                }
-            }
 
         case.following:
 
@@ -349,68 +313,68 @@ class PostManager {
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
 
-                if let error = error {
+                    if let error = error {
 
-                    completion(.failure(error))
+                        completion(.failure(error))
 
-                } else {
+                    } else {
 
-                    var posts = [Post]()
+                        var posts = [Post]()
 
-                    for document in documentSnapshot!.documents {
+                        for document in documentSnapshot!.documents {
 
-                        do {
+                            do {
 
-                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+                                if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
 
-                            ) {
+                                ) {
 
-                                posts.append(post)
+                                    posts.append(post)
+                                }
+
+                            } catch {
+
+                                completion(.failure(error))
                             }
-
-                        } catch {
-
-                            completion(.failure(error))
                         }
+                        completion(.success(posts))
                     }
-                    completion(.success(posts))
                 }
-            }
 
         case .user:
 
             return posts
-                .whereField("uid", isEqualTo: uid)
+                .whereField("uid", isEqualTo: uid ?? "")
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
 
-                if let error = error {
+                    if let error = error {
 
-                    completion(.failure(error))
+                        completion(.failure(error))
 
-                } else {
+                    } else {
 
-                    var posts = [Post]()
+                        var posts = [Post]()
 
-                    for document in documentSnapshot!.documents {
+                        for document in documentSnapshot!.documents {
 
-                        do {
+                            do {
 
-                            if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+                                if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
 
-                            ) {
+                                ) {
 
-                                posts.append(post)
+                                    posts.append(post)
+                                }
+
+                            } catch {
+
+                                completion(.failure(error))
                             }
-
-                        } catch {
-
-                            completion(.failure(error))
                         }
+                        completion(.success(posts))
                     }
-                    completion(.success(posts))
                 }
-            }
         }
     }
 }

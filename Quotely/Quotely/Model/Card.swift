@@ -13,7 +13,7 @@ struct Card: Codable {
     var content: String
     var author: String
     var likeNumber: Int
-    var commentNumber: Int
     var likeUser: [String]
     var dislikeUser: [String]
+    var postList: [String]?
 }
