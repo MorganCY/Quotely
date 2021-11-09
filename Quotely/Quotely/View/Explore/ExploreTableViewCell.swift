@@ -30,11 +30,9 @@ class ExploreTableViewCell: UITableViewCell {
         super.awakeFromNib()
 
         userImageView.clipsToBounds = true
-
+        userImageView.cornerRadius = userImageView.frame.width / 2
         postImageView.cornerRadius = CornerRadius.standard.rawValue
-
         cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
-
         cardImageView.clipsToBounds = true
     }
 
@@ -52,7 +50,6 @@ class ExploreTableViewCell: UITableViewCell {
         let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
 
         userImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
-        userImageView.cornerRadius = userImageView.frame.width / 2
 
         userNameLabel.text = userInfo.name
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))

@@ -24,6 +24,8 @@ enum ImageAsset: String {
     case bg4
 
     case instagram
+
+    case back
 }
 
 enum SFSymbol: String {

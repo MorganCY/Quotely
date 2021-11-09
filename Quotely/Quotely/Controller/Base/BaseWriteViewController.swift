@@ -206,7 +206,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             case .success(let postID):
 
-                                print(postID)
+                                self.onPublishPostID = postID
 
                                 UserManager.shared.updateUserPost(
                                     uid: uid,

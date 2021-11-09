@@ -55,7 +55,7 @@ class CardManager {
         }
     }
 
-    func fetchFavoriteCard(cardID: String, completion: @escaping (Result<Card, Error>) -> Void) {
+    func fetchSpecificCard(cardID: String, completion: @escaping (Result<Card, Error>) -> Void) {
 
         let reference = cards.document(cardID)
 

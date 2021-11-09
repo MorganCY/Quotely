@@ -83,7 +83,7 @@ class FavoriteCardViewController: UIViewController {
     }
 
     func fetchFavoriteCard(cardID: String) {
-        CardManager.shared.fetchFavoriteCard(cardID: cardID) { result in
+        CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
 
             switch result {
 
@@ -161,21 +161,20 @@ class FavoriteCardViewController: UIViewController {
 
     func goToTopicPage(index: Int) {
 
-//        guard let detailVC =
-//                UIStoryboard.card
-//                .instantiateViewController(
-//                    withIdentifier: String(describing: CardDetailViewController.self)
-//                ) as? CardDetailViewController else {
-//
-//                    return
-//                }
-//
-//        let card = likeCardList[index]
-//
-//        detailVC.card = card
-//        detailVC.isLike = card.likeUser.contains(SignInManager.shared.uid ?? "")
-//
-//        navigationController?.pushViewController(detailVC, animated: true)
+        guard let cardTopicVC =
+                UIStoryboard.card
+                .instantiateViewController(
+                    withIdentifier: String(describing: CardTopicViewController.self)
+                ) as? CardTopicViewController else {
+
+                    return
+                }
+
+        let card = likeCardList[index]
+
+        cardTopicVC.card = card
+
+        navigationController?.pushViewController(cardTopicVC, animated: true)
     }
 
     func goToSharePage(content: String, author: String) {

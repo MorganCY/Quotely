@@ -21,4 +21,6 @@ struct Post: Codable, Equatable {
     var cardID: String?
     var cardContent: String?
     var cardAuthor: String?
+
+    static let `default` = Post(uid: "404", createdTime: 0, content: "找不到內容", likeNumber: 404)
 }
