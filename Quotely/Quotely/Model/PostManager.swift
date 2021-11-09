@@ -19,7 +19,6 @@ class PostManager {
     enum FilterType: String {
 
         case latest = "最新"
-        case popular = "熱門"
         case following = "追蹤"
         case user
     }
@@ -99,41 +98,6 @@ class PostManager {
         case .latest:
 
             posts
-                .order(by: "createdTime", descending: true)
-                .getDocuments { (querySnapshot, error) in
-
-                    if let error = error {
-
-                        completion(.failure(error))
-
-                    } else {
-
-                        var posts = [Post]()
-
-                        for document in querySnapshot!.documents {
-
-                            do {
-                                if let post = try document.data(
-                                    as: Post.self, decoder: Firestore.Decoder()
-                                ) {
-
-                                    posts.append(post)
-                                }
-
-                            } catch {
-
-                                completion(.failure(error))
-                            }
-                        }
-
-                        completion(.success(posts))
-                    }
-                }
-
-        case .popular:
-
-            posts
-                .order(by: "likeNumber", descending: true)
                 .order(by: "createdTime", descending: true)
                 .getDocuments { (querySnapshot, error) in
 
@@ -311,41 +275,6 @@ class PostManager {
         case .latest:
 
             return posts
-                .order(by: "createdTime", descending: true)
-                .addSnapshotListener { (documentSnapshot, error) in
-
-                    if let error = error {
-
-                        completion(.failure(error))
-
-                    } else {
-
-                        var posts = [Post]()
-
-                        for document in documentSnapshot!.documents {
-
-                            do {
-
-                                if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
-
-                                ) {
-
-                                    posts.append(post)
-                                }
-
-                            } catch {
-
-                                completion(.failure(error))
-                            }
-                        }
-                        completion(.success(posts))
-                    }
-                }
-
-        case .popular:
-
-            return posts
-                .order(by: "likeNumber", descending: true)
                 .order(by: "createdTime", descending: true)
                 .addSnapshotListener { (documentSnapshot, error) in
 

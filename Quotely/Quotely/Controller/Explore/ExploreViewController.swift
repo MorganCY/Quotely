@@ -17,7 +17,7 @@ class ExploreViewController: UIViewController {
 
     var visitorFollowingList: [String] = []
 
-    let filters: [PostManager.FilterType] = [.latest, .popular, .following]
+    let filters: [PostManager.FilterType] = [.latest, .following]
     var currentFilter: PostManager.FilterType = .latest {
         didSet {
             if currentFilter == .following,
@@ -194,8 +194,6 @@ class ExploreViewController: UIViewController {
 
         let nav = BaseNavigationController(rootViewController: writeVC)
 
-//        writeVC.isCard = false
-
         nav.modalPresentationStyle = .fullScreen
 
         present(nav, animated: true)
@@ -241,9 +239,6 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
             listener?.remove()
             currentFilter = .latest
         case 1:
-            listener?.remove()
-            currentFilter = .popular
-        case 2:
             listener?.remove()
             currentFilter = .following
         default:
