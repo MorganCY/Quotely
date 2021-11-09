@@ -27,8 +27,10 @@ class CardTopicView: UIView {
 
     weak var dataSource: CardTopicViewDataSource? {
         didSet {
-            setupViews()
-            configureImageButtons()
+            DispatchQueue.main.async {
+                self.setupViews()
+                self.configureImageButtons()
+            }
         }
     }
 
@@ -48,7 +50,14 @@ class CardTopicView: UIView {
         super.init(frame: .zero)
         contentLabel.text = content
         authorLabel.text = author
-        if hasButton == false { imageButtons.forEach{ $0.isHidden = true } }
+        if hasButton == false {
+            imageButtons.forEach { $0.isHidden = true }
+        }
+    }
+
+    init() {
+        super.init(frame: .zero)
+        setupViews()
     }
 
     required init?(coder: NSCoder) {

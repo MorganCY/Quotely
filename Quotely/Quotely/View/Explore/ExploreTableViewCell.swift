@@ -16,6 +16,11 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var cardStackView: UIStackView!
+    @IBOutlet weak var cardTopicView: UIView!
+    @IBOutlet weak var cardContentLabel: UILabel!
+    @IBOutlet weak var cardAuthorLabel: UILabel!
+    @IBOutlet weak var cardImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var likeNumberLabel: UILabel!
@@ -27,6 +32,10 @@ class ExploreTableViewCell: UITableViewCell {
         userImageView.clipsToBounds = true
 
         postImageView.cornerRadius = CornerRadius.standard.rawValue
+
+        cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
+
+        cardImageView.clipsToBounds = true
     }
 
     var likeHandler: () -> Void = {}
@@ -63,6 +72,21 @@ class ExploreTableViewCell: UITableViewCell {
         } else {
 
             postImageView.isHidden = true
+        }
+
+        if let cardContent = post.cardContent,
+           let cardAuthor = post.cardAuthor {
+
+            cardStackView.isHidden = false
+            postImageView.isHidden = true
+
+            cardContentLabel.text = cardContent
+            cardAuthorLabel.text = cardAuthor
+            cardImageView.loadImage(post.imageUrl ?? "", placeHolder: nil)
+
+        } else {
+
+            cardStackView.isHidden = true
         }
 
         guard let editTime = post.editTime else { return }

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,7 +42,7 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ir4-NF-jdk">
-                    <rect key="frame" x="67" y="85.5" width="323" height="534.5"/>
+                    <rect key="frame" x="67" y="85.5" width="323" height="542.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecz-KL-Z7I">
                             <rect key="frame" x="0.0" y="0.0" width="323" height="22.5"/>
@@ -50,26 +51,65 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kvo-5i-dXf">
-                            <rect key="frame" x="0.0" y="63" width="253" height="253"/>
+                            <rect key="frame" x="0.0" y="66" width="253" height="253"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="kvo-5i-dXf" secondAttribute="height" multiplier="1:1" id="Gue-DQ-X9w"/>
                             </constraints>
                         </imageView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zTH-9E-fB5">
-                            <rect key="frame" x="0.0" y="356" width="323" height="178.5"/>
+                            <rect key="frame" x="0.0" y="362" width="323" height="180.5"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m68-Jk-6Lo">
-                                    <rect key="frame" x="0.0" y="0.0" width="323" height="20.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="引用卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m68-Jk-6Lo">
+                                    <rect key="frame" x="0.0" y="0.0" width="323" height="22.5"/>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
+                                    <color key="textColor" name="M1"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdk-La-1FT">
-                                    <rect key="frame" x="0.0" y="28.5" width="323" height="150"/>
+                                    <rect key="frame" x="0.0" y="30.5" width="323" height="150"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShA-Vy-LMc">
+                                            <rect key="frame" x="16" y="24" width="162" height="64"/>
+                                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vqj-DF-yE4">
+                                            <rect key="frame" x="194" y="0.0" width="129" height="150"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ntg-ln-ttj">
+                                            <rect key="frame" x="16" y="104" width="30.5" height="30"/>
+                                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="vqj-DF-yE4" secondAttribute="bottom" id="42s-di-U0Z"/>
+                                        <constraint firstItem="ShA-Vy-LMc" firstAttribute="top" secondItem="vdk-La-1FT" secondAttribute="top" constant="24" id="6sn-Ve-XsJ"/>
+                                        <constraint firstItem="vqj-DF-yE4" firstAttribute="leading" secondItem="ShA-Vy-LMc" secondAttribute="trailing" constant="16" id="7NK-FR-PDT"/>
+                                        <constraint firstItem="Ntg-ln-ttj" firstAttribute="top" secondItem="ShA-Vy-LMc" secondAttribute="bottom" constant="16" id="JEO-d8-PsR"/>
+                                        <constraint firstItem="vqj-DF-yE4" firstAttribute="top" secondItem="vdk-La-1FT" secondAttribute="top" id="Le3-1V-wmV"/>
+                                        <constraint firstItem="Ntg-ln-ttj" firstAttribute="leading" secondItem="ShA-Vy-LMc" secondAttribute="leading" id="PQB-Dm-W52"/>
+                                        <constraint firstItem="Ntg-ln-ttj" firstAttribute="height" secondItem="vdk-La-1FT" secondAttribute="height" multiplier="0.2" id="XuU-yn-zxW"/>
+                                        <constraint firstItem="ShA-Vy-LMc" firstAttribute="leading" secondItem="vdk-La-1FT" secondAttribute="leading" constant="16" id="dol-3J-lfU"/>
+                                        <constraint firstItem="vqj-DF-yE4" firstAttribute="width" secondItem="vdk-La-1FT" secondAttribute="width" multiplier="0.4" id="j5L-my-0TN"/>
+                                        <constraint firstAttribute="bottom" secondItem="Ntg-ln-ttj" secondAttribute="bottom" constant="16" id="tg7-II-ZzA"/>
+                                        <constraint firstAttribute="trailing" secondItem="vqj-DF-yE4" secondAttribute="trailing" id="vCi-rn-Uim"/>
                                         <constraint firstAttribute="height" constant="150" id="wVn-ap-I0O"/>
                                     </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                            <real key="value" value="0.5"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="15"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </view>
                             </subviews>
                         </stackView>
@@ -134,7 +174,7 @@
                 <constraint firstItem="ir4-NF-jdk" firstAttribute="leading" secondItem="5ar-y4-gqo" secondAttribute="leading" id="TyO-aI-M1S"/>
                 <constraint firstItem="5ar-y4-gqo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="ZPC-cD-AwW"/>
                 <constraint firstAttribute="bottom" secondItem="0fG-j4-NTp" secondAttribute="bottom" id="agM-qk-pmd"/>
-                <constraint firstItem="l2i-0Z-bvY" firstAttribute="top" secondItem="ir4-NF-jdk" secondAttribute="bottom" constant="24" id="gqm-NN-Bci"/>
+                <constraint firstItem="l2i-0Z-bvY" firstAttribute="top" secondItem="ir4-NF-jdk" secondAttribute="bottom" constant="16" id="gqm-NN-Bci"/>
                 <constraint firstItem="uJW-fK-M5k" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.06" id="hOn-BM-QEN"/>
                 <constraint firstAttribute="trailing" secondItem="0fG-j4-NTp" secondAttribute="trailing" id="mhl-Lg-Ork"/>
                 <constraint firstItem="ir4-NF-jdk" firstAttribute="top" secondItem="5ar-y4-gqo" secondAttribute="bottom" constant="24" id="nOr-SN-LSM"/>
@@ -145,6 +185,11 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="cardAuthorLabel" destination="Ntg-ln-ttj" id="7Vl-FK-OGU"/>
+                <outlet property="cardContentLabel" destination="ShA-Vy-LMc" id="dAF-02-Jle"/>
+                <outlet property="cardImageView" destination="vqj-DF-yE4" id="deU-M2-Srm"/>
+                <outlet property="cardStackView" destination="zTH-9E-fB5" id="fpv-Nu-MzV"/>
+                <outlet property="cardTopicView" destination="vdk-La-1FT" id="Wx6-zg-70i"/>
                 <outlet property="commentButton" destination="uJW-fK-M5k" id="fpZ-gh-SvN"/>
                 <outlet property="commentNumberLabel" destination="0fx-f2-uA2" id="cI5-MB-1Pa"/>
                 <outlet property="contentLabel" destination="ecz-KL-Z7I" id="xfx-le-qYi"/>
@@ -162,6 +207,9 @@
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <namedColor name="M1">
+            <color red="0.58431372549019611" green="0.57647058823529407" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
