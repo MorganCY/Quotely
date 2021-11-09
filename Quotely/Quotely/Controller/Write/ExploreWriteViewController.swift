@@ -19,6 +19,7 @@ class ExploreWriteViewController: BaseWriteViewController {
         didSet {
             DispatchQueue.main.async {
                 self.deleteImageButton.isHidden = !self.hasPostImage
+                self.quoteButton.isHidden = self.hasPostImage
             }
         }
     }
@@ -30,6 +31,13 @@ class ExploreWriteViewController: BaseWriteViewController {
             }
         }
     }
+
+    private let quoteButton = RowButton(
+        image: UIImage.sfsymbol(.quoteNormal)!,
+        imageColor: .M3!,
+        labelColor: .white,
+        text: "引用我收藏的卡片"
+    )
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -43,12 +51,29 @@ class ExploreWriteViewController: BaseWriteViewController {
 
         layoutPostImage()
 
-        setupPostImageViews()
+        setupQuoteButton()
     }
 
     @objc func deleteImage(_ sender: UIButton) {
         postImageView.image = nil
         hasPostImage = false
+    }
+
+    @objc func goToFavoriteCardPage(_ sender: RowButton) {
+
+        guard let favCardVC =
+                UIStoryboard.card
+                .instantiateViewController(
+                    withIdentifier: String(describing: FavoriteCardViewController.self)
+                ) as? FavoriteCardViewController else {
+
+                    return
+                }
+
+        favCardVC.isFromWriteVC = true
+        favCardVC.passedContentText = contentTextView.text
+
+        show(favCardVC, sender: nil)
     }
 }
 
@@ -66,6 +91,13 @@ extension ExploreWriteViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
+        postImageView.contentMode = .scaleAspectFill
+        postImageView.clipsToBounds = true
+        postImageView.layer.cornerRadius = 10
+
+        deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
+        deleteImageButton.backgroundColor = .clear
+
         NSLayoutConstraint.activate([
 
             postImageView.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 24),
@@ -80,13 +112,20 @@ extension ExploreWriteViewController {
         ])
     }
 
-    func setupPostImageViews() {
+    func setupQuoteButton() {
 
-        postImageView.contentMode = .scaleAspectFill
-        postImageView.clipsToBounds = true
-        postImageView.layer.cornerRadius = 10
+        view.addSubview(quoteButton)
+        quoteButton.translatesAutoresizingMaskIntoConstraints = false
 
-        deleteImageButton.addTarget(self, action: #selector(deleteImage(_:)), for: .touchUpInside)
-        deleteImageButton.backgroundColor = .clear
+        quoteButton.cornerRadius = CornerRadius.standard.rawValue
+        quoteButton.backgroundColor = .M3!
+        quoteButton.addTarget(self, action: #selector(goToFavoriteCardPage(_:)), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            quoteButton.leadingAnchor.constraint(equalTo: contentTextView.leadingAnchor),
+            quoteButton.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor),
+            quoteButton.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 16),
+            quoteButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1)
+        ])
     }
 }

@@ -59,12 +59,23 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zTH-9E-fB5">
                             <rect key="frame" x="0.0" y="362" width="323" height="180.5"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="引用卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m68-Jk-6Lo">
+                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6Zg-QR-xdW">
                                     <rect key="frame" x="0.0" y="0.0" width="323" height="22.5"/>
-                                    <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
-                                    <color key="textColor" name="M1"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="引用卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m68-Jk-6Lo">
+                                            <rect key="frame" x="0.0" y="0.0" width="165.5" height="22.5"/>
+                                            <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
+                                            <color key="textColor" name="M1"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看卡片討論 &gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpR-fh-QXW">
+                                            <rect key="frame" x="173.5" y="0.0" width="149.5" height="20"/>
+                                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdk-La-1FT">
                                     <rect key="frame" x="0.0" y="30.5" width="323" height="150"/>
                                     <subviews>
@@ -112,11 +123,13 @@
                                     </userDefinedRuntimeAttributes>
                                 </view>
                             </subviews>
+                            <constraints>
+                                <constraint firstItem="cpR-fh-QXW" firstAttribute="trailing" secondItem="vqj-DF-yE4" secondAttribute="trailing" id="x07-Sv-QbU"/>
+                            </constraints>
                         </stackView>
                     </subviews>
                     <constraints>
                         <constraint firstItem="vdk-La-1FT" firstAttribute="trailing" secondItem="ecz-KL-Z7I" secondAttribute="trailing" id="QpT-gC-cvm"/>
-                        <constraint firstItem="m68-Jk-6Lo" firstAttribute="trailing" secondItem="ecz-KL-Z7I" secondAttribute="trailing" id="s8G-bl-dR2"/>
                     </constraints>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="l2i-0Z-bvY">
@@ -163,6 +176,7 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="zTH-9E-fB5" firstAttribute="leading" secondItem="5ar-y4-gqo" secondAttribute="leading" id="0sy-rF-KGB"/>
+                <constraint firstItem="m68-Jk-6Lo" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" id="0ve-fg-84z"/>
                 <constraint firstItem="0fG-j4-NTp" firstAttribute="leading" secondItem="5ar-y4-gqo" secondAttribute="leading" id="16U-jw-ZXD"/>
                 <constraint firstItem="V06-TB-5VX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="3Vw-MF-Kkd"/>
                 <constraint firstItem="l2i-0Z-bvY" firstAttribute="leading" secondItem="5ar-y4-gqo" secondAttribute="leading" id="40m-KW-PNF"/>

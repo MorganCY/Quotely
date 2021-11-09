@@ -403,9 +403,11 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         Toast.showLoading(text: "上傳中")
 
+        self.hasPostImage = true
+
         switch isRecognizedTextButtonTapped {
 
-            // user is using text recognition
+        // user is using text recognition
 
         case true:
 
@@ -420,7 +422,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             Toast.shared.hud.dismiss()
 
-            // user is uploading image
+        // user is uploading image
 
         case false:
 
@@ -428,8 +430,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                 return
             }
-
-            self.hasPostImage = true
 
             self.uploadedImage = selectedImage
 
@@ -443,6 +443,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
     override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
         picker.dismiss(animated: true)
+
+        self.hasPostImage = true
 
         guard !results.isEmpty else { return }
 
@@ -489,8 +491,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             return
                         }
-
-                        self.hasPostImage = true
 
                         self.uploadedImage = selectedImage
 
@@ -539,7 +539,7 @@ extension BaseWriteViewController {
 
     @objc func dismissSelf(_ sender: UIBarButtonItem) {
 
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true)
     }
 
     func layoutViews() {
@@ -569,13 +569,13 @@ extension BaseWriteViewController {
             optionPanel.widthAnchor.constraint(equalTo: view.widthAnchor),
 
             recognizeTextButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
-            recognizeTextButton.topAnchor.constraint(equalTo: optionPanel.topAnchor, constant: 8),
+            recognizeTextButton.topAnchor.constraint(equalTo: optionPanel.topAnchor, constant: 16),
             recognizeTextButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
-            recognizeTextButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.25),
+            recognizeTextButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.3),
             uploadImageButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
             uploadImageButton.topAnchor.constraint(equalTo: recognizeTextButton.bottomAnchor, constant: 6),
             uploadImageButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
-            uploadImageButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.25)
+            uploadImageButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.3)
         ])
     }
 

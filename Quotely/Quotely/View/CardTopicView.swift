@@ -116,7 +116,8 @@ class CardTopicView: UIView {
 
             authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 12),
             authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-            authorLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -16)
+            authorLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -16),
+            authorLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.1)
         ])
     }
 

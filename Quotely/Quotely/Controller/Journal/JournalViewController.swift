@@ -119,7 +119,7 @@ class JournalViewController: UIViewController {
     @objc func goToFavoriteCardList(_ sender: UIButton) {
 
         guard let favCardVC =
-                UIStoryboard.swipe
+                UIStoryboard.card
                 .instantiateViewController(
                     withIdentifier: String(describing: FavoriteCardViewController.self)
                 ) as? FavoriteCardViewController else {

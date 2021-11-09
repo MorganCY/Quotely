@@ -10,6 +10,12 @@ import UIKit
 
 class CardWriteViewController: BaseWriteViewController {
 
+    var contentFromFavCard = "" {
+        didSet {
+            contentTextView.text = contentFromFavCard
+        }
+    }
+
     private let cardTopicTitleLabel = UILabel()
     private var cardTopicView = CardTopicView(content: "", author: "")
 
@@ -48,7 +54,14 @@ class CardWriteViewController: BaseWriteViewController {
 
                     Toast.shared.hud.dismiss()
 
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismiss(animated: true) {
+
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+
+                        let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
+
+                        tabBar?.selectedIndex = 2
+                    }
 
                 case .failure(let error):
                     print(error)
@@ -71,7 +84,7 @@ class CardWriteViewController: BaseWriteViewController {
 
 extension CardWriteViewController: CardTopicViewDataSource {
 
-    func getCardImage(_ view: CardTopicView) -> UIImage { uploadedImage ?? UIImage.asset(.bg4)! }
+    func getCardImage(_ view: CardTopicView) -> UIImage { uploadedImage }
 }
 
 extension CardWriteViewController {

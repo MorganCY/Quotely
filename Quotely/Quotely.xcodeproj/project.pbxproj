@@ -32,7 +32,7 @@
 		5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */; };
 		5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */; };
 		5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */; };
-		5C2C731F271D3D4B00F8B9EC /* Swipe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C731E271D3D4B00F8B9EC /* Swipe.storyboard */; };
+		5C2C731F271D3D4B00F8B9EC /* Card.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C731E271D3D4B00F8B9EC /* Card.storyboard */; };
 		5C2C7321271D3D5500F8B9EC /* Explore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7320271D3D5500F8B9EC /* Explore.storyboard */; };
 		5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7322271D3D5C00F8B9EC /* Write.storyboard */; };
 		5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7324271D3D6400F8B9EC /* Journal.storyboard */; };
@@ -131,7 +131,7 @@
 		5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		5C2C731E271D3D4B00F8B9EC /* Swipe.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Swipe.storyboard; sourceTree = "<group>"; };
+		5C2C731E271D3D4B00F8B9EC /* Card.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Card.storyboard; sourceTree = "<group>"; };
 		5C2C7320271D3D5500F8B9EC /* Explore.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Explore.storyboard; sourceTree = "<group>"; };
 		5C2C7322271D3D5C00F8B9EC /* Write.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Write.storyboard; sourceTree = "<group>"; };
 		5C2C7324271D3D6400F8B9EC /* Journal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Journal.storyboard; sourceTree = "<group>"; };
@@ -306,7 +306,7 @@
 				5C4B9684271FA70C008B21C7 /* Base */,
 				5C54F4D62732337500E62DBF /* Auth */,
 				5C2846E72728E92500393562 /* Journal */,
-				5C8C0E9F2725A4A20054480A /* Swipe */,
+				5C8C0E9F2725A4A20054480A /* Card */,
 				5CA65BF4271D4E5F00B877FB /* Write */,
 				5C4B9683271FA700008B21C7 /* Explore */,
 				5CE8F1D1272F77840026864C /* Profile */,
@@ -436,7 +436,7 @@
 		5C7B6398272A84D500E18B96 /* Card */ = {
 			isa = PBXGroup;
 			children = (
-				5C2C731E271D3D4B00F8B9EC /* Swipe.storyboard */,
+				5C2C731E271D3D4B00F8B9EC /* Card.storyboard */,
 				5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */,
 				5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */,
 			);
@@ -456,20 +456,20 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		5C8C0E9F2725A4A20054480A /* Swipe */ = {
+		5C8C0E9F2725A4A20054480A /* Card */ = {
 			isa = PBXGroup;
 			children = (
 				5C8C0E8C272425980054480A /* SwipeViewController.swift */,
 				5C2846FA2729B2FA00393562 /* FavoriteCardViewController.swift */,
-				5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */,
 			);
-			path = Swipe;
+			path = Card;
 			sourceTree = "<group>";
 		};
 		5CA65BF4271D4E5F00B877FB /* Write */ = {
 			isa = PBXGroup;
 			children = (
 				5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */,
+				5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */,
 			);
 			path = Write;
 			sourceTree = "<group>";
@@ -599,7 +599,7 @@
 				5C4B9695271FBCCF008B21C7 /* BaseDetailCommentCell.xib in Resources */,
 				5C2C7321271D3D5500F8B9EC /* Explore.storyboard in Resources */,
 				5CF36A172732C3E400F6B3BD /* ProfileTableViewCell.xib in Resources */,
-				5C2C731F271D3D4B00F8B9EC /* Swipe.storyboard in Resources */,
+				5C2C731F271D3D4B00F8B9EC /* Card.storyboard in Resources */,
 				5C2C7327271D3D6E00F8B9EC /* Profile.storyboard in Resources */,
 				5C2C7300271D12E100F8B9EC /* Main.storyboard in Resources */,
 			);

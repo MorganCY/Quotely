@@ -10,19 +10,23 @@ import UIKit
 
 class FavoriteCardTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var cardContentLabel: UILabel!
+    @IBOutlet weak var cardAuthorLabel: UILabel!
     @IBOutlet weak var cardImageView: UIImageView!
-    @IBOutlet weak var cardContent: UILabel!
-    @IBOutlet weak var cellBackground: UIView!
-    @IBOutlet weak var authorLabel: UILabel!
+    let images = [
+        UIImage.asset(.bg1),
+        UIImage.asset(.bg2),
+        UIImage.asset(.bg3),
+        UIImage.asset(.bg4)
+    ]
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        cardImageView.cornerRadius = CornerRadius.standard.rawValue
-        cellBackground.cornerRadius = CornerRadius.standard.rawValue
-        backgroundColor = .clear
-        cardImageView.contentMode = .scaleAspectFill
+        cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
         cardImageView.clipsToBounds = true
+        cardImageView.image = images[Int.random(in: 0...3)]
+        backgroundColor = .clear
     }
 
     func layoutCell(
@@ -30,7 +34,7 @@ class FavoriteCardTableViewCell: UITableViewCell {
         author: String
     ) {
 
-        cardContent.text = content
-        authorLabel.text = author
+        cardContentLabel.text = content
+        cardAuthorLabel.text = author
     }
 }

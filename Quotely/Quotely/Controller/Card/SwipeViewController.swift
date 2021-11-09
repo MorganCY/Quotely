@@ -180,7 +180,7 @@ class SwipeViewController: UIViewController {
     @objc func goToDetailPage(_ sender: UIButton) {
 
         guard let writeVC =
-                UIStoryboard.swipe
+                UIStoryboard.write
                 .instantiateViewController(
                     withIdentifier: String(describing: CardWriteViewController.self)
                 ) as? CardWriteViewController else {
@@ -224,7 +224,7 @@ class SwipeViewController: UIViewController {
     @objc func goToFavoritePage(_ sender: UIBarButtonItem) {
 
         guard let favCardVC =
-                UIStoryboard.swipe
+                UIStoryboard.card
                 .instantiateViewController(
                     withIdentifier: String(describing: FavoriteCardViewController.self)
                 ) as? FavoriteCardViewController else {
