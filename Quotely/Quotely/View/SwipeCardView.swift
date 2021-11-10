@@ -142,7 +142,7 @@ class SwipeCardView: UIView {
         ? UIImage.asset(.dislike) : UIImage.asset(.like)
 
         likeImageView.tintColor = isLeft
-        ? .systemGreen : .systemPink
+        ? .M1 : .A1
 
         guard let superview = superview else { return }
 
@@ -191,43 +191,6 @@ class SwipeCardView: UIView {
 
         hasLiked = true
     }
-
-    /*
-    @objc func drag(_ sender: UIPanGestureRecognizer) {
-
-        let point = sender.translation(in: self)
-
-        guard let superview = superview else { return }
-        center = CGPoint(x: superview.center.x + point.x, y: superview.center.y + point.y)
-
-        let xFromCenter = self.center.x - superview.center.x
-
-        likeImageView.image = {
-
-            switch xFromCenter > 0 {
-
-            case true:
-                likeImageView.tintColor = .red
-                return UIImage.asset(.like)
-
-            case false:
-                likeImageView.tintColor = .green
-                return UIImage.asset(.dislike)
-            }
-        }()
-
-        likeImageView.alpha = abs(xFromCenter) / superview.center.x
-
-        if sender.state == .ended {
-
-            UIView.animate(withDuration: 1 / 3) {
-
-                self.center = superview.center
-                self.likeImageView.alpha = 0
-            }
-        }
-    }
-     */
 }
 
 extension SwipeCardView: UIGestureRecognizerDelegate {

@@ -70,41 +70,39 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot create cell")
         }
 
-        switch indexPath.row {
-
-        case 0:
-
-            cell.layoutCell(
-                buttonTitle: options[indexPath.row],
-                isSignOutButton: true
-            )
-
-        default:
-
-            cell.layoutCell(
-                buttonTitle: options[indexPath.row],
-                isSignOutButton: false
-            )
-        }
+        cell.layoutCell(
+            buttonTitle: options[indexPath.row]
+        )
 
         cell.hideSelectionStyle()
 
-        cell.signOutHandler = {
+        cell.buttonHandler = {
 
-            let alert  = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
+            switch indexPath.row {
 
-            let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
+            case 0:
 
-                self.performSignOut()
+                let alert  = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
+
+                let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
+
+                    self.performSignOut()
+                }
+
+                let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+
+                alert.addAction(confirm)
+
+                alert.addAction(cancel)
+
+                self.present(alert, animated: true, completion: nil)
+
+            case 1: break
+
+            case 2: break
+
+            default: break
             }
-
-            let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-
-            alert.addAction(confirm)
-
-            alert.addAction(cancel)
-
-            self.present(alert, animated: true, completion: nil)
         }
 
         return cell

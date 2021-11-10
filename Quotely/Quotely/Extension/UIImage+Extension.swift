@@ -9,6 +9,8 @@ import UIKit
 
 enum ImageAsset: String {
 
+    case logo
+    case logoWithText
     case testProfile = "test_profile"
     case like
     case dislike

@@ -18,25 +18,16 @@ class SettingsTableViewCell: UITableViewCell {
         optionButton.cornerRadius = CornerRadius.standard.rawValue
     }
 
-    var signOutHandler: () -> Void = {}
+    var buttonHandler: () -> Void = {}
 
-    @objc func signOut(_ sender: UIButton) { signOutHandler() }
+    @objc func tapButton(_ sender: UIButton) { buttonHandler() }
 
     func layoutCell(
-        buttonTitle: String,
-        isSignOutButton: Bool
+        buttonTitle: String
     ) {
 
         optionButton.setTitle(buttonTitle, for: .normal)
 
-        if isSignOutButton {
-
-            optionButton.addTarget(self, action: #selector(signOut(_:)), for: .touchUpInside)
-
-        } else {
-
-            optionButton.backgroundColor = .clear
-            optionButton.setTitleColor(.white, for: .normal)
-        }
+        optionButton.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
     }
 }

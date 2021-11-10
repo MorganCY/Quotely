@@ -71,3 +71,16 @@ class ImageButtonLabel: UILabel {
         super.init(coder: coder)
     }
 }
+
+extension ImageButton {
+    override open var isEnabled: Bool {
+        didSet {
+            if self.isEnabled {
+                self.alpha = 1.0
+            } else {
+                self.alpha = 0.3
+            }
+            self.layoutIfNeeded()
+        }
+    }
+}

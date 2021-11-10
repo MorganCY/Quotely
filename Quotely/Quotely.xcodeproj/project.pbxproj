@@ -37,6 +37,8 @@
 		5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7322271D3D5C00F8B9EC /* Write.storyboard */; };
 		5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7324271D3D6400F8B9EC /* Journal.storyboard */; };
 		5C2C7327271D3D6E00F8B9EC /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */; };
+		5C46F258273BB0EB007E951D /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F257273BB0EB007E951D /* UIButton+Extension.swift */; };
+		5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */; };
 		5C47E0D7273A77A600CE383C /* CardTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */; };
 		5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */; };
 		5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */; };
@@ -141,6 +143,8 @@
 		5C2C7322271D3D5C00F8B9EC /* Write.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Write.storyboard; sourceTree = "<group>"; };
 		5C2C7324271D3D6400F8B9EC /* Journal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Journal.storyboard; sourceTree = "<group>"; };
 		5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		5C46F257273BB0EB007E951D /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTopicViewController.swift; sourceTree = "<group>"; };
 		5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailTableViewHeader.swift; sourceTree = "<group>"; };
 		5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseDetailTableViewHeader.xib; sourceTree = "<group>"; };
@@ -366,6 +370,7 @@
 				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
 				5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */,
 				5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */,
+				5C46F257273BB0EB007E951D /* UIButton+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -413,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				5C54F4D72732338500E62DBF /* AuthViewController.swift */,
+				5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -701,6 +707,7 @@
 				5C8C0E8F2724261F0054480A /* UIViewController+Extension.swift in Sources */,
 				5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */,
 				5CE8F1D3272F77950026864C /* ProfileViewController.swift in Sources */,
+				5C46F258273BB0EB007E951D /* UIButton+Extension.swift in Sources */,
 				5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */,
 				5C9F02652739179D00FAC2B1 /* CardTopicView.swift in Sources */,
 				5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */,
@@ -756,6 +763,7 @@
 				5C8C0E9827246EB50054480A /* SwipeCardStack.swift in Sources */,
 				5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */,
 				5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */,
+				5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */,
 				5C8C0E92272426550054480A /* SwipeCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

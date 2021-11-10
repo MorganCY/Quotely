@@ -12,6 +12,8 @@ import MapKit
 
 class JournalListViewController: UIViewController {
 
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     var journals = [Journal]() {
         didSet {
             setupEmptyAnimation()
@@ -84,7 +86,7 @@ class JournalListViewController: UIViewController {
     func fetchUserInfo() {
 
         UserManager.shared.fetchUserInfo(
-            uid: SignInManager.shared.uid ?? "") { result in
+            uid: visitorUid) { result in
 
                 switch result {
 

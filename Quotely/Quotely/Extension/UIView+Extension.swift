@@ -149,3 +149,12 @@ extension UIView {
         if isPath { layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath }
     }
 }
+
+extension UIView {
+
+    func fadeIn() {
+        UIView.animate(withDuration: 2.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
+            self.alpha = 1.0
+        }, completion: nil)
+    }
+}

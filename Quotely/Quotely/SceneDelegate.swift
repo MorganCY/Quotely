@@ -20,26 +20,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let _ = (scene as? UIWindowScene) else { return }
 
-//        if Auth.auth().currentUser == nil {
-//
-//            if let windowScene = scene as? UIWindowScene {
-//
-//                let window = UIWindow(windowScene: windowScene)
-//
-//                guard let authVC =
-//                        UIStoryboard.auth
-//                        .instantiateViewController(
-//                            withIdentifier: String(describing: AuthViewController.self)
-//                        ) as? AuthViewController else {
-//
-//                            return
-//                        }
-//
-//                window.rootViewController = authVC
-//
-//                self.window = window
-//            }
-//        }
+        if Auth.auth().currentUser == nil {
+
+            if let windowScene = scene as? UIWindowScene {
+
+                let window = UIWindow(windowScene: windowScene)
+
+                guard let authVC =
+                        UIStoryboard.auth
+                        .instantiateViewController(
+                            withIdentifier: String(describing: AuthViewController.self)
+                        ) as? AuthViewController else {
+
+                            return
+                        }
+
+                window.rootViewController = authVC
+
+                self.window = window
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
