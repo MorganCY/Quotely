@@ -148,31 +148,4 @@ extension UIView {
 
         if isPath { layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath }
     }
-
-    @IBInspectable var shadowColor: CGColor? {
-        get {
-            return layer.shadowColor
-        }
-        set {
-            layer.shadowColor = newValue
-        }
-    }
-
-    @IBInspectable var shadowOpacity: Float {
-        get {
-            return layer.shadowOpacity
-        }
-        set {
-            layer.shadowOpacity = newValue
-        }
-    }
-
-    @IBInspectable var shadowOffset: CGSize {
-        get {
-            return CGSize()
-        }
-        set {
-            layer.shadowOffset = newValue
-        }
-    }
 }

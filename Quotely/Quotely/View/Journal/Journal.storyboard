@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -18,46 +17,10 @@
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wc-RG-8IV">
-                                <rect key="frame" x="32" y="92" width="143.5" height="98.5"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="90"/>
-                                <color key="textColor" name="A3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10月" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYF-e6-6ht">
-                                <rect key="frame" x="32" y="178.5" width="128.5" height="76.5"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="56"/>
-                                <color key="textColor" name="A3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quote Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9S-TK-NMd">
-                                <rect key="frame" x="191.5" y="100" width="198.5" height="22.5"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="p9S-TK-NMd" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.48" id="18j-lT-hPg"/>
-                            <constraint firstItem="9wc-RG-8IV" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="49E-s8-77z"/>
-                            <constraint firstItem="kYF-e6-6ht" firstAttribute="leading" secondItem="9wc-RG-8IV" secondAttribute="leading" id="AwM-kN-8hV"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="p9S-TK-NMd" secondAttribute="trailing" constant="24" id="Dyn-4j-NXu"/>
-                            <constraint firstItem="p9S-TK-NMd" firstAttribute="leading" secondItem="9wc-RG-8IV" secondAttribute="trailing" constant="16" id="Qyj-l4-08L"/>
-                            <constraint firstItem="9wc-RG-8IV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="32" id="VZW-Ae-Jje"/>
-                            <constraint firstItem="p9S-TK-NMd" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="top" constant="8" id="dbE-fe-Y2q"/>
-                            <constraint firstItem="9wc-RG-8IV" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.11" id="q9d-2g-m1U"/>
-                            <constraint firstItem="kYF-e6-6ht" firstAttribute="top" secondItem="9wc-RG-8IV" secondAttribute="bottom" constant="-12" id="wGZ-0q-PDy"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="u80-RB-qtr"/>
-                    <connections>
-                        <outlet property="dailyQuoteLabel" destination="p9S-TK-NMd" id="6z9-Ap-IbR"/>
-                        <outlet property="dateLabel" destination="9wc-RG-8IV" id="1Vk-KD-0rR"/>
-                        <outlet property="monthLabel" destination="kYF-e6-6ht" id="kiZ-YA-Pca"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -71,6 +34,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lHo-0T-JRt">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="241.5"/>
+                            </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="S6Q-vQ-u5h">
                                 <rect key="frame" x="24" y="44" width="390" height="134.5"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vco-q0-LGY">
@@ -90,37 +56,31 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7VL-nz-hTd">
-                                <rect key="frame" x="24" y="210.5" width="390" height="1"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1" id="IVS-xy-S8k"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="AI4-kb-QK1">
-                                <rect key="frame" x="24" y="221.5" width="390" height="640.5"/>
+                                <rect key="frame" x="0.0" y="221.5" width="414" height="674.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="spV-HQ-O7T"/>
-                        <color key="backgroundColor" red="0.6002750993" green="0.64010483029999998" blue="0.53507155179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" name="M2"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="spV-HQ-O7T" firstAttribute="trailing" secondItem="AI4-kb-QK1" secondAttribute="trailing" id="0mN-Hu-wI5"/>
-                            <constraint firstItem="AI4-kb-QK1" firstAttribute="top" secondItem="7VL-nz-hTd" secondAttribute="bottom" constant="10" id="2iF-1v-NR7"/>
                             <constraint firstItem="S6Q-vQ-u5h" firstAttribute="trailing" secondItem="spV-HQ-O7T" secondAttribute="trailing" id="4VQ-k1-vyt"/>
+                            <constraint firstItem="lHo-0T-JRt" firstAttribute="top" secondItem="fkz-1p-pQh" secondAttribute="top" id="En1-kS-Kgr"/>
+                            <constraint firstItem="lHo-0T-JRt" firstAttribute="trailing" secondItem="spV-HQ-O7T" secondAttribute="trailing" id="GUU-b9-jOY"/>
                             <constraint firstItem="S6Q-vQ-u5h" firstAttribute="top" secondItem="spV-HQ-O7T" secondAttribute="top" id="HvA-41-C8e"/>
-                            <constraint firstItem="spV-HQ-O7T" firstAttribute="trailing" secondItem="7VL-nz-hTd" secondAttribute="trailing" id="Ir0-lJ-qjc"/>
-                            <constraint firstItem="AI4-kb-QK1" firstAttribute="leading" secondItem="S6Q-vQ-u5h" secondAttribute="leading" id="JDR-LJ-xxV"/>
-                            <constraint firstItem="spV-HQ-O7T" firstAttribute="bottom" secondItem="AI4-kb-QK1" secondAttribute="bottom" id="M1Z-QM-bLJ"/>
-                            <constraint firstItem="7VL-nz-hTd" firstAttribute="top" secondItem="S6Q-vQ-u5h" secondAttribute="bottom" constant="32" id="Pli-xx-vWk"/>
+                            <constraint firstItem="AI4-kb-QK1" firstAttribute="top" secondItem="lHo-0T-JRt" secondAttribute="bottom" constant="-20" id="Hw3-x5-G00"/>
+                            <constraint firstAttribute="bottom" secondItem="AI4-kb-QK1" secondAttribute="bottom" id="KoF-fv-Wha"/>
+                            <constraint firstItem="AI4-kb-QK1" firstAttribute="top" secondItem="S6Q-vQ-u5h" secondAttribute="bottom" constant="43" id="Rlc-C0-Pam"/>
                             <constraint firstItem="S6Q-vQ-u5h" firstAttribute="leading" secondItem="spV-HQ-O7T" secondAttribute="leading" constant="24" id="bqy-Xp-Koc"/>
-                            <constraint firstItem="7VL-nz-hTd" firstAttribute="leading" secondItem="S6Q-vQ-u5h" secondAttribute="leading" id="d25-Vn-1lx"/>
+                            <constraint firstItem="lHo-0T-JRt" firstAttribute="leading" secondItem="spV-HQ-O7T" secondAttribute="leading" id="kgS-Jh-SCV"/>
+                            <constraint firstItem="AI4-kb-QK1" firstAttribute="leading" secondItem="fkz-1p-pQh" secondAttribute="leading" id="lhB-nd-Zct"/>
                             <constraint firstItem="S6Q-vQ-u5h" firstAttribute="height" secondItem="fkz-1p-pQh" secondAttribute="height" multiplier="0.15" id="opm-B5-kVL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="213-2j-ZLP"/>
                     <connections>
+                        <outlet property="backgroundImageView" destination="lHo-0T-JRt" id="1ei-02-Oql"/>
                         <outlet property="collectionView" destination="S6Q-vQ-u5h" id="xUQ-La-i6Q"/>
                         <outlet property="tableView" destination="AI4-kb-QK1" id="vpH-VR-uUh"/>
                     </connections>
@@ -149,12 +109,6 @@
         </scene>
     </scenes>
     <resources>
-        <namedColor name="A3">
-            <color red="0.88999998569488525" green="0.85100001096725464" blue="0.81599998474121094" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
-        <namedColor name="M2">
-            <color red="0.74509803921568629" green="0.75294117647058822" blue="0.6705882352941176" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

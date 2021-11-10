@@ -13,15 +13,13 @@ class JournalViewController: UIViewController {
 
     let defaults = UserDefaults.standard
 
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var monthLabel: UILabel!
-    @IBOutlet weak var dailyQuoteLabel: UILabel!
+    private let dateLabel = UILabel()
+    private let dailyQuoteLabel = UILabel()
 
     var selectedEmoji: SFSymbol?
 
     let backgroundView = UIView()
     let editPanel = UIView()
-    let panelTitle = UILabel()
     let buttonImages = [
         UIImage.sfsymbol(.smile),
         UIImage.sfsymbol(.book),
@@ -33,16 +31,16 @@ class JournalViewController: UIViewController {
     var emojiSelection = SelectionView()
     var journalTextView = ContentTextView()
     let submitButton = UIButton()
-    let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse)!, color: .white)
-    var buttonStack = UIStackView()
-    let paletteButton = ImageButton(image: UIImage.sfsymbol(.color)!, color: .white)
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .white)
-    let journalButton = ImageButton(image: UIImage.sfsymbol(.calendar)!, color: .white)
+    let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse)!, color: .M1!)
+    let journalListButton = RowButton(
+        image: UIImage.sfsymbol(.calendar)!,
+        imageColor: .M2!,
+        labelColor: .gray,
+        text: "查看所有隻字"
+    )
 
     var editPanelCollapse = NSLayoutConstraint()
     var editPanelExpand = NSLayoutConstraint()
-    var backgroundViewCollapse = NSLayoutConstraint()
-    var backgroundViewExpand = NSLayoutConstraint()
     var backgroundViewCornerRadius = CGFloat()
     var journalTextViewCollapse = NSLayoutConstraint()
     var journalTextViewExpand = NSLayoutConstraint()
@@ -56,25 +54,11 @@ class JournalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .BG
-
-        setupBackgroundView()
-
-        setupEditPanel()
-
-        setupButtons()
-
-        setupCollapseButton()
-
-        setupTitle()
-
-        submitButton.addTarget(self, action: #selector(submitJournal(_:)), for: .touchUpInside)
-
-        likeButton.addTarget(self, action: #selector(goToFavoriteCardList(_:)), for: .touchUpInside)
-
-        journalButton.addTarget(self, action: #selector(goToJournalList(_:)), for: .touchUpInside)
-
         fetchQuoteOncePerDay()
+        configureGradientLayer()
+        setupTitle()
+        setupEditPanel()
+        setupButtons()
     }
 
     override func viewDidLayoutSubviews() {
@@ -84,11 +68,6 @@ class JournalViewController: UIViewController {
         ?
         0 : backgroundView.frame.width / 2
         collapseButton.cornerRadius = collapseButton.frame.width / 2
-
-        editPanel.dropShadow(opacity: 0.4)
-        paletteButton.cornerRadius = paletteButton.frame.width / 2
-        likeButton.cornerRadius = likeButton.frame.width / 2
-        journalButton.cornerRadius = likeButton.frame.width / 2
     }
 
     @objc func submitJournal(_ sender: UIButton) {
@@ -206,9 +185,6 @@ class JournalViewController: UIViewController {
             self.editPanelCollapse.isActive = !self.isEditPanelExpand
             self.editPanelExpand.isActive = self.isEditPanelExpand
 
-            self.backgroundViewCollapse.isActive = !self.isEditPanelExpand
-            self.backgroundViewExpand.isActive = self.isEditPanelExpand
-
             self.backgroundView.cornerRadius = self.isEditPanelExpand
             ?
             0 : self.backgroundView.frame.width / 2
@@ -220,7 +196,7 @@ class JournalViewController: UIViewController {
 
             self.collapseButton.isHidden = !self.isEditPanelExpand
 
-            self.buttonStack.isHidden = self.isEditPanelExpand
+            self.journalListButton.isHidden = self.isEditPanelExpand
 
             self.view.layoutIfNeeded()
         }
@@ -284,18 +260,45 @@ extension JournalViewController: UITextViewDelegate {
 // MARK: SetupViews
 extension JournalViewController {
 
+    func configureGradientLayer() {
+
+        let gradient = CAGradientLayer()
+
+        view.backgroundColor = .clear
+        gradient.colors = [UIColor.M1!.cgColor, UIColor.M4!.cgColor]
+        gradient.locations = [0, 1]
+        gradient.frame = view.bounds
+        view.layer.addSublayer(gradient)
+    }
+
     func setupTitle() {
 
-        dateLabel.text = "\(Date().getCurrentTime(format: .dd))"
-        monthLabel.text = "\(Date().getCurrentTime(format: .MM))月"
+        let labels = [dateLabel, dailyQuoteLabel]
+        labels.forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.textColor = .white
+            $0.textAlignment = .center
+        }
 
-        dateLabel.textColor = .M2
-        monthLabel.textColor = .M2
+        dateLabel.text = "\(Date().getCurrentTime(format: .MM)).\(Date().getCurrentTime(format: .dd))"
+        dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 90.0)
+        dailyQuoteLabel.font = UIFont(name: "Pingfang TC Bold", size: 18.0)
+        dailyQuoteLabel.numberOfLines = 0
+
+        NSLayoutConstraint.activate([
+            dateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dailyQuoteLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 16),
+            dailyQuoteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dailyQuoteLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            dailyQuoteLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
     }
 
     func setupEditPanel() {
 
-        let panelObjects = [editPanel, panelTitle, emojiSelection, journalTextView, submitButton]
+        let panelObjects = [editPanel, emojiSelection, journalTextView, submitButton]
 
         panelObjects.forEach {
             view.addSubview($0)
@@ -310,24 +313,23 @@ extension JournalViewController {
         self.submitButton.isHidden = !self.isEditPanelExpand
 
         editPanelCollapse = editPanel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25)
-        editPanelExpand = editPanel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.45)
+        editPanelExpand = editPanel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4)
         editPanelCollapse.isActive = !isEditPanelExpand
         editPanelExpand.isActive = isEditPanelExpand
         journalTextView.cornerRadius = CornerRadius.standard.rawValue * 0.75
 
-        panelTitle.text = "今日隨筆"
-        panelTitle.font = UIFont(name: "Pingfang TC", size: 18)
-
-        journalTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+        journalTextView.placeholder(text: "寫點什麼，只有自己看得到...", color: .lightGray)
 
         submitButton.setTitle("存檔", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.backgroundColor = .M2
         submitButton.cornerRadius = CornerRadius.standard.rawValue * 0.75
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+
+        submitButton.addTarget(self, action: #selector(submitJournal(_:)), for: .touchUpInside)
         journalTextViewCollapse = journalTextView.bottomAnchor.constraint(
             equalTo: editPanel.bottomAnchor,
-            constant: -24
+            constant: -20
         )
         journalTextViewExpand = journalTextView.bottomAnchor.constraint(
             equalTo: self.submitButton.topAnchor,
@@ -336,90 +338,50 @@ extension JournalViewController {
         journalTextViewCollapse.isActive = !isEditPanelExpand
 
         NSLayoutConstraint.activate([
-            editPanel.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 32),
+            editPanel.topAnchor.constraint(equalTo: dailyQuoteLabel.bottomAnchor, constant: 40),
             editPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             editPanel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
 
-            panelTitle.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor, constant: 16),
-            panelTitle.topAnchor.constraint(equalTo: editPanel.topAnchor, constant: 16),
-
-            emojiSelection.leadingAnchor.constraint(equalTo: panelTitle.leadingAnchor),
-            emojiSelection.topAnchor.constraint(equalTo: panelTitle.bottomAnchor, constant: 24),
             emojiSelection.widthAnchor.constraint(equalTo: editPanel.widthAnchor, multiplier: 0.9),
+            emojiSelection.topAnchor.constraint(equalTo: editPanel.topAnchor, constant: 24),
+            emojiSelection.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
             emojiSelection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.042),
 
             journalTextView.topAnchor.constraint(equalTo: emojiSelection.bottomAnchor, constant: 32),
-            journalTextView.leadingAnchor.constraint(equalTo: panelTitle.leadingAnchor),
-            journalTextView.trailingAnchor.constraint(equalTo: editPanel.trailingAnchor, constant: -16),
+            journalTextView.widthAnchor.constraint(equalTo: editPanel.widthAnchor, multiplier: 0.9),
+            journalTextView.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
 
-            submitButton.leadingAnchor.constraint(equalTo: panelTitle.leadingAnchor),
+            submitButton.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor, constant: 24),
             submitButton.trailingAnchor.constraint(equalTo: journalTextView.trailingAnchor),
             submitButton.heightAnchor.constraint(equalTo: editPanel.heightAnchor, multiplier: 0.12),
             submitButton.bottomAnchor.constraint(equalTo: editPanel.bottomAnchor, constant: -24)
         ])
     }
 
-    func setupCollapseButton() {
+    func setupButtons() {
 
+        view.addSubview(journalListButton)
         view.addSubview(collapseButton)
+        journalListButton.translatesAutoresizingMaskIntoConstraints = false
         collapseButton.translatesAutoresizingMaskIntoConstraints = false
+
         collapseButton.isHidden = !isEditPanelExpand
         collapseButton.backgroundColor = .clear
         collapseButton.addTarget(self, action: #selector(collapseEditPanel(_:)), for: .touchUpInside)
 
+        journalListButton.cornerRadius = CornerRadius.standard.rawValue
+        journalListButton.backgroundColor = .white
+        journalListButton.addTarget(self, action: #selector(goToJournalList(_:)), for: .touchUpInside)
+
         NSLayoutConstraint.activate([
             collapseButton.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
-            collapseButton.topAnchor.constraint(equalTo: editPanel.bottomAnchor, constant: 32),
+            collapseButton.topAnchor.constraint(equalTo: editPanel.bottomAnchor, constant: 16),
             collapseButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
-            collapseButton.heightAnchor.constraint(equalTo: collapseButton.widthAnchor)])
-    }
-
-    func setupButtons() {
-
-        let buttons = [paletteButton, likeButton, journalButton]
-        view.addSubview(buttonStack)
-        buttonStack.translatesAutoresizingMaskIntoConstraints = false
-        buttonStack.spacing = 64
-
-        buttons.forEach {
-            buttonStack.addArrangedSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.backgroundColor = .M2
-            $0.cornerRadius = CornerRadius.standard.rawValue
-        }
-
-        NSLayoutConstraint.activate([
-            buttonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonStack.topAnchor.constraint(equalTo: editPanel.bottomAnchor, constant: 48),
-
-            paletteButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
-            paletteButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
-
-            likeButton.widthAnchor.constraint(equalTo: paletteButton.widthAnchor),
-            likeButton.heightAnchor.constraint(equalTo: paletteButton.widthAnchor),
-
-            journalButton.widthAnchor.constraint(equalTo: paletteButton.widthAnchor),
-            journalButton.heightAnchor.constraint(equalTo: paletteButton.widthAnchor)
+            collapseButton.heightAnchor.constraint(equalTo: collapseButton.widthAnchor),
+            journalListButton.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor),
+            journalListButton.topAnchor.constraint(equalTo: editPanel.bottomAnchor, constant: 24),
+            journalListButton.trailingAnchor.constraint(equalTo: editPanel.trailingAnchor),
+            journalListButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1)
         ])
-    }
-
-    func setupBackgroundView() {
-
-        view.addSubview(backgroundView)
-        view.sendSubviewToBack(backgroundView)
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-
-        backgroundViewCollapse = backgroundView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: -50)
-        backgroundViewExpand = backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor)
-
-        backgroundViewCollapse.isActive = !isEditPanelExpand
-
-        NSLayoutConstraint.activate([
-            backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            backgroundView.heightAnchor.constraint(equalTo: backgroundView.widthAnchor),
-            backgroundView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 2)
-        ])
-
-        backgroundView.backgroundColor = .M1
     }
 }

@@ -13,6 +13,7 @@ class RowButton: UIButton {
     private let iconBackgroundView = UIView()
     private let iconImageView = UIImageView()
     private let rowButttonTitleLabel = UILabel()
+    private let nextImageView = UIImageView()
 
     init(image: UIImage, imageColor: UIColor, labelColor: UIColor = .black, text: String) {
         super.init(frame: .zero)
@@ -32,18 +33,16 @@ class RowButton: UIButton {
 
     private func layoutButton(image: UIImage, imageColor: UIColor, labelColor: UIColor, text: String) {
 
-        addSubview(iconBackgroundView)
-        addSubview(iconImageView)
-        addSubview(rowButttonTitleLabel)
-
-        iconBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        rowButttonTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let views = [iconBackgroundView, iconImageView, rowButttonTitleLabel, nextImageView]
+        views.forEach {
+            addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         NSLayoutConstraint.activate([
 
             iconBackgroundView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            iconBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            iconBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 36),
             iconBackgroundView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7),
             iconBackgroundView.widthAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7),
 
@@ -53,15 +52,23 @@ class RowButton: UIButton {
             iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
 
             rowButttonTitleLabel.centerYAnchor.constraint(equalTo: iconImageView.centerYAnchor),
-            rowButttonTitleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 24)
+            rowButttonTitleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 36),
+
+            nextImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -36),
+            nextImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.05),
+            nextImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.08),
+            nextImageView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
 
         iconImageView.image = image
         iconBackgroundView.backgroundColor = imageColor
         iconImageView.tintColor = .white
 
-        rowButttonTitleLabel.tintColor = labelColor
+        rowButttonTitleLabel.textColor = labelColor
         rowButttonTitleLabel.text = text
         rowButttonTitleLabel.font = UIFont.systemFont(ofSize: 18)
+
+        nextImageView.image = UIImage.sfsymbol(.next)
+        nextImageView.tintColor = imageColor
     }
 }
