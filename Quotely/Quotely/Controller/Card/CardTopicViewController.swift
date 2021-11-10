@@ -56,10 +56,6 @@ class CardTopicViewController: UIViewController {
         setupBackButton()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     func setupBackgroundImage() {
 
         let images = [UIImage.asset(.bg1), UIImage.asset(.bg2), UIImage.asset(.bg3), UIImage.asset(.bg4)]
@@ -95,6 +91,8 @@ class CardTopicViewController: UIViewController {
             switch result {
 
             case .success(let postList):
+
+                guard let postList = postList else { return }
 
                 self.postList = postList
 

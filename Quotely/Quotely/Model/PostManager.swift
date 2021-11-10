@@ -170,7 +170,7 @@ class PostManager {
         }
     }
 
-    func fetchCardPost(cardID: String, completion: @escaping (Result<[Post], Error>) -> Void) {
+    func fetchCardPost(cardID: String, completion: @escaping (Result<[Post]?, Error>) -> Void) {
 
         posts
             .whereField("cardID", isEqualTo: cardID)
