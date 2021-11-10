@@ -25,9 +25,8 @@ enum ImageAsset: String {
 enum SFSymbol: String {
 
     // Tab Bar
-    case write = "highlighter"
-    case cardsNormal = "square.stack"
-    case cardsSelected = "square.stack.fill"
+    case writeNormal = "pencil.circle"
+    case writeSelected = "pencil.circle.fill"
     case lightbulbNormal = "lightbulb"
     case lightbulbSelected = "lightbulb.fill"
     case personNormal = "person"

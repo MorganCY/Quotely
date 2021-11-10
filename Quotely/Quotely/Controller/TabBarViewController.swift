@@ -45,21 +45,21 @@ private enum Tab {
 
         case .journal:
             return UITabBarItem(
-                title: "隨筆",
-                image: UIImage.sfsymbol(.write),
-                selectedImage: UIImage.sfsymbol(.write)
+                title: "隻字",
+                image: UIImage.sfsymbol(.writeNormal),
+                selectedImage: UIImage.sfsymbol(.writeSelected)
             )
 
         case .card:
             return UITabBarItem(
-                title: "靈感",
+                title: "片語",
                 image: UIImage.sfsymbol(.lightbulbNormal),
                 selectedImage: UIImage.sfsymbol(.lightbulbSelected)
             )
 
         case .explore:
             return UITabBarItem(
-                title: "探索",
+                title: "想法",
                 image: UIImage.sfsymbol(.quoteNormal),
                 selectedImage: UIImage.sfsymbol(.quoteSelected)
             )
