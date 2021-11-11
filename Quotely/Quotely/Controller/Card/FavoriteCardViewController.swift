@@ -11,7 +11,7 @@ import AVFoundation
 
 class FavoriteCardViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.uid ?? ""
+    let visitorUid = SignInManager.shared.visitorUid ?? ""
 
     var likeCardList = [Card]() {
         didSet {
@@ -72,7 +72,7 @@ class FavoriteCardViewController: UIViewController {
             switch result {
 
             case .success(let userInfo):
-                userInfo.likeCardID?.forEach({
+                userInfo.likeCardList?.forEach({
                     self.fetchFavoriteCard(cardID: $0)
                 })
 
@@ -110,7 +110,9 @@ class FavoriteCardViewController: UIViewController {
 
                 case .success(let success):
                     print(success)
-                    self.updateCard(cardID: card.cardID ?? "")
+                    self.updateCard(
+                        cardID: card.cardID ?? ""
+                    )
                     self.likeCardList.remove(at: index)
 
                 case .failure(let error):

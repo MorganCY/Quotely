@@ -27,6 +27,12 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "設定"
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:))
+        )
     }
 
     func performSignOut() {
@@ -56,6 +62,11 @@ class SettingsViewController: UIViewController {
             }
         }
     }
+
+    @objc func dismissSelf(_ sender: UIBarButtonItem) {
+
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -82,7 +93,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case 0:
 
-                let alert  = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
+                let alert = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
 
                 let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
 
@@ -97,7 +108,20 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 self.present(alert, animated: true, completion: nil)
 
-            case 1: break
+            case 1:
+
+                guard let blockListVC =
+                        UIStoryboard.profile
+                        .instantiateViewController(
+                            withIdentifier: String(describing: BlockListViewController.self)
+                        ) as? BlockListViewController else {
+
+                            return
+                        }
+
+                let navigationVC = BaseNavigationController(rootViewController: blockListVC)
+
+                self.present(navigationVC, animated: true)
 
             case 2: break
 

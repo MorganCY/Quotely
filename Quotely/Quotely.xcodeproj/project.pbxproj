@@ -67,6 +67,9 @@
 		5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */; };
 		5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */; };
 		5C7CE5FE2732F444005D0D18 /* ProfileTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CE5FD2732F444005D0D18 /* ProfileTableViewHeaderView.swift */; };
+		5C8748FE273CC201007471F6 /* BlockListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8748FD273CC201007471F6 /* BlockListViewController.swift */; };
+		5C874900273CC2BD007471F6 /* BlockListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8748FF273CC2BD007471F6 /* BlockListTableViewCell.swift */; };
+		5C874902273CC2C5007471F6 /* BlockListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C874901273CC2C5007471F6 /* BlockListTableViewCell.xib */; };
 		5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8A04B52722911800289431 /* SceneDelegate.swift */; };
 		5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E8C272425980054480A /* SwipeViewController.swift */; };
 		5C8C0E8F2724261F0054480A /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */; };
@@ -174,6 +177,9 @@
 		5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCardTableViewCell.swift; sourceTree = "<group>"; };
 		5C7B639B272A854000E18B96 /* FavoriteCardTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCardTableViewCell.xib; sourceTree = "<group>"; };
 		5C7CE5FD2732F444005D0D18 /* ProfileTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewHeaderView.swift; sourceTree = "<group>"; };
+		5C8748FD273CC201007471F6 /* BlockListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewController.swift; sourceTree = "<group>"; };
+		5C8748FF273CC2BD007471F6 /* BlockListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListTableViewCell.swift; sourceTree = "<group>"; };
+		5C874901273CC2C5007471F6 /* BlockListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockListTableViewCell.xib; sourceTree = "<group>"; };
 		5C8A04B52722911800289431 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5C8C0E8C272425980054480A /* SwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeViewController.swift; sourceTree = "<group>"; };
 		5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -534,6 +540,7 @@
 			children = (
 				5CE8F1D2272F77950026864C /* ProfileViewController.swift */,
 				5C19204927369591008B9F0D /* SettingsViewController.swift */,
+				5C8748FD273CC201007471F6 /* BlockListViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -548,6 +555,8 @@
 				5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */,
 				5C19204D27369710008B9F0D /* SettingsTableViewCell.swift */,
 				5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */,
+				5C8748FF273CC2BD007471F6 /* BlockListTableViewCell.swift */,
+				5C874901273CC2C5007471F6 /* BlockListTableViewCell.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -635,6 +644,7 @@
 				5C2846ED2728F4E500393562 /* JournalListTableViewCell.xib in Resources */,
 				5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */,
 				5CE8F1D5272F79210026864C /* ball.json in Resources */,
+				5C874902273CC2C5007471F6 /* BlockListTableViewCell.xib in Resources */,
 				5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */,
 				5C2C7302271D12E300F8B9EC /* Assets.xcassets in Resources */,
 				5C150F732737FE510093A59C /* empty.json in Resources */,
@@ -743,6 +753,7 @@
 				5C2846E627280EE000393562 /* Journal.swift in Sources */,
 				5CE3D841273A808A00DF07E8 /* CardTopicTableViewHeader.swift in Sources */,
 				5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */,
+				5C874900273CC2BD007471F6 /* BlockListTableViewCell.swift in Sources */,
 				5C4B9693271FBCC1008B21C7 /* BaseDetailCommentCell.swift in Sources */,
 				5CD1FAD52732793600F87B98 /* UIScreen+Extension.swift in Sources */,
 				5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */,
@@ -788,6 +799,7 @@
 				5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */,
 				5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */,
 				5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */,
+				5C8748FE273CC201007471F6 /* BlockListViewController.swift in Sources */,
 				5C8C0E92272426550054480A /* SwipeCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

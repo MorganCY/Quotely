@@ -85,7 +85,7 @@ class PostDetailViewController: BaseDetailViewController {
 
         if let message = commentTextField.text {
 
-            guard let visitorUid = SignInManager.shared.uid else { return }
+            guard let visitorUid = SignInManager.shared.visitorUid else { return }
 
             var comment = Comment(
                 uid: visitorUid,

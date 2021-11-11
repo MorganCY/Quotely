@@ -9,24 +9,41 @@ import Foundation
 
 struct User: Codable {
 
+    // informaiton
     var uid: String
     var name: String?
-    var saying: String?
+    var profileImageUrl: String
     var registerTime: Int64?
     var provider: String?
-    var postList: [String]?
-    var likeCardID: [String]?
-    var dislikeCardID: [String]?
-    var journalID: [String]?
-    var following: [String]?
-    var follower: [String]?
-    var blocklist: [String]?
+
+    // follow
+    var followingList: [String]?
+    var followerList: [String]?
+    var blockList: [String]?
     var followingNumber: Int
     var followerNumber: Int
+    var blockNumber: Int
+
+    // jornal
+    var journalList: [String]?
+
+    // card
+    var likeCardList: [String]?
+    var dislikeCardList: [String]?
+
+    // post
+    var postList: [String]?
     var postNumber: Int
-    var profileImageUrl: String?
 
     // default user when no data found
 
-    static let `default` = User(uid: "404", name: "找不到用戶", followingNumber: 0, followerNumber: 0, postNumber: 0)
+    static let `default` = User(
+        uid: "404",
+        name: "找不到用戶",
+        profileImageUrl: "",
+        followingNumber: 0,
+        followerNumber: 0,
+        blockNumber: 0,
+        postNumber: 0
+    )
 }

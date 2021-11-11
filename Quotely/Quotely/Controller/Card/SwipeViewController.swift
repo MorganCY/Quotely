@@ -10,7 +10,6 @@ import UIKit
 
 class SwipeViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.uid ?? ""
     let notificationCenter = NotificationCenter.default
     let loadingAnimationView = LottieAnimationView(animationName: "loading")
 
@@ -154,7 +153,7 @@ class SwipeViewController: UIViewController {
         }
     }
 
-    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+    func updateUserLikeCardList(visitorUid: String, cardID: String, likeAction: LikeAction) {
 
         UserManager.shared.updateFavoriteCard(
             uid: visitorUid,
@@ -173,7 +172,7 @@ class SwipeViewController: UIViewController {
         }
     }
 
-    func updateCard(cardID: String, likeAction: LikeAction) {
+    func updateCard(visitorUid: String, cardID: String, likeAction: LikeAction) {
 
         CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: visitorUid) { result in
 
@@ -199,13 +198,13 @@ class SwipeViewController: UIViewController {
                     return
                 }
 
-        let nav = BaseNavigationController(rootViewController: writeVC)
+        let navigationVC = BaseNavigationController(rootViewController: writeVC)
 
         writeVC.card = cards[currentCardIndex]
 
-        nav.modalPresentationStyle = .fullScreen
+        navigationVC.modalPresentationStyle = .fullScreen
 
-        present(nav, animated: true)
+        present(navigationVC, animated: true)
     }
 
     @objc func goToSharePage(_ sender: UIButton) {
@@ -356,8 +355,8 @@ class SwipeViewController: UIViewController {
             return Toast.showFailure(text: "收藏失敗")
         }
 
-        updateUserLikeCardList(cardID: cardID, likeAction: .like)
-        updateCard(cardID: cardID, likeAction: .like)
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .like)
+        updateCard(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .like)
         cards[currentCardIndex].likeNumber += 1
 
         Toast.showSuccess(text: "已收藏")
@@ -427,9 +426,9 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
-        updateUserLikeCardList(cardID: cardID, likeAction: .dislike)
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .dislike)
 
-        updateCard(cardID: cardID, likeAction: .dislike)
+        updateCard(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .dislike)
 
         if nextIndex < cards.count {
 
@@ -448,9 +447,9 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
-        updateUserLikeCardList(cardID: cardID, likeAction: .like)
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .like)
 
-        updateCard(cardID: cardID, likeAction: .like)
+        updateCard(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .like)
 
         if nextIndex < cards.count {
 

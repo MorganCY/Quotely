@@ -14,7 +14,7 @@ class SignInManager: NSObject {
 
     static let shared = SignInManager()
 
-    let uid = Auth.auth().currentUser?.uid
+    var visitorUid = Auth.auth().currentUser?.uid
 
     private override init() { super.init() }
 
@@ -22,7 +22,7 @@ class SignInManager: NSObject {
 
     fileprivate var userName = ""
 
-    let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+    weak var sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
     func performSignIn() {
 
@@ -155,6 +155,29 @@ extension SignInManager: ASAuthorizationControllerDelegate {
             Auth.auth().signIn(with: credential) { (authResult, error) in
 
                 if let user = authResult?.user {
+
+                    SignInManager.shared.visitorUid = user.uid
+
+                    UserManager.shared.listenToUserUpdate(
+                        uid: user.uid
+                    ) { result in
+
+                        switch result {
+
+                        case .success(let user):
+
+                            print(user)
+
+                            UserManager.shared.visitorUserInfo = user
+
+                            SignInManager.shared.visitorUid = user.uid
+
+                        case .failure(let error):
+
+                            print(error)
+                        }
+                    }
+
                     print("User has already signed in as \(user.uid), \(String(describing: user.email))")
 
                     if authResult?.additionalUserInfo?.isNewUser == true {
@@ -162,20 +185,20 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                         let user = User(
                             uid: user.uid,
                             name: self.userName,
-                            saying: nil,
+                            profileImageUrl: "gs://quotely-morganyu.appspot.com/default_profile.JPG",
                             registerTime: user.metadata.creationDate?.millisecondsSince1970,
                             provider: "Apple",
-                            postList: nil,
-                            likeCardID: nil,
-                            dislikeCardID: nil,
-                            journalID: nil,
-                            following: nil,
-                            follower: nil,
-                            blocklist: nil,
+                            followingList: nil,
+                            followerList: nil,
+                            blockList: nil,
                             followingNumber: 0,
                             followerNumber: 0,
-                            postNumber: 0,
-                            profileImageUrl: "gs://quotely-morganyu.appspot.com/default_profile.JPG"
+                            blockNumber: 0,
+                            journalList: nil,
+                            likeCardList: nil,
+                            dislikeCardList: nil,
+                            postList: nil,
+                            postNumber: 0
                         )
 
                         UserManager.shared.createUser(user: user) { result in

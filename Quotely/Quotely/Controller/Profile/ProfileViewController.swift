@@ -28,13 +28,20 @@ class ProfileViewController: BaseImagePickerViewController {
 
     // the user who is visiting other's profile
 
-    let visitorUid = SignInManager.shared.uid
+    let visitorUid = SignInManager.shared.visitorUid
+
+    let visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
 
     // the user who is visited by others
 
-    var visitedUid = SignInManager.shared.uid {
+    var visitedUid = SignInManager.shared.visitorUid {
         didSet {
+            guard let visitorBlockList = visitorBlockList,
+                  let visitedUid = visitedUid else {
+                return
+            }
             isVisitorProfile = visitorUid == visitedUid
+            isBlock = visitorBlockList.contains(visitedUid)
         }
     }
 
@@ -42,9 +49,15 @@ class ProfileViewController: BaseImagePickerViewController {
 
     var isVisitorProfile = true
 
+    var isBlock = false {
+        didSet {
+            if tableView != nil { tableView.reloadData() }
+        }
+    }
+
     var isFollow = false {
         didSet {
-            tableView.reloadData()
+            if tableView != nil { tableView.reloadData() }
         }
     }
 
@@ -102,13 +115,18 @@ class ProfileViewController: BaseImagePickerViewController {
 
             case .success(let userInfo):
 
+                UserManager.shared.visitorUserInfo = userInfo
+
                 if userType == .visited {
 
                     self.visitedUserInfo = userInfo
 
                 } else if userType == .visitor {
 
-                    guard let followingList = userInfo.following else { return }
+                    guard let followingList = userInfo.followingList,
+                          let blockList = userInfo.blockList else { return }
+
+                    self.isBlock = blockList.contains(self.visitedUid ?? "")
 
                     self.isFollow = followingList.contains(self.visitedUid ?? "")
                 }
@@ -129,9 +147,11 @@ class ProfileViewController: BaseImagePickerViewController {
             switch result {
 
             case .success(let posts):
+
                 self.userPostList = posts
 
             case .failure(let error):
+
                 print(error)
             }
         }
@@ -150,7 +170,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
         let nav = BaseNavigationController(rootViewController: settingsVC)
 
-        nav.modalPresentationStyle = .automatic
+        nav.modalPresentationStyle = .fullScreen
 
         present(nav, animated: true)
     }
@@ -322,26 +342,56 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    func tapFollowButton(followAction: UserManager.FollowAction) {
+    func updateUserBlock(blockAction: UserManager.BlockAction) {
+
+        guard let visitorUid = visitorUid,
+              let visitedUid = visitedUid else { return }
+
+        UserManager.shared.updateUserBlockList(
+            visitorUid: visitorUid,
+            visitedUid: visitedUid,
+            blockAction: blockAction
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+
+                print(success)
+
+                self.isBlock = blockAction == .block
+
+            case .failure(let error):
+
+                print(error)
+            }
+        }
+    }
+
+    func updateUserFollow(followAction: UserManager.FollowAction) {
+
+        guard let visitorUid = visitorUid,
+              let visitedUid = visitedUid else { return }
 
         UserManager.shared.updateUserFollow(
-            visitorUid: visitorUid ?? "",
-            visitedUid: visitedUid ?? "",
-            followAction: followAction) { result in
+            visitorUid: visitorUid,
+            visitedUid: visitedUid,
+            followAction: followAction
+        ) { result in
 
-                switch result {
+            switch result {
 
-                case .success(let success): print(success)
+            case .success(let success):
 
-                    if followAction == .follow {
-                        self.isFollow = true
-                    } else if followAction == .unfollow {
-                        self.isFollow = false
-                    }
+                print(success)
 
-                case .failure(let error): print(error)
-                }
+                self.isFollow = followAction == .follow
+
+            case .failure(let error):
+
+                print(error)
             }
+        }
     }
 }
 
@@ -368,7 +418,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
         header.isVisitorProfile = isVisitorProfile
 
-        header.layoutHeader(userInfo: userInfo, isFollow: isFollow)
+        header.layoutHeader(userInfo: userInfo, isBlock: isBlock, isFollow: isFollow)
+
+        header.blockButton.isEnabled = !isFollow
+
+        header.followButton.isEnabled = !isBlock
 
         header.editImageHandler = {
 
@@ -383,15 +437,24 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 userName: userName
             ) { result in
 
-                    switch result {
+                switch result {
 
-                    case .success(let success):
-                        print(success)
+                case .success(let success):
+                    print(success)
 
-                    case .failure(let error):
-                        print(error)
-                    }
+                case .failure(let error):
+                    print(error)
                 }
+            }
+        }
+
+        header.blockHanlder = {
+
+            var blockAction: UserManager.BlockAction = .block
+
+            blockAction = self.isBlock ? .unblock : .block
+
+            self.updateUserBlock(blockAction: blockAction)
         }
 
         header.followHandler = {
@@ -400,7 +463,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
             followAction = self.isFollow ? .unfollow : .follow
 
-            self.tapFollowButton(followAction: followAction)
+            self.updateUserFollow(followAction: followAction)
         }
 
         return header

@@ -78,13 +78,24 @@ class CardWriteViewController: BaseWriteViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         cardTopicView.dataSource = self
+        cardTopicView.delegate = self
         layoutCardView()
     }
 }
 
-extension CardWriteViewController: CardTopicViewDataSource {
+extension CardWriteViewController: CardTopicViewDataSource, CardTopicViewDelegate {
 
     func getCardImage(_ view: CardTopicView) -> UIImage { uploadedImage }
+
+    func didSelectCard(_ view: CardTopicView, index: Int) {
+        switch index {
+        case 0: uploadedImage = UIImage.asset(.bg1)!
+        case 1: uploadedImage = UIImage.asset(.bg2)!
+        case 2: uploadedImage = UIImage.asset(.bg3)!
+        case 3: uploadedImage = UIImage.asset(.bg4)!
+        default: break
+        }
+    }
 }
 
 extension CardWriteViewController {

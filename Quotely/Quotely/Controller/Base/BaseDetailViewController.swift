@@ -12,7 +12,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     enum DetailPageType { case post }
 
-    let visitorUid = SignInManager.shared.uid ?? ""
+    let visitorUid = SignInManager.shared.visitorUid ?? ""
 
     // MARK: ViewControls
     let commentPanel = UIView()
@@ -88,7 +88,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     func fetchUserInfo() {
 
-        guard let uid = SignInManager.shared.uid else { return }
+        guard let uid = SignInManager.shared.visitorUid else { return }
 
         UserManager.shared.fetchUserInfo(uid: uid) { result in
 
