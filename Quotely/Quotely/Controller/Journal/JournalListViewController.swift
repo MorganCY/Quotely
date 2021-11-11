@@ -12,7 +12,7 @@ import MapKit
 
 class JournalListViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.uid ?? ""
+    let visitorUid = SignInManager.shared.visitorUid ?? ""
 
     var journals = [Journal]() {
         didSet {
@@ -104,7 +104,7 @@ class JournalListViewController: UIViewController {
     func fetchJournals() {
 
         JournalManager.shared.fetchJournal(
-            uid: SignInManager.shared.uid ?? "",
+            uid: SignInManager.shared.visitorUid ?? "",
             month: selectedMonth,
             year: selectedYear) { result in
 

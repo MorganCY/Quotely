@@ -168,7 +168,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         Toast.showLoading(text: "上傳中")
 
-        guard let uid = SignInManager.shared.uid else {
+        guard let uid = SignInManager.shared.visitorUid else {
 
             Toast.showFailure(text: "上傳失敗")
 

@@ -16,20 +16,26 @@ class UserManager {
     enum FollowAction: Int {
 
         case follow = 1
-
         case unfollow = -1
     }
 
     enum PostAction: Int {
 
         case publish = 1
-
         case delete = -1
+    }
+
+    enum BlockAction: Int {
+
+        case block = 1
+        case unblock = -1
     }
 
     static let shared = UserManager()
 
     private init() {}
+
+    var visitorUserInfo: User?
 
     let users = Firestore.firestore().collection("users")
 
@@ -80,7 +86,7 @@ class UserManager {
 
                         document.reference.updateData([
 
-                            "likeCardID": FieldValue.arrayUnion([cardID])
+                            "likeCardList": FieldValue.arrayUnion([cardID])
                         ])
 
                         completion(.success("Favorite card list was updated"))
@@ -89,7 +95,7 @@ class UserManager {
 
                         document.reference.updateData([
 
-                            "likeCardID": FieldValue.arrayRemove([cardID])
+                            "likeCardList": FieldValue.arrayRemove([cardID])
                         ])
 
                         completion(.success("Favorite card list was updated"))
@@ -328,6 +334,50 @@ class UserManager {
                     }
 
                 } catch {
+
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    func updateUserBlockList(
+        visitorUid: String,
+        visitedUid: String,
+        blockAction: BlockAction,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        let reference = users.document(visitorUid)
+
+        reference.getDocument { document, error in
+
+            if let document = document, document.exists {
+
+                switch blockAction {
+                case .block:
+
+                    document.reference.updateData([
+
+                        "blockList": FieldValue.arrayUnion([visitedUid]),
+                        "blockNumber": FieldValue.increment(Int64(blockAction.rawValue))
+                    ])
+
+                case .unblock:
+
+                    document.reference.updateData([
+
+                        "blockList": FieldValue.arrayRemove([visitedUid]),
+                        "blockNumber": FieldValue.increment(Int64(blockAction.rawValue))
+                    ])
+
+                }
+
+                completion(.success("User information was updated"))
+
+            } else {
+
+                if let error = error {
 
                     completion(.failure(error))
                 }

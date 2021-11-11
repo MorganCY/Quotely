@@ -14,7 +14,7 @@ class CardManager {
 
     private init() {}
 
-    let visitorUid = SignInManager.shared.uid ?? ""
+    let visitorUid = SignInManager.shared.visitorUid ?? ""
 
     let cards = Firestore.firestore().collection("cards")
 

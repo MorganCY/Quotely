@@ -20,7 +20,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let _ = (scene as? UIWindowScene) else { return }
 
-        if Auth.auth().currentUser == nil {
+        if let visitorUid = Auth.auth().currentUser?.uid {
+
+            UserManager.shared.listenToUserUpdate(
+                uid: visitorUid
+            ) { result in
+
+                switch result {
+
+                case .success(let user):
+                    UserManager.shared.visitorUserInfo = user
+
+                case .failure(let error): print(error)
+                }
+            }
+
+        } else {
 
             if let windowScene = scene as? UIWindowScene {
 

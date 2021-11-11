@@ -25,7 +25,7 @@ class PostManager {
 
     static let shared = PostManager()
 
-    let visitorUid = SignInManager.shared.uid
+    let visitorUid = SignInManager.shared.visitorUid
 
     private init() {}
 
@@ -192,7 +192,9 @@ class PostManager {
                                 as: Post.self, decoder: Firestore.Decoder()
                             ) {
 
-                                posts.append(post)
+                                guard let blockList = UserManager.shared.visitorUserInfo?.blockList else { return }
+
+                                if !blockList.contains(post.uid) { posts.append(post) }
                             }
 
                         } catch {
@@ -294,7 +296,12 @@ class PostManager {
 
                                 ) {
 
-                                    posts.append(post)
+                                    guard let blockList = UserManager.shared.visitorUserInfo?.blockList else { return }
+
+                                    if !blockList.contains(post.uid) {
+
+                                        posts.append(post)
+                                    }
                                 }
 
                             } catch {

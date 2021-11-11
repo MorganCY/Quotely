@@ -10,7 +10,7 @@ import UIKit
 
 class SwipeViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.uid ?? ""
+    let visitorUid = SignInManager.shared.visitorUid ?? ""
     let notificationCenter = NotificationCenter.default
     let loadingAnimationView = LottieAnimationView(animationName: "loading")
 
@@ -199,13 +199,13 @@ class SwipeViewController: UIViewController {
                     return
                 }
 
-        let nav = BaseNavigationController(rootViewController: writeVC)
+        let navigationVC = BaseNavigationController(rootViewController: writeVC)
 
         writeVC.card = cards[currentCardIndex]
 
-        nav.modalPresentationStyle = .fullScreen
+        navigationVC.modalPresentationStyle = .fullScreen
 
-        present(nav, animated: true)
+        present(navigationVC, animated: true)
     }
 
     @objc func goToSharePage(_ sender: UIButton) {

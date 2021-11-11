@@ -11,7 +11,7 @@ import FirebaseFirestore
 
 class ExploreViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.uid
+    let visitorUid = SignInManager.shared.visitorUid
 
     var listener: ListenerRegistration?
 
@@ -168,12 +168,12 @@ class ExploreViewController: UIViewController {
 
         UserManager.shared.listenToUserUpdate(
             uid: visitorUid ?? "") { result in
-                
+
                 switch result {
 
                 case .success(let user):
 
-                    self.visitorFollowingList = user.following ?? [""]
+                    self.visitorFollowingList = user.followingList ?? [""]
 
                 case .failure(let error):
                     print(error)
@@ -312,7 +312,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
             if let likeUserList = post.likeUser {
 
-                self.isLikePost = likeUserList.contains(SignInManager.shared.uid ?? "")
+                self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
 
             } else {
 

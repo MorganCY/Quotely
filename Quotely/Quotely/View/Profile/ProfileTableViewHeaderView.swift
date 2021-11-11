@@ -55,6 +55,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     var editImageHandler: () -> Void = {}
     var editNameHandler: ((String) -> Void) = {_ in }
     var followHandler: (() -> Void) = {}
+    var blockHanlder: (() -> Void) = {}
 
     @IBAction func editImage(_ sender: UIButton) {
 
@@ -77,7 +78,12 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         isEditing = false
     }
 
-    @IBAction func follow(_ sender: UIButton) {
+    @IBAction func tapBlockButton(_ sender: UIButton) {
+
+        blockHanlder()
+    }
+
+    @IBAction func tapFollowButton(_ sender: UIButton) {
 
         followHandler()
     }
@@ -92,16 +98,25 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
     func layoutHeader(
         userInfo: User,
+        isBlock: Bool,
         isFollow: Bool
     ) {
 
-        if let profileImageUrl = userInfo.profileImageUrl {
+        profileImageView.loadImage(userInfo.profileImageUrl, placeHolder: nil)
 
-            profileImageView.loadImage(profileImageUrl, placeHolder: nil)
+        if isBlock {
+
+            blockButton.setTitle("解除封鎖", for: .normal)
+            blockButton.setTitleColor(.lightGray, for: .normal)
+            blockButton.backgroundColor = .gray
+            blockButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
 
         } else {
 
-            profileImageView.image = UIImage.asset(.bg4)
+            blockButton.setTitle("封鎖他", for: .normal)
+            blockButton.setTitleColor(.M1, for: .normal)
+            blockButton.backgroundColor = .white
+            blockButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         }
 
         if isFollow {

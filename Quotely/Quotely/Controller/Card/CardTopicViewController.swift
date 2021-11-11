@@ -10,7 +10,7 @@ import UIKit
 
 class CardTopicViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.uid
+    let visitorUid = SignInManager.shared.visitorUid
 
     var cardID: String? {
         didSet {
@@ -290,7 +290,7 @@ class CardTopicViewController: UIViewController {
 
 extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { card?.postList?.count ?? 0 }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { postList?.count ?? 0 }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
@@ -324,13 +324,11 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot create cell")
         }
 
-        guard let userList = userList,
-              let postList = postList else {
+        if let userList = userList,
+           let postList = postList {
 
-                  fatalError("Cannot create cell")
-              }
-
-        cell.layoutCell(user: userList[indexPath.row], post: postList[indexPath.row])
+            cell.layoutCell(user: userList[indexPath.row], post: postList[indexPath.row])
+        }
 
         cell.hideSelectionStyle()
 
@@ -343,7 +341,7 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = post?.likeUser {
 
-            isLikePost = likeUserList.contains(SignInManager.shared.uid ?? "")
+            isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
 
         } else {
 
