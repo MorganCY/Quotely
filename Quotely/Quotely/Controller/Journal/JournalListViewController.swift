@@ -22,7 +22,7 @@ class JournalListViewController: UIViewController {
     }
     var selectedMonth = Date().getCurrentTime(format: .MM) {
         didSet {
-            fetchJournals()
+            fetchJournals(visitorUid: visitorUid)
         }
     }
     var selectedYear = Date().getCurrentTime(format: .yyyy)
@@ -63,7 +63,7 @@ class JournalListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchUserInfo()
+        fetchUserInfo(visitorUid: visitorUid)
 
         navigationController?.setupBackButton(color: .white)
         tabBarController?.tabBar.isHidden = true
@@ -74,7 +74,7 @@ class JournalListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchJournals()
+        fetchJournals(visitorUid: visitorUid)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,7 +83,7 @@ class JournalListViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
-    func fetchUserInfo() {
+    func fetchUserInfo(visitorUid: String) {
 
         UserManager.shared.fetchUserInfo(
             uid: visitorUid) { result in
@@ -101,10 +101,10 @@ class JournalListViewController: UIViewController {
             }
     }
 
-    func fetchJournals() {
+    func fetchJournals(visitorUid: String) {
 
         JournalManager.shared.fetchJournal(
-            uid: SignInManager.shared.visitorUid ?? "",
+            uid: visitorUid,
             month: selectedMonth,
             year: selectedYear) { result in
 

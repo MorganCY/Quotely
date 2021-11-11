@@ -110,7 +110,9 @@ class FavoriteCardViewController: UIViewController {
 
                 case .success(let success):
                     print(success)
-                    self.updateCard(cardID: card.cardID ?? "")
+                    self.updateCard(
+                        cardID: card.cardID ?? ""
+                    )
                     self.likeCardList.remove(at: index)
 
                 case .failure(let error):

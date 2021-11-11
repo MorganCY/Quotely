@@ -29,9 +29,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 switch result {
 
                 case .success(let user):
+
+                    print(user)
+
                     UserManager.shared.visitorUserInfo = user
 
-                case .failure(let error): print(error)
+                    SignInManager.shared.visitorUid = user.uid
+
+                case .failure(let error):
+
+                    print(error)
                 }
             }
 

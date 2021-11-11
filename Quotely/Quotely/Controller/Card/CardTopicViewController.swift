@@ -10,7 +10,9 @@ import UIKit
 
 class CardTopicViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.visitorUid
+    let visitorUid = SignInManager.shared.visitorUid ?? ""
+
+    // if user comes from explore page, get card ID
 
     var cardID: String? {
         didSet {
@@ -19,10 +21,12 @@ class CardTopicViewController: UIViewController {
         }
     }
 
+    // if user comes from favorite card list, get card data
+
     var card: Card? {
         didSet {
             guard let card = card else { return }
-            fetchPostList(card: card)
+            fetchPostList(cardID: card.cardID ?? "")
         }
     }
 
@@ -69,11 +73,11 @@ class CardTopicViewController: UIViewController {
 
             switch result {
 
-            case . success(let card):
+            case .success(let card):
 
                 self.card = card
 
-                self.fetchPostList(card: card)
+                self.fetchPostList(cardID: card.cardID ?? "")
 
             case .failure(let error):
 
@@ -84,9 +88,9 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    func fetchPostList(card: Card) {
+    func fetchPostList(cardID: String) {
 
-        PostManager.shared.fetchCardPost(cardID: card.cardID ?? "") { result in
+        PostManager.shared.fetchCardPost(cardID: cardID) { result in
 
             switch result {
 
@@ -145,13 +149,6 @@ class CardTopicViewController: UIViewController {
 
     func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
 
-        guard let visitorUid = visitorUid else {
-
-            Toast.showFailure(text: "讀取用戶資料失敗")
-
-            return
-        }
-
         UserManager.shared.updateFavoriteCard(
             uid: visitorUid,
             cardID: cardID,
@@ -170,13 +167,6 @@ class CardTopicViewController: UIViewController {
     }
 
     func updateCard(cardID: String, likeAction: LikeAction) {
-
-        guard let visitorUid = visitorUid else {
-
-            Toast.showFailure(text: "讀取用戶資料失敗")
-
-            return
-        }
 
         CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: visitorUid) { result in
 
@@ -341,7 +331,7 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = post?.likeUser {
 
-            isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
+            isLikePost = likeUserList.contains(visitorUid)
 
         } else {
 

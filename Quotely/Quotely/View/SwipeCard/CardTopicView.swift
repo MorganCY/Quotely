@@ -15,7 +15,7 @@ protocol CardTopicViewDataSource: AnyObject {
 
 protocol CardTopicViewDelegate: AnyObject {
 
-    func didSelectCard(_ view: CardTopicView)
+    func didSelectCard(_ view: CardTopicView, index: Int)
 }
 
 extension CardTopicViewDataSource {
@@ -33,6 +33,8 @@ class CardTopicView: UIView {
             }
         }
     }
+
+    weak var delegate: CardTopicViewDelegate?
 
     let backgroundView = UIView()
     let contentLabel = UILabel()
@@ -70,10 +72,22 @@ class CardTopicView: UIView {
         imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
     }
 
-    @objc func changeTemplateImageToBg1(_ sender: UIButton) { cardImageView.image = UIImage.asset(.bg1) }
-    @objc func changeTemplateImageToBg2(_ sender: UIButton) { cardImageView.image = UIImage.asset(.bg2) }
-    @objc func changeTemplateImageToBg3(_ sender: UIButton) { cardImageView.image = UIImage.asset(.bg3) }
-    @objc func changeTemplateImageToBg4(_ sender: UIButton) { cardImageView.image = UIImage.asset(.bg4) }
+    @objc func changeTemplateImageToBg1(_ sender: UIButton) {
+        cardImageView.image = UIImage.asset(.bg1)
+        delegate?.didSelectCard(self, index: sender.tag)
+    }
+    @objc func changeTemplateImageToBg2(_ sender: UIButton) {
+        cardImageView.image = UIImage.asset(.bg2)
+        delegate?.didSelectCard(self, index: sender.tag)
+    }
+    @objc func changeTemplateImageToBg3(_ sender: UIButton) {
+        cardImageView.image = UIImage.asset(.bg3)
+        delegate?.didSelectCard(self, index: sender.tag)
+    }
+    @objc func changeTemplateImageToBg4(_ sender: UIButton) {
+        cardImageView.image = UIImage.asset(.bg4)
+        delegate?.didSelectCard(self, index: sender.tag)
+    }
 
     func setupViews() {
 
@@ -132,6 +146,11 @@ class CardTopicView: UIView {
             $0.clipsToBounds = true
             $0.imageView?.contentMode = .scaleToFill
         }
+
+        imageButtons[0].tag = 0
+        imageButtons[1].tag = 1
+        imageButtons[2].tag = 2
+        imageButtons[3].tag = 3
 
         bg1ImageButton.setBackgroundImage(UIImage.asset(.bg1), for: .normal)
         bg2ImageButton.setBackgroundImage(UIImage.asset(.bg2), for: .normal)

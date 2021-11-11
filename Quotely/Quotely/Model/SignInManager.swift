@@ -155,6 +155,29 @@ extension SignInManager: ASAuthorizationControllerDelegate {
             Auth.auth().signIn(with: credential) { (authResult, error) in
 
                 if let user = authResult?.user {
+
+                    SignInManager.shared.visitorUid = user.uid
+
+                    UserManager.shared.listenToUserUpdate(
+                        uid: user.uid
+                    ) { result in
+
+                        switch result {
+
+                        case .success(let user):
+
+                            print(user)
+
+                            UserManager.shared.visitorUserInfo = user
+
+                            SignInManager.shared.visitorUid = user.uid
+
+                        case .failure(let error):
+
+                            print(error)
+                        }
+                    }
+
                     print("User has already signed in as \(user.uid), \(String(describing: user.email))")
 
                     if authResult?.additionalUserInfo?.isNewUser == true {

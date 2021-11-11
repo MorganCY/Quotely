@@ -296,9 +296,15 @@ class PostManager {
 
                                 ) {
 
-                                    guard let blockList = UserManager.shared.visitorUserInfo?.blockList else { return }
+                                    if let blockList = UserManager.shared.visitorUserInfo?.blockList {
 
-                                    if !blockList.contains(post.uid) {
+                                        if !blockList.contains(post.uid) {
+
+                                            posts.append(post)
+
+                                        }
+                                        
+                                    } else {
 
                                         posts.append(post)
                                     }

@@ -11,8 +11,6 @@ import FirebaseFirestore
 
 class ExploreViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.visitorUid
-
     var listener: ListenerRegistration?
 
     var visitorFollowingList: [String] = []
@@ -22,7 +20,7 @@ class ExploreViewController: UIViewController {
         didSet {
             if currentFilter == .following,
                visitorFollowingList.count > 0 {
-                listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
+                listener = addPostListener(type: currentFilter, uid: SignInManager.shared.visitorUid, followingList: visitorFollowingList)
             } else {
                 listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
             }
@@ -83,18 +81,28 @@ class ExploreViewController: UIViewController {
 
         setupFilterView()
 
-        fetchVisitorFollowingList()
+        fetchVisitorFollowingList(visitorUid: SignInManager.shared.visitorUid ?? "")
 
         view.backgroundColor = .M1
+
+        currentFilter = .latest
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if visitorFollowingList.count > 0 {
-            listener = addPostListener(type: currentFilter, uid: visitorUid, followingList: visitorFollowingList)
-        } else {
-            listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
+            listener = addPostListener(
+                type: currentFilter,
+                uid: SignInManager.shared.visitorUid,
+                followingList: visitorFollowingList
+            )
+        } else if visitorFollowingList.count == 0 {
+            listener = addPostListener(
+                type: currentFilter,
+                uid: nil,
+                followingList: nil
+            )
         }
     }
 
@@ -164,10 +172,10 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    func fetchVisitorFollowingList() {
+    func fetchVisitorFollowingList(visitorUid: String) {
 
         UserManager.shared.listenToUserUpdate(
-            uid: visitorUid ?? "") { result in
+            uid: visitorUid) { result in
 
                 switch result {
 
@@ -291,7 +299,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = post.likeUser {
 
-            isLikePost = likeUserList.contains(visitorUid ?? "")
+            isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
 
         } else {
 
@@ -380,7 +388,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = postList[row].likeUser {
 
-            isLikePost = likeUserList.contains(visitorUid ?? "")
+            isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
 
         } else {
 
