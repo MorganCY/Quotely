@@ -25,8 +25,8 @@ class CardTopicViewController: UIViewController {
 
     var card: Card? {
         didSet {
-            guard let card = card else { return }
-            fetchPostList(cardID: card.cardID ?? "")
+            guard let cardID = card?.cardID else { return }
+            fetchPostList(cardID: cardID)
         }
     }
 

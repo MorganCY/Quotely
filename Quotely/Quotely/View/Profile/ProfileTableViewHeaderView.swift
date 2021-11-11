@@ -102,7 +102,14 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         isFollow: Bool
     ) {
 
-        profileImageView.loadImage(userInfo.profileImageUrl, placeHolder: nil)
+        if let profileImageUrl = userInfo.profileImageUrl {
+
+            profileImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            profileImageView.image = UIImage.asset(.logo)
+        }
 
         if isBlock {
 

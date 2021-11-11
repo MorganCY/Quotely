@@ -45,12 +45,20 @@ class BaseDetailCommentCell: UITableViewCell {
 
     func layoutCell(
         comment: Comment,
-        userImageUrl: String,
+        userImageUrl: String?,
         userName: String,
         isAuthor: Bool
     ) {
 
-        userImageView.loadImage(userImageUrl, placeHolder: nil)
+        if let profileImageUrl = userImageUrl {
+
+            userImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
+
         nameLabel.text = userName
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: comment.createdTime))
         contentLabel.text = comment.content

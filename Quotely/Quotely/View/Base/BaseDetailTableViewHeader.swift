@@ -93,15 +93,20 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
             timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: createdTime))
         }
 
-        if let userImageUrl = postAuthor?.profileImageUrl,
-           let name = postAuthor?.name {
+        if let profileImageUrl = postAuthor?.profileImageUrl {
+
+            userImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
+
+        if let name = postAuthor?.name {
 
             hasUserInfo = true
 
-            userImageView.loadImage(userImageUrl, placeHolder: nil)
             userNameLabel.text = name
-
-            userImageView.cornerRadius = userImageView.frame.width / 2
         }
 
         if let postImageUrl = post?.imageUrl {

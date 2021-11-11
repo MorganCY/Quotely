@@ -192,9 +192,18 @@ class PostManager {
                                 as: Post.self, decoder: Firestore.Decoder()
                             ) {
 
-                                guard let blockList = UserManager.shared.visitorUserInfo?.blockList else { return }
+                                if let blockList = UserManager.shared.visitorUserInfo?.blockList {
 
-                                if !blockList.contains(post.uid) { posts.append(post) }
+                                    if !blockList.contains(post.uid) {
+
+                                        posts.append(post)
+
+                                    }
+
+                                } else {
+
+                                    posts.append(post)
+                                }
                             }
 
                         } catch {
@@ -303,7 +312,7 @@ class PostManager {
                                             posts.append(post)
 
                                         }
-                                        
+
                                     } else {
 
                                         posts.append(post)

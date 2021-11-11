@@ -324,7 +324,7 @@ class PostDetailViewController: BaseDetailViewController {
             case .success(let user):
                 cell.layoutCell(
                     comment: comment,
-                    userImageUrl: user.profileImageUrl ?? "",
+                    userImageUrl: user.profileImageUrl,
                     userName: user.name ?? "",
                     isAuthor: isCommentAuthor
                 )
