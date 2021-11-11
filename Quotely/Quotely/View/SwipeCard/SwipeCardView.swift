@@ -141,8 +141,7 @@ class SwipeCardView: UIView {
         likeImageView.image = isLeft
         ? UIImage.asset(.dislike) : UIImage.asset(.like)
 
-        likeImageView.tintColor = isLeft
-        ? .M1 : .A1
+        likeImageView.tintColor = .M1
 
         guard let superview = superview else { return }
 

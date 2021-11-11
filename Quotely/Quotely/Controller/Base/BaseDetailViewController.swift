@@ -232,7 +232,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         ])
 
         commentPanel.backgroundColor = .white
-
         userImageView.backgroundColor = .gray
         userImageView.clipsToBounds = true
         userImageView.loadImage(visitor?.profileImageUrl ?? "", placeHolder: nil)

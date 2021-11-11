@@ -36,7 +36,7 @@ class ExploreWriteViewController: BaseWriteViewController {
         image: UIImage.sfsymbol(.quoteNormal)!,
         imageColor: .M3!,
         labelColor: .white,
-        text: "引用我收藏的卡片"
+        text: "引用我收藏的片語"
     )
 
     // MARK: LifeCycle

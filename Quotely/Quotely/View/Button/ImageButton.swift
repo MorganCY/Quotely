@@ -16,12 +16,13 @@ class ImageButton: UIButton {
         image: UIImage,
         color: UIColor,
         bgColor: UIColor = .clear,
-        hasLabel: Bool = false,
+        labelTitle: String? = nil,
+        labelColor: UIColor? = nil,
         fontSize: CGFloat = 14
     ) {
         super.init(frame: .zero)
 
-        setUpButton(image: image, tintColor: color, hasLabel: hasLabel, fontSize: fontSize)
+        setUpButton(image: image, tintColor: color, labelTitle: labelTitle, labelColor: labelColor, fontSize: fontSize)
         backgroundColor = bgColor
     }
 
@@ -29,7 +30,7 @@ class ImageButton: UIButton {
         super.init(coder: coder)
     }
 
-    private func setUpButton(image: UIImage, tintColor: UIColor, hasLabel: Bool, fontSize: CGFloat) {
+    private func setUpButton(image: UIImage, tintColor: UIColor, labelTitle: String?, labelColor: UIColor?, fontSize: CGFloat) {
 
         addSubview(iconImageView)
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,17 +44,19 @@ class ImageButton: UIButton {
             iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor)
         ])
 
-        if hasLabel == true {
+        if let labelTitle = labelTitle,
+           let labelColor = labelColor {
 
             addSubview(buttonLabel)
             buttonLabel.translatesAutoresizingMaskIntoConstraints = false
-            buttonLabel.tintColor = tintColor
+            buttonLabel.text = labelTitle
+            buttonLabel.textColor = labelColor
             buttonLabel.font = UIFont.systemFont(ofSize: fontSize)
 
             NSLayoutConstraint.activate([
 
                 buttonLabel.centerXAnchor.constraint(equalTo: iconImageView.centerXAnchor),
-                buttonLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 6)
+                buttonLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: 12)
             ])
         }
     }

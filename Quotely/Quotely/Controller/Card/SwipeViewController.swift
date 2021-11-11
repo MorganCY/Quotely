@@ -22,12 +22,22 @@ class SwipeViewController: UIViewController {
 
     let educationDimmingView = UIView()
     var cardStack = SwipeCardStackView()
-    let shareButton = ImageButton(image: UIImage.sfsymbol(.shareNormal)!, color: .white)
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .white, hasLabel: true)
-    let commentButton = ImageButton(image: UIImage.sfsymbol(.writeCardPost)!, color: .white, hasLabel: true)
+    let shareButton = ImageButton(
+        image: UIImage.sfsymbol(.shareNormal)!,
+        color: .white,
+        labelTitle: "分享",
+        labelColor: .gray
+    )
+    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .white)
+    let writeButton = ImageButton(
+        image: UIImage.sfsymbol(.writeCardPost)!,
+        color: .white,
+        labelTitle: "引用片語",
+        labelColor: .gray
+    )
     let resetButton = ImageButton(image: UIImage.sfsymbol(.reset)!, color: .M1!)
     let resetBackgroundView = UIView()
-    let likeNumberLabel = ImageButtonLabel(color: .M1!)
+    let likeNumberLabel = ImageButtonLabel(color: .gray)
 
     var resetBackgroundViewHeight = NSLayoutConstraint()
     var resetBackgroundViewHeightHidden = NSLayoutConstraint()
@@ -38,7 +48,7 @@ class SwipeViewController: UIViewController {
         didSet {
             expandAnimation()
             resetButton.isHidden = !isLastCardSwiped
-            commentButton.isEnabled = !isLastCardSwiped
+            writeButton.isEnabled = !isLastCardSwiped
         }
     }
     var currentCardIndex = 0
@@ -46,7 +56,7 @@ class SwipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "靈感"
+        navigationItem.title = "片語"
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.cards)!,
@@ -139,7 +149,7 @@ class SwipeViewController: UIViewController {
 
                 self.shareButton.isEnabled = true
                 self.likeButton.isEnabled = true
-                self.commentButton.isEnabled = true
+                self.writeButton.isEnabled = true
             })
         }
     }
@@ -258,7 +268,7 @@ class SwipeViewController: UIViewController {
 
     func setupButton() {
 
-        let buttons = [shareButton, likeButton, commentButton]
+        let buttons = [shareButton, likeButton, writeButton]
         buttons.forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -267,7 +277,7 @@ class SwipeViewController: UIViewController {
             $0.cornerRadius = CornerRadius.standard.rawValue
         }
 
-        commentButton.addTarget(self, action: #selector(goToWritePage(_:)), for: .touchUpInside)
+        writeButton.addTarget(self, action: #selector(goToWritePage(_:)), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(tapLikeButton(_:)), for: .touchUpInside)
         shareButton.addTarget(self, action: #selector(goToSharePage(_:)), for: .touchUpInside)
 
@@ -276,23 +286,23 @@ class SwipeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            likeButton.bottomAnchor.constraint(equalTo: likeNumberLabel.topAnchor, constant: -12),
+            likeButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20),
             likeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             likeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
             likeButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
-            shareButton.bottomAnchor.constraint(equalTo: likeButton.bottomAnchor),
+            shareButton.topAnchor.constraint(equalTo: likeButton.topAnchor),
             shareButton.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -16),
             shareButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
             shareButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
-            commentButton.bottomAnchor.constraint(equalTo: likeButton.bottomAnchor),
-            commentButton.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 16),
-            commentButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
-            commentButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
+            writeButton.topAnchor.constraint(equalTo: likeButton.topAnchor),
+            writeButton.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 16),
+            writeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
+            writeButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
             likeNumberLabel.centerXAnchor.constraint(equalTo: likeButton.centerXAnchor),
-            likeNumberLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24)
+            likeNumberLabel.topAnchor.constraint(equalTo: likeButton.bottomAnchor, constant: 12)
         ])
     }
 
@@ -369,7 +379,7 @@ class SwipeViewController: UIViewController {
         swipeAnimationView.translatesAutoresizingMaskIntoConstraints = false
         okButton.translatesAutoresizingMaskIntoConstraints = false
 
-        titleLabel.text = "試試看左右滑動卡片"
+        titleLabel.text = "試試看左右滑動片語"
         titleLabel.textColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         okButton.setTitle("好喔", for: .normal)

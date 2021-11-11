@@ -12,32 +12,28 @@ import AuthenticationServices
 class AuthViewController: UIViewController {
 
     let logoImageView = UIImageView()
-
     let claimerLabel = UILabel()
     let privacyPolicyButton = UIButton()
+    let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+    let claimerStackView = UIStackView()
+    var authViews: [UIView] {
+        return [logoImageView, signInButton, claimerStackView]
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         view.backgroundColor = .BG
-        logoImageView.alpha = 0
         configureAuthVC()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        logoImageView.fadeIn()
+        authViews.forEach { $0.fadeIn() }
     }
 
     func configureAuthVC() {
-        let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-        let claimerStackView = UIStackView()
-
-        let views = [logoImageView, signInButton, claimerLabel, privacyPolicyButton]
-        views.forEach {
-            view.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
         let claimerViews = [claimerLabel, privacyPolicyButton]
         view.addSubview(claimerStackView)
         claimerStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -48,6 +44,12 @@ class AuthViewController: UIViewController {
         claimerStackView.axis = .horizontal
         claimerStackView.spacing = 2
         claimerStackView.distribution = .fill
+
+        authViews.forEach {
+            $0.alpha = 0
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         logoImageView.image = UIImage.asset(.logoWithText)
         claimerLabel.text = "點擊下方按鈕登入代表您同意"
@@ -66,18 +68,15 @@ class AuthViewController: UIViewController {
             logoImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
             logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height * 0.2),
 
-//            claimerLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor),
-//            claimerLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: UIScreen.height * 0.25),
             privacyPolicyButton.leadingAnchor.constraint(equalTo: claimerLabel.trailingAnchor, constant: 2),
-//            privacyPolicyButton.topAnchor.constraint(equalTo: claimerLabel.topAnchor),
             privacyPolicyButton.heightAnchor.constraint(equalTo: claimerLabel.heightAnchor),
-            claimerStackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: UIScreen.height * 0.25),
-            claimerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInButton.topAnchor.constraint(equalTo: claimerStackView.bottomAnchor, constant: 16),
+            signInButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(UIScreen.height * 0.22)),
             signInButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
-            signInButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
+            signInButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
+            claimerStackView.bottomAnchor.constraint(equalTo: signInButton.topAnchor, constant: -16),
+            claimerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 

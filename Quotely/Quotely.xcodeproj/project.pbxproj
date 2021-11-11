@@ -332,17 +332,9 @@
 		5C2C7310271D17B800F8B9EC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5C8C0E91272426550054480A /* SwipeCardView.swift */,
-				5C8C0E9727246EB50054480A /* SwipeCardStack.swift */,
-				5C4B969E27216007008B21C7 /* ImageButton.swift */,
-				5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */,
-				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
-				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
-				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
-				5CD9DDEF272D3394009618FA /* RowButton.swift */,
-				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
-				5C9F02642739179D00FAC2B1 /* CardTopicView.swift */,
-				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
+				5C46F25F273CAC40007E951D /* Post */,
+				5C46F25D273CABFC007E951D /* SwipeCard */,
+				5C46F25E273CAC11007E951D /* Button */,
 				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
 				5C7B6398272A84D500E18B96 /* Card */,
@@ -373,6 +365,37 @@
 				5C46F257273BB0EB007E951D /* UIButton+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		5C46F25D273CABFC007E951D /* SwipeCard */ = {
+			isa = PBXGroup;
+			children = (
+				5C8C0E91272426550054480A /* SwipeCardView.swift */,
+				5C8C0E9727246EB50054480A /* SwipeCardStack.swift */,
+				5C9F02642739179D00FAC2B1 /* CardTopicView.swift */,
+				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
+			);
+			path = SwipeCard;
+			sourceTree = "<group>";
+		};
+		5C46F25E273CAC11007E951D /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				5C4B969E27216007008B21C7 /* ImageButton.swift */,
+				5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */,
+				5CD9DDEF272D3394009618FA /* RowButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		5C46F25F273CAC40007E951D /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
+				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
+				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 		5C4B9683271FA700008B21C7 /* Explore */ = {
@@ -406,6 +429,7 @@
 		5C4B968B271FA75E008B21C7 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
 				5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */,
 				5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */,
 				5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */,

@@ -68,7 +68,7 @@ class ExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "探索"
+        navigationItem.title = "想法"
 
         filterView.delegate = self
         filterView.dataSource = self

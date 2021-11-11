@@ -25,13 +25,13 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var blockButton: UIButton!
     @IBOutlet weak var followButton: UIButton!
 
-    var isEnableEdit = false {
+    var isEditing = false {
         didSet {
 
-            userNameLabel.isHidden = isEnableEdit
-            editNameButton.isHidden = isEnableEdit
-            editNameTextField.isHidden = !isEnableEdit
-            doneEditNameButton.isHidden = !isEnableEdit
+            userNameLabel.isHidden = isEditing
+            editNameButton.isHidden = isEditing
+            editNameTextField.isHidden = !isEditing
+            doneEditNameButton.isHidden = !isEditing
         }
     }
 
@@ -47,9 +47,9 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         setupButtons()
 
         defineIfDisplay()
-        userNameLabel.isHidden = isEnableEdit
-        editNameTextField.isHidden = !isEnableEdit
-        doneEditNameButton.isHidden = !isEnableEdit
+        userNameLabel.isHidden = isEditing
+        editNameTextField.isHidden = !isEditing
+        doneEditNameButton.isHidden = !isEditing
     }
 
     var editImageHandler: () -> Void = {}
@@ -63,7 +63,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
     @IBAction func editName(_ sender: UIButton) {
 
-        isEnableEdit = true
+        isEditing = true
 
         editNameTextField.text = userNameLabel.text
     }
@@ -74,7 +74,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         editNameHandler(text)
         userNameLabel.text = text
-        isEnableEdit = false
+        isEditing = false
     }
 
     @IBAction func follow(_ sender: UIButton) {
