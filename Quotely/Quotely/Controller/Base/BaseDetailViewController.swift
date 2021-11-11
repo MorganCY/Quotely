@@ -234,8 +234,16 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         commentPanel.backgroundColor = .white
         userImageView.backgroundColor = .gray
         userImageView.clipsToBounds = true
-        userImageView.loadImage(visitor?.profileImageUrl ?? "", placeHolder: nil)
         commentTextField.delegate = self
+
+        if let visitorUserImageUrl = visitor?.profileImageUrl {
+
+            userImageView.loadImage(visitorUserImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
 
         submitButton.addTarget(
             self, action: #selector(addComment(_:)),

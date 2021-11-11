@@ -49,7 +49,14 @@ class ExploreTableViewCell: UITableViewCell {
         let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
         let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
 
-        userImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
+        if let profileImageUrl = userInfo.profileImageUrl {
+
+            userImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
 
         userNameLabel.text = userInfo.name
         timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))

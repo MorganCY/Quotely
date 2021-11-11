@@ -185,7 +185,7 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                         let user = User(
                             uid: user.uid,
                             name: self.userName,
-                            profileImageUrl: "gs://quotely-morganyu.appspot.com/default_profile.JPG",
+                            profileImageUrl: nil,
                             registerTime: user.metadata.creationDate?.millisecondsSince1970,
                             provider: "Apple",
                             followingList: nil,

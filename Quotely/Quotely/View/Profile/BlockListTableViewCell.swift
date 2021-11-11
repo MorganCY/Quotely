@@ -34,7 +34,14 @@ class BlockListTableViewCell: UITableViewCell {
 
     func layoutCell(user: User) {
 
-        userImageView.loadImage(user.profileImageUrl, placeHolder: nil)
+        if let profileImageUrl = user.profileImageUrl {
+
+            userImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
 
         userNameLabel.text = user.name
     }

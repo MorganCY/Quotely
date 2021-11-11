@@ -73,7 +73,7 @@ class JournalViewController: UIViewController {
     @objc func submitJournal(_ sender: UIButton) {
 
         var journal = Journal(
-            uid: SignInManager.shared.visitorUid ?? "",
+            uid: UserManager.shared.visitorUserInfo?.uid ?? "",
             createdTime: Date().millisecondsSince1970,
             emoji: "\(selectedEmoji?.rawValue ?? "face.smiling")",
             content: journalTextView.text)
