@@ -28,20 +28,20 @@ class ProfileViewController: BaseImagePickerViewController {
 
     // the user who is visiting other's profile
 
-    let visitorUid = SignInManager.shared.visitorUid
+    var visitorUid: String?
 
-    let visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
+    var visitorBlockList: [String]?
 
     // the user who is visited by others
 
     var visitedUid = SignInManager.shared.visitorUid {
         didSet {
-            guard let visitorBlockList = visitorBlockList,
-                  let visitedUid = visitedUid else {
-                return
-            }
             isVisitorProfile = visitorUid == visitedUid
-            isBlock = visitorBlockList.contains(visitedUid)
+
+            if let visitorBlockList = visitorBlockList,
+            let visitedUid = visitedUid {
+                isBlock = visitorBlockList.contains(visitedUid)
+            }
         }
     }
 
@@ -90,6 +90,9 @@ class ProfileViewController: BaseImagePickerViewController {
                 color: .M1!
             )
         }
+
+        visitorUid = UserManager.shared.visitorUserInfo?.uid
+        visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
     }
 
     override func viewWillAppear(_ animated: Bool) {

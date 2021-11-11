@@ -62,7 +62,7 @@ class ExploreViewController: UIViewController {
 
     var isLikePost = false
 
-    // MARK: LiftCycle
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,7 +81,7 @@ class ExploreViewController: UIViewController {
 
         setupFilterView()
 
-        fetchVisitorFollowingList(visitorUid: SignInManager.shared.visitorUid ?? "")
+        visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList ?? [""]
 
         view.backgroundColor = .M1
 
@@ -172,22 +172,22 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    func fetchVisitorFollowingList(visitorUid: String) {
-
-        UserManager.shared.listenToUserUpdate(
-            uid: visitorUid) { result in
-
-                switch result {
-
-                case .success(let user):
-
-                    self.visitorFollowingList = user.followingList ?? [""]
-
-                case .failure(let error):
-                    print(error)
-                }
-            }
-    }
+//    func fetchVisitorFollowingList(visitorUid: String) {
+//
+//        UserManager.shared.listenToUserUpdate(
+//            uid: visitorUid) { result in
+//
+//                switch result {
+//
+//                case .success(let user):
+//
+//                    self.visitorFollowingList = user.followingList ?? [""]
+//
+//                case .failure(let error):
+//                    print(error)
+//                }
+//            }
+//    }
 
     @objc func addPost(_ sender: UIBarButtonItem) {
 

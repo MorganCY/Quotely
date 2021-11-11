@@ -251,7 +251,7 @@ class UserManager {
 
                         "followingNumber": FieldValue.increment(Int64(followAction.rawValue)),
 
-                        "following": FieldValue.arrayUnion([visitedUid])
+                        "followingList": FieldValue.arrayUnion([visitedUid])
                     ])
 
                 case .unfollow:
@@ -260,7 +260,7 @@ class UserManager {
 
                         "followingNumber": FieldValue.increment(Int64(followAction.rawValue)),
 
-                        "following": FieldValue.arrayRemove([visitedUid])
+                        "followingList": FieldValue.arrayRemove([visitedUid])
                     ])
                 }
 
@@ -286,7 +286,7 @@ class UserManager {
 
                         "followerNumber": FieldValue.increment(Int64(followAction.rawValue)),
 
-                        "follower": FieldValue.arrayUnion([visitorUid])
+                        "followerList": FieldValue.arrayUnion([visitorUid])
                     ])
 
                 case .unfollow:
@@ -295,7 +295,7 @@ class UserManager {
 
                         "followerNumber": FieldValue.increment(Int64(followAction.rawValue)),
 
-                        "follower": FieldValue.arrayRemove([visitorUid])
+                        "followerList": FieldValue.arrayRemove([visitorUid])
                     ])
                 }
 
