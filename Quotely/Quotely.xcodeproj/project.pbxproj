@@ -37,6 +37,8 @@
 		5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7322271D3D5C00F8B9EC /* Write.storyboard */; };
 		5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7324271D3D6400F8B9EC /* Journal.storyboard */; };
 		5C2C7327271D3D6E00F8B9EC /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */; };
+		5C46F258273BB0EB007E951D /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F257273BB0EB007E951D /* UIButton+Extension.swift */; };
+		5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */; };
 		5C47E0D7273A77A600CE383C /* CardTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */; };
 		5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */; };
 		5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */; };
@@ -141,6 +143,8 @@
 		5C2C7322271D3D5C00F8B9EC /* Write.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Write.storyboard; sourceTree = "<group>"; };
 		5C2C7324271D3D6400F8B9EC /* Journal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Journal.storyboard; sourceTree = "<group>"; };
 		5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		5C46F257273BB0EB007E951D /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTopicViewController.swift; sourceTree = "<group>"; };
 		5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailTableViewHeader.swift; sourceTree = "<group>"; };
 		5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseDetailTableViewHeader.xib; sourceTree = "<group>"; };
@@ -328,17 +332,9 @@
 		5C2C7310271D17B800F8B9EC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5C8C0E91272426550054480A /* SwipeCardView.swift */,
-				5C8C0E9727246EB50054480A /* SwipeCardStack.swift */,
-				5C4B969E27216007008B21C7 /* ImageButton.swift */,
-				5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */,
-				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
-				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
-				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
-				5CD9DDEF272D3394009618FA /* RowButton.swift */,
-				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
-				5C9F02642739179D00FAC2B1 /* CardTopicView.swift */,
-				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
+				5C46F25F273CAC40007E951D /* Post */,
+				5C46F25D273CABFC007E951D /* SwipeCard */,
+				5C46F25E273CAC11007E951D /* Button */,
 				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
 				5C7B6398272A84D500E18B96 /* Card */,
@@ -366,8 +362,40 @@
 				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
 				5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */,
 				5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */,
+				5C46F257273BB0EB007E951D /* UIButton+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		5C46F25D273CABFC007E951D /* SwipeCard */ = {
+			isa = PBXGroup;
+			children = (
+				5C8C0E91272426550054480A /* SwipeCardView.swift */,
+				5C8C0E9727246EB50054480A /* SwipeCardStack.swift */,
+				5C9F02642739179D00FAC2B1 /* CardTopicView.swift */,
+				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
+			);
+			path = SwipeCard;
+			sourceTree = "<group>";
+		};
+		5C46F25E273CAC11007E951D /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				5C4B969E27216007008B21C7 /* ImageButton.swift */,
+				5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */,
+				5CD9DDEF272D3394009618FA /* RowButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		5C46F25F273CAC40007E951D /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
+				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
+				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 		5C4B9683271FA700008B21C7 /* Explore */ = {
@@ -401,6 +429,7 @@
 		5C4B968B271FA75E008B21C7 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
 				5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */,
 				5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */,
 				5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */,
@@ -413,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				5C54F4D72732338500E62DBF /* AuthViewController.swift */,
+				5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -701,6 +731,7 @@
 				5C8C0E8F2724261F0054480A /* UIViewController+Extension.swift in Sources */,
 				5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */,
 				5CE8F1D3272F77950026864C /* ProfileViewController.swift in Sources */,
+				5C46F258273BB0EB007E951D /* UIButton+Extension.swift in Sources */,
 				5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */,
 				5C9F02652739179D00FAC2B1 /* CardTopicView.swift in Sources */,
 				5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */,
@@ -756,6 +787,7 @@
 				5C8C0E9827246EB50054480A /* SwipeCardStack.swift in Sources */,
 				5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */,
 				5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */,
+				5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */,
 				5C8C0E92272426550054480A /* SwipeCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -916,6 +948,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
@@ -924,7 +957,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.Quotely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -950,6 +983,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
@@ -958,7 +992,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.Quotely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

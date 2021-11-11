@@ -21,7 +21,7 @@ class FavoriteCardViewController: UIViewController {
 
     var isFromWriteVC = false {
         didSet {
-            navigationTitle = isFromWriteVC ? "點選引用卡片" : "收藏清單"
+            navigationTitle = isFromWriteVC ? "點選引用片語" : "收藏清單"
         }
     }
 

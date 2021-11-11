@@ -9,31 +9,24 @@ import UIKit
 
 enum ImageAsset: String {
 
+    case logo
+    case logoWithText
     case testProfile = "test_profile"
-
     case like
-
     case dislike
-
     case bg1
-
     case bg2
-
     case bg3
-
     case bg4
-
     case instagram
-
     case back
 }
 
 enum SFSymbol: String {
 
     // Tab Bar
-    case write = "highlighter"
-    case cardsNormal = "square.stack"
-    case cardsSelected = "square.stack.fill"
+    case writeNormal = "pencil.circle"
+    case writeSelected = "pencil.circle.fill"
     case lightbulbNormal = "lightbulb"
     case lightbulbSelected = "lightbulb.fill"
     case personNormal = "person"
@@ -65,11 +58,12 @@ enum SFSymbol: String {
     case addPost = "plus.square"
     case delete = "trash"
     case dislike = "heart.slash"
-    case cards = "rectangle.on.rectangle.angled"
+    case cards = "bookmark.fill"
     case quoteNormal = "quote.bubble"
     case quoteSelected = "quote.bubble.fill"
     case download = "icloud.and.arrow.down"
     case settings = "gearshape"
+    case next = "chevron.right"
 }
 
 extension UIImage {

@@ -8,11 +8,15 @@
 import Foundation
 import UIKit
 import SwiftUI
+import MapKit
 
 class JournalListViewController: UIViewController {
 
+    let visitorUid = SignInManager.shared.uid ?? ""
+
     var journals = [Journal]() {
         didSet {
+            setupEmptyAnimation()
             tableView.reloadData()
         }
     }
@@ -30,6 +34,7 @@ class JournalListViewController: UIViewController {
         }
     }
 
+    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.dataSource = self
@@ -47,10 +52,13 @@ class JournalListViewController: UIViewController {
                 identifier: JournalListTableViewCell.identifier,
                 bundle: nil
             )
-            tableView.backgroundColor = .clear
+            tableView.backgroundColor = .M3
             tableView.separatorStyle = .none
+            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
         }
     }
+
+    let emptyAnimationView = UIView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,8 +66,9 @@ class JournalListViewController: UIViewController {
         fetchUserInfo()
 
         navigationController?.setupBackButton(color: .white)
-
         tabBarController?.tabBar.isHidden = true
+        backgroundImageView.image = UIImage.asset(.bg4)
+        backgroundImageView.alpha = 0.8
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -77,7 +86,7 @@ class JournalListViewController: UIViewController {
     func fetchUserInfo() {
 
         UserManager.shared.fetchUserInfo(
-            uid: SignInManager.shared.uid ?? "") { result in
+            uid: visitorUid) { result in
 
                 switch result {
 
@@ -169,7 +178,8 @@ extension JournalListViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
 
-        guard let userRegisterDate = userRegisterDate else { fatalError("Cannot create item") }
+        guard let userRegisterDate = userRegisterDate else { fatalError("Cannot create item")
+        }
 
         let monthlist = Date.getMonthAndYearBetween(
             from: userRegisterDate,
@@ -192,22 +202,6 @@ extension JournalListViewController: UICollectionViewDataSource {
 
 extension JournalListViewController: UICollectionViewDelegate {
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        willDisplay cell: UICollectionViewCell,
-        forItemAt indexPath: IndexPath
-    ) {
-
-        cell.alpha = 0
-
-        UIView.animate(
-            withDuration: 0.5,
-            delay: 0.1 * Double(indexPath.row),
-            animations: {
-                cell.alpha = 1
-        })
-    }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         guard let item = collectionView.cellForItem(at: indexPath) as? JournalListCollectionViewCell else { return }
@@ -227,6 +221,23 @@ extension JournalListViewController: UICollectionViewDelegate {
 
         item.setSelectedStyle()
     }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+
+        cell.alpha = 0
+
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0.1 * Double(indexPath.row),
+            animations: {
+                cell.alpha = 1
+        })
+    }
+
 }
 
 extension JournalListViewController: UICollectionViewDelegateFlowLayout {
@@ -320,5 +331,54 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         UITableView.automaticDimension
+    }
+}
+
+extension JournalListViewController {
+
+    func setupEmptyAnimation() {
+
+        let titleLabel = UILabel()
+        let animationView = LottieAnimationView(animationName: "empty")
+        let okButton = UIButton()
+
+        let views = [titleLabel, animationView, okButton]
+        views.forEach {
+            emptyAnimationView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        view.addSubview(emptyAnimationView)
+        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        emptyAnimationView.isHidden = !(journals.count == 0)
+        titleLabel.text = "還沒有任何隻字，快去新增一則吧！"
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
+        okButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
+        okButton.backgroundColor = .white
+        okButton.setTitleColor(.black, for: .normal)
+        okButton.setTitle("好喔", for: .normal)
+        okButton.addTarget(self, action: #selector(backToJournalPage(_:)), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            emptyAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            emptyAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            emptyAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            animationView.heightAnchor.constraint(equalTo: emptyAnimationView.heightAnchor, multiplier: 0.9),
+            animationView.widthAnchor.constraint(equalTo: emptyAnimationView.widthAnchor, multiplier: 0.9),
+            animationView.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: emptyAnimationView.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: -24),
+            titleLabel.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
+            okButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            okButton.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
+            okButton.widthAnchor.constraint(equalTo: emptyAnimationView.widthAnchor, multiplier: 0.5)
+        ])
+    }
+
+    @objc func backToJournalPage(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 }

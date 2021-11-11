@@ -98,7 +98,7 @@ extension CardWriteViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        cardTopicTitleLabel.text = "引用卡片"
+        cardTopicTitleLabel.text = "引用片語"
         cardTopicTitleLabel.numberOfLines = 1
         cardTopicTitleLabel.textColor = .M1
         cardTopicTitleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
