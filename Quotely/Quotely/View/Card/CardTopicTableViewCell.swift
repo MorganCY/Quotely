@@ -23,7 +23,15 @@ class CardTopicTableViewCell: UITableViewCell {
 
     func layoutCell(user: User, post: Post) {
 
-        userImageView.loadImage(user.profileImageUrl ?? "", placeHolder: nil)
+        if let userImageUrl = user.profileImageUrl {
+
+            userImageView.loadImage(userImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
+
         userImageView.cornerRadius = userImageView.frame.width / 2
 
         userNameLabel.text = user.name
