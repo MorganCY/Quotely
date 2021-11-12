@@ -34,6 +34,12 @@ class BlockListViewController: UIViewController {
 
         navigationItem.title = "封鎖名單"
 
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:))
+        )
+
         fetchBlockListContent()
     }
 
@@ -94,6 +100,11 @@ class BlockListViewController: UIViewController {
             case .failure(let error): print(error)
             }
         }
+    }
+
+    @objc func dismissSelf(_ sender: UIBarButtonItem) {
+
+        dismiss(animated: true, completion: nil)
     }
 }
 

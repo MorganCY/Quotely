@@ -221,7 +221,7 @@ class ExploreViewController: UIViewController {
 
         profileVC.visitedUid = postList[currentRow].uid
 
-        self.show(profileVC, sender: nil)
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 
     @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -238,7 +238,7 @@ class ExploreViewController: UIViewController {
 
         cardTopicVC.cardID = postList[currentRow].cardID
 
-        self.show(cardTopicVC, sender: nil)
+        navigationController?.pushViewController(cardTopicVC, animated: true)
     }
 }
 

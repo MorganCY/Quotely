@@ -18,7 +18,10 @@ class CardManager {
 
     let cards = Firestore.firestore().collection("cards")
 
-    func fetchRandomCards(limitNumber: Int, completion: @escaping (Result<[Card], Error>) -> Void) {
+    func fetchRandomCards(
+        limitNumber: Int,
+        completion: @escaping (Result<[Card], Error>) -> Void
+    ) {
 
         let randomID = cards.document().documentID
 

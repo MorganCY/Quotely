@@ -21,7 +21,7 @@ class SettingsViewController: UIViewController {
         }
     }
 
-    let options = ["登出", "封鎖名單", "刪除帳號"]
+    let options = ["封鎖名單", "登出", "刪除帳號"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +63,49 @@ class SettingsViewController: UIViewController {
         }
     }
 
+    func tapBlockListButton() {
+
+        guard let blockListVC =
+                UIStoryboard.profile
+                .instantiateViewController(
+                    withIdentifier: String(describing: BlockListViewController.self)
+                ) as? BlockListViewController else {
+
+                    return
+                }
+
+        let navigationVC = BaseNavigationController(rootViewController: blockListVC)
+
+        self.present(navigationVC, animated: true)
+    }
+
+    func tapSignOutButton() {
+
+        let alert = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
+
+        let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
+
+            self.performSignOut()
+        }
+
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+
+        alert.addAction(confirm)
+
+        alert.addAction(cancel)
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    func tapDeleteAccountButton() {
+
+        let alert = UIAlertController(title: "刪除帳號", message: "請聯繫 nihao0705@gmail.com", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+
+        present(alert, animated: true, completion: nil)
+    }
+
     @objc func dismissSelf(_ sender: UIBarButtonItem) {
 
         dismiss(animated: true, completion: nil)
@@ -81,9 +124,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot create cell")
         }
 
-        cell.layoutCell(
-            buttonTitle: options[indexPath.row]
-        )
+        cell.layoutCell(buttonTitle: options[indexPath.row])
 
         cell.hideSelectionStyle()
 
@@ -91,39 +132,11 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch indexPath.row {
 
-            case 0:
+            case 0: self.tapBlockListButton()
 
-                let alert = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
+            case 1: self.tapSignOutButton()
 
-                let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
-
-                    self.performSignOut()
-                }
-
-                let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-
-                alert.addAction(confirm)
-
-                alert.addAction(cancel)
-
-                self.present(alert, animated: true, completion: nil)
-
-            case 1:
-
-                guard let blockListVC =
-                        UIStoryboard.profile
-                        .instantiateViewController(
-                            withIdentifier: String(describing: BlockListViewController.self)
-                        ) as? BlockListViewController else {
-
-                            return
-                        }
-
-                let navigationVC = BaseNavigationController(rootViewController: blockListVC)
-
-                self.present(navigationVC, animated: true)
-
-            case 2: break
+            case 2: self.tapDeleteAccountButton()
 
             default: break
             }
