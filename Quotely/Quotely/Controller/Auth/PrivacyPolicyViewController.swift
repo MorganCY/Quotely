@@ -25,5 +25,16 @@ class PrivacyPolicyViewController: UIViewController, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.load(URLRequest(url: privacyPolicyUrl))
         webView.allowsBackForwardNavigationGestures = true
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:))
+        )
+    }
+
+    @objc func dismissSelf(_ sender: UIBarButtonItem) {
+
+        dismiss(animated: true, completion: nil)
     }
 }
