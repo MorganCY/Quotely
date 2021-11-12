@@ -189,6 +189,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                 case .success(let url):
 
+                    DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+
                     var post = Post(
                         uid: uid,
                         createdTime: Date().millisecondsSince1970,
@@ -549,9 +551,12 @@ extension BaseWriteViewController {
             action: #selector(dismissSelf(_:))
         )
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: navButtonTitle, style: .plain,
-            target: self, action: #selector(tapPublishButton(_:))
+        navigationItem.setupRightBarButton(
+            image: nil,
+            text: "發布",
+            target: self,
+            action: #selector(tapPublishButton(_:)),
+            color: .M1!
         )
     }
 

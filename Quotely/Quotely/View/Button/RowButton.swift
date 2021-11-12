@@ -33,9 +33,9 @@ class RowButton: UIButton {
 
     private func layoutButton(image: UIImage, imageColor: UIColor, labelColor: UIColor, text: String) {
 
-        let views = [iconBackgroundView, iconImageView, rowButttonTitleLabel, nextImageView]
+        let views = [iconImageView, iconBackgroundView, rowButttonTitleLabel, nextImageView]
         views.forEach {
-            addSubview($0)
+            insertSubview($0, at: 0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
@@ -69,6 +69,6 @@ class RowButton: UIButton {
         rowButttonTitleLabel.font = UIFont.systemFont(ofSize: 18)
 
         nextImageView.image = UIImage.sfsymbol(.next)
-        nextImageView.tintColor = imageColor
+        nextImageView.tintColor = labelColor
     }
 }

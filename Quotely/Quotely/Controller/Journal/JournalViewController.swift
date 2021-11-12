@@ -88,9 +88,11 @@ class JournalViewController: UIViewController {
                 print(success)
                 self.isEditPanelExpand = false
                 self.journalTextView.text.removeAll()
+                Toast.showSuccess(text: "成功新增隻字")
 
             case .failure(let error):
                 print(error)
+                Toast.showFailure(text: "新增隻字失敗")
             }
         }
     }
@@ -283,7 +285,7 @@ extension JournalViewController {
 
         dateLabel.text = "\(Date().getCurrentTime(format: .MM)).\(Date().getCurrentTime(format: .dd))"
         dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 90.0)
-        dailyQuoteLabel.font = UIFont(name: "Pingfang TC Bold", size: 18.0)
+        dailyQuoteLabel.font = UIFont(name: "Pingfang TC", size: 16.0)
         dailyQuoteLabel.numberOfLines = 0
 
         NSLayoutConstraint.activate([

@@ -52,7 +52,7 @@ class CardWriteViewController: BaseWriteViewController {
                 case .success(let success):
                     print(success)
 
-                    Toast.shared.hud.dismiss()
+                    DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
                     let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
