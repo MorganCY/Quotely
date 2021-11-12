@@ -33,8 +33,8 @@ class ExploreWriteViewController: BaseWriteViewController {
     }
 
     private let quoteButton = RowButton(
-        image: UIImage.sfsymbol(.quoteNormal)!,
-        imageColor: .M2!,
+        image: UIImage.sfsymbol(.quoteNormal),
+        imageColor: .M2,
         labelColor: .white,
         text: "引用收藏的片語"
     )
@@ -84,9 +84,7 @@ extension ExploreWriteViewController {
 
     func layoutPostImage() {
 
-        let views = [
-            postImageView, deleteImageButton
-        ]
+        let views = [postImageView, deleteImageButton]
 
         views.forEach {
             view.addSubview($0)
@@ -120,7 +118,7 @@ extension ExploreWriteViewController {
         quoteButton.translatesAutoresizingMaskIntoConstraints = false
 
         quoteButton.cornerRadius = CornerRadius.standard.rawValue
-        quoteButton.backgroundColor = .M2!
+        quoteButton.backgroundColor = .M2
         quoteButton.addTarget(self, action: #selector(goToFavoriteCardPage(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([

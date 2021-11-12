@@ -78,7 +78,7 @@ class ShareViewController: BaseImagePickerViewController {
     let bg2ImageButton = UIButton()
     let bg3ImageButton = UIButton()
     let bg4ImageButton = UIButton()
-    let uploadImageButton = ImageButton(image: UIImage.sfsymbol(.photo)!, color: .white, bgColor: .black)
+    let uploadImageButton = ImageButton(image: UIImage.sfsymbol(.photo), color: .white, bgColor: .black)
     let imageButtonStackView = UIStackView()
     var imageButtons: [UIButton] {
         return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton, uploadImageButton]
@@ -89,8 +89,8 @@ class ShareViewController: BaseImagePickerViewController {
      */
     let dimmingView = UIView()
     let shareOptionPanel = UIView()
-    let instagramButton = RowButton(image: UIImage.asset(.instagram)!, imageColor: .M2!, text: "Instagram 限時動態")
-    let savePhotoButton = RowButton(image: UIImage.sfsymbol(.download)!, imageColor: .M2!, text: "下載至裝置")
+    let instagramButton = RowButton(image: UIImage.asset(.instagram), imageColor: .M2, text: "Instagram 限時動態")
+    let savePhotoButton = RowButton(image: UIImage.sfsymbol(.download), imageColor: .M2, text: "下載至裝置")
     var optionPanelViews: [UIView] {
 
         return [dimmingView, shareOptionPanel, instagramButton, savePhotoButton]
@@ -238,7 +238,7 @@ extension ShareViewController: ShareTemplateViewDataSource {
 
     func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage {
 
-        return templateImage ?? UIImage.asset(.bg4)!
+        return templateImage ?? UIImage.asset(.bg4)
     }
 }
 
@@ -258,7 +258,7 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
 
     func buttonColor(_ view: SelectionView) -> UIColor { .lightGray }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .M2! }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M2 }
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.7 }
 

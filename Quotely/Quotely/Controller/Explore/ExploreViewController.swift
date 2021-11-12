@@ -72,7 +72,7 @@ class ExploreViewController: UIViewController {
         filterView.dataSource = self
 
         navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.addPost)!,
+            image: UIImage.sfsymbol(.addPost),
             text: nil,
             target: self,
             action: #selector(addPost(_:)),
@@ -252,7 +252,7 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
     func buttonColor(_ view: SelectionView) -> UIColor { .white }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .M3! }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M3 }
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.4 }
 

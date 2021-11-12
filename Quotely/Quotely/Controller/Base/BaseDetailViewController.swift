@@ -18,7 +18,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     let commentPanel = UIView()
     let userImageView = UIImageView()
     let commentTextField = CommentTextField()
-    let submitButton = ImageButton(image: UIImage.sfsymbol(.send)!, color: .M2!)
+    let submitButton = ImageButton(image: UIImage.sfsymbol(.send), color: .M2)
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -235,6 +235,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         userImageView.backgroundColor = .gray
         userImageView.clipsToBounds = true
         commentTextField.delegate = self
+        commentTextField.setLeftPaddingPoints(amount: 10)
 
         if let visitorUserImageUrl = visitor?.profileImageUrl {
 

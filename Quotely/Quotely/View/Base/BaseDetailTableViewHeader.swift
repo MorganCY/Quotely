@@ -77,8 +77,8 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         isLike: Bool
     ) {
 
-        let buttonImage: UIImage = isLike ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = isLike ? UIColor.M2! : .gray
+        let buttonImage: UIImage = isLike ? UIImage.sfsymbol(.heartSelected) : UIImage.sfsymbol(.heartNormal)
+        let buttonColor: UIColor = isLike ? UIColor.M2 : .gray
 
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor

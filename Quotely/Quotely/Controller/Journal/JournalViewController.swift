@@ -31,10 +31,10 @@ class JournalViewController: UIViewController {
     var emojiSelection = SelectionView()
     var journalTextView = ContentTextView()
     let submitButton = UIButton()
-    let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse)!, color: .M1!)
+    let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse), color: .M1)
     let journalListButton = RowButton(
-        image: UIImage.sfsymbol(.calendar)!,
-        imageColor: .M2!,
+        image: UIImage.sfsymbol(.calendar),
+        imageColor: .M2,
         labelColor: .gray,
         text: "查看所有隻字"
     )
@@ -267,7 +267,7 @@ extension JournalViewController {
         let gradient = CAGradientLayer()
 
         view.backgroundColor = .clear
-        gradient.colors = [UIColor.M1!.cgColor, UIColor.M4!.cgColor]
+        gradient.colors = [UIColor.M1.cgColor, UIColor.M4.cgColor]
         gradient.locations = [0, 1]
         gradient.frame = view.bounds
         view.layer.addSublayer(gradient)
@@ -319,8 +319,9 @@ extension JournalViewController {
         editPanelCollapse.isActive = !isEditPanelExpand
         editPanelExpand.isActive = isEditPanelExpand
         journalTextView.cornerRadius = CornerRadius.standard.rawValue * 0.75
+        journalTextView.contentInset = .init(top: 0, left: 10, bottom: 0, right: 0)
 
-        journalTextView.placeholder(text: "寫點什麼，只有自己看得到...", color: .lightGray)
+        journalTextView.placeholder(text: "  寫點什麼，只有自己看得到...", color: .lightGray)
 
         submitButton.setTitle("存檔", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)

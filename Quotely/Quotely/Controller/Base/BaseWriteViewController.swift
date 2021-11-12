@@ -46,7 +46,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
     var hasPostImage = false
     var imageUrl: String?
-    var uploadedImage: UIImage = UIImage.asset(.bg4)!
+    var uploadedImage: UIImage = UIImage.asset(.bg4)
 
     // define if upload image button or recognize text button is tapped
 
@@ -60,14 +60,14 @@ class BaseWriteViewController: BaseImagePickerViewController {
     let textNumberLabel = UILabel()
     let optionPanel = UIView()
     let recognizeTextButton = RowButton(
-        image: UIImage.sfsymbol(.fileScanner)!,
-        imageColor: .M2!,
+        image: UIImage.sfsymbol(.fileScanner),
+        imageColor: .M2,
         labelColor: .black,
         text: "掃描文字"
     )
     var uploadImageButton = RowButton(
-        image: UIImage.sfsymbol(.photo)!,
-        imageColor: .M2!,
+        image: UIImage.sfsymbol(.photo),
+        imageColor: .M2,
         labelColor: .black,
         text: "上傳圖片"
     )
@@ -129,7 +129,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                         self.dismiss(animated: true) {
 
-                            Toast.showSuccess(text: "更新成功")
+                            DispatchQueue.main.async { Toast.showSuccess(text: "更新成功") }
 
                             // Pass edited content to post detail page
 
@@ -141,7 +141,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     case .failure(let error):
 
-                        Toast.showFailure(text: "更新失敗")
+                        DispatchQueue.main.async { Toast.showFailure(text: "更新失敗") }
 
                         print(error)
                     }
@@ -161,16 +161,16 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         guard !contentTextView.text.isEmpty else {
 
-            Toast.showFailure(text: "請輸入內容")
+            DispatchQueue.main.async { Toast.showFailure(text: "請輸入內容") }
 
             return
         }
 
-        Toast.showLoading(text: "上傳中")
+        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 
         guard let uid = SignInManager.shared.visitorUid else {
 
-            Toast.showFailure(text: "上傳失敗")
+            DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
 
             return
         }
@@ -229,7 +229,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                                     guard let cardHandler = self.cardHandler else {
 
-                                        Toast.shared.hud.dismiss()
+                                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
                                         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
@@ -249,7 +249,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                                     print(error)
 
-                                    Toast.showFailure(text: "上傳失敗")
+                                    DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
                                 }
                             }
 
@@ -257,7 +257,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             print(error)
 
-                            Toast.showFailure(text: "建立想法失敗")
+                            DispatchQueue.main.async { Toast.showFailure(text: "建立想法失敗") }
                         }
                     }
 
@@ -265,7 +265,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     print(error)
 
-                    Toast.showFailure(text: "上傳圖片失敗")
+                    DispatchQueue.main.async { Toast.showFailure(text: "上傳圖片失敗") }
                 }
             }
 
@@ -309,7 +309,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             guard let cardHandler = self.cardHandler else {
 
-                                Toast.shared.hud.dismiss()
+                                DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
                                 let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
@@ -329,7 +329,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             print(error)
 
-                            Toast.showFailure(text: "上傳失敗")
+                            DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
                         }
                     }
 
@@ -337,7 +337,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     print(error)
 
-                    Toast.showFailure(text: "建立想法失敗")
+                    DispatchQueue.main.async { Toast.showFailure(text: "建立想法失敗") }
                 }
             }
         }
@@ -351,7 +351,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
             return
         }
 
-        Toast.showLoading(text: "掃描中")
+        DispatchQueue.main.async { Toast.showLoading(text: "掃描中") }
 
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
 
@@ -360,7 +360,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
             guard let observations = request.results as? [VNRecognizedTextObservation],
                   error == nil else {
 
-                      Toast.showFailure(text: "掃描失敗")
+                      DispatchQueue.main.async { Toast.showFailure(text: "掃描失敗") }
 
                       return
                   }
@@ -375,7 +375,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                 self?.contentTextView.text = text
 
-                Toast.shared.hud.dismiss()
+                DispatchQueue.main.async { Toast.shared.hud.dismiss() }
             }
         }
 
@@ -421,7 +421,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
 
-        Toast.showLoading(text: "上傳中")
+        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 
         self.hasPostImage = true
 
@@ -440,7 +440,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             self.recognizedImage = selectedImage
 
-            Toast.shared.hud.dismiss()
+            DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
         // user is uploading image
 
@@ -453,7 +453,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             self.uploadedImage = selectedImage
 
-            Toast.shared.hud.dismiss()
+            DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
             picker.dismiss(animated: true)
         }
@@ -468,7 +468,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         guard !results.isEmpty else { return }
 
-        Toast.showLoading(text: "上傳中")
+        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 
         switch isRecognizedTextButtonTapped {
 
@@ -486,7 +486,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                         self.recognizedImage = image
 
-                        Toast.shared.hud.dismiss()
+                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
                     }
                 })
             }
@@ -514,7 +514,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                         self.uploadedImage = selectedImage
 
-                        Toast.shared.hud.dismiss()
+                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
                     }
                 })
             }
@@ -556,7 +556,7 @@ extension BaseWriteViewController {
             text: "發布",
             target: self,
             action: #selector(tapPublishButton(_:)),
-            color: .M1!
+            color: .M1
         )
     }
 
@@ -608,6 +608,7 @@ extension BaseWriteViewController {
 
         contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
         contentTextView.delegate = self
+        contentTextView.contentInset = .init(top: 0, left: 10, bottom: 0, right: 0)
 
         recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
         uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2

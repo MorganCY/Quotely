@@ -20,7 +20,7 @@ protocol CardTopicViewDelegate: AnyObject {
 
 extension CardTopicViewDataSource {
 
-    func getCardImage(_ view: CardTopicView) -> UIImage { return UIImage.asset(.bg4)! }
+    func getCardImage(_ view: CardTopicView) -> UIImage { return UIImage.asset(.bg4) }
 }
 
 class CardTopicView: UIView {

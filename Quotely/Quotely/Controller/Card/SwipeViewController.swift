@@ -22,19 +22,19 @@ class SwipeViewController: UIViewController {
     let educationDimmingView = UIView()
     var cardStack = SwipeCardStackView()
     let shareButton = ImageButton(
-        image: UIImage.sfsymbol(.shareNormal)!,
+        image: UIImage.sfsymbol(.shareNormal),
         color: .white,
         labelTitle: "分享",
         labelColor: .gray
     )
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal)!, color: .white)
+    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal), color: .white)
     let writeButton = ImageButton(
-        image: UIImage.sfsymbol(.writeCardPost)!,
+        image: UIImage.sfsymbol(.writeCardPost),
         color: .white,
         labelTitle: "引用片語",
         labelColor: .gray
     )
-    let resetButton = ImageButton(image: UIImage.sfsymbol(.reset)!, color: .M1!)
+    let resetButton = ImageButton(image: UIImage.sfsymbol(.reset), color: .M1)
     let resetBackgroundView = UIView()
     let likeNumberLabel = ImageButtonLabel(color: .gray)
 
@@ -60,11 +60,11 @@ class SwipeViewController: UIViewController {
         navigationItem.title = "片語"
 
         navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.cards)!,
+            image: UIImage.sfsymbol(.cards),
             text: nil,
             target: self,
             action: #selector(goToFavoritePage(_:)),
-            color: .M1!
+            color: .M1
         )
 
         initialLoadingCards()
@@ -329,8 +329,6 @@ class SwipeViewController: UIViewController {
         resetBackgroundViewHeight = resetBackgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2)
         resetBackgroundViewWidth.isActive = isLastCardSwiped
         resetBackgroundViewHeight.isActive = isLastCardSwiped
-
-//        resetBackgroundView.frame = CGRect(x: view.frame.width / 2, y: view.frame.height / 2, width: 0, height: 0)
 
         NSLayoutConstraint.activate([
             resetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),

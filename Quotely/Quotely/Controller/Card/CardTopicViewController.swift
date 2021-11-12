@@ -83,7 +83,7 @@ class CardTopicViewController: UIViewController {
 
                 print(error)
 
-                Toast.showFailure(text: "載入資料失敗")
+                DispatchQueue.main.async { Toast.showFailure(text: "載入資料失敗") }
             }
         }
     }
@@ -251,7 +251,7 @@ class CardTopicViewController: UIViewController {
 
         guard let cardID = card?.cardID else {
 
-            Toast.showFailure(text: "收藏失敗")
+            DispatchQueue.main.async { Toast.showFailure(text: "收藏失敗") }
 
             return
         }
@@ -260,13 +260,13 @@ class CardTopicViewController: UIViewController {
         updateCard(cardID: cardID, likeAction: .like)
         card?.likeNumber += 1
 
-        Toast.showSuccess(text: "已收藏")
+        DispatchQueue.main.async { Toast.showSuccess(text: "已收藏") }
     }
 
     func setupBackButton() {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage.asset(.back)?.withRenderingMode(.alwaysOriginal),
+            image: UIImage.asset(.back).withRenderingMode(.alwaysOriginal),
             style: .plain,
             target: self,
             action: #selector(backToPreviousVC(_:))
@@ -346,8 +346,6 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         UITableView.automaticDimension
     }
-
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension

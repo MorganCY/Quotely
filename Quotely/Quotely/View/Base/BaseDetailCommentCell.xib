@@ -35,7 +35,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4a-QK-DKQ">
-                    <rect key="frame" x="82" y="36.5" width="40.5" height="136.5"/>
+                    <rect key="frame" x="82" y="36.5" width="316" height="136.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -93,6 +93,7 @@
                 <constraint firstItem="Yd0-Dd-P4T" firstAttribute="leading" secondItem="O4c-Yl-bEP" secondAttribute="trailing" constant="8" id="7Cf-nf-FaQ"/>
                 <constraint firstItem="SgV-B3-cc4" firstAttribute="top" secondItem="g4a-QK-DKQ" secondAttribute="bottom" constant="2" id="9qg-pp-FCs"/>
                 <constraint firstItem="Yd0-Dd-P4T" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="top" id="BGE-bU-GO8"/>
+                <constraint firstItem="g4a-QK-DKQ" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" id="BTz-rP-2Y0"/>
                 <constraint firstItem="Yaq-N3-3Xi" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="6" id="Cvg-BY-DhV"/>
                 <constraint firstItem="7tu-pI-aUC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="CwH-5q-va4"/>
                 <constraint firstItem="7tu-pI-aUC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="EhO-8y-akc"/>

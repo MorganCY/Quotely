@@ -66,7 +66,7 @@ class CardWriteViewController: BaseWriteViewController {
                 case .failure(let error):
                     print(error)
 
-                    Toast.showFailure(text: "上傳失敗")
+                    DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
                 }
             }
         }
@@ -89,10 +89,10 @@ extension CardWriteViewController: CardTopicViewDataSource, CardTopicViewDelegat
 
     func didSelectCard(_ view: CardTopicView, index: Int) {
         switch index {
-        case 0: uploadedImage = UIImage.asset(.bg1)!
-        case 1: uploadedImage = UIImage.asset(.bg2)!
-        case 2: uploadedImage = UIImage.asset(.bg3)!
-        case 3: uploadedImage = UIImage.asset(.bg4)!
+        case 0: uploadedImage = UIImage.asset(.bg1)
+        case 1: uploadedImage = UIImage.asset(.bg2)
+        case 2: uploadedImage = UIImage.asset(.bg3)
+        case 3: uploadedImage = UIImage.asset(.bg4)
         default: break
         }
     }

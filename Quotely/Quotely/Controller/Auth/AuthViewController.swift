@@ -55,9 +55,9 @@ class AuthViewController: UIViewController {
         claimerLabel.text = "點擊下方按鈕登入代表您同意"
         privacyPolicyButton.setTitle("隱私權政策", for: .normal)
         claimerLabel.textColor = .gray
-        privacyPolicyButton.setTitleColor(.blue, for: .normal)
-        claimerLabel.font = UIFont(name: "Pingfang TC", size: 12)
-        privacyPolicyButton.titleLabel?.font = UIFont(name: "Pingfang TC", size: 12)
+        privacyPolicyButton.setTitleColor(.M1, for: .normal)
+        claimerLabel.font = UIFont(name: "PingfangTC-Regular", size: 12)
+        privacyPolicyButton.titleLabel?.font = UIFont(name: "PingfangTC-Semibold", size: 12)
         signInButton.addTarget(self, action: #selector(handleSignInWithAppleTapped(_:)), for: .touchUpInside)
         privacyPolicyButton.addTarget(self, action: #selector(handlePrivacyPolicyTapped(_:)), for: .touchUpInside)
 

@@ -87,7 +87,7 @@ class ProfileViewController: BaseImagePickerViewController {
                 text: nil,
                 target: self,
                 action: #selector(goToSettingsPage(_:)),
-                color: .M1!
+                color: .M1
             )
         }
 

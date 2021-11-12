@@ -46,8 +46,8 @@ class ExploreTableViewCell: UITableViewCell {
         isLikePost: Bool
     ) {
 
-        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
+        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected) : UIImage.sfsymbol(.heartNormal)
+        let buttonColor: UIColor = isLikePost ? UIColor.M2 : .gray
 
         if let profileImageUrl = userInfo.profileImageUrl {
 
@@ -96,6 +96,13 @@ class ExploreTableViewCell: UITableViewCell {
 
         guard let editTime = post.editTime else { return }
 
-        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+        if #available(iOS 13, *) {
+
+            timeLabel.text = "\(Date.init(milliseconds: editTime).timeAgoDisplay())"
+
+        } else {
+
+            timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+        }
     }
 }
