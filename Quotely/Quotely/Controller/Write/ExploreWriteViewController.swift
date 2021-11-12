@@ -34,9 +34,9 @@ class ExploreWriteViewController: BaseWriteViewController {
 
     private let quoteButton = RowButton(
         image: UIImage.sfsymbol(.quoteNormal)!,
-        imageColor: .M3!,
+        imageColor: .M2!,
         labelColor: .white,
-        text: "引用我收藏的片語"
+        text: "引用收藏的片語"
     )
 
     // MARK: LifeCycle
@@ -120,7 +120,7 @@ extension ExploreWriteViewController {
         quoteButton.translatesAutoresizingMaskIntoConstraints = false
 
         quoteButton.cornerRadius = CornerRadius.standard.rawValue
-        quoteButton.backgroundColor = .M3!
+        quoteButton.backgroundColor = .M2!
         quoteButton.addTarget(self, action: #selector(goToFavoriteCardPage(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([

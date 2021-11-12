@@ -54,6 +54,7 @@ class SwipeCardStackView: UIStackView {
             let swipeCard = SwipeCardView()
 
             swipeCard.delegate = self
+            swipeCard.dropShadow()
 
             swipeCard.contentLabel.text = dataSource.cardForStackIn(
                 self,
@@ -68,10 +69,10 @@ class SwipeCardStackView: UIStackView {
 
             NSLayoutConstraint.activate([
 
-                swipeCard.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-                swipeCard.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: CGFloat(8 * index)),
-                swipeCard.widthAnchor.constraint(equalTo: self.widthAnchor),
-                swipeCard.heightAnchor.constraint(equalTo: self.heightAnchor)
+                swipeCard.centerYAnchor.constraint(equalTo: centerYAnchor),
+                swipeCard.centerXAnchor.constraint(equalTo: centerXAnchor),
+                swipeCard.widthAnchor.constraint(equalTo: widthAnchor),
+                swipeCard.heightAnchor.constraint(equalTo: heightAnchor)
             ])
         }
     }

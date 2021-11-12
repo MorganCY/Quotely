@@ -90,7 +90,6 @@ class SwipeCardView: UIView {
 
             textBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             textBackgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
-            textBackgroundView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3),
             textBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24)
         ])
     }

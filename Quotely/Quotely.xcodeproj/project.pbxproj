@@ -12,6 +12,8 @@
 		5C19204A27369591008B9F0D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C19204927369591008B9F0D /* SettingsViewController.swift */; };
 		5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */; };
 		5C19204E27369710008B9F0D /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C19204D27369710008B9F0D /* SettingsTableViewCell.swift */; };
+		5C19C7A8273E4A7E00DDA159 /* greenLoading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C19C7A7273E4A7E00DDA159 /* greenLoading.json */; };
+		5C19C7AA273E676800DDA159 /* whiteLoading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C19C7A9273E676800DDA159 /* whiteLoading.json */; };
 		5C2846E02727EEB400393562 /* ContentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846DF2727EEB400393562 /* ContentTextView.swift */; };
 		5C2846E22727F0B200393562 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846E12727F0B200393562 /* UITextView+Extension.swift */; };
 		5C2846E427280EA600393562 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2846E327280EA600393562 /* JournalManager.swift */; };
@@ -78,7 +80,6 @@
 		5C8C0E9A2725293E0054480A /* CardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E992725293E0054480A /* CardManager.swift */; };
 		5C8C0E9C272529650054480A /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8C0E9B272529650054480A /* Card.swift */; };
 		5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91FFC72737986700A216D4 /* LottieAnimation.swift */; };
-		5C91FFCA27379A3F00A216D4 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C91FFC927379A3F00A216D4 /* loading.json */; };
 		5C91FFCC2737B78A00A216D4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */; };
 		5C91FFCE2737B8D500A216D4 /* swipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C91FFCD2737B8D500A216D4 /* swipe.json */; };
 		5C9A15C7272280FD00A13CC7 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */; };
@@ -119,6 +120,8 @@
 		5C19204927369591008B9F0D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsTableViewCell.xib; sourceTree = "<group>"; };
 		5C19204D27369710008B9F0D /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		5C19C7A7273E4A7E00DDA159 /* greenLoading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = greenLoading.json; sourceTree = "<group>"; };
+		5C19C7A9273E676800DDA159 /* whiteLoading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = whiteLoading.json; sourceTree = "<group>"; };
 		5C2846DF2727EEB400393562 /* ContentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextView.swift; sourceTree = "<group>"; };
 		5C2846E12727F0B200393562 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		5C2846E327280EA600393562 /* JournalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalManager.swift; sourceTree = "<group>"; };
@@ -188,7 +191,6 @@
 		5C8C0E992725293E0054480A /* CardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManager.swift; sourceTree = "<group>"; };
 		5C8C0E9B272529650054480A /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		5C91FFC72737986700A216D4 /* LottieAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimation.swift; sourceTree = "<group>"; };
-		5C91FFC927379A3F00A216D4 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		5C91FFCD2737B8D500A216D4 /* swipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swipe.json; sourceTree = "<group>"; };
 		5C9A15C6272280FD00A13CC7 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
@@ -496,9 +498,10 @@
 		5C8C0E93272436380054480A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				5C19C7A9273E676800DDA159 /* whiteLoading.json */,
+				5C19C7A7273E4A7E00DDA159 /* greenLoading.json */,
 				5C150F722737FE510093A59C /* empty.json */,
 				5C91FFCD2737B8D500A216D4 /* swipe.json */,
-				5C91FFC927379A3F00A216D4 /* loading.json */,
 				5CE8F1D4272F79210026864C /* ball.json */,
 				5CE8F1D6272F7BD50026864C /* nothingFound.json */,
 				5C2C7301271D12E300F8B9EC /* Assets.xcassets */,
@@ -631,9 +634,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C19C7AA273E676800DDA159 /* whiteLoading.json in Resources */,
 				5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */,
 				5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */,
-				5C91FFCA27379A3F00A216D4 /* loading.json in Resources */,
 				5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */,
 				5C2C7305271D12E300F8B9EC /* LaunchScreen.storyboard in Resources */,
 				5C7B639C272A854000E18B96 /* FavoriteCardTableViewCell.xib in Resources */,
@@ -650,6 +653,7 @@
 				5C150F732737FE510093A59C /* empty.json in Resources */,
 				5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */,
 				5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */,
+				5C19C7A8273E4A7E00DDA159 /* greenLoading.json in Resources */,
 				5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */,
 				5C4B9695271FBCCF008B21C7 /* BaseDetailCommentCell.xib in Resources */,
 				5C2C7321271D3D5500F8B9EC /* Explore.storyboard in Resources */,

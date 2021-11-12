@@ -11,7 +11,7 @@ import UIKit
 class SwipeViewController: UIViewController {
 
     let notificationCenter = NotificationCenter.default
-    let loadingAnimationView = LottieAnimationView(animationName: "loading")
+    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
 
     var cards = [Card]() {
         didSet {
@@ -47,6 +47,8 @@ class SwipeViewController: UIViewController {
         didSet {
             expandAnimation()
             resetButton.isHidden = !isLastCardSwiped
+            shareButton.isEnabled = !isLastCardSwiped
+            likeButton.isEnabled = !isLastCardSwiped
             writeButton.isEnabled = !isLastCardSwiped
         }
     }
@@ -67,10 +69,10 @@ class SwipeViewController: UIViewController {
 
         initialLoadingCards()
         setupCardView()
-        setupButton()
+        setupButtons()
         setupResetButton()
 
-        if UIApplication.isFirstLaunch() { setEducationAnimation() }
+        if UIApplication.isFirstLaunch() { setupEducationView() }
     }
 
     override func viewDidLayoutSubviews() {
@@ -123,7 +125,7 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
+            CardManager.shared.fetchRandomCards(limitNumber: 3) { result in
                 switch result {
 
                 case .success(let cards):
@@ -255,17 +257,17 @@ class SwipeViewController: UIViewController {
         NSLayoutConstraint.activate([
             loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
 
-            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
-            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -20),
+            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
         ])
     }
 
-    func setupButton() {
+    func setupButtons() {
 
         let buttons = [shareButton, likeButton, writeButton]
         buttons.forEach {
@@ -285,7 +287,7 @@ class SwipeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
 
-            likeButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20),
+            likeButton.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 28),
             likeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             likeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
             likeButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
@@ -362,7 +364,7 @@ class SwipeViewController: UIViewController {
         Toast.showSuccess(text: "已收藏")
     }
 
-    func setEducationAnimation() {
+    func setupEducationView() {
 
         let titleLabel = UILabel()
         let swipeAnimationView = LottieAnimationView(animationName: "swipe")
