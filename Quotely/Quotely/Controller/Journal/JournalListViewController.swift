@@ -279,6 +279,8 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
         cell.layoutCell(journal: journals[row], month: selectedMonth)
 
+        cell.hideSelectionStyle()
+
         if row == 0 {
 
             cell.isDateDuplicate = false
