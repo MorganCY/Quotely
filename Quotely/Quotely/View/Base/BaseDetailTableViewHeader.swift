@@ -90,7 +90,7 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
         if let createdTime = post?.createdTime {
 
-            timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: createdTime))
+            timeLabel.text = Date.init(milliseconds: createdTime).timeAgoDisplay()
         }
 
         if let profileImageUrl = postAuthor?.profileImageUrl {
@@ -126,7 +126,7 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
             cardStackView.isHidden = false
             postImageView.isHidden = true
 
-            cardContentLabel.text = cardContent
+            cardContentLabel.text = cardContent.replacingOccurrences(of: "\\n", with: "\n")
             cardAuthorLabel.text = cardAuthor
             cardImageView.loadImage(cardImageUrl, placeHolder: nil)
 
@@ -137,6 +137,6 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
         guard let editTime = post?.editTime else { return }
 
-        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+        timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
     }
 }

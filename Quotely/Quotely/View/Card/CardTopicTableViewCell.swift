@@ -35,12 +35,12 @@ class CardTopicTableViewCell: UITableViewCell {
         userImageView.cornerRadius = userImageView.frame.width / 2
 
         userNameLabel.text = user.name
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
+        timeLabel.text = Date.init(milliseconds: post.createdTime).timeAgoDisplay()
         contentLabel.text = post.content
 
         guard let editTime = post.editTime else { return }
 
-        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+        timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
     }
 
 }
