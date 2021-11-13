@@ -30,6 +30,13 @@ class ProfileViewController: BaseImagePickerViewController {
 
     var visitorUid: String?
 
+    // the user who is visited by others
+
+    var visitedUid = SignInManager.shared.visitorUid {
+        didSet {
+            isVisitorProfile = visitorUid == visitedUid
+        }
+    }
     var visitorBlockList: [String]? {
         didSet {
             if let visitedUid = visitedUid,
@@ -44,14 +51,6 @@ class ProfileViewController: BaseImagePickerViewController {
                let visitorFollowingList = visitorFollowingList {
                 isFollow = visitorFollowingList.contains(visitedUid)
             }
-        }
-    }
-
-    // the user who is visited by others
-
-    var visitedUid: String? {
-        didSet {
-            isVisitorProfile = visitorUid == visitedUid
         }
     }
 
@@ -102,10 +101,6 @@ class ProfileViewController: BaseImagePickerViewController {
         }
 
         visitorUid = UserManager.shared.visitorUserInfo?.uid
-
-//        visitorUid = UserManager.shared.visitorUserInfo?.uid
-//        visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
-//        visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
 
     override func viewWillAppear(_ animated: Bool) {
