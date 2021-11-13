@@ -160,6 +160,8 @@ class PostDetailViewController: BaseDetailViewController {
             let likeAction: LikeAction = self.isLike
             ? .dislike : .like
 
+            header.likeButton.isEnabled = false
+
             PostManager.shared.updateLikes(
                 postID: postID, likeAction: likeAction
             ) { result in
@@ -179,11 +181,15 @@ class PostDetailViewController: BaseDetailViewController {
                         self.isLike = false
                     }
 
+                    header.likeButton.isEnabled = true
+
                     tableView.reloadData()
 
                 case .failure(let error):
 
                     print(error)
+
+                    header.likeButton.isEnabled = true
                 }
             }
         }
@@ -205,8 +211,6 @@ class PostDetailViewController: BaseDetailViewController {
             if let imageUrl = self.post?.imageUrl {
 
                 writeVC.imageUrl = imageUrl
-
-//                writeVC.hasImage = true
             }
 
             writeVC.contentHandler = { content, editTime in
@@ -338,9 +342,12 @@ class PostDetailViewController: BaseDetailViewController {
 
         cell.editHandler = { text in
 
-            guard let postCommentID = comment.postCommentID else { return }
+            if cell.editTextField != cell.contentLabel {
 
-            PostCommentManager.shared.updateComment( postCommentID: postCommentID, newContent: text) { result in
+                guard let postCommentID = comment.postCommentID else { return }
+
+                PostCommentManager.shared.updateComment( postCommentID: postCommentID, newContent: text
+                ) { result in
 
                     switch result {
 
@@ -355,6 +362,7 @@ class PostDetailViewController: BaseDetailViewController {
                         print(error)
                     }
                 }
+            }
         }
 
         cell.deleteHandler = {
@@ -363,30 +371,32 @@ class PostDetailViewController: BaseDetailViewController {
 
             let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
 
-            let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
+            let okAction = UIAlertAction(title: "刪除", style: .destructive
+            ) { _ in
 
                 PostCommentManager.shared.deleteComment(
-                    postCommentID: postCommentID) { result in
+                    postCommentID: postCommentID
+                ) { result in
 
-                        switch result {
+                    switch result {
 
-                        case .success(let success):
+                    case .success(let success):
 
-                            print(success)
+                        print(success)
 
-                            self.fetchComments(type: .post)
+                        self.fetchComments(type: .post)
 
-                        case .failure(let error):
+                    case .failure(let error):
 
-                            print(error)
-                        }
+                        print(error)
                     }
+                }
             }
 
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
 
-            alert.addAction(okAction)
             alert.addAction(cancelAction)
+            alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
         }
 

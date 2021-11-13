@@ -332,6 +332,8 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             let likeAction: LikeAction = self.isLikePost
             ? .dislike : .like
 
+            cell.likeButton.isEnabled = false
+
             PostManager.shared.updateLikes(
                 postID: postID, likeAction: likeAction
             ) { result in
@@ -342,9 +344,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
                     print(action)
 
+                    cell.likeButton.isEnabled = true
+
                 case .failure(let error):
 
                     print(error)
+
+                    cell.likeButton.isEnabled = true
                 }
             }
         }

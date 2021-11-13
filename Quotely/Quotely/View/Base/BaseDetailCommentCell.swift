@@ -83,11 +83,15 @@ class BaseDetailCommentCell: UITableViewCell {
 
     @IBAction func doneEditing(_ sender: UIButton) {
 
+        isEnableEdit = false
+
         guard let text = editTextField.text else { return }
 
-        editHandler(text)
-        contentLabel.text = text
-        isEnableEdit = false
+        if text != contentLabel.text {
+
+            editHandler(text)
+            contentLabel.text = text
+        }
     }
 
     @IBAction func deleteComment(_ sender: UIButton) {

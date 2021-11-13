@@ -292,4 +292,12 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         let animator = Animator(animation: animation)
             animator.animate(cell: cell, at: indexPath, in: tableView)
     }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration()
+    }
 }
