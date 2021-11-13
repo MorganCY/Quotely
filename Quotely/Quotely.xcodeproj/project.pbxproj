@@ -421,7 +421,6 @@
 				5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */,
 				5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */,
 				5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */,
-				5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -522,6 +521,7 @@
 		5CA65BF4271D4E5F00B877FB /* Write */ = {
 			isa = PBXGroup;
 			children = (
+				5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */,
 				5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */,
 				5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */,
 			);

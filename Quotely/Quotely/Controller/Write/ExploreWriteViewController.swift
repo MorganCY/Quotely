@@ -24,7 +24,17 @@ class ExploreWriteViewController: BaseWriteViewController {
         }
     }
 
-    override var uploadedImage: UIImage {
+    override var imageUrl: String? {
+        didSet {
+            guard let imageUrl = imageUrl else { return }
+            DispatchQueue.main.async {
+                self.postImageView.loadImage(imageUrl, placeHolder: nil)
+                self.hasPostImage = true
+            }
+        }
+    }
+
+    override var uploadedImage: UIImage? {
         didSet {
             DispatchQueue.main.async {
                 self.postImageView.image = self.uploadedImage
@@ -56,6 +66,8 @@ class ExploreWriteViewController: BaseWriteViewController {
 
     @objc func deleteImage(_ sender: UIButton) {
         postImageView.image = nil
+        uploadedImage = nil
+        imageUrl = nil
         hasPostImage = false
     }
 

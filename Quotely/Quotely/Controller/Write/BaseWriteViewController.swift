@@ -46,7 +46,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
     var hasPostImage = false
     var imageUrl: String?
-    var uploadedImage: UIImage = UIImage.asset(.bg4)
+    var uploadedImage: UIImage? = UIImage.asset(.bg4)
 
     // define if upload image button or recognize text button is tapped
 
@@ -110,16 +110,93 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
     func onPublish() {
 
-        // Check if the page is under edit state
+        guard !contentTextView.text.isEmpty else {
 
-        if let postID = postID {
+            DispatchQueue.main.async { Toast.showFailure(text: "請輸入內容") }
 
-            PostManager.shared.updatePost(
-                postID: postID,
-                editTime: Date().millisecondsSince1970,
-                content: contentTextView.text,
-                imageUrl: imageUrl ?? nil
-            ) { result in
+            return
+        }
+
+        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
+
+        guard SignInManager.shared.visitorUid != nil else {
+
+            DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
+
+            return
+        }
+
+        // check if the post is under edit state
+
+        if let postID = self.postID {
+
+            // upload the edited image
+
+            switch hasPostImage {
+
+            case true:
+
+                // upload the image
+
+                ImageManager.shared.uploadImage(image: uploadedImage ?? UIImage()) { result in
+
+                    switch result {
+
+                    case .success(let url):
+
+                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+
+                        // Check if the page is under edit state
+
+                        PostManager.shared.updatePost(
+                            postID: postID,
+                            editTime: Date().millisecondsSince1970,
+                            content: self.contentTextView.text,
+                            imageUrl: url
+                        ) { result in
+
+                            switch result {
+
+                            case .success(let success):
+
+                                print(success)
+
+                                self.dismiss(animated: true) {
+
+                                    DispatchQueue.main.async { Toast.showSuccess(text: "更新成功") }
+
+                                    // Pass edited content to post detail page
+
+                                    self.contentHandler(
+                                        self.contentTextView.text,
+                                        Date().millisecondsSince1970
+                                    )
+                                }
+
+                            case .failure(let error):
+
+                                DispatchQueue.main.async { Toast.showFailure(text: "更新失敗") }
+
+                                print(error)
+                            }
+                        }
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        DispatchQueue.main.async { Toast.showFailure(text: "上傳圖片失敗") }
+                    }
+                }
+
+            case false:
+
+                PostManager.shared.updatePost(
+                    postID: postID,
+                    editTime: Date().millisecondsSince1970,
+                    content: self.contentTextView.text,
+                    imageUrl: imageUrl
+                ) { result in
 
                     switch result {
 
@@ -145,6 +222,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                         print(error)
                     }
+                }
             }
 
         } else {
@@ -183,7 +261,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             // upload the image
 
-            ImageManager.shared.uploadImage(image: uploadedImage) { result in
+            ImageManager.shared.uploadImage(image: uploadedImage ?? UIImage()) { result in
 
                 switch result {
 

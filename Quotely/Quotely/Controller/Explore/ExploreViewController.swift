@@ -172,23 +172,6 @@ class ExploreViewController: UIViewController {
         }
     }
 
-//    func fetchVisitorFollowingList(visitorUid: String) {
-//
-//        UserManager.shared.listenToUserUpdate(
-//            uid: visitorUid) { result in
-//
-//                switch result {
-//
-//                case .success(let user):
-//
-//                    self.visitorFollowingList = user.followingList ?? [""]
-//
-//                case .failure(let error):
-//                    print(error)
-//                }
-//            }
-//    }
-
     @objc func addPost(_ sender: UIBarButtonItem) {
 
         guard let writeVC =

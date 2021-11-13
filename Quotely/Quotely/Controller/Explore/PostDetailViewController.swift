@@ -133,14 +133,9 @@ class PostDetailViewController: BaseDetailViewController {
         header.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
         header.cardStackView.isUserInteractionEnabled = true
 
-        isAuthor = postAuthor?.uid == visitorUid
-        ? true : false
+        isAuthor = postAuthor?.uid == visitorUid ? true : false
 
-        guard post != nil,
-              postAuthor != nil else {
-
-                  fatalError("Cannot fetch post data")
-              }
+        guard post != nil, postAuthor != nil else { fatalError("Cannot fetch post data") }
 
         header.layoutHeader(
             post: post,
@@ -157,14 +152,11 @@ class PostDetailViewController: BaseDetailViewController {
 
             guard let postID = self.post?.postID else { return }
 
-            let likeAction: LikeAction = self.isLike
-            ? .dislike : .like
+            let likeAction: LikeAction = self.isLike ? .dislike : .like
 
             header.likeButton.isEnabled = false
 
-            PostManager.shared.updateLikes(
-                postID: postID, likeAction: likeAction
-            ) { result in
+            PostManager.shared.updateLikes(postID: postID, likeAction: likeAction) { result in
 
                 switch result {
 
@@ -175,7 +167,6 @@ class PostDetailViewController: BaseDetailViewController {
                     if likeAction == .like {
                         self.post?.likeNumber += 1
                         self.isLike = true
-                        tableView.reloadData()
                     } else if likeAction == .dislike {
                         self.post?.likeNumber -= 1
                         self.isLike = false
@@ -196,13 +187,25 @@ class PostDetailViewController: BaseDetailViewController {
 
         header.editHandler = {
 
-            guard let writeVC = UIStoryboard.write.instantiateViewController(
-                withIdentifier: String(describing: ExploreWriteViewController.self)
-            ) as? ExploreWriteViewController else { return }
+            var writeVC: BaseWriteViewController? {
 
-            let nav = UINavigationController(rootViewController: writeVC)
+                if self.post?.cardID != nil {
 
-            nav.modalPresentationStyle = .automatic
+                    return UIStoryboard.write.instantiateViewController(
+                        withIdentifier: String(describing: CardWriteViewController.self)) as? CardWriteViewController
+
+                } else {
+
+                    return UIStoryboard.write.instantiateViewController(
+                        withIdentifier: String(describing: ExploreWriteViewController.self)) as? ExploreWriteViewController
+                }
+            }
+
+            guard let writeVC = writeVC else { return }
+
+            let navigationVC = UINavigationController(rootViewController: writeVC)
+
+            navigationVC.modalPresentationStyle = .automatic
 
             writeVC.contentTextView.text = self.post?.content
 
@@ -222,7 +225,26 @@ class PostDetailViewController: BaseDetailViewController {
                 tableView.reloadData()
             }
 
-            self.navigationController?.present(nav, animated: true)
+            if let cardID = self.post?.cardID {
+
+                CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
+
+                    switch result {
+
+                    case .success(let card):
+
+                        writeVC.card = card
+
+                        self.navigationController?.present(navigationVC, animated: true)
+
+                    case .failure(let error): print(error)
+                    }
+                }
+
+            } else {
+
+                self.navigationController?.present(navigationVC, animated: true)
+            }
         }
 
         header.deleteHandler = {
@@ -261,9 +283,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                                             self.navigationController?.popViewController(animated: true)
 
-                                        case .failure(let error):
-
-                                            print(error)
+                                        case .failure(let error): print(error)
                                         }
                                     }
 
