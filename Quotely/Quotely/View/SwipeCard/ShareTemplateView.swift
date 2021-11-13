@@ -15,7 +15,7 @@ protocol ShareTemplateViewDataSource: AnyObject {
 
 extension ShareTemplateViewDataSource {
 
-    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage { UIImage.asset(.bg4)! }
+    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage { UIImage.asset(.bg4) }
 }
 
 class ShareTemplateView: UIView {

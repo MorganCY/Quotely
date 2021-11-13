@@ -143,6 +143,8 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         profileImageView.borderColor = .white
         profileImageView.borderWidth = 2
+        profileImageView.cornerRadius = profileImageView.frame.width / 2
+        editImageButton.cornerRadius = editImageButton.frame.width / 2
         userNameLabel.text = userInfo.name
         postNumberLabel.text = "\(userInfo.postNumber) 則想法"
         followerNumberLabel.text = "\(userInfo.followerNumber) 被追蹤"

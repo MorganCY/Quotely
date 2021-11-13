@@ -10,7 +10,9 @@ import UIKit
 
 protocol CardTopicViewDataSource: AnyObject {
 
-    func getCardImage(_ view: CardTopicView) -> UIImage
+    func getCardImage(_ view: CardTopicView) -> UIImage?
+
+    func getCardImageUrl(_ view: CardTopicView) -> String?
 }
 
 protocol CardTopicViewDelegate: AnyObject {
@@ -20,7 +22,7 @@ protocol CardTopicViewDelegate: AnyObject {
 
 extension CardTopicViewDataSource {
 
-    func getCardImage(_ view: CardTopicView) -> UIImage { return UIImage.asset(.bg4)! }
+    func getCardImage(_ view: CardTopicView) -> UIImage { return UIImage.asset(.bg4) }
 }
 
 class CardTopicView: UIView {
@@ -108,7 +110,12 @@ class CardTopicView: UIView {
         authorLabel.numberOfLines = 1
 
         cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
-        cardImageView.image = dataSource?.getCardImage(self)
+
+        if dataSource?.getCardImageUrl(self) != nil {
+            cardImageView.loadImage(dataSource?.getCardImageUrl(self) ?? "", placeHolder: nil)
+        } else {
+            cardImageView.image = dataSource?.getCardImage(self)
+        }
         cardImageView.contentMode = .scaleAspectFill
         cardImageView.clipsToBounds = true
 

@@ -11,7 +11,7 @@ import UITextView_Placeholder
 
 enum Placeholder: String {
 
-    case comment = "有什麼感觸..."
+    case comment = "  有什麼感觸..."
 }
 
 extension UITextView {
@@ -20,5 +20,14 @@ extension UITextView {
 
         placeholder = text
         placeholderColor = color
+    }
+}
+
+extension UITextField {
+
+    func setLeftPaddingPoints( amount:CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
     }
 }

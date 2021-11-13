@@ -19,16 +19,22 @@ class CardWriteViewController: BaseWriteViewController {
     private let cardTopicTitleLabel = UILabel()
     private var cardTopicView = CardTopicView(content: "", author: "")
 
-    override var uploadedImage: UIImage {
+    override var uploadedImage: UIImage? {
         didSet {
             cardTopicView.dataSource = self
+        }
+    }
+
+    override var imageUrl: String? {
+        didSet {
+            if imageUrl != nil { cardTopicView.dataSource = self }
         }
     }
 
     override var card: Card? {
         didSet {
             guard let card = card else { return }
-            cardTopicView = CardTopicView(content: card.content, author: card.author)
+            cardTopicView = CardTopicView(content: card.content.replacingOccurrences(of: "\\n", with: "\n"), author: card.author)
         }
     }
 
@@ -66,7 +72,7 @@ class CardWriteViewController: BaseWriteViewController {
                 case .failure(let error):
                     print(error)
 
-                    Toast.showFailure(text: "上傳失敗")
+                    DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
                 }
             }
         }
@@ -79,20 +85,33 @@ class CardWriteViewController: BaseWriteViewController {
         super.viewDidLoad()
         cardTopicView.dataSource = self
         cardTopicView.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         layoutCardView()
     }
 }
 
 extension CardWriteViewController: CardTopicViewDataSource, CardTopicViewDelegate {
 
-    func getCardImage(_ view: CardTopicView) -> UIImage { uploadedImage }
+    func getCardImage(_ view: CardTopicView) -> UIImage? {
+        return uploadedImage
+    }
+
+    func getCardImageUrl(_ view: CardTopicView) -> String? {
+        if let imageUrl = imageUrl {
+            return imageUrl
+        }
+        return nil
+    }
 
     func didSelectCard(_ view: CardTopicView, index: Int) {
         switch index {
-        case 0: uploadedImage = UIImage.asset(.bg1)!
-        case 1: uploadedImage = UIImage.asset(.bg2)!
-        case 2: uploadedImage = UIImage.asset(.bg3)!
-        case 3: uploadedImage = UIImage.asset(.bg4)!
+        case 0: uploadedImage = UIImage.asset(.bg1)
+        case 1: uploadedImage = UIImage.asset(.bg2)
+        case 2: uploadedImage = UIImage.asset(.bg3)
+        case 3: uploadedImage = UIImage.asset(.bg4)
         default: break
         }
     }
@@ -102,7 +121,7 @@ extension CardWriteViewController {
 
     func layoutCardView() {
 
-        let views = [ cardTopicTitleLabel, cardTopicView ]
+        let views = [cardTopicTitleLabel, cardTopicView]
 
         views.forEach {
             view.addSubview($0)

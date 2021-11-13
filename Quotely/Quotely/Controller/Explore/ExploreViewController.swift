@@ -72,7 +72,7 @@ class ExploreViewController: UIViewController {
         filterView.dataSource = self
 
         navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.addPost)!,
+            image: UIImage.sfsymbol(.addPost),
             text: nil,
             target: self,
             action: #selector(addPost(_:)),
@@ -172,23 +172,6 @@ class ExploreViewController: UIViewController {
         }
     }
 
-//    func fetchVisitorFollowingList(visitorUid: String) {
-//
-//        UserManager.shared.listenToUserUpdate(
-//            uid: visitorUid) { result in
-//
-//                switch result {
-//
-//                case .success(let user):
-//
-//                    self.visitorFollowingList = user.followingList ?? [""]
-//
-//                case .failure(let error):
-//                    print(error)
-//                }
-//            }
-//    }
-
     @objc func addPost(_ sender: UIBarButtonItem) {
 
         guard let writeVC =
@@ -252,7 +235,7 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
     func buttonColor(_ view: SelectionView) -> UIColor { .white }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .M3! }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M3 }
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.4 }
 
@@ -332,6 +315,8 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             let likeAction: LikeAction = self.isLikePost
             ? .dislike : .like
 
+            cell.likeButton.isEnabled = false
+
             PostManager.shared.updateLikes(
                 postID: postID, likeAction: likeAction
             ) { result in
@@ -342,9 +327,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
                     print(action)
 
+                    cell.likeButton.isEnabled = true
+
                 case .failure(let error):
 
                     print(error)
+
+                    cell.likeButton.isEnabled = true
                 }
             }
         }

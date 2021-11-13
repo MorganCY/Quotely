@@ -421,7 +421,6 @@
 				5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */,
 				5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */,
 				5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */,
-				5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -522,6 +521,7 @@
 		5CA65BF4271D4E5F00B877FB /* Write */ = {
 			isa = PBXGroup;
 			children = (
+				5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */,
 				5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */,
 				5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */,
 			);
@@ -881,7 +881,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -936,7 +936,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -959,6 +959,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Quotely/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "隻字片語";
 				INFOPLIST_KEY_NSCameraUsageDescription = "請允許訪問以便拍照。";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許訪問以便選取照片。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -994,6 +995,7 @@
 				DEVELOPMENT_TEAM = D68W2FWD7S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Quotely/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "隻字片語";
 				INFOPLIST_KEY_NSCameraUsageDescription = "請允許訪問以便拍照。";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許訪問以便選取照片。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

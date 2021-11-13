@@ -68,14 +68,14 @@ enum SFSymbol: String {
 
 extension UIImage {
 
-    static func asset(_ asset: ImageAsset) -> UIImage? {
+    static func asset(_ asset: ImageAsset) -> UIImage {
 
-        return UIImage(named: asset.rawValue)
+        return UIImage(named: asset.rawValue) ?? UIImage()
     }
 
-    static func sfsymbol(_ systemName: SFSymbol) -> UIImage? {
+    static func sfsymbol(_ systemName: SFSymbol) -> UIImage {
 
-        return UIImage(systemName: systemName.rawValue)
+        return UIImage(systemName: systemName.rawValue) ?? UIImage()
     }
 }
 

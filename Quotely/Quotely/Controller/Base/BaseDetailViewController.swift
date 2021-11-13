@@ -18,7 +18,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     let commentPanel = UIView()
     let userImageView = UIImageView()
     let commentTextField = CommentTextField()
-    let submitButton = ImageButton(image: UIImage.sfsymbol(.send)!, color: .M2!)
+    let submitButton = ImageButton(image: UIImage.sfsymbol(.send), color: .M2)
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -235,6 +235,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         userImageView.backgroundColor = .gray
         userImageView.clipsToBounds = true
         commentTextField.delegate = self
+        commentTextField.setLeftPaddingPoints(amount: 10)
 
         if let visitorUserImageUrl = visitor?.profileImageUrl {
 
@@ -290,5 +291,13 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
         let animator = Animator(animation: animation)
             animator.animate(cell: cell, at: indexPath, in: tableView)
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration()
     }
 }

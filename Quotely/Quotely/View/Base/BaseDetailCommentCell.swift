@@ -60,7 +60,7 @@ class BaseDetailCommentCell: UITableViewCell {
         }
 
         nameLabel.text = userName
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: comment.createdTime))
+        timeLabel.text = Date.init(milliseconds: comment.createdTime).timeAgoDisplay()
         contentLabel.text = comment.content
 
         editButton.isHidden = !isAuthor
@@ -68,7 +68,7 @@ class BaseDetailCommentCell: UITableViewCell {
 
         guard let editTime = comment.editTime else { return }
 
-        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+        timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
     }
 
     var editHandler: (String) -> Void = {_ in}
@@ -83,11 +83,15 @@ class BaseDetailCommentCell: UITableViewCell {
 
     @IBAction func doneEditing(_ sender: UIButton) {
 
+        isEnableEdit = false
+
         guard let text = editTextField.text else { return }
 
-        editHandler(text)
-        contentLabel.text = text
-        isEnableEdit = false
+        if text != contentLabel.text {
+
+            editHandler(text)
+            contentLabel.text = text
+        }
     }
 
     @IBAction func deleteComment(_ sender: UIButton) {

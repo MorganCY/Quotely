@@ -46,8 +46,8 @@ class ExploreTableViewCell: UITableViewCell {
         isLikePost: Bool
     ) {
 
-        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
+        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected) : UIImage.sfsymbol(.heartNormal)
+        let buttonColor: UIColor = isLikePost ? UIColor.M2 : .gray
 
         if let profileImageUrl = userInfo.profileImageUrl {
 
@@ -59,7 +59,7 @@ class ExploreTableViewCell: UITableViewCell {
         }
 
         userNameLabel.text = userInfo.name
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
+        timeLabel.text = Date.init(milliseconds: post.createdTime).timeAgoDisplay()
         contentLabel.text = post.content
 
         likeButton.setImage(buttonImage, for: .normal)
@@ -85,7 +85,7 @@ class ExploreTableViewCell: UITableViewCell {
             cardStackView.isHidden = false
             postImageView.isHidden = true
 
-            cardContentLabel.text = cardContent
+            cardContentLabel.text = cardContent.replacingOccurrences(of: "\\n", with: "\n")
             cardAuthorLabel.text = cardAuthor
             cardImageView.loadImage(cardImageUrl, placeHolder: nil)
 
@@ -96,6 +96,6 @@ class ExploreTableViewCell: UITableViewCell {
 
         guard let editTime = post.editTime else { return }
 
-        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+        timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
     }
 }
