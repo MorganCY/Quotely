@@ -21,15 +21,6 @@ class ShareViewController: BaseImagePickerViewController {
             fullImageTemplateView.isHidden = !(currentTemplateType == .fullImage)
             halfImageTemplateView.isHidden = !(currentTemplateType == .halfImage)
             smallImageTemplateView.isHidden = !(currentTemplateType == .smallImage)
-
-            sharingImage = {
-                switch currentTemplateType {
-
-                case .fullImage: return fullImageTemplateView.convertToImage()
-                case .halfImage: return halfImageTemplateView.convertToImage()
-                case .smallImage: return smallImageTemplateView.convertToImage()
-                }
-            }()
         }
     }
 
@@ -48,11 +39,7 @@ class ShareViewController: BaseImagePickerViewController {
      */
     var sharingImage = UIImage()
 
-    var templateImage: UIImage? {
-        didSet {
-            templateViews.forEach { $0.dataSource = self }
-        }
-    }
+    var templateImage: UIImage?
 
     var templateContent: [String] = [] {
         didSet {
@@ -124,7 +111,6 @@ class ShareViewController: BaseImagePickerViewController {
         imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
 
         if isLayoutFirstTime {
-
             currentTemplateType = .fullImage
             isLayoutFirstTime = false
         }
@@ -149,6 +135,15 @@ class ShareViewController: BaseImagePickerViewController {
     @objc func collapseOptionPanel(_ sender: UITapGestureRecognizer) { isSharing = false }
 
     @objc func shareToInstagramStory(_ sender: UIButton) {
+
+        sharingImage = {
+            switch currentTemplateType {
+
+            case .fullImage: return fullImageTemplateView.convertToImage()
+            case .halfImage: return halfImageTemplateView.convertToImage()
+            case .smallImage: return smallImageTemplateView.convertToImage()
+            }
+        }()
 
         if let storiesUrl = URL(string: "instagram-stories://share") {
 
@@ -182,15 +177,36 @@ class ShareViewController: BaseImagePickerViewController {
 
     @objc func saveImageToDevice(_ sender: UIButton) {
 
+        sharingImage = {
+            switch currentTemplateType {
+
+            case .fullImage: return fullImageTemplateView.convertToImage()
+            case .halfImage: return halfImageTemplateView.convertToImage()
+            case .smallImage: return smallImageTemplateView.convertToImage()
+            }
+        }()
+
         UIImageWriteToSavedPhotosAlbum(sharingImage, nil, nil, nil)
         isSharing = false
         Toast.showSuccess(text: "已下載")
     }
 
-    @objc func changeTemplateImageToBg1(_ sender: UIButton) { templateImage = UIImage.asset(.bg1) }
-    @objc func changeTemplateImageToBg2(_ sender: UIButton) { templateImage = UIImage.asset(.bg2) }
-    @objc func changeTemplateImageToBg3(_ sender: UIButton) { templateImage = UIImage.asset(.bg3) }
-    @objc func changeTemplateImageToBg4(_ sender: UIButton) { templateImage = UIImage.asset(.bg4) }
+    @objc func changeTemplateImageToBg1(_ sender: UIButton) {
+        templateImage = UIImage.asset(.bg1)
+        templateViews.forEach { $0.dataSource = self }
+    }
+    @objc func changeTemplateImageToBg2(_ sender: UIButton) {
+        templateImage = UIImage.asset(.bg2)
+        templateViews.forEach { $0.dataSource = self }
+    }
+    @objc func changeTemplateImageToBg3(_ sender: UIButton) {
+        templateImage = UIImage.asset(.bg3)
+        templateViews.forEach { $0.dataSource = self }
+    }
+    @objc func changeTemplateImageToBg4(_ sender: UIButton) {
+        templateImage = UIImage.asset(.bg4)
+        templateViews.forEach { $0.dataSource = self }
+    }
 
     override func imagePickerController(
         _ picker: UIImagePickerController,
@@ -206,6 +222,7 @@ class ShareViewController: BaseImagePickerViewController {
         }
 
         self.templateImage = selectedImage
+        templateViews.forEach { $0.dataSource = self }
     }
 
     @available(iOS 14, *)
@@ -229,6 +246,7 @@ class ShareViewController: BaseImagePickerViewController {
                 }
 
                 self.templateImage = selectedImage
+                self.templateViews.forEach { $0.dataSource = self }
             })
         }
     }

@@ -24,7 +24,7 @@ class ImageManager {
 
         let imageStorageRef = imagePath.child("\(Date().millisecondsSince1970).jpg")
 
-        guard let imageData = scaledImage.jpegData(compressionQuality: 0.5) else {
+        guard let imageData = scaledImage.jpegData(compressionQuality: 0.3) else {
 
             return
         }
@@ -91,7 +91,7 @@ class ImageManager {
 
                 } else {
 
-                    completion(.success("Image was deleted"))
+                    completion(.success("Image was deleted from storage"))
                 }
             }
         }

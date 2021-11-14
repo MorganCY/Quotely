@@ -30,7 +30,7 @@ class CardTopicTableViewHeader: UITableViewHeaderFooterView {
     }
 
     func layoutHeader(card: Card) {
-        cardContentLabel.text = card.content
+        cardContentLabel.text = card.content.replacingOccurrences(of: "\\n", with: "\n")
         cardAuthorLabel.text = card.author
     }
 }

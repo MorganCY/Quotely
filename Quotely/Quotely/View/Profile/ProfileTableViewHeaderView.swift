@@ -43,14 +43,19 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     }
 
     override func awakeFromNib() {
+        super.awakeFromNib()
 
         setupProfileImage()
         setupButtons()
 
         defineIfDisplay()
         userNameLabel.isHidden = isEditing
+        editNameTextField.delegate = self
         editNameTextField.isHidden = !isEditing
         doneEditNameButton.isHidden = !isEditing
+
+        profileImageView.cornerRadius = profileImageView.frame.width / 2
+        editImageButton.cornerRadius = editImageButton.frame.width / 2
     }
 
     var editImageHandler: () -> Void = {}
@@ -144,8 +149,6 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         profileImageView.borderColor = .white
         profileImageView.borderWidth = 2
-        profileImageView.cornerRadius = profileImageView.frame.width / 2
-        editImageButton.cornerRadius = editImageButton.frame.width / 2
         userNameLabel.text = userInfo.name
         postNumberLabel.text = "\(userInfo.postNumber) 則想法"
         followerNumberLabel.text = "\(userInfo.followerNumber) 被追蹤"
@@ -171,5 +174,19 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         followButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
         blockButton.backgroundColor = .white
         followButton.backgroundColor = .white
+    }
+}
+
+extension ProfileTableViewHeaderView: UITextFieldDelegate {
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        let currentText = textField.text ?? ""
+
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+        return updatedText.count <= 12
     }
 }

@@ -207,21 +207,21 @@ class JournalViewController: UIViewController {
 
 extension JournalViewController: SelectionViewDataSource {
 
-    // swiftlint:disable identifier_name
     func numberOfButtonsAt(_ view: SelectionView) -> Int { buttonImages.count }
 
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .image }
 
     func buttonColor(_ view: SelectionView) -> UIColor { .lightGray }
 
-    func indicatorColor(_ view: SelectionView) -> UIColor { .M1 ?? .black }
+    func indicatorColor(_ view: SelectionView) -> UIColor { .M1 }
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.8 }
 
     func buttonImage(_ view: SelectionView, index: Int) -> UIImage {
 
         view.buttons[0].tintColor = .black
-        return buttonImages[index] ?? UIImage()
+        
+        return buttonImages[index]
     }
 }
 
@@ -256,6 +256,17 @@ extension JournalViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
 
         isEditPanelExpand = journalTextView.isFirstResponder
+    }
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
+        let currentText = textView.text ?? ""
+
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+
+        return updatedText.count <= 140
     }
 }
 

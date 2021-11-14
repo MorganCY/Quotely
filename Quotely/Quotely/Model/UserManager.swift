@@ -314,9 +314,10 @@ class UserManager {
     func listenToUserUpdate(
         uid: String,
         completion: @escaping (Result<User, Error>
-        ) -> Void) {
+        ) -> Void
+    ) -> ListenerRegistration {
 
-        users.document(uid).addSnapshotListener { documentSnapshot, error in
+        return users.document(uid).addSnapshotListener { documentSnapshot, error in
 
             if let error = error {
 

@@ -43,15 +43,13 @@
                             </constraints>
                         </imageView>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="DaW-GO-AwQ" firstAttribute="width" secondItem="iId-p4-4b5" secondAttribute="width" multiplier="0.285024" constant="2.2801932367149789" id="oZD-pM-B7P"/>
-                    </constraints>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="iId-p4-4b5" secondAttribute="bottom" constant="16" id="3UW-on-R7J"/>
+                <constraint firstItem="DaW-GO-AwQ" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.285024" id="HZi-hk-Y6s"/>
                 <constraint firstAttribute="trailing" secondItem="iId-p4-4b5" secondAttribute="trailing" constant="24" id="fBB-nB-Oc2"/>
                 <constraint firstItem="iId-p4-4b5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="24" id="ib5-oG-fuW"/>
                 <constraint firstItem="iId-p4-4b5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="swW-J9-Epg"/>

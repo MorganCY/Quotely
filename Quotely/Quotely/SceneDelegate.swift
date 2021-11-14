@@ -9,12 +9,13 @@ import Foundation
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    static let shared = SceneDelegate()
+    var userListener: ListenerRegistration?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
@@ -22,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if let visitorUid = Auth.auth().currentUser?.uid {
 
-            UserManager.shared.listenToUserUpdate(
+            userListener = UserManager.shared.listenToUserUpdate(
                 uid: visitorUid
             ) { result in
 
@@ -72,13 +73,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+
+        userListener = UserManager.shared.listenToUserUpdate(
+            uid: SignInManager.shared.visitorUid ?? ""
+        ) { result in
+
+            switch result {
+
+            case .success(let user):
+
+                print(user)
+
+                UserManager.shared.visitorUserInfo = user
+
+                SignInManager.shared.visitorUid = user.uid
+
+            case .failure(let error):
+
+                print(error)
+            }
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
+
+        userListener?.remove()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
