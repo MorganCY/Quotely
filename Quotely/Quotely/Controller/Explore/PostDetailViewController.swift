@@ -166,19 +166,34 @@ class PostDetailViewController: BaseDetailViewController {
         }
     }
 
+    func updateUserPost(postID: String, action: UserManager.PostAction) {
+
+        UserManager.shared.updateUserPost(
+            uid: self.postAuthor?.uid ?? "",
+            postID: postID,
+            postAction: action
+        ) { result in
+
+            switch result {
+
+            case .success(let success): print(success)
+
+                self.deletePostFromCard(postID: postID)
+
+            case .failure(let error): print(error)
+            }
+        }
+    }
+
     // MARK: TableView
     // Header: post content
     override func tableView(
         _ tableView: UITableView,
-        viewForHeaderInSection section: Int
-    ) -> UIView? {
+        viewForHeaderInSection section: Int ) -> UIView? {
 
         guard let header = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: BaseDetailTableViewHeader.identifier
-        ) as? BaseDetailTableViewHeader else {
-
-            fatalError("Cannot load header view.")
-        }
+        ) as? BaseDetailTableViewHeader else { fatalError("Cannot load header view.") }
 
         let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
 
@@ -193,8 +208,7 @@ class PostDetailViewController: BaseDetailViewController {
             post: post,
             postAuthor: postAuthor,
             isAuthor: self.isAuthor,
-            isLike: isLike
-        )
+            isLike: isLike)
 
         // Pass data from Post Detail page to Write page
 
@@ -212,9 +226,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                 switch result {
 
-                case .success(let action):
-
-                    print(action)
+                case .success(_):
 
                     if likeAction == .like {
                         self.post?.likeNumber += 1
@@ -243,13 +255,11 @@ class PostDetailViewController: BaseDetailViewController {
 
                 if self.post?.cardID != nil {
 
-                    return UIStoryboard.write.instantiateViewController(
-                        withIdentifier: String(describing: CardWriteViewController.self)) as? CardWriteViewController
+                    return UIStoryboard.write.instantiateViewController(withIdentifier: String(describing: CardWriteViewController.self)) as? CardWriteViewController
 
                 } else {
 
-                    return UIStoryboard.write.instantiateViewController(
-                        withIdentifier: String(describing: ExploreWriteViewController.self)) as? ExploreWriteViewController
+                    return UIStoryboard.write.instantiateViewController(withIdentifier: String(describing: ExploreWriteViewController.self)) as? ExploreWriteViewController
                 }
             }
 
@@ -263,21 +273,30 @@ class PostDetailViewController: BaseDetailViewController {
 
             writeVC.postID = self.post?.postID
 
-            if let imageUrl = self.post?.imageUrl {
+            if let imageUrl = self.post?.imageUrl { writeVC.imageUrl = imageUrl }
 
-                writeVC.imageUrl = imageUrl
-            }
-
-            writeVC.contentHandler = { content, editTime in
+            writeVC.contentHandler = { content, editTime, postImage in
 
                 self.post?.content = content
 
                 self.post?.editTime = editTime
 
-                tableView.reloadData()
+                if self.post?.cardID != nil {
+                    header.cardImageView.image = postImage
+                    header.cardImageView.layoutIfNeeded()
+                } else {
+                    if postImage == nil {
+                        header.postImageView.isHidden = true
+                    } else {
+                        header.postImageView.image = postImage
+                    }
+                    header.postImageView.layoutIfNeeded()
+                }
             }
 
             if let cardID = self.post?.cardID {
+
+                writeVC.uploadedImage = header.cardImageView.image
 
                 CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
 
@@ -320,21 +339,7 @@ class PostDetailViewController: BaseDetailViewController {
                             self.deleteImage(imageUrl: postImageUrl)
                         }
 
-                        UserManager.shared.updateUserPost(
-                            uid: self.postAuthor?.uid ?? "",
-                            postID: postID,
-                            postAction: .delete) { result in
-
-                                switch result {
-
-                                case .success(let success):
-                                    print(success)
-
-                                    self.deletePostFromCard(postID: postID)
-
-                                case .failure(let error): print(error)
-                                }
-                            }
+                        self.updateUserPost(postID: postID, action: .delete)
 
                     case .failure(let error):
 
