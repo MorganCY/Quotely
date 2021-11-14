@@ -20,7 +20,11 @@ class ExploreViewController: UIViewController {
         didSet {
             if currentFilter == .following,
                visitorFollowingList.count > 0 {
-                listener = addPostListener(type: currentFilter, uid: SignInManager.shared.visitorUid, followingList: visitorFollowingList)
+                listener = addPostListener(
+                    type: currentFilter,
+                    uid: SignInManager.shared.visitorUid,
+                    followingList: visitorFollowingList
+                )
             } else {
                 listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
             }

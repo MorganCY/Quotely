@@ -406,6 +406,22 @@ class ProfileViewController: BaseImagePickerViewController {
             }
         }
     }
+
+    @objc func goToFollowList(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let followVC =
+                UIStoryboard.profile
+                .instantiateViewController(
+                    withIdentifier: String(describing: FollowListViewController.self)
+                ) as? FollowListViewController else {
+
+                    return
+                }
+
+        followVC.visitedUid = visitedUid
+
+        navigationController?.pushViewController(followVC, animated: true)
+    }
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
@@ -429,6 +445,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot fetch user info")
         }
 
+        let goToFollowListGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(goToFollowList(_:))
+        )
+
         header.isVisitorProfile = isVisitorProfile
 
         header.layoutHeader(userInfo: userInfo, isBlock: isBlock, isFollow: isFollow)
@@ -436,6 +457,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         header.blockButton.isEnabled = !isFollow
 
         header.followButton.isEnabled = !isBlock
+
+        header.followStackView.addGestureRecognizer(goToFollowListGesture)
+        header.followStackView.isUserInteractionEnabled = true
 
         header.editImageHandler = {
 
