@@ -187,7 +187,7 @@ class SelectionView: UIView {
 
         NSLayoutConstraint.activate([
 
-            indicator.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 2),
+            indicator.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 2),
 
             indicator.heightAnchor.constraint(equalToConstant: 3)
         ])
@@ -196,7 +196,10 @@ class SelectionView: UIView {
 
         NSLayoutConstraint.activate([
 
-            indicator.widthAnchor.constraint(equalTo: buttons[0].widthAnchor, multiplier: dataSource.indicatorWidth(self))
+            indicator.widthAnchor.constraint(
+                equalTo: buttons[0].widthAnchor,
+                multiplier: dataSource.indicatorWidth(self)
+            )
         ])
     }
 

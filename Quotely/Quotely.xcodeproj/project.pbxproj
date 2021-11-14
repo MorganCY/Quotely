@@ -42,6 +42,7 @@
 		5C46F258273BB0EB007E951D /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F257273BB0EB007E951D /* UIButton+Extension.swift */; };
 		5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */; };
 		5C47E0D7273A77A600CE383C /* CardTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */; };
+		5C4983E22740E743008B721F /* FollowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4983E12740E743008B721F /* FollowListViewController.swift */; };
 		5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */; };
 		5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */; };
 		5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9690271FBBA3008B21C7 /* UIColor+Extension.swift */; };
@@ -152,6 +153,7 @@
 		5C46F257273BB0EB007E951D /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTopicViewController.swift; sourceTree = "<group>"; };
+		5C4983E12740E743008B721F /* FollowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListViewController.swift; sourceTree = "<group>"; };
 		5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailTableViewHeader.swift; sourceTree = "<group>"; };
 		5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseDetailTableViewHeader.xib; sourceTree = "<group>"; };
 		5C4B9690271FBBA3008B21C7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 				5CE8F1D2272F77950026864C /* ProfileViewController.swift */,
 				5C19204927369591008B9F0D /* SettingsViewController.swift */,
 				5C8748FD273CC201007471F6 /* BlockListViewController.swift */,
+				5C4983E12740E743008B721F /* FollowListViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -765,6 +768,7 @@
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
 				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
+				5C4983E22740E743008B721F /* FollowListViewController.swift in Sources */,
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
 				5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */,
 				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,

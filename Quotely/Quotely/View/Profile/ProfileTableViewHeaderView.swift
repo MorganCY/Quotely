@@ -19,6 +19,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var editNameTextField: UITextField!
     @IBOutlet weak var doneEditNameButton: UIButton!
 
+    @IBOutlet weak var followStackView: UIStackView!
     @IBOutlet weak var postNumberLabel: UILabel!
     @IBOutlet weak var followerNumberLabel: UILabel!
     @IBOutlet weak var followingNumberLabel: UILabel!
