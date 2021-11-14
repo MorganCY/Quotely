@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 class PostDetailViewController: BaseDetailViewController {
 
@@ -89,19 +90,40 @@ class PostDetailViewController: BaseDetailViewController {
 
             var comment = Comment(
                 uid: visitorUid,
-                content: message,
                 createdTime: Date().millisecondsSince1970,
                 editTime: nil,
+                content: message,
                 postID: post?.postID
             )
 
             PostCommentManager.shared.addComment(
                 comment: &comment
-            ) { _ in
+            ) { result in
 
-                self.commentTextField.text = ""
+                switch result {
 
-                self.fetchComments(type: .post)
+                case .success(let success):
+
+                    print(success)
+
+                    self.commentTextField.text = ""
+
+                    PostManager.shared.updateCommentNumber(
+                        postID: self.post?.postID ?? "",
+                        commentAction: .add) { result in
+
+                            switch result {
+
+                            case .success(let success): print(success)
+
+                            case .failure(let error): print(error)
+                            }
+                        }
+
+                    self.fetchComments(type: .post)
+
+                case .failure(let error): print(error)
+                }
             }
 
         } else {
@@ -403,6 +425,19 @@ class PostDetailViewController: BaseDetailViewController {
                     case .success(let success):
 
                         print(success)
+
+                        PostManager.shared.updateCommentNumber(
+                            postID: comment.postID ?? "",
+                            commentAction: .delete
+                        ) { result in
+
+                            switch result {
+
+                            case .success(let success): print(success)
+
+                            case .failure(let error): print(error)
+                            }
+                        }
 
                         self.fetchComments(type: .post)
 

@@ -144,7 +144,7 @@
                                 <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                             </buttonConfiguration>
                             <connections>
-                                <action selector="like:" destination="iN0-l3-epB" eventType="touchUpInside" id="zY5-pM-094"/>
+                                <action selector="tapLikeButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="InC-ph-cZl"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYt-Ab-Z3L">
@@ -161,6 +161,9 @@
                                 <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="18"/>
                                 <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                             </buttonConfiguration>
+                            <connections>
+                                <action selector="tapCommentButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="Wne-zz-VoL"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fx-f2-uA2">
                             <rect key="frame" x="96" y="0.0" width="17" height="25.5"/>

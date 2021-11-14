@@ -37,8 +37,10 @@ class ExploreTableViewCell: UITableViewCell {
     }
 
     var likeHandler: () -> Void = {}
+    var commentHandler: () -> Void = {}
 
-    @IBAction func like(_ sender: UIButton) { likeHandler() }
+    @IBAction func tapLikeButton(_ sender: Any) { likeHandler() }
+    @IBAction func tapCommentButton(_ sender: Any) { commentHandler() }
 
     func layoutCell(
         userInfo: User,
@@ -65,6 +67,7 @@ class ExploreTableViewCell: UITableViewCell {
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
         likeNumberLabel.text = "\(post.likeNumber)"
+        commentNumberLabel.text = "\(post.commentNumber)"
 
         if let postImageUrl = post.imageUrl {
 
