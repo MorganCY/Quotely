@@ -76,6 +76,7 @@ extension Date {
     func timeAgoDisplay() -> String {
 
         let formatter = RelativeDateTimeFormatter()
+        formatter.locale = Locale(identifier: "zh-Hant")
         formatter.unitsStyle = .full
         return formatter.localizedString(for: self, relativeTo: Date())
     }
