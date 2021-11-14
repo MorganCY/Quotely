@@ -98,8 +98,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uts-j2-83w">
-                                            <rect key="frame" x="16" y="104" width="30.5" height="30"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uts-j2-83w">
+                                            <rect key="frame" x="16" y="104" width="157.5" height="30"/>
                                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -115,6 +115,7 @@
                                         <constraint firstAttribute="bottom" secondItem="uts-j2-83w" secondAttribute="bottom" constant="16" id="G2x-UM-eYP"/>
                                         <constraint firstItem="euO-lS-I8o" firstAttribute="leading" secondItem="Udo-IM-2qj" secondAttribute="leading" constant="16" id="NEK-1m-nIv"/>
                                         <constraint firstItem="TNn-ic-QD5" firstAttribute="width" secondItem="Udo-IM-2qj" secondAttribute="width" multiplier="0.4" id="PrI-1x-lz7"/>
+                                        <constraint firstItem="uts-j2-83w" firstAttribute="trailing" secondItem="euO-lS-I8o" secondAttribute="trailing" id="S7D-9O-uTg"/>
                                         <constraint firstItem="TNn-ic-QD5" firstAttribute="top" secondItem="Udo-IM-2qj" secondAttribute="top" id="exb-E2-kny"/>
                                         <constraint firstItem="TNn-ic-QD5" firstAttribute="leading" secondItem="euO-lS-I8o" secondAttribute="trailing" constant="16" id="m1r-Dt-cfc"/>
                                         <constraint firstItem="uts-j2-83w" firstAttribute="top" secondItem="euO-lS-I8o" secondAttribute="bottom" constant="16" id="vH1-iG-PSc"/>
