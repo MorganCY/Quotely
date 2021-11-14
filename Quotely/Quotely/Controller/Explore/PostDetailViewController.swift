@@ -136,6 +136,36 @@ class PostDetailViewController: BaseDetailViewController {
         }
     }
 
+    func deleteImage(imageUrl: String) {
+
+        ImageManager.shared.deleteImage(imageUrl: imageUrl) { result in
+
+            switch result {
+
+            case .success(let success): print(success)
+
+            case .failure(let error): print(error)
+            }
+        }
+    }
+
+    func deletePostFromCard(postID: String) {
+
+        CardManager.shared.removePostFromCard(postID: postID) { result in
+
+            switch result {
+
+            case .success(let success):
+
+                print(success)
+
+                self.navigationController?.popViewController(animated: true)
+
+            case .failure(let error): print(error)
+            }
+        }
+    }
+
     // MARK: TableView
     // Header: post content
     override func tableView(
@@ -285,6 +315,11 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(success)
 
+                        if let postImageUrl = self.post?.imageUrl {
+
+                            self.deleteImage(imageUrl: postImageUrl)
+                        }
+
                         UserManager.shared.updateUserPost(
                             uid: self.postAuthor?.uid ?? "",
                             postID: postID,
@@ -295,19 +330,7 @@ class PostDetailViewController: BaseDetailViewController {
                                 case .success(let success):
                                     print(success)
 
-                                    CardManager.shared.removePostFromCard(postID: postID) { result in
-
-                                        switch result {
-
-                                        case .success(let success):
-
-                                            print(success)
-
-                                            self.navigationController?.popViewController(animated: true)
-
-                                        case .failure(let error): print(error)
-                                        }
-                                    }
+                                    self.deletePostFromCard(postID: postID)
 
                                 case .failure(let error): print(error)
                                 }
