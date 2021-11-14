@@ -97,8 +97,9 @@ class ExploreTableViewCell: UITableViewCell {
             cardStackView.isHidden = true
         }
 
-        guard let editTime = post.editTime else { return }
+        if let editTime = post.editTime {
 
-        timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
+            timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
+        }
     }
 }
