@@ -23,6 +23,12 @@ class PostManager {
         case user
     }
 
+    enum CommentAction: Int64 {
+
+        case add = 1
+        case delete = -1
+    }
+
     static let shared = PostManager()
 
     let visitorUid = SignInManager.shared.visitorUid
@@ -245,6 +251,29 @@ class PostManager {
                          "likeUser": FieldValue.arrayRemove([self.visitorUid as Any])
                         ])
                 }
+
+                completion(.success("changed like number"))
+            }
+        }
+    }
+
+    func updateCommentNumber(postID: String, commentAction: CommentAction, completion: @escaping (Result<String, Error>) -> Void) {
+
+        posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetPost = querySnapshot?.documents.first
+
+                targetPost?.reference.updateData([
+
+                    "commentNumber": FieldValue.increment(commentAction.rawValue)
+
+                ])
 
                 completion(.success("changed like number"))
             }

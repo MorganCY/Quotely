@@ -223,6 +223,33 @@ class ExploreViewController: UIViewController {
 
         navigationController?.pushViewController(cardTopicVC, animated: true)
     }
+
+    func goToPostDetail(index: Int) {
+
+        guard let detailVC =
+                UIStoryboard.explore
+                .instantiateViewController(
+                    withIdentifier: String(describing: PostDetailViewController.self)
+                ) as? PostDetailViewController else {
+
+                    return
+                }
+
+        if let likeUserList = postList[index].likeUser {
+
+            isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
+
+        } else {
+
+            isLikePost = false
+        }
+
+        detailVC.post = postList[index]
+        detailVC.postAuthor = userList[index]
+        detailVC.isLike = isLikePost
+
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate {
@@ -338,6 +365,8 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
+        cell.commentHandler = { self.goToPostDetail(index: indexPath.row) }
+
         // go to user's profile when tapping image, name, and time
 
         let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
@@ -364,31 +393,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        guard let detailVC =
-                UIStoryboard.explore
-                .instantiateViewController(
-                    withIdentifier: String(describing: PostDetailViewController.self)
-                ) as? PostDetailViewController else {
-
-                    return
-                }
-
-        let row = indexPath.row
-
-        if let likeUserList = postList[row].likeUser {
-
-            isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
-
-        } else {
-
-            isLikePost = false
-        }
-
-        detailVC.post = postList[row]
-        detailVC.postAuthor = userList[row]
-        detailVC.isLike = isLikePost
-
-        navigationController?.pushViewController(detailVC, animated: true)
+        goToPostDetail(index: indexPath.row)
     }
 }
 

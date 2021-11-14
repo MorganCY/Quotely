@@ -276,8 +276,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
                         content: self.contentTextView.text   ,
                         imageUrl: url,
                         likeNumber: 0,
+                        commentNumber: 0,
                         likeUser: nil,
-                        commentNumber: nil,
                         cardID: self.card?.cardID,
                         cardContent: self.card?.content,
                         cardAuthor: self.card?.author
@@ -358,8 +358,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
                 content: self.contentTextView.text   ,
                 imageUrl: nil,
                 likeNumber: 0,
+                commentNumber: 0,
                 likeUser: nil,
-                commentNumber: nil,
                 cardID: self.card?.cardID,
                 cardContent: self.card?.content,
                 cardAuthor: self.card?.author

@@ -36,7 +36,7 @@ class PostCommentManager {
 
                 } else {
 
-                    completion(.success("Success"))
+                    completion(.success("Added comment"))
                 }
             })
 
