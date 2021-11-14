@@ -22,7 +22,7 @@ class ProfileTableViewCell: UITableViewCell {
     func layoutCell(post: Post) {
 
         contentLabel.text = post.content
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
+        timeLabel.text = Date.init(milliseconds: post.createdTime).timeAgoDisplay()
 
         if let imageUrl = post.imageUrl {
 
@@ -36,8 +36,7 @@ class ProfileTableViewCell: UITableViewCell {
 
         if let editTime = post.editTime {
 
-            timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+            timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
         }
-
     }
 }

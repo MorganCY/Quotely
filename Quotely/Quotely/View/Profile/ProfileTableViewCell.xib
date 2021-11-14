@@ -12,45 +12,47 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ProfileTableViewCell" customModule="Quotely" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="130"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DaW-GO-AwQ">
-                    <rect key="frame" x="292" y="16" width="98" height="98"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="DaW-GO-AwQ" secondAttribute="height" multiplier="1:1" id="C3O-xI-hlq"/>
-                    </constraints>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RJ-hL-Ako">
-                    <rect key="frame" x="24" y="101.5" width="252" height="12.5"/>
-                    <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
-                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C4l-HK-68x">
-                    <rect key="frame" x="24" y="16" width="252" height="73.5"/>
-                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="iId-p4-4b5">
+                    <rect key="frame" x="24" y="16" width="366" height="118"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Cvk-eh-hJR">
+                            <rect key="frame" x="0.0" y="0.0" width="224" height="118"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C4l-HK-68x">
+                                    <rect key="frame" x="0.0" y="0.0" width="224" height="22.5"/>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RJ-hL-Ako">
+                                    <rect key="frame" x="0.0" y="101" width="224" height="17"/>
+                                    <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
+                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DaW-GO-AwQ">
+                            <rect key="frame" x="248" y="0.0" width="118" height="118"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="DaW-GO-AwQ" secondAttribute="height" multiplier="1:1" id="C3O-xI-hlq"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="DaW-GO-AwQ" secondAttribute="trailing" constant="24" id="28X-JF-dcu"/>
-                <constraint firstAttribute="bottom" secondItem="DaW-GO-AwQ" secondAttribute="bottom" constant="16" id="Idz-xM-b8Y"/>
-                <constraint firstItem="C4l-HK-68x" firstAttribute="top" secondItem="DaW-GO-AwQ" secondAttribute="top" id="RdV-AW-u3b"/>
-                <constraint firstItem="8RJ-hL-Ako" firstAttribute="top" secondItem="C4l-HK-68x" secondAttribute="bottom" constant="12" id="STs-Pb-wiJ"/>
-                <constraint firstItem="DaW-GO-AwQ" firstAttribute="leading" secondItem="8RJ-hL-Ako" secondAttribute="trailing" constant="16" id="Zcx-vF-0jd"/>
-                <constraint firstItem="DaW-GO-AwQ" firstAttribute="leading" secondItem="C4l-HK-68x" secondAttribute="trailing" constant="16" id="bbw-dA-moe"/>
-                <constraint firstItem="8RJ-hL-Ako" firstAttribute="leading" secondItem="C4l-HK-68x" secondAttribute="leading" id="cBn-fl-9Pn"/>
-                <constraint firstItem="DaW-GO-AwQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="heU-rv-otN"/>
-                <constraint firstItem="DaW-GO-AwQ" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.236715" id="mEg-nF-lZy"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8RJ-hL-Ako" secondAttribute="bottom" constant="16" id="mTL-9A-BvN"/>
-                <constraint firstItem="C4l-HK-68x" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="mcI-Mx-5Yv"/>
-                <constraint firstItem="C4l-HK-68x" firstAttribute="height" secondItem="DaW-GO-AwQ" secondAttribute="height" multiplier="0.75" id="vH1-Qv-8y4"/>
-                <constraint firstItem="DaW-GO-AwQ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="wAG-Sh-BKS"/>
+                <constraint firstAttribute="bottom" secondItem="iId-p4-4b5" secondAttribute="bottom" constant="16" id="3UW-on-R7J"/>
+                <constraint firstItem="DaW-GO-AwQ" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.285024" id="HZi-hk-Y6s"/>
+                <constraint firstAttribute="trailing" secondItem="iId-p4-4b5" secondAttribute="trailing" constant="24" id="fBB-nB-Oc2"/>
+                <constraint firstItem="iId-p4-4b5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="24" id="ib5-oG-fuW"/>
+                <constraint firstItem="iId-p4-4b5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="swW-J9-Epg"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

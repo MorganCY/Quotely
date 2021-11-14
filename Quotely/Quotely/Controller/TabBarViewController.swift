@@ -11,7 +11,7 @@ private enum Tab {
 
     case journal
 
-    case swipe
+    case card
 
     case explore
 
@@ -25,7 +25,7 @@ private enum Tab {
 
         case .journal: controller = UIStoryboard.journal.instantiateInitialViewController()!
 
-        case .swipe: controller = UIStoryboard.swipe.instantiateInitialViewController()!
+        case .card: controller = UIStoryboard.card.instantiateInitialViewController()!
 
         case .explore: controller = UIStoryboard.explore.instantiateInitialViewController()!
 
@@ -45,21 +45,21 @@ private enum Tab {
 
         case .journal:
             return UITabBarItem(
-                title: "隨筆",
-                image: UIImage.sfsymbol(.write),
-                selectedImage: UIImage.sfsymbol(.write)
+                title: "隻字",
+                image: UIImage.sfsymbol(.writeNormal),
+                selectedImage: UIImage.sfsymbol(.writeSelected)
             )
 
-        case .swipe:
+        case .card:
             return UITabBarItem(
-                title: "靈感",
+                title: "片語",
                 image: UIImage.sfsymbol(.lightbulbNormal),
                 selectedImage: UIImage.sfsymbol(.lightbulbSelected)
             )
 
         case .explore:
             return UITabBarItem(
-                title: "探索",
+                title: "想法",
                 image: UIImage.sfsymbol(.quoteNormal),
                 selectedImage: UIImage.sfsymbol(.quoteSelected)
             )
@@ -76,7 +76,7 @@ private enum Tab {
 
 class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
-    private let tabs: [Tab] = [.journal, .swipe, .explore, .profile]
+    private let tabs: [Tab] = [.journal, .card, .explore, .profile]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,13 +88,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         setupTabbarStyle()
 
         tabBar.tintColor = .M1
-    }
-
-    override func viewDidLayoutSubviews() {
-
-//        tabBar.frame.size.height = 85
-
-//        tabBar.frame.origin.y = view.frame.height - 85
     }
 
     func setupTabbarStyle() {

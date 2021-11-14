@@ -11,49 +11,91 @@ import AuthenticationServices
 
 class AuthViewController: UIViewController {
 
+    let logoImageView = UIImageView()
+    let claimerLabel = UILabel()
+    let privacyPolicyButton = UIButton()
+    let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+    let claimerStackView = UIStackView()
+    var authViews: [UIView] {
+        return [logoImageView, signInButton, claimerStackView]
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupSignInWithAppleButton()
+        view.backgroundColor = .BG
+        configureAuthVC()
     }
 
-    func setupSignInWithAppleButton() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-//        let signOutButton = UIButton()
+        authViews.forEach { $0.fadeIn() }
+    }
 
-        view.addSubview(signInButton)
-//        view.addSubview(signOutButton)
-        signInButton.translatesAutoresizingMaskIntoConstraints = false
-//        signOutButton.translatesAutoresizingMaskIntoConstraints = false
+    func configureAuthVC() {
+        let claimerViews = [claimerLabel, privacyPolicyButton]
+        view.addSubview(claimerStackView)
+        claimerStackView.translatesAutoresizingMaskIntoConstraints = false
+        claimerViews.forEach {
+            claimerStackView.addArrangedSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        claimerStackView.axis = .horizontal
+        claimerStackView.spacing = 2
+        claimerStackView.distribution = .fill
 
+        authViews.forEach {
+            $0.alpha = 0
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        logoImageView.image = UIImage.asset(.logoWithText)
+        claimerLabel.text = "點擊下方按鈕登入代表您同意"
+        privacyPolicyButton.setTitle("隱私權政策", for: .normal)
+        claimerLabel.textColor = .gray
+        privacyPolicyButton.setTitleColor(.M1, for: .normal)
+        claimerLabel.font = UIFont(name: "PingfangTC-Regular", size: 12)
+        privacyPolicyButton.titleLabel?.font = UIFont(name: "PingfangTC-Semibold", size: 12)
         signInButton.addTarget(self, action: #selector(handleSignInWithAppleTapped(_:)), for: .touchUpInside)
-//        signOutButton.addTarget(self, action: #selector(handleSignOutTapped(_:)), for: .touchUpInside)
+        privacyPolicyButton.addTarget(self, action: #selector(handlePrivacyPolicyTapped(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
 
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
+            logoImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
+            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height * 0.2),
+
+            privacyPolicyButton.leadingAnchor.constraint(equalTo: claimerLabel.trailingAnchor, constant: 2),
+            privacyPolicyButton.heightAnchor.constraint(equalTo: claimerLabel.heightAnchor),
+
             signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInButton.topAnchor.constraint(equalTo: view.centerYAnchor, constant: UIScreen.height * 0.2),
-            signInButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            signInButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(UIScreen.height * 0.22)),
+            signInButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
             signInButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
-
-//            signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            signOutButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 16),
-//            signOutButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-//            signOutButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05)
+            claimerStackView.bottomAnchor.constraint(equalTo: signInButton.topAnchor, constant: -16),
+            claimerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-
-//        signOutButton.setTitle("登出", for: .normal)
-//        signOutButton.setTitleColor(.black, for: .normal)
     }
 
     @objc func handleSignInWithAppleTapped(_ sender: ASAuthorizationAppleIDButton) {
-
         SignInManager.shared.performSignIn()
     }
 
-//    @objc func handleSignOutTapped(_ sender: UIButton) {
-//
-//        SignInManager.shared.performSignOut()
-//    }
+    @objc func handlePrivacyPolicyTapped(_ sender: UIButton) {
+        guard let policyVC =
+                UIStoryboard.auth
+                .instantiateViewController(
+                    withIdentifier: String(describing: PrivacyPolicyViewController.self)
+                ) as? PrivacyPolicyViewController else {
+
+                    return
+                }
+
+        let navigationVC = BaseNavigationController(rootViewController: policyVC)
+
+        present(navigationVC, animated: true)
+    }
 }

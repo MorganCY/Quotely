@@ -28,13 +28,29 @@ class ProfileViewController: BaseImagePickerViewController {
 
     // the user who is visiting other's profile
 
-    let visitorUid = SignInManager.shared.uid
+    var visitorUid: String?
 
     // the user who is visited by others
 
-    var visitedUid = SignInManager.shared.uid {
+    var visitedUid = SignInManager.shared.visitorUid {
         didSet {
             isVisitorProfile = visitorUid == visitedUid
+        }
+    }
+    var visitorBlockList: [String]? {
+        didSet {
+            if let visitedUid = visitedUid,
+               let visitorBlockList = visitorBlockList {
+                isBlock = visitorBlockList.contains(visitedUid)
+            }
+        }
+    }
+    var visitorFollowingList: [String]? {
+        didSet {
+            if let visitedUid = visitedUid,
+               let visitorFollowingList = visitorFollowingList {
+                isFollow = visitorFollowingList.contains(visitedUid)
+            }
         }
     }
 
@@ -42,9 +58,15 @@ class ProfileViewController: BaseImagePickerViewController {
 
     var isVisitorProfile = true
 
+    var isBlock = false {
+        didSet {
+            if tableView != nil { tableView.reloadData() }
+        }
+    }
+
     var isFollow = false {
         didSet {
-            tableView.reloadData()
+            if tableView != nil { tableView.reloadData() }
         }
     }
 
@@ -74,9 +96,11 @@ class ProfileViewController: BaseImagePickerViewController {
                 text: nil,
                 target: self,
                 action: #selector(goToSettingsPage(_:)),
-                color: .M1!
+                color: .M1
             )
         }
+
+        visitorUid = UserManager.shared.visitorUserInfo?.uid
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +109,8 @@ class ProfileViewController: BaseImagePickerViewController {
         fetchUserInfo(userType: .visited)
         fetchUserInfo(userType: .visitor)
         listenToVisitedUserPost()
+        visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
+        visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
 
     func fetchUserInfo(userType: UserType) {
@@ -102,13 +128,18 @@ class ProfileViewController: BaseImagePickerViewController {
 
             case .success(let userInfo):
 
+                UserManager.shared.visitorUserInfo = userInfo
+
                 if userType == .visited {
 
                     self.visitedUserInfo = userInfo
 
                 } else if userType == .visitor {
 
-                    guard let followingList = userInfo.following else { return }
+                    guard let followingList = userInfo.followingList,
+                          let blockList = userInfo.blockList else { return }
+
+                    self.isBlock = blockList.contains(self.visitedUid ?? "")
 
                     self.isFollow = followingList.contains(self.visitedUid ?? "")
                 }
@@ -129,9 +160,11 @@ class ProfileViewController: BaseImagePickerViewController {
             switch result {
 
             case .success(let posts):
+
                 self.userPostList = posts
 
             case .failure(let error):
+
                 print(error)
             }
         }
@@ -150,7 +183,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
         let nav = BaseNavigationController(rootViewController: settingsVC)
 
-        nav.modalPresentationStyle = .automatic
+        nav.modalPresentationStyle = .fullScreen
 
         present(nav, animated: true)
     }
@@ -322,26 +355,72 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    func tapFollowButton(followAction: UserManager.FollowAction) {
+    func updateUserBlock(blockAction: UserManager.BlockAction) {
+
+        guard let visitorUid = visitorUid,
+              let visitedUid = visitedUid else { return }
+
+        UserManager.shared.updateUserBlockList(
+            visitorUid: visitorUid,
+            visitedUid: visitedUid,
+            blockAction: blockAction
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+
+                print(success)
+
+                self.isBlock = blockAction == .block
+
+            case .failure(let error):
+
+                print(error)
+            }
+        }
+    }
+
+    func updateUserFollow(followAction: UserManager.FollowAction) {
+
+        guard let visitorUid = visitorUid,
+              let visitedUid = visitedUid else { return }
 
         UserManager.shared.updateUserFollow(
-            visitorUid: visitorUid ?? "",
-            visitedUid: visitedUid ?? "",
-            followAction: followAction) { result in
+            visitorUid: visitorUid,
+            visitedUid: visitedUid,
+            followAction: followAction
+        ) { result in
 
-                switch result {
+            switch result {
 
-                case .success(let success): print(success)
+            case .success(let success):
 
-                    if followAction == .follow {
-                        self.isFollow = true
-                    } else if followAction == .unfollow {
-                        self.isFollow = false
-                    }
+                print(success)
 
-                case .failure(let error): print(error)
-                }
+                self.isFollow = followAction == .follow
+
+            case .failure(let error):
+
+                print(error)
             }
+        }
+    }
+
+    @objc func goToFollowList(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let followVC =
+                UIStoryboard.profile
+                .instantiateViewController(
+                    withIdentifier: String(describing: FollowListViewController.self)
+                ) as? FollowListViewController else {
+
+                    return
+                }
+
+        followVC.visitedUid = visitedUid
+
+        navigationController?.pushViewController(followVC, animated: true)
     }
 }
 
@@ -366,9 +445,21 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot fetch user info")
         }
 
+        let goToFollowListGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(goToFollowList(_:))
+        )
+
         header.isVisitorProfile = isVisitorProfile
 
-        header.layoutHeader(userInfo: userInfo, isFollow: isFollow)
+        header.layoutHeader(userInfo: userInfo, isBlock: isBlock, isFollow: isFollow)
+
+        header.blockButton.isEnabled = !isFollow
+
+        header.followButton.isEnabled = !isBlock
+
+        header.followStackView.addGestureRecognizer(goToFollowListGesture)
+        header.followStackView.isUserInteractionEnabled = true
 
         header.editImageHandler = {
 
@@ -383,15 +474,24 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 userName: userName
             ) { result in
 
-                    switch result {
+                switch result {
 
-                    case .success(let success):
-                        print(success)
+                case .success(let success):
+                    print(success)
 
-                    case .failure(let error):
-                        print(error)
-                    }
+                case .failure(let error):
+                    print(error)
                 }
+            }
+        }
+
+        header.blockHanlder = {
+
+            var blockAction: UserManager.BlockAction = .block
+
+            blockAction = self.isBlock ? .unblock : .block
+
+            self.updateUserBlock(blockAction: blockAction)
         }
 
         header.followHandler = {
@@ -400,7 +500,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
             followAction = self.isFollow ? .unfollow : .follow
 
-            self.tapFollowButton(followAction: followAction)
+            self.updateUserFollow(followAction: followAction)
         }
 
         return header

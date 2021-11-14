@@ -14,9 +14,13 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var cardStackView: UIStackView!
+    @IBOutlet weak var cardTopicView: UIView!
+    @IBOutlet weak var cardContentLabel: UILabel!
+    @IBOutlet weak var cardAuthorLabel: UILabel!
+    @IBOutlet weak var cardImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var likeNumberLabel: UILabel!
@@ -26,19 +30,17 @@ class ExploreTableViewCell: UITableViewCell {
         super.awakeFromNib()
 
         userImageView.clipsToBounds = true
-
+        userImageView.cornerRadius = userImageView.frame.width / 2
         postImageView.cornerRadius = CornerRadius.standard.rawValue
-
-        hashtagLabel.cornerRadius = CornerRadius.standard.rawValue / 3
-        hashtagLabel.layer.masksToBounds = true
+        cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
+        cardImageView.clipsToBounds = true
     }
 
     var likeHandler: () -> Void = {}
+    var commentHandler: () -> Void = {}
 
-    @IBAction func like(_ sender: UIButton) {
-
-        likeHandler()
-    }
+    @IBAction func tapLikeButton(_ sender: Any) { likeHandler() }
+    @IBAction func tapCommentButton(_ sender: Any) { commentHandler() }
 
     func layoutCell(
         userInfo: User,
@@ -46,29 +48,26 @@ class ExploreTableViewCell: UITableViewCell {
         isLikePost: Bool
     ) {
 
-        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected)! : UIImage.sfsymbol(.heartNormal)!
-        let buttonColor: UIColor = isLikePost ? UIColor.M2! : .gray
+        let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected) : UIImage.sfsymbol(.heartNormal)
+        let buttonColor: UIColor = isLikePost ? UIColor.M2 : .gray
 
-        userImageView.loadImage(userInfo.profileImageUrl ?? "", placeHolder: nil)
-        userImageView.cornerRadius = userImageView.frame.width / 2
+        if let profileImageUrl = userInfo.profileImageUrl {
+
+            userImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
 
         userNameLabel.text = userInfo.name
-        timeLabel.text = Date.fullDateFormatter.string(from: Date.init(milliseconds: post.createdTime))
+        timeLabel.text = Date.init(milliseconds: post.createdTime).timeAgoDisplay()
         contentLabel.text = post.content
 
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
-        likeNumberLabel.text = "\(post.likeNumber ?? 0)"
-
-        if let hashtag = post.hashtag {
-
-            hashtagLabel.isHidden = false
-            hashtagLabel.text = hashtag
-
-        } else if post.hashtag == "" {
-
-            hashtagLabel.isHidden = true
-        }
+        likeNumberLabel.text = "\(post.likeNumber)"
+        commentNumberLabel.text = "\(post.commentNumber)"
 
         if let postImageUrl = post.imageUrl {
 
@@ -82,8 +81,25 @@ class ExploreTableViewCell: UITableViewCell {
             postImageView.isHidden = true
         }
 
-        guard let editTime = post.editTime else { return }
+        if let cardContent = post.cardContent,
+           let cardAuthor = post.cardAuthor,
+           let cardImageUrl = post.imageUrl {
 
-        timeLabel.text = "已編輯 \(Date.fullDateFormatter.string(from: Date.init(milliseconds: editTime)))"
+            cardStackView.isHidden = false
+            postImageView.isHidden = true
+
+            cardContentLabel.text = cardContent.replacingOccurrences(of: "\\n", with: "\n")
+            cardAuthorLabel.text = cardAuthor
+            cardImageView.loadImage(cardImageUrl, placeHolder: nil)
+
+        } else {
+
+            cardStackView.isHidden = true
+        }
+
+        if let editTime = post.editTime {
+
+            timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
+        }
     }
 }

@@ -9,37 +9,60 @@ import Foundation
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    static let shared = SceneDelegate()
+    var userListener: ListenerRegistration?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
         guard let _ = (scene as? UIWindowScene) else { return }
 
-//        if Auth.auth().currentUser == nil {
-//
-//            if let windowScene = scene as? UIWindowScene {
-//
-//                let window = UIWindow(windowScene: windowScene)
-//
-//                guard let authVC =
-//                        UIStoryboard.auth
-//                        .instantiateViewController(
-//                            withIdentifier: String(describing: AuthViewController.self)
-//                        ) as? AuthViewController else {
-//
-//                            return
-//                        }
-//
-//                window.rootViewController = authVC
-//
-//                self.window = window
-//            }
-//        }
+        if let visitorUid = Auth.auth().currentUser?.uid {
+
+            userListener = UserManager.shared.listenToUserUpdate(
+                uid: visitorUid
+            ) { result in
+
+                switch result {
+
+                case .success(let user):
+
+                    print(user)
+
+                    UserManager.shared.visitorUserInfo = user
+
+                    SignInManager.shared.visitorUid = user.uid
+
+                case .failure(let error):
+
+                    print(error)
+                }
+            }
+
+        } else {
+
+            if let windowScene = scene as? UIWindowScene {
+
+                let window = UIWindow(windowScene: windowScene)
+
+                guard let authVC =
+                        UIStoryboard.auth
+                        .instantiateViewController(
+                            withIdentifier: String(describing: AuthViewController.self)
+                        ) as? AuthViewController else {
+
+                            return
+                        }
+
+                window.rootViewController = authVC
+
+                self.window = window
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -50,13 +73,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+
+        userListener = UserManager.shared.listenToUserUpdate(
+            uid: SignInManager.shared.visitorUid ?? ""
+        ) { result in
+
+            switch result {
+
+            case .success(let user):
+
+                print(user)
+
+                UserManager.shared.visitorUserInfo = user
+
+                SignInManager.shared.visitorUid = user.uid
+
+            case .failure(let error):
+
+                print(error)
+            }
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
+
+        userListener?.remove()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {

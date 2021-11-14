@@ -10,23 +10,41 @@ import UIKit
 import SwiftUI
 
 class SettingsViewController: UIViewController {
+    let logoImageView = UIImageView()
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.backgroundColor = .M3
+            tableView.backgroundColor = .clear
             tableView.separatorStyle = .none
+            tableView.showsHorizontalScrollIndicator = false
             tableView.registerCellWithNib(identifier: SettingsTableViewCell.identifier, bundle: nil)
         }
     }
 
-    let options = ["登出", "封鎖名單", "刪除帳號"]
+    let options = ["封鎖名單", "隱私權政策", "登出", "刪除帳號"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.title = "設定"
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:))
+        )
+
+        layoutLogoImageView()
+
+        view.backgroundColor = .BG
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        logoImageView.fadeIn()
     }
 
     func performSignOut() {
@@ -56,6 +74,70 @@ class SettingsViewController: UIViewController {
             }
         }
     }
+
+    func tapBlockListButton() {
+
+        guard let blockListVC =
+                UIStoryboard.profile
+                .instantiateViewController(
+                    withIdentifier: String(describing: BlockListViewController.self)
+                ) as? BlockListViewController else {
+
+                    return
+                }
+
+        let navigationVC = BaseNavigationController(rootViewController: blockListVC)
+
+        self.present(navigationVC, animated: true)
+    }
+
+    func tapSignOutButton() {
+
+        let alert = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
+
+        let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
+
+            self.performSignOut()
+        }
+
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+
+        alert.addAction(confirm)
+
+        alert.addAction(cancel)
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    func tapDeleteAccountButton() {
+
+        let alert = UIAlertController(title: "刪除帳號", message: "請聯繫 nihao0705@gmail.com", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    func tapPrivacyPolicyButton() {
+
+        guard let policyVC =
+                UIStoryboard.auth
+                .instantiateViewController(
+                    withIdentifier: String(describing: PrivacyPolicyViewController.self)
+                ) as? PrivacyPolicyViewController else {
+
+                    return
+                }
+
+        let navigationVC = BaseNavigationController(rootViewController: policyVC)
+
+        present(navigationVC, animated: true)
+    }
+
+    @objc func dismissSelf(_ sender: UIBarButtonItem) {
+
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -70,43 +152,44 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot create cell")
         }
 
-        switch indexPath.row {
-
-        case 0:
-
-            cell.layoutCell(
-                buttonTitle: options[indexPath.row],
-                isSignOutButton: true
-            )
-
-        default:
-
-            cell.layoutCell(
-                buttonTitle: options[indexPath.row],
-                isSignOutButton: false
-            )
-        }
+        cell.layoutCell(buttonTitle: options[indexPath.row])
 
         cell.hideSelectionStyle()
 
-        cell.signOutHandler = {
+        cell.buttonHandler = {
 
-            let alert  = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
+            switch indexPath.row {
 
-            let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
+            case 0: self.tapBlockListButton()
 
-                self.performSignOut()
+            case 1: self.tapPrivacyPolicyButton()
+
+            case 2: self.tapSignOutButton()
+
+            case 3: self.tapDeleteAccountButton()
+
+            default: break
             }
-
-            let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-
-            alert.addAction(confirm)
-
-            alert.addAction(cancel)
-
-            self.present(alert, animated: true, completion: nil)
         }
 
         return cell
+    }
+}
+
+extension SettingsViewController {
+
+    func layoutLogoImageView() {
+
+        view.addSubview(logoImageView)
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.image = UIImage.asset(.logo)
+        logoImageView.alpha = 0
+
+        NSLayoutConstraint.activate([
+            logoImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.55),
+            logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.55),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height * 1 / 4)
+        ])
     }
 }

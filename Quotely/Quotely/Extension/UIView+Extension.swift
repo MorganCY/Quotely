@@ -148,31 +148,13 @@ extension UIView {
 
         if isPath { layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath }
     }
+}
 
-    @IBInspectable var shadowColor: CGColor? {
-        get {
-            return layer.shadowColor
-        }
-        set {
-            layer.shadowColor = newValue
-        }
-    }
+extension UIView {
 
-    @IBInspectable var shadowOpacity: Float {
-        get {
-            return layer.shadowOpacity
-        }
-        set {
-            layer.shadowOpacity = newValue
-        }
-    }
-
-    @IBInspectable var shadowOffset: CGSize {
-        get {
-            return CGSize()
-        }
-        set {
-            layer.shadowOffset = newValue
-        }
+    func fadeIn() {
+        UIView.animate(withDuration: 2.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
+            self.alpha = 1.0
+        }, completion: nil)
     }
 }

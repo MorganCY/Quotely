@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BlockListTableViewCell" customModule="Quotely" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="GiB-IM-uwF">
+                    <rect key="frame" x="24" y="16" width="145.5" height="68"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BNZ-hU-0jS">
+                            <rect key="frame" x="0.0" y="0.0" width="68" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="BNZ-hU-0jS" secondAttribute="height" multiplier="1:1" id="51A-8K-eWa"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="載入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIJ-YZ-INy">
+                            <rect key="frame" x="84" y="23" width="61.5" height="22.5"/>
+                            <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2G-iB-ToF">
+                    <rect key="frame" x="318" y="33" width="80" height="34"/>
+                    <color key="backgroundColor" name="M1"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="解除封鎖">
+                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="tapUnblockButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="xAw-YD-lwO"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="GiB-IM-uwF" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="074-Jz-9uk"/>
+                <constraint firstItem="Q2G-iB-ToF" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="2fx-JZ-839"/>
+                <constraint firstItem="GiB-IM-uwF" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="QVO-of-8x7"/>
+                <constraint firstAttribute="bottom" secondItem="GiB-IM-uwF" secondAttribute="bottom" constant="16" id="ZDK-QI-Buy"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Q2G-iB-ToF" secondAttribute="trailing" constant="16" id="hem-Gf-0R1"/>
+                <constraint firstItem="BNZ-hU-0jS" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.164251" id="q4r-ge-APl"/>
+                <constraint firstItem="GiB-IM-uwF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="v4A-iR-1Rp"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="unblockButton" destination="Q2G-iB-ToF" id="CmS-bv-sT7"/>
+                <outlet property="userImageView" destination="BNZ-hU-0jS" id="BFW-rR-sjA"/>
+                <outlet property="userInfoStackView" destination="GiB-IM-uwF" id="Rde-ye-QId"/>
+                <outlet property="userNameLabel" destination="gIJ-YZ-INy" id="3CY-Bc-hyp"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="128.57142857142856"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="M1">
+            <color red="0.58431372549019611" green="0.57647058823529407" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

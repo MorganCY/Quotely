@@ -9,29 +9,24 @@ import UIKit
 
 enum ImageAsset: String {
 
+    case logo
+    case logoWithText
     case testProfile = "test_profile"
-
     case like
-
     case dislike
-
     case bg1
-
     case bg2
-
     case bg3
-
     case bg4
-
     case instagram
+    case back
 }
 
 enum SFSymbol: String {
 
     // Tab Bar
-    case write = "highlighter"
-    case cardsNormal = "square.stack"
-    case cardsSelected = "square.stack.fill"
+    case writeNormal = "pencil.circle"
+    case writeSelected = "pencil.circle.fill"
     case lightbulbNormal = "lightbulb"
     case lightbulbSelected = "lightbulb.fill"
     case personNormal = "person"
@@ -48,6 +43,7 @@ enum SFSymbol: String {
     case color = "paintpalette"
     case collapse = "arrow.up.circle"
 
+    case writeCardPost = "square.and.pencil"
     case reset = "arrow.clockwise"
     case shareNormal = "square.and.arrow.up"
     case cameraNormal = "camera"
@@ -62,23 +58,24 @@ enum SFSymbol: String {
     case addPost = "plus.square"
     case delete = "trash"
     case dislike = "heart.slash"
-    case cards = "rectangle.on.rectangle.angled"
+    case cards = "bookmark.fill"
     case quoteNormal = "quote.bubble"
     case quoteSelected = "quote.bubble.fill"
     case download = "icloud.and.arrow.down"
     case settings = "gearshape"
+    case next = "chevron.right"
 }
 
 extension UIImage {
 
-    static func asset(_ asset: ImageAsset) -> UIImage? {
+    static func asset(_ asset: ImageAsset) -> UIImage {
 
-        return UIImage(named: asset.rawValue)
+        return UIImage(named: asset.rawValue) ?? UIImage()
     }
 
-    static func sfsymbol(_ systemName: SFSymbol) -> UIImage? {
+    static func sfsymbol(_ systemName: SFSymbol) -> UIImage {
 
-        return UIImage(systemName: systemName.rawValue)
+        return UIImage(systemName: systemName.rawValue) ?? UIImage()
     }
 }
 

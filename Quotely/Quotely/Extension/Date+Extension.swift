@@ -72,6 +72,14 @@ extension Date {
         dateFormatter.setLocalizedDateFormatFromTemplate(format.rawValue)
         return dateFormatter.string(from: date)
     }
+
+    func timeAgoDisplay() -> String {
+
+        let formatter = RelativeDateTimeFormatter()
+        formatter.locale = Locale(identifier: "zh-Hant")
+        formatter.unitsStyle = .full
+        return formatter.localizedString(for: self, relativeTo: Date())
+    }
 }
 
 extension Date {

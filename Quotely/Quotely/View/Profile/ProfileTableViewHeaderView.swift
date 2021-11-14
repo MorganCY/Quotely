@@ -19,19 +19,20 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var editNameTextField: UITextField!
     @IBOutlet weak var doneEditNameButton: UIButton!
 
+    @IBOutlet weak var followStackView: UIStackView!
     @IBOutlet weak var postNumberLabel: UILabel!
     @IBOutlet weak var followerNumberLabel: UILabel!
     @IBOutlet weak var followingNumberLabel: UILabel!
     @IBOutlet weak var blockButton: UIButton!
     @IBOutlet weak var followButton: UIButton!
 
-    var isEnableEdit = false {
+    var isEditing = false {
         didSet {
 
-            userNameLabel.isHidden = isEnableEdit
-            editNameButton.isHidden = isEnableEdit
-            editNameTextField.isHidden = !isEnableEdit
-            doneEditNameButton.isHidden = !isEnableEdit
+            userNameLabel.isHidden = isEditing
+            editNameButton.isHidden = isEditing
+            editNameTextField.isHidden = !isEditing
+            doneEditNameButton.isHidden = !isEditing
         }
     }
 
@@ -42,19 +43,25 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     }
 
     override func awakeFromNib() {
+        super.awakeFromNib()
 
         setupProfileImage()
         setupButtons()
 
         defineIfDisplay()
-        userNameLabel.isHidden = isEnableEdit
-        editNameTextField.isHidden = !isEnableEdit
-        doneEditNameButton.isHidden = !isEnableEdit
+        userNameLabel.isHidden = isEditing
+        editNameTextField.delegate = self
+        editNameTextField.isHidden = !isEditing
+        doneEditNameButton.isHidden = !isEditing
+
+        profileImageView.cornerRadius = profileImageView.frame.width / 2
+        editImageButton.cornerRadius = editImageButton.frame.width / 2
     }
 
     var editImageHandler: () -> Void = {}
     var editNameHandler: ((String) -> Void) = {_ in }
     var followHandler: (() -> Void) = {}
+    var blockHanlder: (() -> Void) = {}
 
     @IBAction func editImage(_ sender: UIButton) {
 
@@ -63,7 +70,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
     @IBAction func editName(_ sender: UIButton) {
 
-        isEnableEdit = true
+        isEditing = true
 
         editNameTextField.text = userNameLabel.text
     }
@@ -74,10 +81,15 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         editNameHandler(text)
         userNameLabel.text = text
-        isEnableEdit = false
+        isEditing = false
     }
 
-    @IBAction func follow(_ sender: UIButton) {
+    @IBAction func tapBlockButton(_ sender: UIButton) {
+
+        blockHanlder()
+    }
+
+    @IBAction func tapFollowButton(_ sender: UIButton) {
 
         followHandler()
     }
@@ -92,6 +104,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
     func layoutHeader(
         userInfo: User,
+        isBlock: Bool,
         isFollow: Bool
     ) {
 
@@ -101,7 +114,22 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         } else {
 
-            profileImageView.image = UIImage.asset(.bg4)
+            profileImageView.image = UIImage.asset(.logo)
+        }
+
+        if isBlock {
+
+            blockButton.setTitle("解除封鎖", for: .normal)
+            blockButton.setTitleColor(.lightGray, for: .normal)
+            blockButton.backgroundColor = .gray
+            blockButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+
+        } else {
+
+            blockButton.setTitle("封鎖他", for: .normal)
+            blockButton.setTitleColor(.M1, for: .normal)
+            blockButton.backgroundColor = .white
+            blockButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         }
 
         if isFollow {
@@ -146,5 +174,19 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         followButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
         blockButton.backgroundColor = .white
         followButton.backgroundColor = .white
+    }
+}
+
+extension ProfileTableViewHeaderView: UITextFieldDelegate {
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        let currentText = textField.text ?? ""
+
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+        return updatedText.count <= 12
     }
 }

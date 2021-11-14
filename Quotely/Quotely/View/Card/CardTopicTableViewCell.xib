@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CardTopicTableViewCell" customModule="Quotely" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNL-Em-ja7">
+                    <rect key="frame" x="85" y="46.5" width="40.5" height="56.5"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I63-Fn-t5X">
+                    <rect key="frame" x="24" y="16" width="45" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="I63-Fn-t5X" secondAttribute="height" multiplier="1:1" id="qNx-DI-DmM"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6Z-vX-3nh">
+                    <rect key="frame" x="85" y="16" width="42" height="22.5"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Po-ZZ-1Km">
+                    <rect key="frame" x="85" y="115" width="30.5" height="17"/>
+                    <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
+                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzy-PJ-HfO">
+                    <rect key="frame" x="354" y="57" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Zzy-PJ-HfO" secondAttribute="height" multiplier="1:1" id="pSv-y9-WMc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                    <color key="tintColor" name="M1"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="chevron.right" catalog="system"/>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="Zzy-PJ-HfO" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="BH9-k6-7bp"/>
+                <constraint firstItem="I63-Fn-t5X" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="KHr-V4-Qc1"/>
+                <constraint firstItem="0Po-ZZ-1Km" firstAttribute="top" secondItem="JNL-Em-ja7" secondAttribute="bottom" constant="12" id="On0-hh-HnC"/>
+                <constraint firstItem="Zzy-PJ-HfO" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.0869565" id="PNG-Pa-5zf"/>
+                <constraint firstItem="I63-Fn-t5X" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.108696" id="SOS-e1-hx1"/>
+                <constraint firstItem="JNL-Em-ja7" firstAttribute="leading" secondItem="W6Z-vX-3nh" secondAttribute="leading" id="TRT-Va-zJa"/>
+                <constraint firstItem="I63-Fn-t5X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="crH-Cj-E3i"/>
+                <constraint firstAttribute="bottom" secondItem="0Po-ZZ-1Km" secondAttribute="bottom" constant="18" id="csL-90-ftU"/>
+                <constraint firstItem="0Po-ZZ-1Km" firstAttribute="leading" secondItem="JNL-Em-ja7" secondAttribute="leading" id="dtQ-p8-PaN"/>
+                <constraint firstAttribute="trailing" secondItem="Zzy-PJ-HfO" secondAttribute="trailing" constant="24" id="hIy-Hd-DuF"/>
+                <constraint firstItem="JNL-Em-ja7" firstAttribute="top" secondItem="W6Z-vX-3nh" secondAttribute="bottom" constant="8" id="pWD-uu-Xji"/>
+                <constraint firstItem="W6Z-vX-3nh" firstAttribute="leading" secondItem="I63-Fn-t5X" secondAttribute="trailing" constant="16" id="rgp-Vk-CgQ"/>
+                <constraint firstItem="W6Z-vX-3nh" firstAttribute="top" secondItem="I63-Fn-t5X" secondAttribute="top" id="yIn-VK-4fZ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="contentLabel" destination="JNL-Em-ja7" id="nNP-bk-lOJ"/>
+                <outlet property="timeLabel" destination="0Po-ZZ-1Km" id="cGK-po-Qfd"/>
+                <outlet property="userImageView" destination="I63-Fn-t5X" id="GVh-tn-oh7"/>
+                <outlet property="userNameLabel" destination="W6Z-vX-3nh" id="YhL-DN-gdt"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="127.90178571428571"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <namedColor name="M1">
+            <color red="0.58431372549019611" green="0.57647058823529407" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

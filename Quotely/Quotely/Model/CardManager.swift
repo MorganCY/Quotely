@@ -14,11 +14,14 @@ class CardManager {
 
     private init() {}
 
-    let visitorUid = SignInManager.shared.uid ?? ""
+    let visitorUid = SignInManager.shared.visitorUid ?? ""
 
     let cards = Firestore.firestore().collection("cards")
 
-    func fetchRandomCards(limitNumber: Int, completion: @escaping (Result<[Card], Error>) -> Void) {
+    func fetchRandomCards(
+        limitNumber: Int,
+        completion: @escaping (Result<[Card], Error>) -> Void
+    ) {
 
         let randomID = cards.document().documentID
 
@@ -55,7 +58,7 @@ class CardManager {
         }
     }
 
-    func fetchFavoriteCard(cardID: String, completion: @escaping (Result<Card, Error>) -> Void) {
+    func fetchSpecificCard(cardID: String, completion: @escaping (Result<Card, Error>) -> Void) {
 
         let reference = cards.document(cardID)
 
@@ -118,6 +121,55 @@ class CardManager {
                 }
 
                 completion(.success("Card was updated"))
+            }
+        }
+    }
+
+    func updateCardPostList(
+        cardID: String,
+        postID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetCard = querySnapshot?.documents.first
+
+                targetCard?.reference.updateData([
+                    "postList": FieldValue.arrayUnion([postID])
+                ])
+
+                completion(.success("Card was updated"))
+            }
+        }
+    }
+
+    func removePostFromCard(
+        postID: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+
+        cards.whereField("postList", arrayContains: postID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                let targetCard = querySnapshot?.documents.first
+
+                targetCard?.reference.updateData([
+                    "postList": FieldValue.arrayRemove([postID])
+                ])
+
+                completion(.success("Post was deleted from card"))
             }
         }
     }
