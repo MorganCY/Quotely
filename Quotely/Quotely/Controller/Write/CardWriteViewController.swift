@@ -21,7 +21,7 @@ class CardWriteViewController: BaseWriteViewController {
 
     override var uploadedImage: UIImage? {
         didSet {
-            cardTopicView.dataSource = self
+            cardTopicView.layoutIfNeeded()
         }
     }
 
@@ -95,9 +95,7 @@ class CardWriteViewController: BaseWriteViewController {
 
 extension CardWriteViewController: CardTopicViewDataSource, CardTopicViewDelegate {
 
-    func getCardImage(_ view: CardTopicView) -> UIImage? {
-        return uploadedImage
-    }
+    func getCardImage(_ view: CardTopicView) -> UIImage? { uploadedImage }
 
     func getCardImageUrl(_ view: CardTopicView) -> String? {
         if let imageUrl = imageUrl {

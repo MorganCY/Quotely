@@ -32,7 +32,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
     // pass content to detail page after finishing editing
 
-    var contentHandler: ((String, Int64) -> Void) = {_, _ in}
+    var contentHandler: ((String, Int64, UIImage?) -> Void) = {_, _, _ in}
 
     // pass value to this property if user use recoginition feature
 
@@ -169,7 +169,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                                     self.contentHandler(
                                         self.contentTextView.text,
-                                        Date().millisecondsSince1970
+                                        Date().millisecondsSince1970,
+                                        self.uploadedImage
                                     )
                                 }
 
@@ -212,7 +213,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             self.contentHandler(
                                 self.contentTextView.text,
-                                Date().millisecondsSince1970
+                                Date().millisecondsSince1970,
+                                self.uploadedImage
                             )
                         }
 
