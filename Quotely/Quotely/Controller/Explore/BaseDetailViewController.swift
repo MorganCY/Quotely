@@ -252,8 +252,19 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         )
     }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        let currentText = textField.text ?? ""
+
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+        return updatedText.count <= 80
+    }
+
     // MARK: TableView
-    // Should be properly edited by subclasses
+    /// Should be properly edited by subclasses
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         return UIView()

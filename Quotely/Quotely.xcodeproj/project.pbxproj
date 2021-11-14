@@ -412,6 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				5C582104271D791A002E21C9 /* ExploreViewController.swift */,
+				5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */,
 				5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */,
 			);
 			path = Explore;
@@ -420,7 +421,6 @@
 		5C4B9684271FA70C008B21C7 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */,
 				5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */,
 				5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */,
 			);
