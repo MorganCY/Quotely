@@ -11,13 +11,6 @@ import PhotosUI
 
 class ProfileViewController: BaseImagePickerViewController {
 
-    enum UserType {
-
-        case visited
-
-        case visitor
-    }
-
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
@@ -28,15 +21,15 @@ class ProfileViewController: BaseImagePickerViewController {
 
     // the user who is visiting other's profile
 
-    var visitorUid: String?
-
-    // the user who is visited by others
-
-    var visitedUid = SignInManager.shared.visitorUid {
+    var visitorUid: String? {
         didSet {
             isVisitorProfile = visitorUid == visitedUid
         }
     }
+
+    // the user who is visited by others
+
+    var visitedUid = SignInManager.shared.visitorUid
     var visitorBlockList: [String]? {
         didSet {
             if let visitedUid = visitedUid,
@@ -66,7 +59,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
     var isFollow = false {
         didSet {
-            if tableView != nil { tableView.reloadData() }
+            fetchVisitedUserInfo(uid: visitedUid ?? "")
         }
     }
 
@@ -78,7 +71,7 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    var userPostList = [Post]() {
+    var visitedUserPostList = [Post]() {
         didSet {
             tableView.reloadData()
         }
@@ -106,43 +99,21 @@ class ProfileViewController: BaseImagePickerViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchUserInfo(userType: .visited)
-        fetchUserInfo(userType: .visitor)
-        listenToVisitedUserPost()
+        fetchVisitedUserInfo(uid: visitedUid ?? "")
+        listenToVisitedUserPost(uid: visitedUid ?? "")
         visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
         visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
 
-    func fetchUserInfo(userType: UserType) {
+    func fetchVisitedUserInfo(uid: String) {
 
-        let uid: String = {
-            switch userType {
-            case .visited: return visitedUid ?? ""
-            case .visitor: return visitorUid ?? ""
-            }
-        }()
-
-        UserManager.shared.listenToUserUpdate(uid: uid) { result in
+        UserManager.shared.fetchUserInfo(uid: uid) { result in
 
             switch result {
 
             case .success(let userInfo):
 
-                UserManager.shared.visitorUserInfo = userInfo
-
-                if userType == .visited {
-
-                    self.visitedUserInfo = userInfo
-
-                } else if userType == .visitor {
-
-                    guard let followingList = userInfo.followingList,
-                          let blockList = userInfo.blockList else { return }
-
-                    self.isBlock = blockList.contains(self.visitedUid ?? "")
-
-                    self.isFollow = followingList.contains(self.visitedUid ?? "")
-                }
+                self.visitedUserInfo = userInfo
 
             case .failure(let error):
 
@@ -151,9 +122,7 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    func listenToVisitedUserPost() {
-
-        guard let uid = visitedUid else { return }
+    func listenToVisitedUserPost(uid: String) {
 
         _ = PostManager.shared.listenToPostUpdate(type: .user, uid: uid, followingList: nil) { result in
 
@@ -161,7 +130,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
             case .success(let posts):
 
-                self.userPostList = posts
+                self.visitedUserPostList = posts
 
             case .failure(let error):
 
@@ -181,11 +150,11 @@ class ProfileViewController: BaseImagePickerViewController {
                     return
                 }
 
-        let nav = BaseNavigationController(rootViewController: settingsVC)
+        let navigationVC = BaseNavigationController(rootViewController: settingsVC)
 
-        nav.modalPresentationStyle = .fullScreen
+        navigationVC.modalPresentationStyle = .fullScreen
 
-        present(nav, animated: true)
+        present(navigationVC, animated: true)
     }
 
     override func imagePickerController(
@@ -374,6 +343,8 @@ class ProfileViewController: BaseImagePickerViewController {
 
                 self.isBlock = blockAction == .block
 
+                self.fetchVisitedUserInfo(uid: visitedUid)
+
             case .failure(let error):
 
                 print(error)
@@ -426,10 +397,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        userPostList.count
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { visitedUserPostList.count }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
@@ -521,7 +489,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Cannot create cell")
         }
 
-        let post = userPostList[indexPath.row]
+        let post = visitedUserPostList[indexPath.row]
 
         cell.layoutCell(post: post)
         cell.hideSelectionStyle()
@@ -542,10 +510,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
         let row = indexPath.row
 
-        detailVC.post = userPostList[row]
+        detailVC.post = visitedUserPostList[row]
         detailVC.postAuthor = visitedUserInfo
 
-        if let likeUserList = userPostList[row].likeUser {
+        if let likeUserList = visitedUserPostList[row].likeUser {
 
             detailVC.isLike = likeUserList.contains(visitorUid ?? "")
         }

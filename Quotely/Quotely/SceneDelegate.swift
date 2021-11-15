@@ -74,23 +74,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
 
-        userListener = UserManager.shared.listenToUserUpdate(
-            uid: SignInManager.shared.visitorUid ?? ""
-        ) { result in
+        if Auth.auth().currentUser?.uid != nil {
 
-            switch result {
+            userListener = UserManager.shared.listenToUserUpdate(
+                uid: SignInManager.shared.visitorUid ?? ""
+            ) { result in
 
-            case .success(let user):
+                switch result {
 
-                print(user)
+                case .success(let user):
 
-                UserManager.shared.visitorUserInfo = user
+                    print(user)
 
-                SignInManager.shared.visitorUid = user.uid
+                    UserManager.shared.visitorUserInfo = user
 
-            case .failure(let error):
+                    SignInManager.shared.visitorUid = user.uid
 
-                print(error)
+                case .failure(let error):
+
+                    print(error)
+                }
             }
         }
     }

@@ -668,6 +668,7 @@ extension BaseWriteViewController {
 
             textNumberLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -16),
             textNumberLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: -8),
+            textNumberLabel.widthAnchor.constraint(equalTo: contentTextView.widthAnchor, multiplier: 0.3),
 
             optionPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             optionPanel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
@@ -697,6 +698,7 @@ extension BaseWriteViewController {
         textNumberLabel.text = "\(contentTextView.text.count) / 140"
         textNumberLabel.textColor = .black
         textNumberLabel.font = UIFont.systemFont(ofSize: 14)
+        textNumberLabel.textAlignment = .right
 
         optionPanel.backgroundColor = .white
         optionPanel.cornerRadius = CornerRadius.standard.rawValue

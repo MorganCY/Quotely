@@ -51,7 +51,6 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        userImageView.cornerRadius = userImageView.frame.width / 2
         userImageView.clipsToBounds = true
         userImageView.isUserInteractionEnabled = true
         userNameLabel.isUserInteractionEnabled = true
@@ -68,6 +67,12 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
 
         cardImageView.clipsToBounds = true
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
     func layoutHeader(
