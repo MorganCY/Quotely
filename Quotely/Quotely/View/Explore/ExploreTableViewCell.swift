@@ -30,10 +30,15 @@ class ExploreTableViewCell: UITableViewCell {
         super.awakeFromNib()
 
         userImageView.clipsToBounds = true
-        userImageView.cornerRadius = userImageView.frame.width / 2
         postImageView.cornerRadius = CornerRadius.standard.rawValue
         cardImageView.setSpecificCorner(corners: [.topRight, .bottomRight])
         cardImageView.clipsToBounds = true
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
     var likeHandler: () -> Void = {}

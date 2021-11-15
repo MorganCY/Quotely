@@ -32,7 +32,6 @@ class BaseDetailCommentCell: UITableViewCell {
 
         self.backgroundColor = .clear
 
-        userImageView.cornerRadius = userImageView.frame.width / 2
         userImageView.clipsToBounds = true
 
         editButton.tintColor = .gray
@@ -41,6 +40,12 @@ class BaseDetailCommentCell: UITableViewCell {
         contentLabel.isHidden = isEnableEdit
         editTextField.isHidden = !isEnableEdit
         doneEditingButton.isHidden = !isEnableEdit
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
     func layoutCell(

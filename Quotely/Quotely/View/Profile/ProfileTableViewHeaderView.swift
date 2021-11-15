@@ -53,6 +53,10 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         editNameTextField.delegate = self
         editNameTextField.isHidden = !isEditing
         doneEditNameButton.isHidden = !isEditing
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
 
         profileImageView.cornerRadius = profileImageView.frame.width / 2
         editImageButton.cornerRadius = editImageButton.frame.width / 2
