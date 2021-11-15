@@ -17,12 +17,16 @@ class BlockListTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        userImageView.cornerRadius = userImageView.frame.width / 2
         userImageView.clipsToBounds = true
         userImageView.contentMode = .scaleAspectFill
 
         unblockButton.cornerRadius = CornerRadius.standard.rawValue
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
     var unblockHandler: () -> Void = {}

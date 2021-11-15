@@ -21,6 +21,12 @@ class CardTopicTableViewCell: UITableViewCell {
         backgroundColor = .white.withAlphaComponent(0.7)
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        userImageView.cornerRadius = userImageView.frame.width / 2
+    }
+
     func layoutCell(user: User, post: Post) {
 
         if let userImageUrl = user.profileImageUrl {
@@ -31,8 +37,6 @@ class CardTopicTableViewCell: UITableViewCell {
 
             userImageView.image = UIImage.asset(.logo)
         }
-
-        userImageView.cornerRadius = userImageView.frame.width / 2
 
         userNameLabel.text = user.name
         timeLabel.text = Date.init(milliseconds: post.createdTime).timeAgoDisplay()

@@ -30,6 +30,7 @@ class JournalViewController: UIViewController {
     ]
     var emojiSelection = SelectionView()
     var journalTextView = ContentTextView()
+    let textNumberLabel = UILabel()
     let submitButton = UIButton()
     let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse), color: .M1)
     let journalListButton = RowButton(
@@ -193,6 +194,7 @@ class JournalViewController: UIViewController {
 
             self.journalTextViewCollapse.isActive = !self.isEditPanelExpand
             self.journalTextViewExpand.isActive = self.isEditPanelExpand
+            self.textNumberLabel.isHidden = !self.isEditPanelExpand
 
             self.submitButton.isHidden = !self.isEditPanelExpand
 
@@ -266,6 +268,8 @@ extension JournalViewController: UITextViewDelegate {
 
         let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
 
+        textNumberLabel.text = "\(updatedText.count) / 140"
+
         return updatedText.count <= 140
     }
 }
@@ -311,7 +315,7 @@ extension JournalViewController {
 
     func setupEditPanel() {
 
-        let panelObjects = [editPanel, emojiSelection, journalTextView, submitButton]
+        let panelObjects = [editPanel, emojiSelection, journalTextView, textNumberLabel, submitButton]
 
         panelObjects.forEach {
             view.addSubview($0)
@@ -365,6 +369,10 @@ extension JournalViewController {
             journalTextView.widthAnchor.constraint(equalTo: editPanel.widthAnchor, multiplier: 0.9),
             journalTextView.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
 
+            textNumberLabel.trailingAnchor.constraint(equalTo: journalTextView.trailingAnchor, constant: -16),
+            textNumberLabel.bottomAnchor.constraint(equalTo: journalTextView.bottomAnchor, constant: -8),
+            textNumberLabel.widthAnchor.constraint(equalTo: journalTextView.widthAnchor, multiplier: 0.3),
+
             submitButton.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor, constant: 24),
             submitButton.trailingAnchor.constraint(equalTo: journalTextView.trailingAnchor),
             submitButton.heightAnchor.constraint(equalTo: editPanel.heightAnchor, multiplier: 0.12),
@@ -382,6 +390,12 @@ extension JournalViewController {
         collapseButton.isHidden = !isEditPanelExpand
         collapseButton.backgroundColor = .clear
         collapseButton.addTarget(self, action: #selector(collapseEditPanel(_:)), for: .touchUpInside)
+
+        textNumberLabel.text = "\(journalTextView.text.count) / 140"
+        textNumberLabel.textColor = .black
+        textNumberLabel.font = UIFont.systemFont(ofSize: 14)
+        textNumberLabel.textAlignment = .right
+        textNumberLabel.isHidden = !isEditPanelExpand
 
         journalListButton.cornerRadius = CornerRadius.standard.rawValue
         journalListButton.backgroundColor = .white

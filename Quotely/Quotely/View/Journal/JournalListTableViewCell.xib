@@ -45,8 +45,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="soR-97-uNr">
                     <rect key="frame" x="110" y="24" width="304" height="202"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWi-n1-VAb">
-                            <rect key="frame" x="84.5" y="32" width="42" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWi-n1-VAb">
+                            <rect key="frame" x="84.5" y="32" width="203.5" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -58,7 +58,7 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1w5-zA-CTQ">
-                            <rect key="frame" x="84.5" y="85" width="203.5" height="85"/>
+                            <rect key="frame" x="84.5" y="84.5" width="203.5" height="85.5"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -68,6 +68,7 @@
                     <constraints>
                         <constraint firstItem="1w5-zA-CTQ" firstAttribute="leading" secondItem="dWi-n1-VAb" secondAttribute="leading" id="0Eb-DA-Qna"/>
                         <constraint firstItem="1w5-zA-CTQ" firstAttribute="top" secondItem="dWi-n1-VAb" secondAttribute="bottom" constant="32" id="0Ye-xl-rFJ"/>
+                        <constraint firstAttribute="trailing" secondItem="dWi-n1-VAb" secondAttribute="trailing" constant="16" id="DBe-tj-vcX"/>
                         <constraint firstItem="1F9-vS-K3q" firstAttribute="width" secondItem="soR-97-uNr" secondAttribute="width" multiplier="0.12" id="GGD-sh-nNN"/>
                         <constraint firstItem="dWi-n1-VAb" firstAttribute="top" secondItem="1F9-vS-K3q" secondAttribute="top" id="TDY-9F-5V8"/>
                         <constraint firstAttribute="bottom" secondItem="1w5-zA-CTQ" secondAttribute="bottom" constant="32" id="YSb-v8-sfb"/>

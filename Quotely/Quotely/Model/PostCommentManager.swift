@@ -72,7 +72,18 @@ class PostCommentManager {
 
                         ) {
 
-                            comments.append(comment)
+                            if let blockList = UserManager.shared.visitorUserInfo?.blockList {
+
+                                if !blockList.contains(comment.uid) {
+
+                                    comments.append(comment)
+
+                                }
+
+                            } else {
+
+                                comments.append(comment)
+                            }
                         }
 
                     } catch {

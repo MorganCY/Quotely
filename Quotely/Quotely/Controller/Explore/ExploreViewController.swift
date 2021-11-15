@@ -85,8 +85,6 @@ class ExploreViewController: UIViewController {
 
         setupFilterView()
 
-        visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList ?? [""]
-
         view.backgroundColor = .M1
 
         currentFilter = .latest
@@ -94,6 +92,8 @@ class ExploreViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList ?? [""]
 
         if visitorFollowingList.count > 0 {
             listener = addPostListener(
@@ -444,7 +444,7 @@ extension ExploreViewController {
             emptyAnimationView.heightAnchor.constraint(equalTo: emptyReminderView.heightAnchor, multiplier: 0.8),
             emptyAnimationView.widthAnchor.constraint(equalTo: emptyReminderView.widthAnchor),
 
-            reminderLabel.topAnchor.constraint(equalTo: emptyReminderView.topAnchor),
+            reminderLabel.topAnchor.constraint(equalTo: emptyAnimationView.bottomAnchor),
             reminderLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
         ])
     }
