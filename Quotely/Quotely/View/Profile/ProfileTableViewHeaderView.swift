@@ -191,6 +191,6 @@ extension ProfileTableViewHeaderView: UITextFieldDelegate {
 
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
 
-        return updatedText.count <= 12
+        return updatedText.count <= 20
     }
 }
