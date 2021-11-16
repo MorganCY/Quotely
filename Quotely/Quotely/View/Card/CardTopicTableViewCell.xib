@@ -16,8 +16,8 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNL-Em-ja7">
-                    <rect key="frame" x="85" y="46.5" width="40.5" height="56.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNL-Em-ja7">
+                    <rect key="frame" x="85" y="46.5" width="253" height="56.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -61,6 +61,7 @@
                 <constraint firstItem="Zzy-PJ-HfO" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.0869565" id="PNG-Pa-5zf"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.108696" id="SOS-e1-hx1"/>
                 <constraint firstItem="JNL-Em-ja7" firstAttribute="leading" secondItem="W6Z-vX-3nh" secondAttribute="leading" id="TRT-Va-zJa"/>
+                <constraint firstItem="Zzy-PJ-HfO" firstAttribute="leading" secondItem="JNL-Em-ja7" secondAttribute="trailing" constant="16" id="UOK-RJ-avb"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="crH-Cj-E3i"/>
                 <constraint firstAttribute="bottom" secondItem="0Po-ZZ-1Km" secondAttribute="bottom" constant="18" id="csL-90-ftU"/>
                 <constraint firstItem="0Po-ZZ-1Km" firstAttribute="leading" secondItem="JNL-Em-ja7" secondAttribute="leading" id="dtQ-p8-PaN"/>
