@@ -514,7 +514,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
             picker.dismiss(animated: true)
 
             guard let selectedImage = info[.editedImage] as? UIImage else {
-
                 return
             }
 
@@ -546,7 +545,9 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         self.hasPostImage = true
 
-        guard !results.isEmpty else { return }
+        guard !results.isEmpty else {
+            return
+        }
 
         DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 

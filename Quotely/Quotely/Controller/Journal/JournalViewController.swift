@@ -222,7 +222,7 @@ extension JournalViewController: SelectionViewDataSource {
     func buttonImage(_ view: SelectionView, index: Int) -> UIImage {
 
         view.buttons[0].tintColor = .black
-        
+
         return buttonImages[index]
     }
 }
@@ -232,7 +232,7 @@ extension JournalViewController: SelectionViewDelegate {
     func didSelectButtonAt(_ view: SelectionView, at index: Int) {
 
         view.buttons.forEach { $0.tintColor = .lightGray }
-        view.buttons[index].tintColor = .black
+        view.buttons[index].tintColor = .S1
 
         if isEditPanelExpand == false {
             isEditPanelExpand = true
