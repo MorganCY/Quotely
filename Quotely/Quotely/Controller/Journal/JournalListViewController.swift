@@ -342,9 +342,8 @@ extension JournalListViewController {
 
         let titleLabel = UILabel()
         let animationView = LottieAnimationView(animationName: "empty")
-        let okButton = UIButton()
 
-        let views = [titleLabel, animationView, okButton]
+        let views = [titleLabel, animationView]
         views.forEach {
             emptyAnimationView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -354,14 +353,9 @@ extension JournalListViewController {
         emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
 
         emptyAnimationView.isHidden = !(journals.count == 0)
-        titleLabel.text = "還沒有任何隻字，快去新增一則吧！"
+        titleLabel.text = "還沒有任何隻字，快回首頁新增一則吧！"
         titleLabel.textColor = .black
         titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
-        okButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
-        okButton.backgroundColor = .white
-        okButton.setTitleColor(.black, for: .normal)
-        okButton.setTitle("好喔", for: .normal)
-        okButton.addTarget(self, action: #selector(backToJournalPage(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
             emptyAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
@@ -373,14 +367,7 @@ extension JournalListViewController {
             animationView.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: emptyAnimationView.centerYAnchor),
             titleLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: -24),
-            titleLabel.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
-            okButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            okButton.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
-            okButton.widthAnchor.constraint(equalTo: emptyAnimationView.widthAnchor, multiplier: 0.5)
+            titleLabel.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor)
         ])
-    }
-
-    @objc func backToJournalPage(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
     }
 }

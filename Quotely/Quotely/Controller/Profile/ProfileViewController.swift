@@ -164,7 +164,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: "載入中")
+        Toast.showLoading(text: "上傳中")
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
@@ -208,25 +208,23 @@ class ProfileViewController: BaseImagePickerViewController {
 
                                         print(success)
 
+                                        self.fetchVisitedUserInfo(uid: self.visitedUserInfo?.uid ?? "")
+
+                                        Toast.shared.hud.dismiss()
+
                                     case .failure(let error):
 
                                         print(error)
+
+                                        Toast.showFailure(text: "上傳失敗")
                                     }
                                 }
 
                         case .failure(let error):
 
-                            Toast.shared.hud.dismiss()
-
                             print(error)
 
-                            self.present(
-                                UIAlertController(
-                                    title: "上傳失敗",
-                                    message: nil,
-                                    preferredStyle: .alert
-                                ), animated: true, completion: nil
-                            )
+                            Toast.showFailure(text: "上傳失敗")
 
                             picker.dismiss(animated: true)
                         }
@@ -240,7 +238,7 @@ class ProfileViewController: BaseImagePickerViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: "載入中")
+        Toast.showLoading(text: "上傳中")
 
         guard !results.isEmpty else { return }
 
@@ -295,25 +293,23 @@ class ProfileViewController: BaseImagePickerViewController {
 
                                                 print(success)
 
+                                                self.fetchVisitedUserInfo(uid: self.visitedUserInfo?.uid ?? "")
+
+                                                Toast.shared.hud.dismiss()
+
                                             case .failure(let error):
 
                                                 print(error)
+
+                                                Toast.showFailure(text: "上傳失敗")
                                             }
                                         }
 
                                 case .failure(let error):
 
-                                    Toast.shared.hud.dismiss()
-
                                     print(error)
 
-                                    self.present(
-                                        UIAlertController(
-                                            title: "上傳失敗",
-                                            message: nil,
-                                            preferredStyle: .alert
-                                        ), animated: true, completion: nil
-                                    )
+                                    Toast.showFailure(text: "上傳失敗")
 
                                     picker.dismiss(animated: true)
                                 }
@@ -474,10 +470,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         return header
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-
-        UITableView.automaticDimension
-    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { UITableView.automaticDimension }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
