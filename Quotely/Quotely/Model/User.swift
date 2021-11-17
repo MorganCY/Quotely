@@ -11,7 +11,7 @@ struct User: Codable {
 
     // informaiton
     var uid: String
-    var name: String?
+    var name: String
     var profileImageUrl: String?
     var registerTime: Int64?
     var provider: String?

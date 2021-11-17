@@ -14,6 +14,9 @@ class CardTopicTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var optionMenuButton: UIButton!
+
+    var optionHandler: () -> Void = {}
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,6 +30,11 @@ class CardTopicTableViewCell: UITableViewCell {
         userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
+    @IBAction func tapOptionButton(_ sender: UIButton) {
+
+        optionHandler()
+    }
+
     func layoutCell(user: User, post: Post) {
 
         if let userImageUrl = user.profileImageUrl {
@@ -36,6 +44,15 @@ class CardTopicTableViewCell: UITableViewCell {
         } else {
 
             userImageView.image = UIImage.asset(.logo)
+        }
+
+        if user.uid == UserManager.shared.visitorUserInfo?.uid {
+
+            optionMenuButton.isHidden = true
+
+        } else {
+
+            optionMenuButton.isHidden = false
         }
 
         userNameLabel.text = user.name
