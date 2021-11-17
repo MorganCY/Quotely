@@ -107,6 +107,7 @@
 		5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D6272F7BD50026864C /* nothingFound.json */; };
 		5CEE4B4B273A02B000CE7DE1 /* BaseWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */; };
 		5CEE4B4D273A149700CE7DE1 /* CardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */; };
+		5CF00F3A2744D0FA00EF229A /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF00F392744D0FA00EF229A /* EULAViewController.swift */; };
 		5CF36A142732C3B000F6B3BD /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */; };
 		5CF36A172732C3E400F6B3BD /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */; };
 		5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */; };
@@ -219,6 +220,7 @@
 		5CE8F1D6272F7BD50026864C /* nothingFound.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nothingFound.json; sourceTree = "<group>"; };
 		5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWriteViewController.swift; sourceTree = "<group>"; };
 		5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWriteViewController.swift; sourceTree = "<group>"; };
+		5CF00F392744D0FA00EF229A /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewHeaderView.xib; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 			children = (
 				5C54F4D72732338500E62DBF /* AuthViewController.swift */,
 				5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */,
+				5CF00F392744D0FA00EF229A /* EULAViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -765,6 +768,7 @@
 				5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */,
 				5C2846EF2728F4F500393562 /* JournalListTableViewCell.swift in Sources */,
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
+				5CF00F3A2744D0FA00EF229A /* EULAViewController.swift in Sources */,
 				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
 				5C4983E22740E743008B721F /* FollowListViewController.swift in Sources */,
