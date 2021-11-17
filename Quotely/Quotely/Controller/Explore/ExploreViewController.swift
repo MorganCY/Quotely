@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
+import SwiftUI
 
 class ExploreViewController: UIViewController {
 
@@ -254,6 +255,67 @@ class ExploreViewController: UIViewController {
 
         navigationController?.pushViewController(detailVC, animated: true)
     }
+
+    func openOptionMenu(index: Int) {
+
+        let blockUserAction = UIAlertAction(
+            title: "檢舉並封鎖用戶",
+            style: .destructive
+        ) { _ in
+
+            if self.currentFilter == .following {
+
+                self.unfollowUser(index: index)
+            }
+
+            UserManager.shared.updateUserBlockList(
+                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+                visitedUid: self.userList[index]?.uid ?? "",
+                blockAction: .block
+            ) { result in
+
+                switch result {
+
+                case .success(let success):
+
+                    print(success)
+
+                    self.listener = self.addPostListener(type: self.currentFilter, uid: nil, followingList: nil)
+
+                case .failure(let error):
+
+                    print(error)
+
+                    Toast.showFailure(text: "封鎖失敗")
+                }
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+
+        let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        optionAlert.addAction(blockUserAction)
+        optionAlert.addAction(cancelAction)
+
+        present(optionAlert, animated: true)
+    }
+
+    func unfollowUser(index: Int) {
+        UserManager.shared.updateUserFollow(
+            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+            visitedUid: self.userList[index]?.uid ?? "",
+            followAction: .unfollow
+        ) { result in
+
+            switch result {
+
+            case . success(let success): print(success)
+
+            case .failure(let error): print(error)
+            }
+        }
+    }
 }
 
 extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate {
@@ -370,6 +432,10 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         cell.commentHandler = { self.goToPostDetail(index: indexPath.row) }
+
+        cell.optionHandler = {
+            self.openOptionMenu(index: indexPath.row)
+        }
 
         // go to user's profile when tapping image, name, and time
 

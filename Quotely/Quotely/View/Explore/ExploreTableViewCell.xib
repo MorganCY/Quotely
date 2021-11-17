@@ -184,6 +184,21 @@
                         <constraint firstAttribute="height" constant="1" id="I0z-W4-XY4"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ayb-Sg-P8b">
+                    <rect key="frame" x="360" y="19.5" width="30" height="24"/>
+                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content=" "/>
+                        </attributedString>
+                        <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="tapOptionButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="ljQ-kc-eVN"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -196,8 +211,10 @@
                 <constraint firstItem="5ar-y4-gqo" firstAttribute="leading" secondItem="V06-TB-5VX" secondAttribute="trailing" constant="16" id="9iX-U6-9XA"/>
                 <constraint firstItem="V06-TB-5VX" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Bxx-3g-vTH"/>
                 <constraint firstAttribute="trailing" secondItem="0fG-j4-NTp" secondAttribute="trailing" id="CFN-1f-1fN"/>
+                <constraint firstItem="ayb-Sg-P8b" firstAttribute="centerY" secondItem="REG-jv-IH2" secondAttribute="centerY" id="DSP-1Y-Mky"/>
                 <constraint firstItem="V06-TB-5VX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="JTs-1F-ymK"/>
                 <constraint firstItem="ir4-NF-jdk" firstAttribute="leading" secondItem="5ar-y4-gqo" secondAttribute="leading" id="TyO-aI-M1S"/>
+                <constraint firstItem="ayb-Sg-P8b" firstAttribute="trailing" secondItem="zTH-9E-fB5" secondAttribute="trailing" id="UqI-lA-MD5"/>
                 <constraint firstItem="5ar-y4-gqo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="ZPC-cD-AwW"/>
                 <constraint firstAttribute="bottom" secondItem="0fG-j4-NTp" secondAttribute="bottom" id="agM-qk-pmd"/>
                 <constraint firstItem="l2i-0Z-bvY" firstAttribute="top" secondItem="ir4-NF-jdk" secondAttribute="bottom" constant="20" id="gqm-NN-Bci"/>
@@ -220,6 +237,7 @@
                 <outlet property="contentLabel" destination="ecz-KL-Z7I" id="xfx-le-qYi"/>
                 <outlet property="likeButton" destination="hy4-Kz-RvS" id="h1l-Cj-2yi"/>
                 <outlet property="likeNumberLabel" destination="MYt-Ab-Z3L" id="izn-R5-U21"/>
+                <outlet property="optionMenuButton" destination="ayb-Sg-P8b" id="Dpu-6O-9G9"/>
                 <outlet property="postImageView" destination="kvo-5i-dXf" id="OMz-wd-Cwg"/>
                 <outlet property="timeLabel" destination="8lZ-sK-zid" id="BAD-Q3-Fuj"/>
                 <outlet property="userImageView" destination="V06-TB-5VX" id="hHn-bE-ckR"/>
@@ -229,6 +247,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>

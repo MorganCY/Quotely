@@ -64,6 +64,7 @@ enum SFSymbol: String {
     case download = "icloud.and.arrow.down"
     case settings = "gearshape"
     case next = "chevron.right"
+    case report = "exclamationmark.bubble"
 }
 
 extension UIImage {

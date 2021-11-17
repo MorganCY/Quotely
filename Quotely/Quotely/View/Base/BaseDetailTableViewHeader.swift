@@ -23,6 +23,7 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likeNumberLabel: UILabel!
+    @IBOutlet weak var optionMenuButton: UIButton!
 
     var hasUserInfo = false {
         didSet {
@@ -42,11 +43,17 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
     var likeHandler: () -> Void = {}
 
+    var optionHandler: () -> Void = {}
+
     @IBAction func like(_ sender: UIButton) { likeHandler() }
 
     @IBAction func edit(_ sender: UIButton) { editHandler() }
 
     @IBAction func deleteComment(_ sender: UIButton) { deleteHandler() }
+
+    @IBAction func tapOptionMenuButton(_ sender: UIButton) {
+        optionHandler()
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -91,6 +98,7 @@ class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
         contentLabel.text = post?.content
         editButton.isHidden = !isAuthor
         deleteButton.isHidden = !isAuthor
+        optionMenuButton.isHidden = isAuthor
         likeNumberLabel.text = "\(post?.likeNumber ?? 0)"
 
         if let createdTime = post?.createdTime {

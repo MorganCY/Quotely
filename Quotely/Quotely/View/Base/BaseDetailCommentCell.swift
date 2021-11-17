@@ -18,6 +18,7 @@ class BaseDetailCommentCell: UITableViewCell {
     @IBOutlet weak var editTextField: UITextField!
     @IBOutlet weak var doneEditingButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var optionMenuButton: UIButton!
 
     var isEnableEdit = false {
         didSet {
@@ -70,6 +71,7 @@ class BaseDetailCommentCell: UITableViewCell {
 
         editButton.isHidden = !isAuthor
         deleteButton.isHidden = !isAuthor
+        optionMenuButton.isHidden = isAuthor
 
         guard let editTime = comment.editTime else { return }
 
@@ -79,6 +81,8 @@ class BaseDetailCommentCell: UITableViewCell {
     var editHandler: (String) -> Void = {_ in}
 
     var deleteHandler: () -> Void = {}
+
+    var optionHandler: () -> Void = {}
 
     @IBAction func edit(_ sender: UIButton) {
 
@@ -102,5 +106,10 @@ class BaseDetailCommentCell: UITableViewCell {
     @IBAction func deleteComment(_ sender: UIButton) {
 
         deleteHandler()
+    }
+
+    @IBAction func tapOptionMenuButton(_ sender: UIButton) {
+
+        optionHandler()
     }
 }

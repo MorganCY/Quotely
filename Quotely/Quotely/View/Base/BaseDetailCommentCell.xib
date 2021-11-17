@@ -86,6 +86,27 @@
                         <action selector="deleteComment:" destination="iN0-l3-epB" eventType="touchUpInside" id="FgI-uW-B6Z"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rbe-ui-pR9">
+                    <rect key="frame" x="373" y="14" width="25" height="19"/>
+                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="16"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content=" ">
+                                <attributes>
+                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <font key="NSFont" metaFont="smallSystem"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="tapOptionMenuButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="BKt-Gq-35q"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -94,6 +115,7 @@
                 <constraint firstItem="Yd0-Dd-P4T" firstAttribute="leading" secondItem="O4c-Yl-bEP" secondAttribute="trailing" constant="16" id="7Cf-nf-FaQ"/>
                 <constraint firstItem="Yd0-Dd-P4T" firstAttribute="centerY" secondItem="LDb-sm-b5E" secondAttribute="centerY" id="9Ar-n8-axY"/>
                 <constraint firstItem="SgV-B3-cc4" firstAttribute="top" secondItem="g4a-QK-DKQ" secondAttribute="bottom" constant="2" id="9qg-pp-FCs"/>
+                <constraint firstItem="rbe-ui-pR9" firstAttribute="centerY" secondItem="Yd0-Dd-P4T" secondAttribute="centerY" id="A3i-vf-rqB"/>
                 <constraint firstItem="g4a-QK-DKQ" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" id="BTz-rP-2Y0"/>
                 <constraint firstItem="Yaq-N3-3Xi" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="6" id="Cvg-BY-DhV"/>
                 <constraint firstItem="7tu-pI-aUC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="CwH-5q-va4"/>
@@ -102,6 +124,7 @@
                 <constraint firstItem="SgV-B3-cc4" firstAttribute="top" secondItem="Yaq-N3-3Xi" secondAttribute="bottom" constant="6" id="Imd-Oa-Xxd"/>
                 <constraint firstItem="kRa-XF-aC5" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" id="Lpc-Ct-gvf"/>
                 <constraint firstItem="Yaq-N3-3Xi" firstAttribute="leading" secondItem="g4a-QK-DKQ" secondAttribute="leading" id="Ni9-Sc-f1O"/>
+                <constraint firstItem="rbe-ui-pR9" firstAttribute="trailing" secondItem="g4a-QK-DKQ" secondAttribute="trailing" id="RSN-xB-bgX"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" constant="16" id="XSe-Ph-QPQ"/>
                 <constraint firstItem="SgV-B3-cc4" firstAttribute="leading" secondItem="LDb-sm-b5E" secondAttribute="leading" id="Zpj-9H-Pos"/>
                 <constraint firstItem="g4a-QK-DKQ" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="2" id="fHp-ZX-1mZ"/>
@@ -119,6 +142,7 @@
                 <outlet property="editButton" destination="Yd0-Dd-P4T" id="SdB-uO-p1n"/>
                 <outlet property="editTextField" destination="Yaq-N3-3Xi" id="fP7-j0-kmg"/>
                 <outlet property="nameLabel" destination="LDb-sm-b5E" id="cbt-mE-sii"/>
+                <outlet property="optionMenuButton" destination="rbe-ui-pR9" id="ocs-cM-Yox"/>
                 <outlet property="timeLabel" destination="SgV-B3-cc4" id="5Qv-cq-VGD"/>
                 <outlet property="userImageView" destination="7tu-pI-aUC" id="KG8-Ew-egc"/>
             </connections>
@@ -126,6 +150,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="highlighter" catalog="system" width="128" height="119"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="trash" catalog="system" width="121" height="128"/>

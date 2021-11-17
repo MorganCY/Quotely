@@ -194,6 +194,84 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
 
+    func openOptionMenu(
+        blockedUid: String,
+        index: Int?,
+        completion: (() -> Void)?
+    ) {
+
+        let blockUserAction = UIAlertAction(
+            title: "檢舉並封鎖用戶",
+            style: .destructive
+        ) { _ in
+
+            if let followingList = UserManager.shared.visitorUserInfo?.followingList {
+
+                if followingList.contains(blockedUid) {
+
+                    self.unfollowUser(blockedUid: blockedUid)
+                }
+            }
+
+            UserManager.shared.updateUserBlockList(
+                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+                visitedUid: blockedUid,
+                blockAction: .block
+            ) { result in
+
+                switch result {
+
+                case .success(let success):
+
+                    print(success)
+
+                    if let index = index {
+
+                        self.comments.remove(at: index)
+                        self.commentUser.remove(at: index)
+
+                    } else {
+
+                        guard let completion = completion else { return }
+
+                        completion()
+                    }
+
+                case .failure(let error):
+
+                    print(error)
+
+                    Toast.showFailure(text: "封鎖失敗")
+                }
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+
+        let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        optionAlert.addAction(blockUserAction)
+        optionAlert.addAction(cancelAction)
+
+        present(optionAlert, animated: true)
+    }
+
+    func unfollowUser(blockedUid: String) {
+        UserManager.shared.updateUserFollow(
+            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+            visitedUid: blockedUid,
+            followAction: .unfollow
+        ) { result in
+
+            switch result {
+
+            case .success(let success): print(success)
+
+            case .failure(let error): print(error)
+            }
+        }
+    }
+
     func layoutCommentPanel() {
 
         let commentPanelObject = [

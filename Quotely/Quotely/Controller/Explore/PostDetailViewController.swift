@@ -357,6 +357,14 @@ class PostDetailViewController: BaseDetailViewController {
             self.present(alert, animated: true, completion: nil)
         }
 
+            header.optionHandler = {
+
+                self.openOptionMenu(blockedUid: self.post?.uid ?? "", index: nil) {
+
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+
         // go to user's profile when tapping image, name, and time
 
         let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfileFromHeader(_:)))
@@ -386,27 +394,18 @@ class PostDetailViewController: BaseDetailViewController {
         }
 
         let comment = comments[indexPath.row]
+        let commentUser = commentUser[indexPath.row]
 
         var isCommentAuthor = false
 
         isCommentAuthor = comment.uid == visitorUid
 
-        UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
-
-            switch result {
-
-            case .success(let user):
-                cell.layoutCell(
-                    comment: comment,
-                    userImageUrl: user.profileImageUrl,
-                    userName: user.name ?? "",
-                    isAuthor: isCommentAuthor
-                )
-
-            case .failure(let error):
-                print(error)
-            }
-        }
+        cell.layoutCell(
+            comment: comment,
+            userImageUrl: commentUser.profileImageUrl,
+            userName: commentUser.name,
+            isAuthor: isCommentAuthor
+        )
 
         cell.hideSelectionStyle()
 
@@ -481,6 +480,11 @@ class PostDetailViewController: BaseDetailViewController {
             alert.addAction(cancelAction)
             alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
+        }
+
+        cell.optionHandler = {
+
+            self.openOptionMenu(blockedUid: commentUser.uid, index: indexPath.row, completion: nil)
         }
 
         // go to user's profile when tapping image, name, and time
