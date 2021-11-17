@@ -21,7 +21,8 @@ class CardWriteViewController: BaseWriteViewController {
 
     override var uploadedImage: UIImage? {
         didSet {
-            cardTopicView.layoutIfNeeded()
+            DispatchQueue.main.async { self.cardTopicView.layoutIfNeeded()
+            }
         }
     }
 
