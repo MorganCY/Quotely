@@ -503,8 +503,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 
-        self.hasPostImage = true
-
         switch isRecognizedTextButtonTapped {
 
         // user is using text recognition
@@ -532,6 +530,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             self.uploadedImage = selectedImage
 
+            self.hasPostImage = true
+
             DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
             picker.dismiss(animated: true)
@@ -542,8 +542,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
     override func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
         picker.dismiss(animated: true)
-
-        self.hasPostImage = true
 
         guard !results.isEmpty else {
             return
@@ -594,6 +592,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
                         }
 
                         self.uploadedImage = selectedImage
+
+                        self.hasPostImage = true
 
                         DispatchQueue.main.async { Toast.shared.hud.dismiss() }
                     }
