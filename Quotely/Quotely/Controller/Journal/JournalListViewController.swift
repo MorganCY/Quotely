@@ -16,7 +16,7 @@ class JournalListViewController: UIViewController {
 
     var journals = [Journal]() {
         didSet {
-            setupEmptyAnimation()
+            setupEmptyReminder()
             tableView.reloadData()
         }
     }
@@ -338,7 +338,7 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension JournalListViewController {
 
-    func setupEmptyAnimation() {
+    func setupEmptyReminder() {
 
         let titleLabel = UILabel()
 
