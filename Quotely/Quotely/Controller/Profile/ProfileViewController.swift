@@ -77,8 +77,12 @@ class ProfileViewController: BaseImagePickerViewController {
         }
     }
 
+    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupLoadingAnimation()
 
         navigationItem.title = "個人資訊"
 
@@ -115,9 +119,17 @@ class ProfileViewController: BaseImagePickerViewController {
 
                 self.visitedUserInfo = userInfo
 
+                self.loadingAnimationView.removeFromSuperview()
+
             case .failure(let error):
 
                 print(error)
+
+                self.loadingAnimationView.removeFromSuperview()
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }
@@ -517,5 +529,21 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         UITableView.automaticDimension
+    }
+}
+
+extension ProfileViewController {
+
+    func setupLoadingAnimation() {
+
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 }

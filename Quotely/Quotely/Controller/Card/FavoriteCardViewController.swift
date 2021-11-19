@@ -15,6 +15,7 @@ class FavoriteCardViewController: UIViewController {
 
     var likeCardList = [Card]() {
         didSet {
+            if likeCardList.count == 0 { setupEmptyReminder() }
             tableView.reloadData()
         }
     }
@@ -28,6 +29,9 @@ class FavoriteCardViewController: UIViewController {
     var navigationTitle = "收藏清單"
 
     var passedContentText = ""
+
+    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -46,6 +50,8 @@ class FavoriteCardViewController: UIViewController {
         super.viewDidLoad()
 
         fetchUserInfo()
+
+        setupLoadingAnimation()
 
         view.backgroundColor = .M3
 
@@ -83,15 +89,27 @@ class FavoriteCardViewController: UIViewController {
     }
 
     func fetchFavoriteCard(cardID: String) {
-        CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
+
+        CardManager.shared.fetchSpecificCard(cardID: cardID
+        ) { result in
 
             switch result {
 
             case .success(let card):
+
                 self.likeCardList.append(card)
 
+                self.loadingAnimationView.removeFromSuperview()
+
             case .failure(let error):
+
                 print(error)
+
+                self.loadingAnimationView.removeFromSuperview()
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }
@@ -280,5 +298,45 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
         let animator = Animator(animation: animation)
             animator.animate(cell: cell, at: indexPath, in: tableView)
+    }
+}
+
+extension FavoriteCardViewController {
+
+    func setupLoadingAnimation() {
+
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    func setupEmptyReminder() {
+
+        let titleLabel = UILabel()
+
+        emptyReminderView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(emptyReminderView)
+        emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
+
+        titleLabel.text = "還沒有收藏卡片，快去滑幾張吧！"
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
+
+        NSLayoutConstraint.activate([
+            emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: emptyReminderView.bottomAnchor, constant: -24),
+            titleLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
+        ])
     }
 }
