@@ -125,7 +125,7 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchRandomCards(limitNumber: 3) { result in
+            CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
                 switch result {
 
                 case .success(let cards):
@@ -141,7 +141,7 @@ class SwipeViewController: UIViewController {
                     print(error)
 
                     DispatchQueue.main.async {
-                        Toast.showFailure(text: "資料載入異常")
+                        Toast.showFailure(text: "片語資料載入異常")
                     }
 
                     group.leave()

@@ -174,6 +174,10 @@ class ExploreViewController: UIViewController {
 
                         print(error)
 
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "資料載入異常")
+                        }
+
                         group.leave()
                     }
                 }

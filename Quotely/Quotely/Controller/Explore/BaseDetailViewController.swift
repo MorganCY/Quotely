@@ -151,6 +151,10 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 case .failure(let error):
 
                     print("fetchData.failure: \(error)")
+
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "評論資料載入異常")
+                    }
                 }
             }
         }
@@ -181,6 +185,10 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                     case .failure(let error):
 
                         print(error)
+
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "評論資料載入異常")
+                        }
 
                         group.leave()
                     }
@@ -265,9 +273,17 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
             switch result {
 
-            case .success(let success): print(success)
+            case .success(let success):
 
-            case .failure(let error): print(error)
+                print(success)
+
+            case .failure(let error):
+
+                print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }

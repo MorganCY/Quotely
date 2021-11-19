@@ -83,7 +83,9 @@ class CardTopicViewController: UIViewController {
 
                 print(error)
 
-                DispatchQueue.main.async { Toast.showFailure(text: "載入資料失敗") }
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "片語資料載入異常")
+                }
             }
         }
     }
@@ -105,6 +107,10 @@ class CardTopicViewController: UIViewController {
             case .failure(let error):
 
                 print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "想法資料載入異常")
+                }
             }
         }
     }

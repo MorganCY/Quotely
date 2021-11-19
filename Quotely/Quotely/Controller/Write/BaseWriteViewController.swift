@@ -337,7 +337,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             print(error)
 
-                            DispatchQueue.main.async { Toast.showFailure(text: "建立想法失敗") }
+                            DispatchQueue.main.async { Toast.showFailure(text: "新增想法失敗") }
                         }
                     }
 
@@ -417,7 +417,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     print(error)
 
-                    DispatchQueue.main.async { Toast.showFailure(text: "建立想法失敗") }
+                    DispatchQueue.main.async { Toast.showFailure(text: "新增想法失敗") }
                 }
             }
         }
