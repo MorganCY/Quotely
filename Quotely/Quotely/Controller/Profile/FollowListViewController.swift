@@ -79,7 +79,13 @@ class FollowListViewController: UIViewController {
 
                 self.fetchListContent(uid: user.followerList ?? [""], listType: .follower)
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+
+                print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }

@@ -78,12 +78,18 @@ class FavoriteCardViewController: UIViewController {
             switch result {
 
             case .success(let userInfo):
+
                 userInfo.likeCardList?.forEach({
                     self.fetchFavoriteCard(cardID: $0)
                 })
 
             case .failure(let error):
+
                 print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "用戶資料載入異常")
+                }
             }
         }
     }
@@ -108,7 +114,7 @@ class FavoriteCardViewController: UIViewController {
                 self.loadingAnimationView.removeFromSuperview()
 
                 DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
+                    Toast.showFailure(text: "片語資料載入異常")
                 }
             }
         }
@@ -127,14 +133,21 @@ class FavoriteCardViewController: UIViewController {
                 switch result {
 
                 case .success(let success):
+
                     print(success)
+
                     self.updateCard(
                         cardID: card.cardID ?? ""
                     )
                     self.likeCardList.remove(at: index)
 
                 case .failure(let error):
+
                     print(error)
+
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "片語資料載入異常")
+                    }
                 }
             }
     }

@@ -84,6 +84,8 @@ class PostDetailViewController: BaseDetailViewController {
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
 
+        submitButton.isEnabled = false
+
         if let message = commentTextField.text {
 
             guard let visitorUid = SignInManager.shared.visitorUid else { return }
@@ -114,25 +116,45 @@ class PostDetailViewController: BaseDetailViewController {
 
                             switch result {
 
-                            case .success(let success): print(success)
+                            case .success(let success):
 
-                            case .failure(let error): print(error)
+                                print(success)
+
+                                self.submitButton.isEnabled = true
+
+                            case .failure(let error):
+
+                                print(error)
+
+                                DispatchQueue.main.async {
+                                    Toast.showFailure(text: "新增評論失敗")
+                                }
+
+                                self.submitButton.isEnabled = true
                             }
                         }
 
                     self.fetchComments(type: .post)
 
-                case .failure(let error): print(error)
+                case .failure(let error):
+
+                    print(error)
+
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "新增評論失敗")
+                    }
+
+                    self.submitButton.isEnabled = true
                 }
             }
 
         } else {
 
-            self.present(
-                UIAlertController(
-                    title: "請輸入內容", message: nil, preferredStyle: .alert
-                ), animated: true
-            )
+            DispatchQueue.main.async {
+                Toast.showFailure(text: "請輸入內容")
+            }
+
+            submitButton.isEnabled = true
         }
     }
 
@@ -142,9 +164,17 @@ class PostDetailViewController: BaseDetailViewController {
 
             switch result {
 
-            case .success(let success): print(success)
+            case .success(let success):
 
-            case .failure(let error): print(error)
+                print(success)
+
+            case .failure(let error):
+
+                print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "刪除圖片失敗")
+                }
             }
         }
     }
@@ -161,7 +191,9 @@ class PostDetailViewController: BaseDetailViewController {
 
                 self.navigationController?.popViewController(animated: true)
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+
+                print(error)
             }
         }
     }
@@ -176,11 +208,15 @@ class PostDetailViewController: BaseDetailViewController {
 
             switch result {
 
-            case .success(let success): print(success)
+            case .success(let success):
+
+                print(success)
 
                 self.deletePostFromCard(postID: postID)
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+
+                print(error)
             }
         }
     }
@@ -243,6 +279,10 @@ class PostDetailViewController: BaseDetailViewController {
                 case .failure(let error):
 
                     print(error)
+
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "資料載入失敗")
+                    }
 
                     header.likeButton.isEnabled = true
                 }
@@ -308,7 +348,9 @@ class PostDetailViewController: BaseDetailViewController {
 
                         self.navigationController?.present(navigationVC, animated: true)
 
-                    case .failure(let error): print(error)
+                    case .failure(let error):
+
+                        print(error)
                     }
                 }
 
@@ -345,7 +387,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(error)
 
-                        Toast.showFailure(text: "刪除失敗")
+                        DispatchQueue.main.async { Toast.showFailure(text: "刪除失敗") }
                     }
                 }
             }
@@ -429,6 +471,8 @@ class PostDetailViewController: BaseDetailViewController {
                     case .failure(let error):
 
                         print(error)
+
+                        DispatchQueue.main.async { Toast.showFailure(text: "編輯評論失敗") }
                     }
                 }
             }
@@ -471,6 +515,8 @@ class PostDetailViewController: BaseDetailViewController {
                     case .failure(let error):
 
                         print(error)
+
+                        DispatchQueue.main.async { Toast.showFailure(text: "刪除評論失敗") }
                     }
                 }
             }
