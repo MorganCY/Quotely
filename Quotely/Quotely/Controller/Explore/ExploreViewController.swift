@@ -39,7 +39,7 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    let emptyReminderView = UIView()
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -484,15 +484,12 @@ extension ExploreViewController {
 
     func setupEmptyAnimation() {
 
-        let emptyAnimationView = LottieAnimationView(animationName: "empty")
         let reminderLabel = UILabel()
 
         view.addSubview(emptyReminderView)
         view.bringSubviewToFront(emptyReminderView)
         emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
-        emptyReminderView.addSubview(emptyAnimationView)
         emptyReminderView.addSubview(reminderLabel)
-        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
         reminderLabel.translatesAutoresizingMaskIntoConstraints = false
 
         reminderLabel.text = "還沒有追蹤的用戶...QQ"
@@ -502,15 +499,10 @@ extension ExploreViewController {
         NSLayoutConstraint.activate([
             emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
 
-            emptyAnimationView.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor),
-            emptyAnimationView.centerYAnchor.constraint(equalTo: emptyReminderView.centerYAnchor),
-            emptyAnimationView.heightAnchor.constraint(equalTo: emptyReminderView.heightAnchor, multiplier: 0.8),
-            emptyAnimationView.widthAnchor.constraint(equalTo: emptyReminderView.widthAnchor),
-
-            reminderLabel.topAnchor.constraint(equalTo: emptyAnimationView.bottomAnchor),
+            reminderLabel.topAnchor.constraint(equalTo: emptyReminderView.bottomAnchor),
             reminderLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
         ])
     }

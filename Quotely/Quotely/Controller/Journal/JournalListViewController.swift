@@ -16,7 +16,7 @@ class JournalListViewController: UIViewController {
 
     var journals = [Journal]() {
         didSet {
-            setupEmptyAnimation()
+            setupEmptyReminder()
             tableView.reloadData()
         }
     }
@@ -58,7 +58,7 @@ class JournalListViewController: UIViewController {
         }
     }
 
-    let emptyAnimationView = UIView()
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -338,36 +338,28 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension JournalListViewController {
 
-    func setupEmptyAnimation() {
+    func setupEmptyReminder() {
 
         let titleLabel = UILabel()
-        let animationView = LottieAnimationView(animationName: "empty")
 
-        let views = [titleLabel, animationView]
-        views.forEach {
-            emptyAnimationView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        emptyReminderView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(emptyAnimationView)
-        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(emptyReminderView)
+        emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
 
-        emptyAnimationView.isHidden = !(journals.count == 0)
+        emptyReminderView.isHidden = !(journals.count == 0)
         titleLabel.text = "還沒有任何隻字，快回首頁新增一則吧！"
         titleLabel.textColor = .black
         titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
 
         NSLayoutConstraint.activate([
-            emptyAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
-            emptyAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            emptyAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            animationView.heightAnchor.constraint(equalTo: emptyAnimationView.heightAnchor, multiplier: 0.9),
-            animationView.widthAnchor.constraint(equalTo: emptyAnimationView.widthAnchor, multiplier: 0.9),
-            animationView.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
-            animationView.centerYAnchor.constraint(equalTo: emptyAnimationView.centerYAnchor),
-            titleLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: -24),
-            titleLabel.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor)
+            emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: emptyReminderView.bottomAnchor, constant: -24),
+            titleLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
         ])
     }
 }

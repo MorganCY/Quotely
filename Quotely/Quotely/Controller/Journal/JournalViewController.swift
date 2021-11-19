@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import Lottie
 
 class JournalViewController: UIViewController {
 
@@ -17,6 +18,7 @@ class JournalViewController: UIViewController {
     private let dailyQuoteLabel = UILabel()
 
     var selectedEmoji: SFSymbol?
+    let educationDimmingView = UIView()
 
     let backgroundView = UIView()
     let editPanel = UIView()
@@ -60,6 +62,8 @@ class JournalViewController: UIViewController {
         setupTitle()
         setupEditPanel()
         setupButtons()
+
+        if UIApplication.isFirstLaunch() { setupEducationView() }
     }
 
     override func viewDidLayoutSubviews() {
@@ -299,12 +303,12 @@ extension JournalViewController {
         }
 
         dateLabel.text = "\(Date().getCurrentTime(format: .MM)).\(Date().getCurrentTime(format: .dd))"
-        dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 90.0)
+        dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 72.0)
         dailyQuoteLabel.font = UIFont(name: "Pingfang TC", size: 16.0)
         dailyQuoteLabel.numberOfLines = 0
 
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            dateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -18),
             dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             dailyQuoteLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 16),
             dailyQuoteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -412,4 +416,75 @@ extension JournalViewController {
             journalListButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1)
         ])
     }
+
+    func setupEducationView() {
+
+        let topTitleLabel = UILabel()
+        let bottomTitleLabel = UILabel()
+        let topArrow = LottieAnimationView(animationName: "arrow")
+        let bottomArrow = LottieAnimationView(animationName: "arrow")
+        let okButton = UIButton()
+        bottomArrow.transform = CGAffineTransform(rotationAngle: .pi)
+
+        let views = [topTitleLabel, bottomTitleLabel, topArrow, bottomArrow, okButton]
+
+        view.addSubview(educationDimmingView)
+        view.bringSubviewToFront(educationDimmingView)
+        educationDimmingView.translatesAutoresizingMaskIntoConstraints = false
+        educationDimmingView.backgroundColor = .black.withAlphaComponent(0.8)
+
+        views.forEach {
+            educationDimmingView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        let labels = [topTitleLabel, bottomTitleLabel]
+        topTitleLabel.text = "點擊emoji或輸入文字，\n紀錄隻字隨筆"
+        bottomTitleLabel.text = "點擊查看紀錄過的隻字隨筆"
+
+        labels.forEach {
+            $0.textColor = .white
+            $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+            $0.numberOfLines = 0
+        }
+
+        okButton.setTitle("好喔", for: .normal)
+        okButton.setTitleColor(.black, for: .normal)
+        okButton.backgroundColor = .white.withAlphaComponent(0.7)
+        okButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        okButton.cornerRadius = CornerRadius.standard.rawValue
+        okButton.addTarget(self, action: #selector(dismissEducationAnimation(_:)), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            educationDimmingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            educationDimmingView.topAnchor.constraint(equalTo: view.topAnchor),
+            educationDimmingView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            educationDimmingView.heightAnchor.constraint(equalTo: view.heightAnchor),
+
+            topArrow.bottomAnchor.constraint(equalTo: editPanel.topAnchor),
+            topArrow.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor),
+            topArrow.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
+            topArrow.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+
+            topTitleLabel.leadingAnchor.constraint(equalTo: topArrow.trailingAnchor),
+            topTitleLabel.centerYAnchor.constraint(equalTo: topArrow.centerYAnchor),
+            topTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+
+            bottomArrow.topAnchor.constraint(equalTo: journalListButton.bottomAnchor),
+            bottomArrow.leadingAnchor.constraint(equalTo: topArrow.leadingAnchor),
+            bottomArrow.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
+            bottomArrow.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
+
+            bottomTitleLabel.leadingAnchor.constraint(equalTo: bottomArrow.trailingAnchor),
+            bottomTitleLabel.centerYAnchor.constraint(equalTo: bottomArrow.centerYAnchor),
+            bottomTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+
+            okButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            okButton.centerXAnchor.constraint(equalTo: educationDimmingView.centerXAnchor),
+            okButton.widthAnchor.constraint(equalTo: educationDimmingView.widthAnchor, multiplier: 0.3),
+            okButton.heightAnchor.constraint(equalTo: educationDimmingView.heightAnchor, multiplier: 0.05)
+        ])
+    }
+
+    @objc func dismissEducationAnimation(_ sender: UIButton) { educationDimmingView.removeFromSuperview() }
 }
