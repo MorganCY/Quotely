@@ -324,7 +324,7 @@ extension ShareViewController {
 
         navigationItem.setupRightBarButton(
             image: nil,
-            text: "完成",
+            text: "儲存",
             target: self,
             action: #selector(expandOptionPanel(_:)),
             color: .black

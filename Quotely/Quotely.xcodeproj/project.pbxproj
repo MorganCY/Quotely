@@ -346,6 +346,7 @@
 		5C2C7310271D17B800F8B9EC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5C5186C7273233E4007C5221 /* Auth.storyboard */,
 				5C46F25F273CAC40007E951D /* Post */,
 				5C46F25D273CABFC007E951D /* SwipeCard */,
 				5C46F25E273CAC11007E951D /* Button */,
@@ -356,7 +357,6 @@
 				5C582106271D79B5002E21C9 /* Explore */,
 				5CF36A152732C3BC00F6B3BD /* Profile */,
 				5C6CC7E327300CF800B71DA8 /* Share */,
-				5C5186C7273233E4007C5221 /* Auth.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";

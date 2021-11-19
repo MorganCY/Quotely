@@ -134,12 +134,18 @@ class SwipeViewController: UIViewController {
                     self.cardStack.dataSource = self
                     self.cardStack.delegate = self
 
+                    group.leave()
+
                 case .failure(let error):
 
                     print(error)
-                }
 
-                group.leave()
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "資料載入異常")
+                    }
+
+                    group.leave()
+                }
             }
 
             group.notify(queue: DispatchQueue.main, execute: {

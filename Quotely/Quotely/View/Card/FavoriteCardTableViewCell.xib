@@ -28,7 +28,7 @@
                             <rect key="frame" x="219.5" y="0.0" width="146.5" height="160"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtG-sw-moB">
-                            <rect key="frame" x="16" y="112" width="35.5" height="32"/>
+                            <rect key="frame" x="16" y="112" width="187.5" height="32"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -44,6 +44,7 @@
                         <constraint firstAttribute="height" constant="160" id="MU9-3X-slW"/>
                         <constraint firstItem="vtG-sw-moB" firstAttribute="height" secondItem="W8c-Dv-NRw" secondAttribute="height" multiplier="0.2" id="NaC-b4-Dot"/>
                         <constraint firstItem="zoK-Gh-aub" firstAttribute="top" secondItem="W8c-Dv-NRw" secondAttribute="top" id="Nza-TG-25e"/>
+                        <constraint firstItem="vtG-sw-moB" firstAttribute="trailing" secondItem="LNp-nw-yDG" secondAttribute="trailing" id="VPX-ID-upq"/>
                         <constraint firstAttribute="bottom" secondItem="vtG-sw-moB" secondAttribute="bottom" constant="16" id="kvg-kp-CA3"/>
                         <constraint firstItem="vtG-sw-moB" firstAttribute="top" secondItem="LNp-nw-yDG" secondAttribute="bottom" constant="16" id="nRp-cp-ViK"/>
                         <constraint firstItem="zoK-Gh-aub" firstAttribute="width" secondItem="W8c-Dv-NRw" secondAttribute="width" multiplier="0.4" id="rOX-N6-c2t"/>

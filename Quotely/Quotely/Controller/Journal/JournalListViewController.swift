@@ -16,7 +16,7 @@ class JournalListViewController: UIViewController {
 
     var journals = [Journal]() {
         didSet {
-            setupEmptyReminder()
+            if journals.count == 0 { setupEmptyReminder() }
             tableView.reloadData()
         }
     }
@@ -59,6 +59,7 @@ class JournalListViewController: UIViewController {
     }
 
     let emptyReminderView = LottieAnimationView(animationName: "empty")
+    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +70,7 @@ class JournalListViewController: UIViewController {
         tabBarController?.tabBar.isHidden = true
         backgroundImageView.image = UIImage.asset(.bg4)
         backgroundImageView.alpha = 0.8
+        setupLoadingAnimation()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -105,16 +107,27 @@ class JournalListViewController: UIViewController {
 
         JournalManager.shared.fetchJournal(
             uid: visitorUid,
-            month: selectedMonth,
-            year: selectedYear) { result in
+            month: self.selectedMonth,
+            year: self.selectedYear
+        ) { result in
 
             switch result {
 
             case .success(let journals):
+
                 self.journals = journals
 
+                self.loadingAnimationView.removeFromSuperview()
+
             case .failure(let error):
+
                 print(error)
+
+                self.loadingAnimationView.removeFromSuperview()
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }
@@ -338,6 +351,19 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension JournalListViewController {
 
+    func setupLoadingAnimation() {
+
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
     func setupEmptyReminder() {
 
         let titleLabel = UILabel()
@@ -348,7 +374,6 @@ extension JournalListViewController {
         view.addSubview(emptyReminderView)
         emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
 
-        emptyReminderView.isHidden = !(journals.count == 0)
         titleLabel.text = "還沒有任何隻字，快回首頁新增一則吧！"
         titleLabel.textColor = .black
         titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)

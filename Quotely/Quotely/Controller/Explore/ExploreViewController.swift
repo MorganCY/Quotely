@@ -39,6 +39,7 @@ class ExploreViewController: UIViewController {
         }
     }
 
+    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
     let emptyReminderView = LottieAnimationView(animationName: "empty")
 
     @IBOutlet weak var tableView: UITableView! {
@@ -85,6 +86,8 @@ class ExploreViewController: UIViewController {
         )
 
         setupFilterView()
+
+        setupLoadingAnimation()
 
         view.backgroundColor = .M1
 
@@ -135,6 +138,12 @@ class ExploreViewController: UIViewController {
             case .failure(let error):
 
                 print(error)
+
+                self.loadingAnimationView.removeFromSuperview()
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }
@@ -173,6 +182,8 @@ class ExploreViewController: UIViewController {
             group.notify(queue: DispatchQueue.main) {
 
                 self.userList = userList
+
+                self.loadingAnimationView.removeFromSuperview()
             }
         }
     }
@@ -479,6 +490,19 @@ extension ExploreViewController {
             filterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             filterView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             filterView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -16)
+        ])
+    }
+
+    func setupLoadingAnimation() {
+
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 
