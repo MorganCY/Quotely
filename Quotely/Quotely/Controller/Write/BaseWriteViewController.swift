@@ -543,11 +543,11 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         picker.dismiss(animated: true)
 
+        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
+
         guard !results.isEmpty else {
             return
         }
-
-        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 
         switch isRecognizedTextButtonTapped {
 
@@ -565,7 +565,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                         self.recognizedImage = image
 
-                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+                        Toast.shared.hud.dismiss()
                     }
                 })
             }
