@@ -330,7 +330,7 @@ extension JournalViewController {
         editPanel.backgroundColor = .white
         editPanel.cornerRadius = CornerRadius.standard.rawValue
         emojiTitleLabel.text = "選擇一個代表心情的Emoji"
-        emojiTitleLabel.textColor = .M1
+        emojiTitleLabel.textColor = .lightGray
         emojiTitleLabel.font = UIFont(name: "PingfangTC-Semibold", size: 16)
         emojiSelection.dataSource = self
         emojiSelection.delegate = self
@@ -368,10 +368,12 @@ extension JournalViewController {
             editPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             editPanel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
 
-            emojiTitleLabel.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor, constant: 16),
+//            emojiTitleLabel.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor, constant: 16),
+            emojiTitleLabel.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
             emojiTitleLabel.topAnchor.constraint(equalTo: editPanel.topAnchor, constant: 16),
 
-            emojiSelection.leadingAnchor.constraint(equalTo: emojiTitleLabel.leadingAnchor),
+//            emojiSelection.leadingAnchor.constraint(equalTo: emojiTitleLabel.leadingAnchor),
+            emojiSelection.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
             emojiSelection.widthAnchor.constraint(equalTo: editPanel.widthAnchor, multiplier: 0.9),
             emojiSelection.topAnchor.constraint(equalTo: emojiTitleLabel.bottomAnchor, constant: 16),
             emojiSelection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.045),
