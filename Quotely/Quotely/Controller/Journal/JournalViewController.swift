@@ -368,11 +368,9 @@ extension JournalViewController {
             editPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             editPanel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
 
-//            emojiTitleLabel.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor, constant: 16),
             emojiTitleLabel.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
             emojiTitleLabel.topAnchor.constraint(equalTo: editPanel.topAnchor, constant: 16),
 
-//            emojiSelection.leadingAnchor.constraint(equalTo: emojiTitleLabel.leadingAnchor),
             emojiSelection.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
             emojiSelection.widthAnchor.constraint(equalTo: editPanel.widthAnchor, multiplier: 0.9),
             emojiSelection.topAnchor.constraint(equalTo: emojiTitleLabel.bottomAnchor, constant: 16),

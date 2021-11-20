@@ -64,7 +64,7 @@ class JournalListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchUserInfo(visitorUid: visitorUid)
+        userRegisterDate = Date.init(milliseconds: UserManager.shared.visitorUserInfo?.registerTime ?? 0)
 
         navigationController?.setupBackButton(color: .white)
         tabBarController?.tabBar.isHidden = true
@@ -83,24 +83,6 @@ class JournalListViewController: UIViewController {
         super.viewWillDisappear(animated)
 
         tabBarController?.tabBar.isHidden = false
-    }
-
-    func fetchUserInfo(visitorUid: String) {
-
-        UserManager.shared.fetchUserInfo(
-            uid: visitorUid) { result in
-
-                switch result {
-
-                case .success(let user):
-
-                    self.userRegisterDate = Date.init(milliseconds: user.registerTime ?? 0)
-
-                case . failure(let error):
-
-                    print(error)
-                }
-            }
     }
 
     func fetchJournals(visitorUid: String) {
@@ -261,7 +243,7 @@ extension JournalListViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
 
-        return CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.15)
+        return CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.12)
     }
 
 }
