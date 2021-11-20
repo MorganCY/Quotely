@@ -36,23 +36,11 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         }
     }
 
-    var isVisitorProfile = true {
-        didSet {
-            defineIfDisplay()
-        }
-    }
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
         setupProfileImage()
         setupButtons()
-
-        defineIfDisplay()
-        userNameLabel.isHidden = isEditing
-        editNameTextField.delegate = self
-        editNameTextField.isHidden = !isEditing
-        doneEditNameButton.isHidden = !isEditing
     }
 
     override func layoutSubviews() {
@@ -98,19 +86,45 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         followHandler()
     }
 
-    func defineIfDisplay() {
+    func layoutMyHeader(
+        userInfo: User
+    ) {
 
-        editImageButton.isHidden = !isVisitorProfile
-        editNameButton.isHidden = !isVisitorProfile
-        blockButton.isHidden = isVisitorProfile
-        followButton.isHidden = isVisitorProfile
+        editImageButton.isHidden = false
+        editNameButton.isHidden = false
+        blockButton.isHidden = true
+        followButton.isHidden = true
+
+        userNameLabel.isHidden = isEditing
+        editNameTextField.delegate = self
+        editNameTextField.isHidden = !isEditing
+        doneEditNameButton.isHidden = !isEditing
+
+        if let profileImageUrl = userInfo.profileImageUrl {
+
+            profileImageView.loadImage(profileImageUrl, placeHolder: nil)
+
+        } else {
+
+            profileImageView.image = UIImage.asset(.logo)
+        }
+
+        userNameLabel.text = userInfo.name
+        postNumberLabel.text = "\(userInfo.postNumber) 則想法"
+        followerNumberLabel.text = "\(userInfo.followerNumber) 被追蹤"
+        followingNumberLabel.text = "\(userInfo.followingNumber) 追蹤中"
     }
 
-    func layoutHeader(
+    func layoutProfileHeader(
         userInfo: User,
         isBlock: Bool,
         isFollow: Bool
     ) {
+
+        editImageButton.isHidden = true
+        editNameButton.isHidden = true
+        editNameTextField.isHidden = true
+        doneEditNameButton.isHidden = true
 
         if let profileImageUrl = userInfo.profileImageUrl {
 
@@ -151,8 +165,6 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
             followButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         }
 
-        profileImageView.borderColor = .white
-        profileImageView.borderWidth = 2
         userNameLabel.text = userInfo.name
         postNumberLabel.text = "\(userInfo.postNumber) 則想法"
         followerNumberLabel.text = "\(userInfo.followerNumber) 被追蹤"
@@ -163,6 +175,8 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         profileImageView.cornerRadius = profileImageView.frame.width / 2
         profileImageView.contentMode = .scaleAspectFill
+        profileImageView.borderWidth = 3
+        profileImageView.borderColor = . white
         shadowView.cornerRadius = shadowView.frame.width / 2
         shadowView.dropShadow(isPath: false)
         editImageButton.cornerRadius = editImageButton.frame.width / 2
@@ -174,6 +188,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
     func setupButtons() {
 
+        editImageButton.tintColor = .white
         blockButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
         followButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
         blockButton.backgroundColor = .white

@@ -64,9 +64,11 @@
 		5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */; };
 		5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */; };
 		5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */; };
-		5C5C4A722742523F00B77631 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C4A712742523E00B77631 /* ProfileViewController.swift */; };
+		5C5C4A722742523F00B77631 /* BaseProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */; };
 		5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */; };
 		5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E627300E3B00B71DA8 /* Share.storyboard */; };
+		5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0E82748D08800476567 /* MyViewController.swift */; };
+		5C7AF0EB2748D24300476567 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0EA2748D24300476567 /* ProfileViewController.swift */; };
 		5C7B6395272A798700E18B96 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6394272A798700E18B96 /* UserManager.swift */; };
 		5C7B6397272A799000E18B96 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6396272A799000E18B96 /* User.swift */; };
 		5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */; };
@@ -178,9 +180,11 @@
 		5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreTableViewCell.xib; sourceTree = "<group>"; };
 		5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseImagePickerViewController.swift; sourceTree = "<group>"; };
-		5C5C4A712742523E00B77631 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseProfileViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
+		5C7AF0E82748D08800476567 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
+		5C7AF0EA2748D24300476567 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5C7B6394272A798700E18B96 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		5C7B6396272A799000E18B96 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCardTableViewCell.swift; sourceTree = "<group>"; };
@@ -552,7 +556,9 @@
 				5C19204927369591008B9F0D /* SettingsViewController.swift */,
 				5C8748FD273CC201007471F6 /* BlockListViewController.swift */,
 				5C4983E12740E743008B721F /* FollowListViewController.swift */,
-				5C5C4A712742523E00B77631 /* ProfileViewController.swift */,
+				5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */,
+				5C7AF0E82748D08800476567 /* MyViewController.swift */,
+				5C7AF0EA2748D24300476567 /* ProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -763,6 +769,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */,
+				5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */,
 				5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */,
 				5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */,
 				5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */,
@@ -800,6 +807,7 @@
 				5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */,
 				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,
 				5CC40AE4272E94C300DF51D9 /* UINavigationItem+Extension.swift in Sources */,
+				5C7AF0EB2748D24300476567 /* ProfileViewController.swift in Sources */,
 				5C4B9697271FBF4C008B21C7 /* PostCommentManager.swift in Sources */,
 				5C2846E02727EEB400393562 /* ContentTextView.swift in Sources */,
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,
@@ -834,7 +842,7 @@
 				5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */,
 				5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */,
 				5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */,
-				5C5C4A722742523F00B77631 /* ProfileViewController.swift in Sources */,
+				5C5C4A722742523F00B77631 /* BaseProfileViewController.swift in Sources */,
 				5C8748FE273CC201007471F6 /* BlockListViewController.swift in Sources */,
 				5C8C0E92272426550054480A /* SwipeCardView.swift in Sources */,
 			);

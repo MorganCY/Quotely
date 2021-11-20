@@ -20,12 +20,13 @@ class FollowListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
+            tableView.dataSource = self
             tableView.delegate = self
             tableView.registerCellWithNib(identifier: BlockListTableViewCell.identifier, bundle: nil)
         }
     }
 
-    let listTypeTitle = ["追蹤中", "被追蹤"]
+    let listTypeTitle = ["被追蹤", "追蹤中"]
 
     var visitedUid: String? {
         didSet {
@@ -34,17 +35,16 @@ class FollowListViewController: UIViewController {
         }
     }
 
-    private var followingList: [User]? {
+    private var followerList: [User]? {
         didSet {
-            toDisplayList = followingList
+            toDisplayList = followerList
         }
     }
 
-    private var followerList: [User]?
+    private var followingList: [User]?
 
     var toDisplayList: [User]? {
         didSet {
-            tableView.dataSource = self
             tableView.reloadData()
         }
     }
@@ -62,7 +62,6 @@ class FollowListViewController: UIViewController {
         layoutListFilter()
         listTypeSelectionView.dataSource = self
         listTypeSelectionView.delegate = self
-
     }
 
     func fetchVisitedUserInfo(visitedUid: String) {
@@ -75,9 +74,9 @@ class FollowListViewController: UIViewController {
 
             case .success(let user):
 
-                self.fetchListContent(uid: user.followingList ?? [""], listType: .following)
-
                 self.fetchListContent(uid: user.followerList ?? [""], listType: .follower)
+
+                self.fetchListContent(uid: user.followingList ?? [""], listType: .following)
 
             case .failure(let error):
 
@@ -124,8 +123,8 @@ class FollowListViewController: UIViewController {
             group.notify(queue: DispatchQueue.main) {
 
                 switch listType {
-                case .following: self.followingList = userList
                 case .follower: self.followerList = userList
+                case .following: self.followingList = userList
                 }
             }
         }
@@ -147,7 +146,7 @@ extension FollowListViewController: SelectionViewDataSource, SelectionViewDelega
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.8 }
 
     func didSelectButtonAt(_ view: SelectionView, at index: Int) {
-        currentFilterType = index == 0 ? .following : .follower
+        currentFilterType = index == 0 ? .follower : .following
     }
 
     func shouldSelectButtonAt(_ view: SelectionView, at index: Int) -> Bool { true }
@@ -167,8 +166,7 @@ extension FollowListViewController: UITableViewDataSource, UITableViewDelegate {
 
         guard let toDisplayList = toDisplayList else {
 
-            Toast.showFailure(text: "無法載入資料")
-            fatalError("Cannot create cell")
+            return UITableViewCell()
         }
 
         cell.layoutCell(user: toDisplayList[indexPath.row])

@@ -220,11 +220,26 @@ class ExploreViewController: UIViewController {
             return
         }
 
+        guard let myVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
+        ) as? MyViewController else {
+
+            return
+        }
+
         guard let currentRow = gestureRecognizer.view?.tag else { return }
 
         profileVC.visitedUid = postList[currentRow].uid
 
-        navigationController?.pushViewController(profileVC, animated: true)
+        if postList[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
+
+            navigationController?.pushViewController(myVC, animated: true)
+
+        } else {
+
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
     }
 
     @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {

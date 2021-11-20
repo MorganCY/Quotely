@@ -152,8 +152,8 @@ extension UIView {
 
 extension UIView {
 
-    func fadeIn() {
-        UIView.animate(withDuration: 2.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
+    func fadeInAnimation(duration: Double) {
+        UIView.animate(withDuration: duration, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.alpha = 1.0
         }, completion: nil)
     }

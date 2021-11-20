@@ -17,17 +17,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ytA-gX-6Vh">
-                    <rect key="frame" x="124" y="8" width="166" height="165.5"/>
+                    <rect key="frame" x="124" y="32" width="166" height="165.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ez7-go-5eO">
-                    <rect key="frame" x="124" y="8" width="166" height="165.5"/>
+                    <rect key="frame" x="124" y="32" width="166" height="165.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ez7-go-5eO" secondAttribute="height" multiplier="1:1" id="GLb-gU-tN4"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLR-Xb-dVD">
-                    <rect key="frame" x="165.5" y="205.5" width="83" height="45"/>
+                    <rect key="frame" x="165.5" y="229.5" width="83" height="41.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="32"/>
                     <color key="textColor" name="S1"/>
                     <nil key="highlightedColor"/>
@@ -91,7 +91,7 @@
                     </subviews>
                 </stackView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8dU-OT-KB1">
-                    <rect key="frame" x="242" y="125.5" width="48" height="48"/>
+                    <rect key="frame" x="242" y="149.5" width="48" height="48"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="8dU-OT-KB1" secondAttribute="height" multiplier="1:1" id="jtH-hj-bsS"/>
@@ -105,7 +105,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pdp-Hl-Jjz">
-                    <rect key="frame" x="256.5" y="211.5" width="33" height="33"/>
+                    <rect key="frame" x="256.5" y="233.5" width="33" height="33.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Pdp-Hl-Jjz" secondAttribute="height" multiplier="1:1" id="8dd-rM-s7a"/>
                     </constraints>
@@ -119,12 +119,12 @@
                     </connections>
                 </button>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pie-XK-PW3">
-                    <rect key="frame" x="83" y="185" width="248" height="86"/>
+                    <rect key="frame" x="83" y="229.5" width="248" height="41.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="32"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3M-7Y-8aS">
-                    <rect key="frame" x="331" y="208.5" width="60" height="39.5"/>
+                    <rect key="frame" x="331" y="230.5" width="60" height="39.5"/>
                     <color key="tintColor" name="M1"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="完成">
@@ -149,13 +149,14 @@
                 <constraint firstItem="o3M-7Y-8aS" firstAttribute="centerY" secondItem="Pie-XK-PW3" secondAttribute="centerY" id="MJt-XT-xd7"/>
                 <constraint firstItem="aLR-Xb-dVD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="PP9-Qw-5mS"/>
                 <constraint firstItem="Pdp-Hl-Jjz" firstAttribute="leading" secondItem="aLR-Xb-dVD" secondAttribute="trailing" constant="8" id="QbB-sP-Tgu"/>
-                <constraint firstItem="ez7-go-5eO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Wec-Nn-eq1"/>
+                <constraint firstItem="ez7-go-5eO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="Wec-Nn-eq1"/>
                 <constraint firstItem="8dU-OT-KB1" firstAttribute="width" secondItem="ez7-go-5eO" secondAttribute="width" multiplier="0.289157" id="X5F-ls-xN2"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="width" secondItem="ez7-go-5eO" secondAttribute="width" id="axf-qf-fGN"/>
                 <constraint firstItem="Pie-XK-PW3" firstAttribute="centerX" secondItem="aLR-Xb-dVD" secondAttribute="centerX" id="fkE-cx-RGn"/>
                 <constraint firstItem="8dU-OT-KB1" firstAttribute="trailing" secondItem="ez7-go-5eO" secondAttribute="trailing" id="hN8-Zt-XBa"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="centerY" secondItem="ez7-go-5eO" secondAttribute="centerY" id="hk2-FF-qnC"/>
                 <constraint firstItem="IHh-Of-L8w" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.25" id="muX-wR-J0K"/>
+                <constraint firstItem="Pie-XK-PW3" firstAttribute="height" secondItem="aLR-Xb-dVD" secondAttribute="height" id="nQh-8m-fST"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="centerX" secondItem="ez7-go-5eO" secondAttribute="centerX" id="sgU-fh-Wou"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="height" secondItem="ez7-go-5eO" secondAttribute="height" id="stl-0K-1eb"/>
                 <constraint firstItem="Pie-XK-PW3" firstAttribute="centerY" secondItem="aLR-Xb-dVD" secondAttribute="centerY" id="voj-Lf-hTM"/>
@@ -193,7 +194,7 @@
             <color red="0.74509803921568629" green="0.75294117647058822" blue="0.6705882352941176" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="S1">
-            <color red="0.31372549019607843" green="0.31108539507398614" blue="0.24834629631148297" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.31400001049041748" green="0.31099998950958252" blue="0.24799999594688416" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

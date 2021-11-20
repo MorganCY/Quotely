@@ -310,7 +310,7 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
         let animator = Animator(animation: animation)
-            animator.animate(cell: cell, at: indexPath, in: tableView)
+        animator.animate(cell: cell, at: indexPath, in: tableView)
     }
 }
 
