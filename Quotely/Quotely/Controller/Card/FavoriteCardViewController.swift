@@ -15,7 +15,6 @@ class FavoriteCardViewController: UIViewController {
 
     var likeCardList = [Card]() {
         didSet {
-            if likeCardList.count == 0 { setupEmptyReminder() }
             tableView.reloadData()
         }
     }
@@ -49,9 +48,9 @@ class FavoriteCardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchUserInfo()
-
         setupLoadingAnimation()
+
+        fetchFavoriteCardList()
 
         view.backgroundColor = .M3
 
@@ -71,51 +70,49 @@ class FavoriteCardViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
-    func fetchUserInfo() {
+    func fetchFavoriteCardList() {
 
-        UserManager.shared.fetchUserInfo(uid: visitorUid) { result in
+        let group = DispatchGroup()
 
-            switch result {
+        DispatchQueue.global().async {
 
-            case .success(let userInfo):
+            UserManager.shared.visitorUserInfo?.likeCardList?.forEach {
 
-                userInfo.likeCardList?.forEach({
-                    self.fetchFavoriteCard(cardID: $0)
-                })
+                group.enter()
 
-            case .failure(let error):
+                CardManager.shared.fetchSpecificCard(cardID: $0
+                ) { result in
 
-                print(error)
+                    switch result {
 
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "用戶資料載入異常")
+                    case .success(let card):
+
+                        self.likeCardList.append(card)
+
+                        group.leave()
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "片語資料載入異常")
+                        }
+
+                        group.leave()
+                    }
                 }
             }
-        }
-    }
 
-    func fetchFavoriteCard(cardID: String) {
+            group.notify(queue: DispatchQueue.main) {
 
-        CardManager.shared.fetchSpecificCard(cardID: cardID
-        ) { result in
+                if self.likeCardList.count == 0 {
 
-            switch result {
-
-            case .success(let card):
-
-                self.likeCardList.append(card)
-
-                self.loadingAnimationView.removeFromSuperview()
-
-            case .failure(let error):
-
-                print(error)
-
-                self.loadingAnimationView.removeFromSuperview()
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "片語資料載入異常")
+                    self.setupEmptyReminder()
                 }
+
+                self.loadingAnimationView.removeFromSuperview()
+                self.tableView.reloadData()
             }
         }
     }
