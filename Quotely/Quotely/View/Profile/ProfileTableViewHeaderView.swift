@@ -176,19 +176,20 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         profileImageView.cornerRadius = profileImageView.frame.width / 2
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.borderWidth = 3
-        profileImageView.borderColor = . white
+        profileImageView.borderColor = .white
         shadowView.cornerRadius = shadowView.frame.width / 2
         shadowView.dropShadow(isPath: false)
         editImageButton.cornerRadius = editImageButton.frame.width / 2
         editImageButton.borderWidth = 1
-        editImageButton.borderColor = . white
+        editImageButton.borderColor = .white
+        editImageButton.tintColor = .white
+        editNameButton.tintColor = .gray
         editImageButton.setTitle("", for: .normal)
         editNameButton.setTitle("", for: .normal)
     }
 
     func setupButtons() {
 
-        editImageButton.tintColor = .white
         blockButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
         followButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
         blockButton.backgroundColor = .white
@@ -198,7 +199,11 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
 extension ProfileTableViewHeaderView: UITextFieldDelegate {
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
 
         let currentText = textField.text ?? ""
 

@@ -58,7 +58,9 @@ enum SFSymbol: String {
     case addPost = "plus.square"
     case delete = "trash"
     case dislike = "heart.slash"
-    case cards = "bookmark.fill"
+
+    case colletionStroke = "bookmark"
+    case collection = "bookmark.fill"
     case quoteNormal = "quote.bubble"
     case quoteSelected = "quote.bubble.fill"
     case download = "icloud.and.arrow.down"
