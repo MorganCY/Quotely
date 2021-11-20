@@ -38,8 +38,8 @@ class PostDetailViewController: BaseDetailViewController {
 
         guard let profileVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
-        ) as? ProfileViewController else {
+                .instantiateViewController(withIdentifier: String(describing: BaseProfileViewController.self)
+        ) as? BaseProfileViewController else {
 
             return
         }
@@ -53,8 +53,8 @@ class PostDetailViewController: BaseDetailViewController {
 
         guard let profileVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
-        ) as? ProfileViewController else {
+                .instantiateViewController(withIdentifier: String(describing: BaseProfileViewController.self)
+        ) as? BaseProfileViewController else {
 
             return
         }

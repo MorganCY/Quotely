@@ -52,11 +52,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
         setupTableView()
 
-        if #available(iOS 15.0, *) {
-
-          tableView.sectionHeaderTopPadding = 0
-        }
-
         navigationController?.setupBackButton(color: .gray)
     }
 
@@ -121,6 +116,11 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             view.stickSubView(tableView)
 
             self.tableView = tableView
+        }
+
+        if #available(iOS 15.0, *) {
+
+          tableView.sectionHeaderTopPadding = 0
         }
 
         tableView.dataSource = self
