@@ -30,6 +30,7 @@ class JournalViewController: UIViewController {
         UIImage.sfsymbol(.fire),
         UIImage.sfsymbol(.music)
     ]
+    let emojiTitleLabel = UILabel()
     var emojiSelection = SelectionView()
     var journalTextView = ContentTextView()
     let textNumberLabel = UILabel()
@@ -303,14 +304,14 @@ extension JournalViewController {
         }
 
         dateLabel.text = "\(Date().getCurrentTime(format: .MM)).\(Date().getCurrentTime(format: .dd))"
-        dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 72.0)
+        dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 68.0)
         dailyQuoteLabel.font = UIFont(name: "Pingfang TC", size: 16.0)
         dailyQuoteLabel.numberOfLines = 0
 
         NSLayoutConstraint.activate([
             dateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -18),
             dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dailyQuoteLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 16),
+            dailyQuoteLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 12),
             dailyQuoteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             dailyQuoteLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             dailyQuoteLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
@@ -319,7 +320,7 @@ extension JournalViewController {
 
     func setupEditPanel() {
 
-        let panelObjects = [editPanel, emojiSelection, journalTextView, textNumberLabel, submitButton]
+        let panelObjects = [editPanel, emojiTitleLabel, emojiSelection, journalTextView, textNumberLabel, submitButton]
 
         panelObjects.forEach {
             view.addSubview($0)
@@ -328,6 +329,9 @@ extension JournalViewController {
 
         editPanel.backgroundColor = .white
         editPanel.cornerRadius = CornerRadius.standard.rawValue
+        emojiTitleLabel.text = "選擇一個代表心情的Emoji"
+        emojiTitleLabel.textColor = .M1
+        emojiTitleLabel.font = UIFont(name: "PingfangTC-Semibold", size: 16)
         emojiSelection.dataSource = self
         emojiSelection.delegate = self
         journalTextView.delegate = self
@@ -360,14 +364,17 @@ extension JournalViewController {
         journalTextViewCollapse.isActive = !isEditPanelExpand
 
         NSLayoutConstraint.activate([
-            editPanel.topAnchor.constraint(equalTo: dailyQuoteLabel.bottomAnchor, constant: 40),
+            editPanel.topAnchor.constraint(equalTo: dailyQuoteLabel.bottomAnchor, constant: 32),
             editPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             editPanel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
 
+            emojiTitleLabel.leadingAnchor.constraint(equalTo: editPanel.leadingAnchor, constant: 16),
+            emojiTitleLabel.topAnchor.constraint(equalTo: editPanel.topAnchor, constant: 16),
+
+            emojiSelection.leadingAnchor.constraint(equalTo: emojiTitleLabel.leadingAnchor),
             emojiSelection.widthAnchor.constraint(equalTo: editPanel.widthAnchor, multiplier: 0.9),
-            emojiSelection.topAnchor.constraint(equalTo: editPanel.topAnchor, constant: 24),
-            emojiSelection.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
-            emojiSelection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.042),
+            emojiSelection.topAnchor.constraint(equalTo: emojiTitleLabel.bottomAnchor, constant: 16),
+            emojiSelection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.045),
 
             journalTextView.topAnchor.constraint(equalTo: emojiSelection.bottomAnchor, constant: 32),
             journalTextView.widthAnchor.constraint(equalTo: editPanel.widthAnchor, multiplier: 0.9),
