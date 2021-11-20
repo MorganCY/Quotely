@@ -14,6 +14,8 @@ class MyViewController: BaseProfileViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        visitedUid = UserManager.shared.visitorUserInfo?.uid
+
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.settings),
             text: nil,
@@ -102,7 +104,10 @@ class MyViewController: BaseProfileViewController {
             fatalError("Cannot create cell")
         }
 
-        let post = visitedUserPostList[indexPath.row]
+        guard let post = visitedUserPostList?[indexPath.row] else {
+
+            return UITableViewCell()
+        }
 
         cell.layoutCell(post: post)
         cell.hideSelectionStyle()

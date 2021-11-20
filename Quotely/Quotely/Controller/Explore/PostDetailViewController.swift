@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import SwiftUI
 
 class PostDetailViewController: BaseDetailViewController {
 
@@ -38,8 +37,8 @@ class PostDetailViewController: BaseDetailViewController {
 
         guard let profileVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: BaseProfileViewController.self)
-        ) as? BaseProfileViewController else {
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
 
             return
         }
@@ -53,8 +52,16 @@ class PostDetailViewController: BaseDetailViewController {
 
         guard let profileVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: BaseProfileViewController.self)
-        ) as? BaseProfileViewController else {
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        ) as? ProfileViewController else {
+
+            return
+        }
+
+        guard let myVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
+        ) as? MyViewController else {
 
             return
         }
@@ -63,7 +70,14 @@ class PostDetailViewController: BaseDetailViewController {
 
         profileVC.visitedUid = comments[currentRow].uid
 
-        self.show(profileVC, sender: nil)
+        if comments[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
+
+            self.show(myVC, sender: nil)
+
+        } else {
+
+            self.show(profileVC, sender: nil)
+        }
     }
 
     @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {

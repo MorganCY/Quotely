@@ -10,34 +10,42 @@ import UIKit
 
 class ProfileViewController: BaseProfileViewController {
 
-    override var visitorBlockList: [String]? {
+    // the user who is visiting other's profile
+    var visitorUid: String?
+
+    var visitorBlockList: [String]? {
         didSet {
             if let visitedUid = visitedUid,
                let visitorBlockList = visitorBlockList {
-                isBlock = visitorBlockList.contains(visitedUid)
+                self.isBlock = visitorBlockList.contains(visitedUid)
             }
         }
     }
 
-    override var visitorFollowingList: [String]? {
+    var visitorFollowingList: [String]? {
         didSet {
             if let visitedUid = visitedUid,
                let visitorFollowingList = visitorFollowingList {
-                isFollow = visitorFollowingList.contains(visitedUid)
+                self.isFollow = visitorFollowingList.contains(visitedUid)
             }
         }
     }
 
-    override var isBlock: Bool {
-        didSet {
-            tableView.reloadData()
-        }
+    var isBlock = false
+
+    var isFollow = false
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        visitorUid = UserManager.shared.visitorUserInfo?.uid
     }
 
-    override var isFollow: Bool {
-        didSet {
-            fetchVisitedUserInfo(uid: visitedUid ?? "")
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
+        visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
 
     func updateUserBlock(blockAction: UserManager.BlockAction) {
@@ -64,6 +72,10 @@ class ProfileViewController: BaseProfileViewController {
             case .failure(let error):
 
                 print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料更新失敗")
+                }
             }
         }
     }
@@ -87,9 +99,15 @@ class ProfileViewController: BaseProfileViewController {
 
                 self.isFollow = followAction == .follow
 
+                self.fetchVisitedUserInfo(uid: visitedUid)
+
             case .failure(let error):
 
                 print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料更新失敗")
+                }
             }
         }
     }
@@ -105,7 +123,7 @@ class ProfileViewController: BaseProfileViewController {
 
         guard let userInfo = visitedUserInfo else {
 
-            fatalError("Cannot fetch user info")
+            return UITableViewHeaderFooterView()
         }
 
         let goToFollowListGesture = UITapGestureRecognizer(
@@ -151,6 +169,11 @@ class ProfileViewController: BaseProfileViewController {
         ) as? ProfileTableViewCell else {
 
             fatalError("Cannot create cell")
+        }
+
+        guard let visitedUserPostList = visitedUserPostList else {
+
+            return UITableViewCell()
         }
 
         let post = visitedUserPostList[indexPath.row]

@@ -123,6 +123,8 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
 
         editImageButton.isHidden = true
         editNameButton.isHidden = true
+        editNameTextField.isHidden = true
+        doneEditNameButton.isHidden = true
 
         if let profileImageUrl = userInfo.profileImageUrl {
 

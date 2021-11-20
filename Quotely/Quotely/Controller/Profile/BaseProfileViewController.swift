@@ -12,21 +12,9 @@ class BaseProfileViewController: BaseImagePickerViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    // the user who is visiting other's profile
-
-    var visitorUid: String?
-
     // the user who is visited by others
 
-    var visitedUid = SignInManager.shared.visitorUid
-
-    var visitorBlockList: [String]?
-
-    var visitorFollowingList: [String]?
-
-    var isBlock = false
-
-    var isFollow = false
+    var visitedUid: String?
 
     var visitedUserInfo: User? {
         didSet {
@@ -34,7 +22,7 @@ class BaseProfileViewController: BaseImagePickerViewController {
         }
     }
 
-    var visitedUserPostList = [Post]() {
+    var visitedUserPostList: [Post]? {
         didSet {
             tableView.reloadData()
         }
@@ -50,8 +38,6 @@ class BaseProfileViewController: BaseImagePickerViewController {
         setupTableView()
 
         navigationItem.title = "個人資訊"
-
-        visitorUid = UserManager.shared.visitorUserInfo?.uid
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -59,18 +45,7 @@ class BaseProfileViewController: BaseImagePickerViewController {
 
         fetchVisitedUserInfo(uid: visitedUid ?? "")
 
-//        if let visitedUid = visitedUid {
-//
-//            fetchVisitedUserInfo(uid: visitedUid)
-//
-//        } else {
-//
-//            Toast.showFailure(text: "資料載入異常")
-//        }
-
         listenToVisitedUserPost(uid: visitedUid ?? "")
-        visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
-        visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
 
     func setupTableView() {
@@ -89,7 +64,6 @@ class BaseProfileViewController: BaseImagePickerViewController {
           tableView.sectionHeaderTopPadding = 0
         }
 
-        tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .M3
         tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
@@ -105,6 +79,8 @@ class BaseProfileViewController: BaseImagePickerViewController {
             case .success(let userInfo):
 
                 self.visitedUserInfo = userInfo
+
+                self.tableView.dataSource = self
 
                 self.loadingAnimationView.removeFromSuperview()
 
@@ -157,14 +133,30 @@ class BaseProfileViewController: BaseImagePickerViewController {
 
 extension BaseProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { visitedUserPostList.count }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        guard let visitedUserPostList = visitedUserPostList else {
+
+            return 0
+        }
+
+        return visitedUserPostList.count
+    }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         return UITableViewHeaderFooterView()
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { UITableView.automaticDimension }
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+
+        return 400.0
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+        return UITableView.automaticDimension
+    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -184,12 +176,12 @@ extension BaseProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         let row = indexPath.row
 
-        detailVC.post = visitedUserPostList[row]
+        detailVC.post = visitedUserPostList?[row]
         detailVC.postAuthor = visitedUserInfo
 
-        if let likeUserList = visitedUserPostList[row].likeUser {
+        if let likeUserList = visitedUserPostList?[row].likeUser {
 
-            detailVC.isLike = likeUserList.contains(visitorUid ?? "")
+            detailVC.isLike = likeUserList.contains(UserManager.shared.visitorUserInfo?.uid ?? "")
         }
 
         navigationController?.pushViewController(detailVC, animated: true)
