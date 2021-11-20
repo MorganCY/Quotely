@@ -98,6 +98,13 @@ class PostDetailViewController: BaseDetailViewController {
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
 
+        guard commentTextField.text != "" else {
+
+            DispatchQueue.main.async { Toast.showFailure(text: "請輸入內容") }
+
+            return
+        }
+
         submitButton.isEnabled = false
 
         if let message = commentTextField.text {
