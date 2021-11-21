@@ -16,7 +16,11 @@ class JournalListViewController: UIViewController {
 
     var journals = [Journal]() {
         didSet {
-            if journals.count == 0 { setupEmptyReminder() }
+            if journals.count == 0 {
+                setupEmptyReminder()
+            } else {
+                emptyReminderView.removeFromSuperview()
+            }
             tableView.reloadData()
         }
     }
