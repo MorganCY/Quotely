@@ -97,7 +97,7 @@ extension Date {
 
         let month = calendar.dateComponents([.month], from: start, to: end).month ?? 0
 
-        for i in 0...month {
+        for i in 0...(month + 1) {
 
             if let date = calendar.date(byAdding: .month, value: i, to: start) {
 
