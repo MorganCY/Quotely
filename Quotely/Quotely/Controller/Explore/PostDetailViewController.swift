@@ -43,9 +43,24 @@ class PostDetailViewController: BaseDetailViewController {
             return
         }
 
+        guard let myVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
+        ) as? MyViewController else {
+
+            return
+        }
+
         profileVC.visitedUid = postAuthor?.uid
 
-        self.show(profileVC, sender: nil)
+        if postAuthor?.uid == UserManager.shared.visitorUserInfo?.uid {
+
+            navigationController?.pushViewController(myVC, animated: true)
+
+        } else {
+
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
     }
 
     @objc func goToProfileFromCell(_ gestureRecognizer: UITapGestureRecognizer) {

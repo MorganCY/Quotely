@@ -97,13 +97,20 @@ extension Date {
 
         let month = calendar.dateComponents([.month], from: start, to: end).month ?? 0
 
-        for i in 0...(month + 1) {
+        for i in 0...month {
 
             if let date = calendar.date(byAdding: .month, value: i, to: start) {
 
                 allMonths.append(Date.monthFormatter.string(from: date))
             }
         }
+
+        let currentMonth = Date.monthFormatter.string(from: Date())
+
+        if allMonths.last != currentMonth {
+            allMonths.append(currentMonth)
+        }
+
         return allMonths
     }
 }
