@@ -16,7 +16,11 @@ class JournalListViewController: UIViewController {
 
     var journals = [Journal]() {
         didSet {
-            setupEmptyAnimation()
+            if journals.count == 0 {
+                setupEmptyReminder()
+            } else {
+                emptyReminderView.removeFromSuperview()
+            }
             tableView.reloadData()
         }
     }
@@ -58,17 +62,19 @@ class JournalListViewController: UIViewController {
         }
     }
 
-    let emptyAnimationView = UIView()
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
+    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchUserInfo(visitorUid: visitorUid)
+        userRegisterDate = Date.init(milliseconds: UserManager.shared.visitorUserInfo?.registerTime ?? 0)
 
         navigationController?.setupBackButton(color: .white)
         tabBarController?.tabBar.isHidden = true
         backgroundImageView.image = UIImage.asset(.bg4)
         backgroundImageView.alpha = 0.8
+        setupLoadingAnimation()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -83,38 +89,31 @@ class JournalListViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
-    func fetchUserInfo(visitorUid: String) {
-
-        UserManager.shared.fetchUserInfo(
-            uid: visitorUid) { result in
-
-                switch result {
-
-                case .success(let user):
-
-                    self.userRegisterDate = Date.init(milliseconds: user.registerTime ?? 0)
-
-                case . failure(let error):
-
-                    print(error)
-                }
-            }
-    }
-
     func fetchJournals(visitorUid: String) {
 
         JournalManager.shared.fetchJournal(
             uid: visitorUid,
-            month: selectedMonth,
-            year: selectedYear) { result in
+            month: self.selectedMonth,
+            year: self.selectedYear
+        ) { result in
 
             switch result {
 
             case .success(let journals):
+
                 self.journals = journals
 
+                self.loadingAnimationView.removeFromSuperview()
+
             case .failure(let error):
+
                 print(error)
+
+                self.loadingAnimationView.removeFromSuperview()
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }
@@ -248,7 +247,7 @@ extension JournalListViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
 
-        return CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.15)
+        return CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.12)
     }
 
 }
@@ -338,49 +337,40 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension JournalListViewController {
 
-    func setupEmptyAnimation() {
+    func setupLoadingAnimation() {
 
-        let titleLabel = UILabel()
-        let animationView = LottieAnimationView(animationName: "empty")
-        let okButton = UIButton()
-
-        let views = [titleLabel, animationView, okButton]
-        views.forEach {
-            emptyAnimationView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-
-        view.addSubview(emptyAnimationView)
-        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
-
-        emptyAnimationView.isHidden = !(journals.count == 0)
-        titleLabel.text = "還沒有任何隻字，快去新增一則吧！"
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
-        okButton.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
-        okButton.backgroundColor = .white
-        okButton.setTitleColor(.black, for: .normal)
-        okButton.setTitle("好喔", for: .normal)
-        okButton.addTarget(self, action: #selector(backToJournalPage(_:)), for: .touchUpInside)
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            emptyAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
-            emptyAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            emptyAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            animationView.heightAnchor.constraint(equalTo: emptyAnimationView.heightAnchor, multiplier: 0.9),
-            animationView.widthAnchor.constraint(equalTo: emptyAnimationView.widthAnchor, multiplier: 0.9),
-            animationView.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
-            animationView.centerYAnchor.constraint(equalTo: emptyAnimationView.centerYAnchor),
-            titleLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: -24),
-            titleLabel.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
-            okButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            okButton.centerXAnchor.constraint(equalTo: emptyAnimationView.centerXAnchor),
-            okButton.widthAnchor.constraint(equalTo: emptyAnimationView.widthAnchor, multiplier: 0.5)
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 
-    @objc func backToJournalPage(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+    func setupEmptyReminder() {
+
+        let titleLabel = UILabel()
+
+        emptyReminderView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(emptyReminderView)
+        emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
+
+        titleLabel.text = "還沒有任何隻字，快回首頁新增一則吧！"
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
+
+        NSLayoutConstraint.activate([
+            emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: emptyReminderView.bottomAnchor, constant: -24),
+            titleLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
+        ])
     }
 }

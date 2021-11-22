@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
+import SwiftUI
 
 class ExploreViewController: UIViewController {
 
@@ -38,7 +39,8 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    let emptyReminderView = UIView()
+    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -84,6 +86,8 @@ class ExploreViewController: UIViewController {
         )
 
         setupFilterView()
+
+        setupLoadingAnimation()
 
         view.backgroundColor = .M1
 
@@ -134,6 +138,12 @@ class ExploreViewController: UIViewController {
             case .failure(let error):
 
                 print(error)
+
+                self.loadingAnimationView.removeFromSuperview()
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
             }
         }
     }
@@ -164,6 +174,10 @@ class ExploreViewController: UIViewController {
 
                         print(error)
 
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "資料載入異常")
+                        }
+
                         group.leave()
                     }
                 }
@@ -172,6 +186,8 @@ class ExploreViewController: UIViewController {
             group.notify(queue: DispatchQueue.main) {
 
                 self.userList = userList
+
+                self.loadingAnimationView.removeFromSuperview()
             }
         }
     }
@@ -204,11 +220,26 @@ class ExploreViewController: UIViewController {
             return
         }
 
+        guard let myVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
+        ) as? MyViewController else {
+
+            return
+        }
+
         guard let currentRow = gestureRecognizer.view?.tag else { return }
 
         profileVC.visitedUid = postList[currentRow].uid
 
-        navigationController?.pushViewController(profileVC, animated: true)
+        if postList[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
+
+            navigationController?.pushViewController(myVC, animated: true)
+
+        } else {
+
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
     }
 
     @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -253,6 +284,67 @@ class ExploreViewController: UIViewController {
         detailVC.isLike = isLikePost
 
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+
+    func openOptionMenu(index: Int) {
+
+        let blockUserAction = UIAlertAction(
+            title: "檢舉並封鎖用戶",
+            style: .destructive
+        ) { _ in
+
+            if self.currentFilter == .following {
+
+                self.unfollowUser(index: index)
+            }
+
+            UserManager.shared.updateUserBlockList(
+                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+                visitedUid: self.userList[index]?.uid ?? "",
+                blockAction: .block
+            ) { result in
+
+                switch result {
+
+                case .success(let success):
+
+                    print(success)
+
+                    self.listener = self.addPostListener(type: self.currentFilter, uid: nil, followingList: nil)
+
+                case .failure(let error):
+
+                    print(error)
+
+                    Toast.showFailure(text: "封鎖失敗")
+                }
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+
+        let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        optionAlert.addAction(blockUserAction)
+        optionAlert.addAction(cancelAction)
+
+        present(optionAlert, animated: true)
+    }
+
+    func unfollowUser(index: Int) {
+        UserManager.shared.updateUserFollow(
+            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+            visitedUid: self.userList[index]?.uid ?? "",
+            followAction: .unfollow
+        ) { result in
+
+            switch result {
+
+            case . success(let success): print(success)
+
+            case .failure(let error): print(error)
+            }
+        }
     }
 }
 
@@ -371,6 +463,10 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.commentHandler = { self.goToPostDetail(index: indexPath.row) }
 
+        cell.optionHandler = {
+            self.openOptionMenu(index: indexPath.row)
+        }
+
         // go to user's profile when tapping image, name, and time
 
         let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
@@ -416,17 +512,27 @@ extension ExploreViewController {
         ])
     }
 
+    func setupLoadingAnimation() {
+
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
     func setupEmptyAnimation() {
 
-        let emptyAnimationView = LottieAnimationView(animationName: "empty")
         let reminderLabel = UILabel()
 
         view.addSubview(emptyReminderView)
         view.bringSubviewToFront(emptyReminderView)
         emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
-        emptyReminderView.addSubview(emptyAnimationView)
         emptyReminderView.addSubview(reminderLabel)
-        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
         reminderLabel.translatesAutoresizingMaskIntoConstraints = false
 
         reminderLabel.text = "還沒有追蹤的用戶...QQ"
@@ -436,15 +542,10 @@ extension ExploreViewController {
         NSLayoutConstraint.activate([
             emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
 
-            emptyAnimationView.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor),
-            emptyAnimationView.centerYAnchor.constraint(equalTo: emptyReminderView.centerYAnchor),
-            emptyAnimationView.heightAnchor.constraint(equalTo: emptyReminderView.heightAnchor, multiplier: 0.8),
-            emptyAnimationView.widthAnchor.constraint(equalTo: emptyReminderView.widthAnchor),
-
-            reminderLabel.topAnchor.constraint(equalTo: emptyAnimationView.bottomAnchor),
+            reminderLabel.topAnchor.constraint(equalTo: emptyReminderView.bottomAnchor),
             reminderLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
         ])
     }

@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 extension UIApplication {
-    static func isFirstLaunch() -> Bool {
-        if !UserDefaults.standard.bool(forKey: "HasLaunched") {
-            UserDefaults.standard.set(true, forKey: "HasLaunched")
+    static func isFirstLaunch(forKey: String) -> Bool {
+        if !UserDefaults.standard.bool(forKey: forKey) {
+            UserDefaults.standard.set(true, forKey: forKey)
             UserDefaults.standard.synchronize()
             return true
         }

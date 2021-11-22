@@ -337,7 +337,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             print(error)
 
-                            DispatchQueue.main.async { Toast.showFailure(text: "建立想法失敗") }
+                            DispatchQueue.main.async { Toast.showFailure(text: "新增想法失敗") }
                         }
                     }
 
@@ -417,7 +417,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     print(error)
 
-                    DispatchQueue.main.async { Toast.showFailure(text: "建立想法失敗") }
+                    DispatchQueue.main.async { Toast.showFailure(text: "新增想法失敗") }
                 }
             }
         }
@@ -503,8 +503,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 
-        self.hasPostImage = true
-
         switch isRecognizedTextButtonTapped {
 
         // user is using text recognition
@@ -514,7 +512,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
             picker.dismiss(animated: true)
 
             guard let selectedImage = info[.editedImage] as? UIImage else {
-
                 return
             }
 
@@ -533,6 +530,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             self.uploadedImage = selectedImage
 
+            self.hasPostImage = true
+
             DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
             picker.dismiss(animated: true)
@@ -544,11 +543,11 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         picker.dismiss(animated: true)
 
-        self.hasPostImage = true
-
-        guard !results.isEmpty else { return }
-
         DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
+
+        guard !results.isEmpty else {
+            return
+        }
 
         switch isRecognizedTextButtonTapped {
 
@@ -566,7 +565,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                         self.recognizedImage = image
 
-                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+                        Toast.shared.hud.dismiss()
                     }
                 })
             }
@@ -593,6 +592,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
                         }
 
                         self.uploadedImage = selectedImage
+
+                        self.hasPostImage = true
 
                         DispatchQueue.main.async { Toast.shared.hud.dismiss() }
                     }

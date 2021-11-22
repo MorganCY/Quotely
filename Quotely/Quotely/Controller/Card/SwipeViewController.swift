@@ -27,7 +27,7 @@ class SwipeViewController: UIViewController {
         labelTitle: "分享",
         labelColor: .gray
     )
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.heartNormal), color: .white)
+    let likeButton = ImageButton(image: UIImage.sfsymbol(.colletionStroke), color: .white)
     let writeButton = ImageButton(
         image: UIImage.sfsymbol(.writeCardPost),
         color: .white,
@@ -57,10 +57,12 @@ class SwipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .BG
+
         navigationItem.title = "片語"
 
         navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.cards),
+            image: UIImage.sfsymbol(.collection),
             text: nil,
             target: self,
             action: #selector(goToFavoritePage(_:)),
@@ -71,12 +73,14 @@ class SwipeViewController: UIViewController {
         setupCardView()
         setupButtons()
         setupResetButton()
-
-        if UIApplication.isFirstLaunch() { setupEducationView() }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        if UIApplication.isFirstLaunch(forKey: "HasLaunchedSwipeVC") {
+            setupEducationView()
+        }
 
         resetBackgroundView.cornerRadius = resetBackgroundView.frame.width / 2
         resetButton.cornerRadius = resetButton.frame.width / 2
@@ -125,7 +129,7 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchRandomCards(limitNumber: 3) { result in
+            CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
                 switch result {
 
                 case .success(let cards):
@@ -134,12 +138,18 @@ class SwipeViewController: UIViewController {
                     self.cardStack.dataSource = self
                     self.cardStack.delegate = self
 
+                    group.leave()
+
                 case .failure(let error):
 
                     print(error)
-                }
 
-                group.leave()
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "片語資料載入異常")
+                    }
+
+                    group.leave()
+                }
             }
 
             group.notify(queue: DispatchQueue.main, execute: {
@@ -274,7 +284,7 @@ class SwipeViewController: UIViewController {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.isEnabled = false
-            $0.backgroundColor = .M2
+            $0.backgroundColor = .M1.withAlphaComponent(0.8)
             $0.cornerRadius = CornerRadius.standard.rawValue
         }
 
@@ -293,12 +303,12 @@ class SwipeViewController: UIViewController {
             likeButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
             shareButton.topAnchor.constraint(equalTo: likeButton.topAnchor),
-            shareButton.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -16),
+            shareButton.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -24),
             shareButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
             shareButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
             writeButton.topAnchor.constraint(equalTo: likeButton.topAnchor),
-            writeButton.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 16),
+            writeButton.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 24),
             writeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
             writeButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
 
@@ -315,7 +325,7 @@ class SwipeViewController: UIViewController {
         resetButton.isHidden = !isLastCardSwiped
 
         resetBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        resetBackgroundView.backgroundColor = .M2
+        resetBackgroundView.backgroundColor = .M1
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         resetButton.addTarget(self, action: #selector(resetCards(_:)), for: .touchUpInside)
         resetButton.backgroundColor = .white
@@ -326,7 +336,10 @@ class SwipeViewController: UIViewController {
         resetBackgroundViewHeightHidden.isActive = !isLastCardSwiped
 
         resetBackgroundViewWidth = resetBackgroundView.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2)
-        resetBackgroundViewHeight = resetBackgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2)
+        resetBackgroundViewHeight = resetBackgroundView.heightAnchor.constraint(
+            equalTo: view.heightAnchor,
+            multiplier: 2
+        )
         resetBackgroundViewWidth.isActive = isLastCardSwiped
         resetBackgroundViewHeight.isActive = isLastCardSwiped
 

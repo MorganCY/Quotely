@@ -44,7 +44,7 @@ class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        logoImageView.fadeIn()
+        logoImageView.fadeInAnimation(duration: 2.0)
     }
 
     func performSignOut() {

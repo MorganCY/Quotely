@@ -21,7 +21,10 @@ class CardWriteViewController: BaseWriteViewController {
 
     override var uploadedImage: UIImage? {
         didSet {
-            cardTopicView.layoutIfNeeded()
+            DispatchQueue.main.async {
+                self.cardTopicView.dataSource = self
+//                self.cardTopicView.layoutIfNeeded()
+            }
         }
     }
 
@@ -34,7 +37,10 @@ class CardWriteViewController: BaseWriteViewController {
     override var card: Card? {
         didSet {
             guard let card = card else { return }
-            cardTopicView = CardTopicView(content: card.content.replacingOccurrences(of: "\\n", with: "\n"), author: card.author)
+            cardTopicView = CardTopicView(
+                content: card.content.replacingOccurrences(of: "\\n", with: "\n"),
+                author: card.author
+            )
         }
     }
 

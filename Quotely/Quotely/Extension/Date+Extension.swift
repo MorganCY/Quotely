@@ -104,6 +104,13 @@ extension Date {
                 allMonths.append(Date.monthFormatter.string(from: date))
             }
         }
+
+        let currentMonth = Date.monthFormatter.string(from: Date())
+
+        if allMonths.last != currentMonth {
+            allMonths.append(currentMonth)
+        }
+
         return allMonths
     }
 }

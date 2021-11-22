@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		162163FFB6518EC3632F3366 /* Pods_Quotely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05474F971FBF3D667593F52F /* Pods_Quotely.framework */; };
+		5C00B1632746AB5900F3138F /* arrow.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C00B1622746AB5900F3138F /* arrow.json */; };
 		5C150F732737FE510093A59C /* empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C150F722737FE510093A59C /* empty.json */; };
 		5C19204A27369591008B9F0D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C19204927369591008B9F0D /* SettingsViewController.swift */; };
 		5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */; };
@@ -63,9 +64,11 @@
 		5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */; };
 		5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */; };
 		5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */; };
-		5C5C4A722742523F00B77631 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C4A712742523E00B77631 /* ProfileViewController.swift */; };
+		5C5C4A722742523F00B77631 /* BaseProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */; };
 		5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */; };
 		5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E627300E3B00B71DA8 /* Share.storyboard */; };
+		5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0E82748D08800476567 /* MyViewController.swift */; };
+		5C7AF0EB2748D24300476567 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0EA2748D24300476567 /* ProfileViewController.swift */; };
 		5C7B6395272A798700E18B96 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6394272A798700E18B96 /* UserManager.swift */; };
 		5C7B6397272A799000E18B96 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6396272A799000E18B96 /* User.swift */; };
 		5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */; };
@@ -107,6 +110,7 @@
 		5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D6272F7BD50026864C /* nothingFound.json */; };
 		5CEE4B4B273A02B000CE7DE1 /* BaseWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */; };
 		5CEE4B4D273A149700CE7DE1 /* CardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */; };
+		5CF00F3A2744D0FA00EF229A /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF00F392744D0FA00EF229A /* EULAViewController.swift */; };
 		5CF36A142732C3B000F6B3BD /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */; };
 		5CF36A172732C3E400F6B3BD /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */; };
 		5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */; };
@@ -117,6 +121,7 @@
 		05474F971FBF3D667593F52F /* Pods_Quotely.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quotely.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763E90984B855FC8226C461 /* Pods-Quotely.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.debug.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.debug.xcconfig"; sourceTree = "<group>"; };
 		4D42660FC57C60DE17A5B7D4 /* Pods-Quotely.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.release.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.release.xcconfig"; sourceTree = "<group>"; };
+		5C00B1622746AB5900F3138F /* arrow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = arrow.json; sourceTree = "<group>"; };
 		5C150F722737FE510093A59C /* empty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = empty.json; sourceTree = "<group>"; };
 		5C19204927369591008B9F0D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsTableViewCell.xib; sourceTree = "<group>"; };
@@ -175,9 +180,11 @@
 		5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreTableViewCell.xib; sourceTree = "<group>"; };
 		5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseImagePickerViewController.swift; sourceTree = "<group>"; };
-		5C5C4A712742523E00B77631 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseProfileViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
+		5C7AF0E82748D08800476567 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
+		5C7AF0EA2748D24300476567 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5C7B6394272A798700E18B96 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		5C7B6396272A799000E18B96 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5C7B6399272A84F000E18B96 /* FavoriteCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCardTableViewCell.swift; sourceTree = "<group>"; };
@@ -219,6 +226,7 @@
 		5CE8F1D6272F7BD50026864C /* nothingFound.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nothingFound.json; sourceTree = "<group>"; };
 		5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWriteViewController.swift; sourceTree = "<group>"; };
 		5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWriteViewController.swift; sourceTree = "<group>"; };
+		5CF00F392744D0FA00EF229A /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewHeaderView.xib; sourceTree = "<group>"; };
@@ -342,6 +350,7 @@
 		5C2C7310271D17B800F8B9EC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5C5186C7273233E4007C5221 /* Auth.storyboard */,
 				5C46F25F273CAC40007E951D /* Post */,
 				5C46F25D273CABFC007E951D /* SwipeCard */,
 				5C46F25E273CAC11007E951D /* Button */,
@@ -352,7 +361,6 @@
 				5C582106271D79B5002E21C9 /* Explore */,
 				5CF36A152732C3BC00F6B3BD /* Profile */,
 				5C6CC7E327300CF800B71DA8 /* Share */,
-				5C5186C7273233E4007C5221 /* Auth.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -452,6 +460,7 @@
 			children = (
 				5C54F4D72732338500E62DBF /* AuthViewController.swift */,
 				5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */,
+				5CF00F392744D0FA00EF229A /* EULAViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -499,6 +508,7 @@
 		5C8C0E93272436380054480A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				5C00B1622746AB5900F3138F /* arrow.json */,
 				5C19C7A9273E676800DDA159 /* whiteLoading.json */,
 				5C19C7A7273E4A7E00DDA159 /* greenLoading.json */,
 				5C150F722737FE510093A59C /* empty.json */,
@@ -546,7 +556,9 @@
 				5C19204927369591008B9F0D /* SettingsViewController.swift */,
 				5C8748FD273CC201007471F6 /* BlockListViewController.swift */,
 				5C4983E12740E743008B721F /* FollowListViewController.swift */,
-				5C5C4A712742523E00B77631 /* ProfileViewController.swift */,
+				5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */,
+				5C7AF0E82748D08800476567 /* MyViewController.swift */,
+				5C7AF0EA2748D24300476567 /* ProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -589,6 +601,7 @@
 				5C2C72F3271D12E100F8B9EC /* Resources */,
 				5C2C730D271D16AF00F8B9EC /* ShellScript */,
 				CF8FDF50BC0AEDD1ED86B0E5 /* [CP] Embed Pods Frameworks */,
+				5CF00F3B2744D71400EF229A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -648,6 +661,7 @@
 				5C2846F32729250900393562 /* JournalListCollectionViewCell.xib in Resources */,
 				5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */,
 				5C2846ED2728F4E500393562 /* JournalListTableViewCell.xib in Resources */,
+				5C00B1632746AB5900F3138F /* arrow.json in Resources */,
 				5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */,
 				5CE8F1D5272F79210026864C /* ball.json in Resources */,
 				5C874902273CC2C5007471F6 /* BlockListTableViewCell.xib in Resources */,
@@ -711,6 +725,25 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
+		5CF00F3B2744D71400EF229A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		CF8FDF50BC0AEDD1ED86B0E5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -736,6 +769,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */,
+				5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */,
 				5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */,
 				5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */,
 				5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */,
@@ -765,6 +799,7 @@
 				5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */,
 				5C2846EF2728F4F500393562 /* JournalListTableViewCell.swift in Sources */,
 				5C2C72F9271D12E100F8B9EC /* AppDelegate.swift in Sources */,
+				5CF00F3A2744D0FA00EF229A /* EULAViewController.swift in Sources */,
 				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
 				5C4983E22740E743008B721F /* FollowListViewController.swift in Sources */,
@@ -772,6 +807,7 @@
 				5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */,
 				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,
 				5CC40AE4272E94C300DF51D9 /* UINavigationItem+Extension.swift in Sources */,
+				5C7AF0EB2748D24300476567 /* ProfileViewController.swift in Sources */,
 				5C4B9697271FBF4C008B21C7 /* PostCommentManager.swift in Sources */,
 				5C2846E02727EEB400393562 /* ContentTextView.swift in Sources */,
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,
@@ -806,7 +842,7 @@
 				5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */,
 				5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */,
 				5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */,
-				5C5C4A722742523F00B77631 /* ProfileViewController.swift in Sources */,
+				5C5C4A722742523F00B77631 /* BaseProfileViewController.swift in Sources */,
 				5C8748FE273CC201007471F6 /* BlockListViewController.swift in Sources */,
 				5C8C0E92272426550054480A /* SwipeCardView.swift in Sources */,
 			);
@@ -959,6 +995,7 @@
 				CODE_SIGN_ENTITLEMENTS = Quotely/Quotely.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = D68W2FWD7S;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -978,7 +1015,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.Quotely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1014,7 +1051,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.Quotely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

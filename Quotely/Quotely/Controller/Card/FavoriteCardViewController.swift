@@ -29,6 +29,9 @@ class FavoriteCardViewController: UIViewController {
 
     var passedContentText = ""
 
+    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -45,7 +48,9 @@ class FavoriteCardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchUserInfo()
+        setupLoadingAnimation()
+
+        fetchFavoriteCardList()
 
         view.backgroundColor = .M3
 
@@ -65,33 +70,49 @@ class FavoriteCardViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
-    func fetchUserInfo() {
+    func fetchFavoriteCardList() {
 
-        UserManager.shared.fetchUserInfo(uid: visitorUid) { result in
+        let group = DispatchGroup()
 
-            switch result {
+        DispatchQueue.global().async {
 
-            case .success(let userInfo):
-                userInfo.likeCardList?.forEach({
-                    self.fetchFavoriteCard(cardID: $0)
-                })
+            UserManager.shared.visitorUserInfo?.likeCardList?.forEach {
 
-            case .failure(let error):
-                print(error)
+                group.enter()
+
+                CardManager.shared.fetchSpecificCard(cardID: $0
+                ) { result in
+
+                    switch result {
+
+                    case .success(let card):
+
+                        self.likeCardList.append(card)
+
+                        group.leave()
+
+                    case .failure(let error):
+
+                        print(error)
+
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "片語資料載入異常")
+                        }
+
+                        group.leave()
+                    }
+                }
             }
-        }
-    }
 
-    func fetchFavoriteCard(cardID: String) {
-        CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
+            group.notify(queue: DispatchQueue.main) {
 
-            switch result {
+                if self.likeCardList.count == 0 {
 
-            case .success(let card):
-                self.likeCardList.append(card)
+                    self.setupEmptyReminder()
+                }
 
-            case .failure(let error):
-                print(error)
+                self.loadingAnimationView.removeFromSuperview()
+                self.tableView.reloadData()
             }
         }
     }
@@ -109,14 +130,21 @@ class FavoriteCardViewController: UIViewController {
                 switch result {
 
                 case .success(let success):
+
                     print(success)
+
                     self.updateCard(
                         cardID: card.cardID ?? ""
                     )
                     self.likeCardList.remove(at: index)
 
                 case .failure(let error):
+
                     print(error)
+
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "片語資料載入異常")
+                    }
                 }
             }
     }
@@ -279,6 +307,46 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
         let animator = Animator(animation: animation)
-            animator.animate(cell: cell, at: indexPath, in: tableView)
+        animator.animate(cell: cell, at: indexPath, in: tableView)
+    }
+}
+
+extension FavoriteCardViewController {
+
+    func setupLoadingAnimation() {
+
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    func setupEmptyReminder() {
+
+        let titleLabel = UILabel()
+
+        emptyReminderView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(emptyReminderView)
+        emptyReminderView.translatesAutoresizingMaskIntoConstraints = false
+
+        titleLabel.text = "還沒有收藏卡片，快去滑幾張吧！"
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
+
+        NSLayoutConstraint.activate([
+            emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+            emptyReminderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyReminderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: emptyReminderView.bottomAnchor, constant: -24),
+            titleLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
+        ])
     }
 }

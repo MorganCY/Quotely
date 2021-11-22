@@ -25,6 +25,7 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var likeNumberLabel: UILabel!
     @IBOutlet weak var commentNumberLabel: UILabel!
+    @IBOutlet weak var optionMenuButton: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,9 +44,13 @@ class ExploreTableViewCell: UITableViewCell {
 
     var likeHandler: () -> Void = {}
     var commentHandler: () -> Void = {}
+    var optionHandler: () -> Void = {}
 
     @IBAction func tapLikeButton(_ sender: Any) { likeHandler() }
     @IBAction func tapCommentButton(_ sender: Any) { commentHandler() }
+    @IBAction func tapOptionButton(_ sender: Any) {
+        optionHandler()
+    }
 
     func layoutCell(
         userInfo: User,
@@ -105,6 +110,15 @@ class ExploreTableViewCell: UITableViewCell {
         if let editTime = post.editTime {
 
             timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
+        }
+
+        if userInfo.uid == UserManager.shared.visitorUserInfo?.uid {
+
+            optionMenuButton.isHidden = true
+
+        } else {
+
+            optionMenuButton.isHidden = false
         }
     }
 }

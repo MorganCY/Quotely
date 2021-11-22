@@ -12,8 +12,6 @@ import AuthenticationServices
 class AuthViewController: UIViewController {
 
     let logoImageView = UIImageView()
-    let claimerLabel = UILabel()
-    let privacyPolicyButton = UIButton()
     let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
     let claimerStackView = UIStackView()
     var authViews: [UIView] {
@@ -30,11 +28,15 @@ class AuthViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        authViews.forEach { $0.fadeIn() }
+        authViews.forEach { $0.fadeInAnimation(duration: 2.0) }
     }
 
     func configureAuthVC() {
-        let claimerViews = [claimerLabel, privacyPolicyButton]
+        let claimerLabel = UILabel()
+        let privacyPolicyButton = UIButton()
+        let andLabel = UILabel()
+        let eulaButton = UIButton()
+        let claimerViews = [claimerLabel, privacyPolicyButton, andLabel, eulaButton]
         view.addSubview(claimerStackView)
         claimerStackView.translatesAutoresizingMaskIntoConstraints = false
         claimerViews.forEach {
@@ -52,14 +54,27 @@ class AuthViewController: UIViewController {
         }
 
         logoImageView.image = UIImage.asset(.logoWithText)
+
+        let labels = [claimerLabel, andLabel]
+        let buttons = [privacyPolicyButton, eulaButton]
+
+        labels.forEach {
+            $0.textColor = .gray
+            $0.font = UIFont(name: "PingfangTC-Regular", size: 12)
+        }
+
+        buttons.forEach {
+            $0.setTitleColor(.M1, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "PingfangTC-Semibold", size: 12)
+        }
+
         claimerLabel.text = "點擊下方按鈕登入代表您同意"
+        andLabel.text = "與"
         privacyPolicyButton.setTitle("隱私權政策", for: .normal)
-        claimerLabel.textColor = .gray
-        privacyPolicyButton.setTitleColor(.M1, for: .normal)
-        claimerLabel.font = UIFont(name: "PingfangTC-Regular", size: 12)
-        privacyPolicyButton.titleLabel?.font = UIFont(name: "PingfangTC-Semibold", size: 12)
-        signInButton.addTarget(self, action: #selector(handleSignInWithAppleTapped(_:)), for: .touchUpInside)
-        privacyPolicyButton.addTarget(self, action: #selector(handlePrivacyPolicyTapped(_:)), for: .touchUpInside)
+        eulaButton.setTitle("Apple標準許可協議", for: .normal)
+        privacyPolicyButton.addTarget(self, action: #selector(tapPrivacyPolicyButton(_:)), for: .touchUpInside)
+        eulaButton.addTarget(self, action: #selector(tapEulaButton(_:)), for: .touchUpInside)
+        signInButton.addTarget(self, action: #selector(tapSignInWithAppleButton(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
 
@@ -80,11 +95,11 @@ class AuthViewController: UIViewController {
         ])
     }
 
-    @objc func handleSignInWithAppleTapped(_ sender: ASAuthorizationAppleIDButton) {
+    @objc func tapSignInWithAppleButton(_ sender: ASAuthorizationAppleIDButton) {
         SignInManager.shared.performSignIn()
     }
 
-    @objc func handlePrivacyPolicyTapped(_ sender: UIButton) {
+    @objc func tapPrivacyPolicyButton(_ sender: UIButton) {
         guard let policyVC =
                 UIStoryboard.auth
                 .instantiateViewController(
@@ -95,6 +110,22 @@ class AuthViewController: UIViewController {
                 }
 
         let navigationVC = BaseNavigationController(rootViewController: policyVC)
+
+        present(navigationVC, animated: true)
+    }
+
+    @objc func tapEulaButton(_ sender: UIButton) {
+
+        guard let eulaVC =
+                UIStoryboard.auth
+                .instantiateViewController(
+                    withIdentifier: String(describing: EULAViewController.self)
+                ) as? EULAViewController else {
+
+                    return
+                }
+
+        let navigationVC = BaseNavigationController(rootViewController: eulaVC)
 
         present(navigationVC, animated: true)
     }

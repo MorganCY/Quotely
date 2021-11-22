@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import SwiftUI
 
 class PostDetailViewController: BaseDetailViewController {
 
@@ -44,9 +43,24 @@ class PostDetailViewController: BaseDetailViewController {
             return
         }
 
+        guard let myVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
+        ) as? MyViewController else {
+
+            return
+        }
+
         profileVC.visitedUid = postAuthor?.uid
 
-        self.show(profileVC, sender: nil)
+        if postAuthor?.uid == UserManager.shared.visitorUserInfo?.uid {
+
+            navigationController?.pushViewController(myVC, animated: true)
+
+        } else {
+
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
     }
 
     @objc func goToProfileFromCell(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -59,11 +73,26 @@ class PostDetailViewController: BaseDetailViewController {
             return
         }
 
+        guard let myVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
+        ) as? MyViewController else {
+
+            return
+        }
+
         guard let currentRow = gestureRecognizer.view?.tag else { return }
 
         profileVC.visitedUid = comments[currentRow].uid
 
-        self.show(profileVC, sender: nil)
+        if comments[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
+
+            self.show(myVC, sender: nil)
+
+        } else {
+
+            self.show(profileVC, sender: nil)
+        }
     }
 
     @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -83,6 +112,15 @@ class PostDetailViewController: BaseDetailViewController {
 
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
+
+        guard commentTextField.text != "" else {
+
+            DispatchQueue.main.async { Toast.showFailure(text: "請輸入內容") }
+
+            return
+        }
+
+        submitButton.isEnabled = false
 
         if let message = commentTextField.text {
 
@@ -114,25 +152,45 @@ class PostDetailViewController: BaseDetailViewController {
 
                             switch result {
 
-                            case .success(let success): print(success)
+                            case .success(let success):
 
-                            case .failure(let error): print(error)
+                                print(success)
+
+                                self.submitButton.isEnabled = true
+
+                            case .failure(let error):
+
+                                print(error)
+
+                                DispatchQueue.main.async {
+                                    Toast.showFailure(text: "新增評論失敗")
+                                }
+
+                                self.submitButton.isEnabled = true
                             }
                         }
 
                     self.fetchComments(type: .post)
 
-                case .failure(let error): print(error)
+                case .failure(let error):
+
+                    print(error)
+
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "新增評論失敗")
+                    }
+
+                    self.submitButton.isEnabled = true
                 }
             }
 
         } else {
 
-            self.present(
-                UIAlertController(
-                    title: "請輸入內容", message: nil, preferredStyle: .alert
-                ), animated: true
-            )
+            DispatchQueue.main.async {
+                Toast.showFailure(text: "請輸入內容")
+            }
+
+            submitButton.isEnabled = true
         }
     }
 
@@ -142,9 +200,17 @@ class PostDetailViewController: BaseDetailViewController {
 
             switch result {
 
-            case .success(let success): print(success)
+            case .success(let success):
 
-            case .failure(let error): print(error)
+                print(success)
+
+            case .failure(let error):
+
+                print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "刪除圖片失敗")
+                }
             }
         }
     }
@@ -161,7 +227,9 @@ class PostDetailViewController: BaseDetailViewController {
 
                 self.navigationController?.popViewController(animated: true)
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+
+                print(error)
             }
         }
     }
@@ -176,11 +244,15 @@ class PostDetailViewController: BaseDetailViewController {
 
             switch result {
 
-            case .success(let success): print(success)
+            case .success(let success):
+
+                print(success)
 
                 self.deletePostFromCard(postID: postID)
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+
+                print(error)
             }
         }
     }
@@ -243,6 +315,10 @@ class PostDetailViewController: BaseDetailViewController {
                 case .failure(let error):
 
                     print(error)
+
+                    DispatchQueue.main.async {
+                        Toast.showFailure(text: "資料載入失敗")
+                    }
 
                     header.likeButton.isEnabled = true
                 }
@@ -308,7 +384,9 @@ class PostDetailViewController: BaseDetailViewController {
 
                         self.navigationController?.present(navigationVC, animated: true)
 
-                    case .failure(let error): print(error)
+                    case .failure(let error):
+
+                        print(error)
                     }
                 }
 
@@ -345,7 +423,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                         print(error)
 
-                        Toast.showFailure(text: "刪除失敗")
+                        DispatchQueue.main.async { Toast.showFailure(text: "刪除失敗") }
                     }
                 }
             }
@@ -356,6 +434,14 @@ class PostDetailViewController: BaseDetailViewController {
             alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
         }
+
+            header.optionHandler = {
+
+                self.openOptionMenu(blockedUid: self.post?.uid ?? "", index: nil) {
+
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
 
         // go to user's profile when tapping image, name, and time
 
@@ -386,27 +472,18 @@ class PostDetailViewController: BaseDetailViewController {
         }
 
         let comment = comments[indexPath.row]
+        let commentUser = commentUser[indexPath.row]
 
         var isCommentAuthor = false
 
         isCommentAuthor = comment.uid == visitorUid
 
-        UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
-
-            switch result {
-
-            case .success(let user):
-                cell.layoutCell(
-                    comment: comment,
-                    userImageUrl: user.profileImageUrl,
-                    userName: user.name ?? "",
-                    isAuthor: isCommentAuthor
-                )
-
-            case .failure(let error):
-                print(error)
-            }
-        }
+        cell.layoutCell(
+            comment: comment,
+            userImageUrl: commentUser.profileImageUrl,
+            userName: commentUser.name,
+            isAuthor: isCommentAuthor
+        )
 
         cell.hideSelectionStyle()
 
@@ -430,6 +507,8 @@ class PostDetailViewController: BaseDetailViewController {
                     case .failure(let error):
 
                         print(error)
+
+                        DispatchQueue.main.async { Toast.showFailure(text: "編輯評論失敗") }
                     }
                 }
             }
@@ -472,6 +551,8 @@ class PostDetailViewController: BaseDetailViewController {
                     case .failure(let error):
 
                         print(error)
+
+                        DispatchQueue.main.async { Toast.showFailure(text: "刪除評論失敗") }
                     }
                 }
             }
@@ -481,6 +562,11 @@ class PostDetailViewController: BaseDetailViewController {
             alert.addAction(cancelAction)
             alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
+        }
+
+        cell.optionHandler = {
+
+            self.openOptionMenu(blockedUid: commentUser.uid, index: indexPath.row, completion: nil)
         }
 
         // go to user's profile when tapping image, name, and time

@@ -16,8 +16,23 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNL-Em-ja7">
-                    <rect key="frame" x="85" y="46.5" width="40.5" height="56.5"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSG-MM-0Oz">
+                    <rect key="frame" x="360" y="15.5" width="30" height="24"/>
+                    <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content=" "/>
+                        </attributedString>
+                        <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="tapOptionButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="ENy-32-B2Q"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNL-Em-ja7">
+                    <rect key="frame" x="85" y="46.5" width="253" height="56.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -55,12 +70,15 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="aSG-MM-0Oz" firstAttribute="trailing" secondItem="Zzy-PJ-HfO" secondAttribute="trailing" id="1Hr-Qc-8B1"/>
                 <constraint firstItem="Zzy-PJ-HfO" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="BH9-k6-7bp"/>
+                <constraint firstItem="aSG-MM-0Oz" firstAttribute="centerY" secondItem="W6Z-vX-3nh" secondAttribute="centerY" id="HQp-3V-7Oc"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="KHr-V4-Qc1"/>
                 <constraint firstItem="0Po-ZZ-1Km" firstAttribute="top" secondItem="JNL-Em-ja7" secondAttribute="bottom" constant="12" id="On0-hh-HnC"/>
                 <constraint firstItem="Zzy-PJ-HfO" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.0869565" id="PNG-Pa-5zf"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.108696" id="SOS-e1-hx1"/>
                 <constraint firstItem="JNL-Em-ja7" firstAttribute="leading" secondItem="W6Z-vX-3nh" secondAttribute="leading" id="TRT-Va-zJa"/>
+                <constraint firstItem="Zzy-PJ-HfO" firstAttribute="leading" secondItem="JNL-Em-ja7" secondAttribute="trailing" constant="16" id="UOK-RJ-avb"/>
                 <constraint firstItem="I63-Fn-t5X" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="crH-Cj-E3i"/>
                 <constraint firstAttribute="bottom" secondItem="0Po-ZZ-1Km" secondAttribute="bottom" constant="18" id="csL-90-ftU"/>
                 <constraint firstItem="0Po-ZZ-1Km" firstAttribute="leading" secondItem="JNL-Em-ja7" secondAttribute="leading" id="dtQ-p8-PaN"/>
@@ -72,6 +90,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="contentLabel" destination="JNL-Em-ja7" id="nNP-bk-lOJ"/>
+                <outlet property="optionMenuButton" destination="aSG-MM-0Oz" id="Tez-6c-xAI"/>
                 <outlet property="timeLabel" destination="0Po-ZZ-1Km" id="cGK-po-Qfd"/>
                 <outlet property="userImageView" destination="I63-Fn-t5X" id="GVh-tn-oh7"/>
                 <outlet property="userNameLabel" destination="W6Z-vX-3nh" id="YhL-DN-gdt"/>
@@ -81,6 +100,7 @@
     </objects>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <namedColor name="M1">
             <color red="0.58431372549019611" green="0.57647058823529407" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
