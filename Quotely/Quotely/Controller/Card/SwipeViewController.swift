@@ -73,12 +73,14 @@ class SwipeViewController: UIViewController {
         setupCardView()
         setupButtons()
         setupResetButton()
-
-        if UIApplication.isFirstLaunch() { setupEducationView() }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        if UIApplication.isFirstLaunch(forKey: "HasLaunchedSwipeVC") {
+            setupEducationView()
+        }
 
         resetBackgroundView.cornerRadius = resetBackgroundView.frame.width / 2
         resetButton.cornerRadius = resetButton.frame.width / 2

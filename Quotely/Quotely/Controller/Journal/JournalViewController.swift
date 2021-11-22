@@ -63,12 +63,14 @@ class JournalViewController: UIViewController {
         setupTitle()
         setupEditPanel()
         setupButtons()
-
-        if UIApplication.isFirstLaunch() { setupEducationView() }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        if UIApplication.isFirstLaunch(forKey: "HasLaunchedJournalVC") {
+            setupEducationView()
+        }
 
         backgroundView.cornerRadius = isEditPanelExpand
         ?
