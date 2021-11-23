@@ -210,18 +210,20 @@ class ShareViewController: BaseImagePickerViewController {
 
     override func imagePickerController(
         _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
 
         picker.dismiss(animated: true)
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
-            Toast.showFailure(text: "圖片載入異常")
-            fatalError("Cannot load image")
+            DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
+
+            return
         }
 
         self.templateImage = selectedImage
+
         templateViews.forEach { $0.dataSource = self }
     }
 
@@ -232,21 +234,34 @@ class ShareViewController: BaseImagePickerViewController {
 
         guard !results.isEmpty else {
 
-            Toast.showFailure(text: "圖片載入異常")
+            DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
+
             return
         }
 
         for result in results {
 
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, _) in
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
 
-                guard let selectedImage = image as? UIImage else {
+                if let error = error {
 
-                    return
+                    print(error)
+
+                    DispatchQueue.main.async { Toast.showFailure(text: "上傳照片失敗") }
+
+                } else {
+
+                    guard let selectedImage = image as? UIImage else {
+
+                        picker.dismiss(animated: true)
+
+                        return
+                    }
+
+                    self.templateImage = selectedImage
+
+                    self.templateViews.forEach { $0.dataSource = self }
                 }
-
-                self.templateImage = selectedImage
-                self.templateViews.forEach { $0.dataSource = self }
             })
         }
     }

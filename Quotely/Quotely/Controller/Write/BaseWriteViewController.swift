@@ -512,6 +512,9 @@ class BaseWriteViewController: BaseImagePickerViewController {
             picker.dismiss(animated: true)
 
             guard let selectedImage = info[.editedImage] as? UIImage else {
+
+                DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
+
                 return
             }
 
@@ -524,6 +527,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
         case false:
 
             guard let selectedImage = info[.editedImage] as? UIImage else {
+
+                DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
 
                 return
             }
@@ -546,6 +551,9 @@ class BaseWriteViewController: BaseImagePickerViewController {
         DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
 
         guard !results.isEmpty else {
+
+            DispatchQueue.main.async { Toast.showFailure(text: "沒有選取照片") }
+
             return
         }
 
@@ -557,15 +565,26 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             for result in results {
 
-                result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, _) in
+                result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
 
-                    guard let image = image as? UIImage else { return picker.dismiss(animated: true) }
+                    if let error = error {
 
-                    DispatchQueue.main.async {
+                        print(error)
+
+                        DispatchQueue.main.async { Toast.showFailure(text: "上傳照片失敗") }
+
+                    } else {
+
+                        guard let image = image as? UIImage else {
+
+                            picker.dismiss(animated: true)
+
+                            return
+                        }
 
                         self.recognizedImage = image
 
-                        Toast.shared.hud.dismiss()
+                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
                     }
                 })
             }
@@ -582,11 +601,15 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                         print(error)
 
+                        DispatchQueue.main.async { Toast.showFailure(text: "上傳照片失敗") }
+
                     } else {
 
                         guard let selectedImage = image as? UIImage else {
 
                             picker.dismiss(animated: true)
+
+                            DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
                             return
                         }
