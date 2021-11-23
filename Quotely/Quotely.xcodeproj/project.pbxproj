@@ -1001,8 +1001,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Quotely/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "隻字片語";
-				INFOPLIST_KEY_NSCameraUsageDescription = "請允許訪問以便拍照。";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許訪問以便選取照片。";
+				INFOPLIST_KEY_NSCameraUsageDescription = "允許訪問相機能讓您使用相機拍照，並將相片張貼於貼文內容、製作分享模板，以及掃描文字等。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允許訪問相簿能讓您選取相簿相片，並將相片張貼於貼文內容、製作分享模板，以及掃描文字等。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1037,8 +1037,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Quotely/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "隻字片語";
-				INFOPLIST_KEY_NSCameraUsageDescription = "請允許訪問以便拍照。";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許訪問以便選取照片。";
+				INFOPLIST_KEY_NSCameraUsageDescription = "允許訪問相機能讓您使用相機拍照，並將相片張貼於貼文內容、製作分享模板，以及掃描文字等。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允許訪問相簿能讓您選取相簿相片，並將相片張貼於貼文內容、製作分享模板，以及掃描文字等。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
