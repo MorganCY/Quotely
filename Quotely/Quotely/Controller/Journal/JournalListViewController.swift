@@ -120,18 +120,20 @@ class JournalListViewController: UIViewController {
 
     func deleteJournal(journalID: String) {
 
-        JournalManager.shared.deleteJournal(
-            journalID: journalID) { result in
+        FirebaseManager.shared.deleteDocument(
+            collection: .journals,
+            targetID: journalID
+        ) { result in
 
-                switch result {
+            switch result {
 
-                case .success(let success):
-                    print(success)
+            case .success(let successStatus):
+                print(successStatus)
 
-                case .failure(let error):
-                    print(error)
-                }
+            case .failure(let error):
+                print(error)
             }
+        }
     }
 
     func goToSharePage(content: String, author: String) {

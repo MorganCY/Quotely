@@ -19,16 +19,14 @@ class JournalManager {
 
     func addJournal(
         journal: inout Journal,
-        createdMonth: String = Date().getCurrentTime(format: .MM),
-        createdYear: String = Date().getCurrentTime(format: .yyyy),
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
         let document = journals.document()
 
         journal.journalID = document.documentID
-        journal.createdMonth = createdMonth
-        journal.createdYear = createdYear
+        journal.createdMonth = Date().getCurrentTime(format: .MM)
+        journal.createdYear = Date().getCurrentTime(format: .yyyy)
 
         do {
 
@@ -91,27 +89,5 @@ class JournalManager {
                     completion(.success(journals))
                 }
             }
-    }
-
-    func deleteJournal(
-        journalID: String,
-        completion: @escaping (Result<String, Error>) -> Void
-    ) {
-
-        journals.whereField("journalID", isEqualTo: journalID).getDocuments { querySnapshot, error in
-
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
-
-                let targetPost = querySnapshot?.documents.first
-
-                targetPost?.reference.delete()
-
-                completion(.success("Deleted journal"))
-            }
-        }
     }
 }

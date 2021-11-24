@@ -172,14 +172,19 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    func updateCard(cardID: String, likeAction: LikeAction) {
+    func updateCard(cardID: String, likeAction: FirebaseManager.FirebaseAction) {
 
-        CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: visitorUid) { result in
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .cards,
+            targetID: cardID,
+            action: likeAction,
+            updateType: .like
+        ) { result in
 
             switch result {
 
-            case .success(let success):
-                print(success)
+            case .success(let successStatus):
+                print(successStatus)
 
             case .failure(let error):
                 print(error)
@@ -263,7 +268,7 @@ class CardTopicViewController: UIViewController {
         }
 
         updateUserLikeCardList(cardID: cardID, likeAction: .like)
-        updateCard(cardID: cardID, likeAction: .like)
+        updateCard(cardID: cardID, likeAction: .positive)
         card?.likeNumber += 1
 
         DispatchQueue.main.async { Toast.showSuccess(text: "已收藏") }

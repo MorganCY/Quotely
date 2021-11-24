@@ -87,8 +87,6 @@ class ExploreViewController: UIViewController {
 
         setupFilterView()
 
-        setupLoadingAnimation()
-
         view.backgroundColor = .M1
 
         currentFilter = .latest
@@ -96,6 +94,8 @@ class ExploreViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        setupLoadingAnimation()
 
         visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList ?? [""]
 
@@ -346,6 +346,28 @@ class ExploreViewController: UIViewController {
             }
         }
     }
+
+    func updatePostLike(postID: String, likeAction: FirebaseManager.FirebaseAction, completion: @escaping () -> Void) {
+
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .posts,
+            targetID: postID,
+            action: likeAction,
+            updateType: .like
+        ) { result in
+
+            switch result {
+
+            case .success(let successStatus):
+                print(successStatus)
+                completion()
+
+            case .failure(let error):
+                print(error)
+                completion()
+            }
+        }
+    }
 }
 
 extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate {
@@ -435,29 +457,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
             guard let postID = post.postID else { return }
 
-            let likeAction: LikeAction = self.isLikePost
-            ? .dislike : .like
+            let likeAction: FirebaseManager.FirebaseAction = self.isLikePost
+            ? .negative : .positive
 
             cell.likeButton.isEnabled = false
 
-            PostManager.shared.updateLikes(
-                postID: postID, likeAction: likeAction
-            ) { result in
-
-                switch result {
-
-                case .success(let action):
-
-                    print(action)
-
-                    cell.likeButton.isEnabled = true
-
-                case .failure(let error):
-
-                    print(error)
-
-                    cell.likeButton.isEnabled = true
-                }
+            self.updatePostLike(postID: postID, likeAction: likeAction) {
+                cell.likeButton.isEnabled = true
             }
         }
 

@@ -83,48 +83,6 @@ class CardManager {
         }
     }
 
-    func updateCards(
-        cardID: String,
-        likeAction: LikeAction,
-        uid: String,
-        completion: @escaping (Result<String, Error>) -> Void
-    ) {
-
-        cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
-
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
-
-                let targetCard = querySnapshot?.documents.first
-
-                switch likeAction {
-
-                case .like:
-
-                    targetCard?.reference.updateData([
-                        "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "likeUser": FieldValue.arrayUnion([self.visitorUid]),
-                        "dislikeUser": FieldValue.arrayRemove([self.visitorUid])
-                    ])
-
-                case .dislike:
-                    
-
-                    targetCard?.reference.updateData([
-                        "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "dislikeUser": FieldValue.arrayUnion([self.visitorUid]),
-                        "likeUser": FieldValue.arrayRemove([self.visitorUid])
-                    ])
-                }
-
-                completion(.success("Card was updated"))
-            }
-        }
-    }
-
     func updateCardPostList(
         cardID: String,
         postID: String,

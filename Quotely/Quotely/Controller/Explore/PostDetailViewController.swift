@@ -110,6 +110,88 @@ class PostDetailViewController: BaseDetailViewController {
         self.show(cardTopicVC, sender: nil)
     }
 
+    func deletePost(postID: String) {
+
+        FirebaseManager.shared.deleteDocument(
+            collection: .posts,
+            targetID: postID
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+                if let postImageUrl = self.post?.imageUrl {
+                    self.deleteImage(imageUrl: postImageUrl)
+                }
+                self.deleteComment(idType: .postID, targetID: postID)
+                self.updateUserPost(postID: postID, action: .delete)
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "刪除失敗")
+                }
+            }
+        }
+    }
+
+    func updateCommentNumber(
+        action: FirebaseManager.FirebaseAction,
+        completion: (() -> Void)?
+    ) {
+
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .posts,
+            targetID: self.post?.postID ?? "",
+            action: action,
+            updateType: .comment
+        ) { result in
+
+            switch result {
+
+            case .success(let successStatus):
+                print(successStatus)
+
+                if let completion = completion {
+                    completion()
+                }
+
+            case .failure(let error):
+                print(error)
+
+                if let completion = completion {
+                    completion()
+                }
+            }
+        }
+    }
+
+    func deleteComment(idType: FirebaseManager.FirebaseDataID, targetID: String) {
+
+        FirebaseManager.shared.deleteDocument(
+            collection: .postComments,
+            targetID: targetID
+        ) { result in
+
+            switch result {
+
+            case .success(let successStatus):
+                print(successStatus)
+
+                self.updateCommentNumber(action: .negative, completion: nil)
+
+                self.fetchComments(type: .post)
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "刪除評論失敗")
+                }
+            }
+        }
+    }
+
     override func addComment(_ sender: UIButton) {
         super.addComment(sender)
 
@@ -134,7 +216,7 @@ class PostDetailViewController: BaseDetailViewController {
                 postID: post?.postID
             )
 
-            PostCommentManager.shared.addComment(
+            CommentManager.shared.addComment(
                 comment: &comment
             ) { result in
 
@@ -146,29 +228,12 @@ class PostDetailViewController: BaseDetailViewController {
 
                     self.commentTextField.text = ""
 
-                    PostManager.shared.updateCommentNumber(
-                        postID: self.post?.postID ?? "",
-                        commentAction: .add) { result in
+                    self.updateCommentNumber(
+                        action: .positive
+                    ) {
 
-                            switch result {
-
-                            case .success(let success):
-
-                                print(success)
-
-                                self.submitButton.isEnabled = true
-
-                            case .failure(let error):
-
-                                print(error)
-
-                                DispatchQueue.main.async {
-                                    Toast.showFailure(text: "新增評論失敗")
-                                }
-
-                                self.submitButton.isEnabled = true
-                            }
-                        }
+                        self.submitButton.isEnabled = true
+                    }
 
                     self.fetchComments(type: .post)
 
@@ -191,6 +256,36 @@ class PostDetailViewController: BaseDetailViewController {
             }
 
             submitButton.isEnabled = true
+        }
+    }
+
+    func updatePostLike(
+        postID: String,
+        likeAction: FirebaseManager.FirebaseAction,
+        successHandler: @escaping () -> Void,
+        errorHandler: @escaping () -> Void
+    ) {
+
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .posts,
+            targetID: postID,
+            action: likeAction,
+            updateType: .like
+        ) { result in
+
+            switch result {
+
+            case .success(let successStatus):
+                print(successStatus)
+                successHandler()
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入失敗")
+                }
+                errorHandler()
+            }
         }
     }
 
@@ -290,39 +385,28 @@ class PostDetailViewController: BaseDetailViewController {
 
             guard let postID = self.post?.postID else { return }
 
-            let likeAction: LikeAction = self.isLike ? .dislike : .like
+            let likeAction: FirebaseManager.FirebaseAction = self.isLike
+            ? .negative : .positive
 
             header.likeButton.isEnabled = false
 
-            PostManager.shared.updateLikes(postID: postID, likeAction: likeAction) { result in
-
-                switch result {
-
-                case .success(_):
-
-                    if likeAction == .like {
+            self.updatePostLike(
+                postID: postID,
+                likeAction: likeAction) {
+                    if likeAction == .positive {
                         self.post?.likeNumber += 1
                         self.isLike = true
-                    } else if likeAction == .dislike {
+                    } else if likeAction == .negative {
                         self.post?.likeNumber -= 1
                         self.isLike = false
                     }
-
                     header.likeButton.isEnabled = true
-
                     tableView.reloadData()
 
-                case .failure(let error):
-
-                    print(error)
-
-                    DispatchQueue.main.async {
-                        Toast.showFailure(text: "資料載入失敗")
-                    }
+                } errorHandler: {
 
                     header.likeButton.isEnabled = true
                 }
-            }
         }
 
         header.editHandler = {
@@ -404,28 +488,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                 guard let postID = self.post?.postID else { return }
 
-                PostManager.shared.deletePost(postID: postID) { result in
-
-                    switch result {
-
-                    case .success(let success):
-
-                        print(success)
-
-                        if let postImageUrl = self.post?.imageUrl {
-
-                            self.deleteImage(imageUrl: postImageUrl)
-                        }
-
-                        self.updateUserPost(postID: postID, action: .delete)
-
-                    case .failure(let error):
-
-                        print(error)
-
-                        DispatchQueue.main.async { Toast.showFailure(text: "刪除失敗") }
-                    }
-                }
+                self.deletePost(postID: postID)
             }
 
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
@@ -493,7 +556,7 @@ class PostDetailViewController: BaseDetailViewController {
 
                 guard let postCommentID = comment.postCommentID else { return }
 
-                PostCommentManager.shared.updateComment( postCommentID: postCommentID, newContent: text
+                CommentManager.shared.updateComment( postCommentID: postCommentID, newContent: text
                 ) { result in
 
                     switch result {
@@ -523,38 +586,7 @@ class PostDetailViewController: BaseDetailViewController {
             let okAction = UIAlertAction(title: "刪除", style: .destructive
             ) { _ in
 
-                PostCommentManager.shared.deleteComment(
-                    postCommentID: postCommentID
-                ) { result in
-
-                    switch result {
-
-                    case .success(let success):
-
-                        print(success)
-
-                        PostManager.shared.updateCommentNumber(
-                            postID: comment.postID ?? "",
-                            commentAction: .delete
-                        ) { result in
-
-                            switch result {
-
-                            case .success(let success): print(success)
-
-                            case .failure(let error): print(error)
-                            }
-                        }
-
-                        self.fetchComments(type: .post)
-
-                    case .failure(let error):
-
-                        print(error)
-
-                        DispatchQueue.main.async { Toast.showFailure(text: "刪除評論失敗") }
-                    }
-                }
+                self.deleteComment(idType: .postCommentID, targetID: postCommentID)
             }
 
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)

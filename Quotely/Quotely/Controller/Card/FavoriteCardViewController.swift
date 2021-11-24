@@ -119,11 +119,11 @@ class FavoriteCardViewController: UIViewController {
 
     func disLikeCard(index: Int) {
 
-        let card = likeCardList[index]
+        guard let cardID = likeCardList[index].cardID else { return }
 
         UserManager.shared.updateFavoriteCard(
             uid: visitorUid,
-            cardID: card.cardID ?? "",
+            cardID: cardID,
             likeAction: .dislike
         ) { result in
 
@@ -133,9 +133,7 @@ class FavoriteCardViewController: UIViewController {
 
                     print(success)
 
-                    self.updateCard(
-                        cardID: card.cardID ?? ""
-                    )
+                    self.updateCard(cardID: cardID, likeAction: .negative)
                     self.likeCardList.remove(at: index)
 
                 case .failure(let error):
@@ -149,22 +147,24 @@ class FavoriteCardViewController: UIViewController {
             }
     }
 
-    func updateCard(cardID: String) {
+    func updateCard(cardID: String, likeAction: FirebaseManager.FirebaseAction) {
 
-        CardManager.shared.updateCards(
-            cardID: cardID,
-            likeAction: .dislike,
-            uid: visitorUid) { result in
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .cards,
+            targetID: cardID,
+            action: likeAction,
+            updateType: .like
+        ) { result in
 
-                switch result {
+            switch result {
 
-                case .success(let success):
-                    print(success)
+            case .success(let successStatus):
+                print(successStatus)
 
-                case .failure(let error):
-                    print(error)
-                }
+            case .failure(let error):
+                print(error)
             }
+        }
     }
 
     func goToCardWritePage(index: Int) {

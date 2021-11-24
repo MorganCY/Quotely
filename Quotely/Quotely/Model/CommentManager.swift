@@ -9,9 +9,9 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class PostCommentManager {
+class CommentManager {
 
-    static let shared = PostCommentManager()
+    static let shared = CommentManager()
 
     private init() {}
 
@@ -119,28 +119,6 @@ class PostCommentManager {
                 ])
 
                 completion(.success("Changed content"))
-            }
-        }
-    }
-
-    func deleteComment(
-        postCommentID: String,
-        completion: @escaping (Result<String, Error>) -> Void
-    ) {
-
-        postComments.whereField("postCommentID", isEqualTo: postCommentID).getDocuments { querySnapshot, error in
-
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
-
-                let targetComment = querySnapshot?.documents.first
-
-                targetComment?.reference.delete()
-
-                completion(.success("Deleted content"))
             }
         }
     }

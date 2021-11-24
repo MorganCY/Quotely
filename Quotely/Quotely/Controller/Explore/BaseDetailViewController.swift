@@ -138,7 +138,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
             guard let postID = post?.postID else { return }
 
-            PostCommentManager.shared.fetchComment(postID: postID) { result in
+            CommentManager.shared.fetchComment(postID: postID) { result in
 
                 switch result {
 
@@ -389,13 +389,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         return UITableViewCell(style: .default, reuseIdentifier: String(describing: BaseDetailViewController.self))
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-
-        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
-        let animator = Animator(animation: animation)
-            animator.animate(cell: cell, at: indexPath, in: tableView)
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
