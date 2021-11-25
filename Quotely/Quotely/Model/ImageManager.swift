@@ -18,7 +18,10 @@ class ImageManager {
 
     let imagePath = Storage.storage().reference()
 
-    func uploadImage(image: UIImage, postHandler: @escaping (Result<String, Error>) -> Void) {
+    func createImage(
+        image: UIImage,
+        completion: @escaping StatusCompletion
+    ) {
 
         let scaledImage = image.scale(newWidth: 320.0)
 
@@ -46,11 +49,11 @@ class ImageManager {
 
                 if let error = error {
 
-                    postHandler(.failure(error))
+                    completion(.failure(error))
 
                 } else {
 
-                    postHandler(.success(urlString))
+                    completion(.success(urlString))
                 }
             })
         }
@@ -59,7 +62,7 @@ class ImageManager {
 
             if let error = snapshot.error {
 
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }

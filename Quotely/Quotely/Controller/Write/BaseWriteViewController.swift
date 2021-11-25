@@ -183,7 +183,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                 // upload the image
 
-                ImageManager.shared.uploadImage(image: uploadedImage ?? UIImage()) { result in
+                ImageManager.shared.createImage(image: uploadedImage ?? UIImage()) { result in
 
                     switch result {
 
@@ -308,7 +308,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             // upload the image
 
-            ImageManager.shared.uploadImage(image: uploadedImage ?? UIImage()) { result in
+            ImageManager.shared.createImage(image: uploadedImage ?? UIImage()) { result in
 
                 switch result {
 
@@ -332,7 +332,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     // create post data with image url
 
-                    PostManager.shared.addPost(post: &post) { result in
+                    PostManager.shared.createPost(post: &post) { result in
 
                         switch result {
 
@@ -376,7 +376,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
                 cardAuthor: self.card?.author
             )
 
-            PostManager.shared.addPost(post: &post) { result in
+            PostManager.shared.createPost(post: &post) { result in
 
                 switch result {
 

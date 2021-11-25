@@ -23,7 +23,7 @@ class PostManager {
 
     let posts = Firestore.firestore().collection("posts")
 
-    func addPost(
+    func createPost(
         post: inout Post,
         completion: @escaping StatusCompletion
     ) {
@@ -52,35 +52,6 @@ class PostManager {
         }
     }
 
-    func updatePost(
-        postID: String,
-        editTime: Int64,
-        content: String,
-        imageUrl: String?,
-        completion: @escaping StatusCompletion
-    ) {
-
-        posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
-
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
-
-                let targetPost = querySnapshot?.documents.first
-
-                targetPost?.reference.updateData([
-                    "editTime": editTime,
-                    "content": content,
-                    "imageUrl": imageUrl as Any
-                ])
-
-                completion(.success("Updated post content"))
-            }
-        }
-    }
-
     func fetchCardPost(
         cardID: String,
         completion: @escaping (Result<[Post]?, Error>) -> Void
@@ -94,40 +65,38 @@ class PostManager {
                 if let error = error {
 
                     completion(.failure(error))
+                }
 
-                } else {
+                var posts = [Post]()
 
-                    var posts = [Post]()
+                for document in querySnapshot!.documents {
 
-                    for document in querySnapshot!.documents {
+                    do {
+                        if let post = try document.data(
+                            as: Post.self, decoder: Firestore.Decoder()
+                        ) {
 
-                        do {
-                            if let post = try document.data(
-                                as: Post.self, decoder: Firestore.Decoder()
-                            ) {
+                            if let blockList = UserManager.shared.visitorUserInfo?.blockList {
 
-                                if let blockList = UserManager.shared.visitorUserInfo?.blockList {
-
-                                    if !blockList.contains(post.uid) {
-
-                                        posts.append(post)
-
-                                    }
-
-                                } else {
+                                if !blockList.contains(post.uid) {
 
                                     posts.append(post)
+
                                 }
+
+                            } else {
+
+                                posts.append(post)
                             }
-
-                        } catch {
-
-                            completion(.failure(error))
                         }
-                    }
 
-                    completion(.success(posts))
+                    } catch {
+
+                        completion(.failure(error))
+                    }
                 }
+
+                completion(.success(posts))
             }
     }
 
@@ -155,78 +124,104 @@ class PostManager {
 
             return query.addSnapshotListener { (documentSnapshot, error) in
 
-                    if let error = error {
+                if let error = error {
 
-                        completion(.failure(error))
+                    completion(.failure(error))
 
-                    } else {
+                }
 
-                        var posts = [Post]()
+                var posts = [Post]()
 
-                        guard let documentSnapshot = documentSnapshot else { return }
+                guard let documentSnapshot = documentSnapshot else { return }
 
-                        for document in documentSnapshot.documents {
+                for document in documentSnapshot.documents {
 
-                            do {
+                    do {
 
-                                if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
 
-                                ) {
+                        ) {
 
-                                    if let blockList = UserManager.shared.visitorUserInfo?.blockList {
+                            if let blockList = UserManager.shared.visitorUserInfo?.blockList {
 
-                                        if !blockList.contains(post.uid) {
+                                if !blockList.contains(post.uid) {
 
-                                            posts.append(post)
+                                    posts.append(post)
 
-                                        }
-
-                                    } else {
-
-                                        posts.append(post)
-                                    }
                                 }
 
-                            } catch {
+                            } else {
 
-                                completion(.failure(error))
+                                posts.append(post)
                             }
                         }
-                        completion(.success(posts))
+
+                    } catch {
+
+                        completion(.failure(error))
                     }
                 }
+                completion(.success(posts))
+            }
 
         default:
 
             return query.addSnapshotListener { (documentSnapshot, error) in
 
-                    if let error = error {
+                if let error = error {
+
+                    completion(.failure(error))
+
+                }
+
+                var posts = [Post]()
+
+                for document in documentSnapshot!.documents {
+
+                    do {
+
+                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
+
+                        ) {
+
+                            posts.append(post)
+                        }
+
+                    } catch {
 
                         completion(.failure(error))
-
-                    } else {
-
-                        var posts = [Post]()
-
-                        for document in documentSnapshot!.documents {
-
-                            do {
-
-                                if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
-
-                                ) {
-
-                                    posts.append(post)
-                                }
-
-                            } catch {
-
-                                completion(.failure(error))
-                            }
-                        }
-                        completion(.success(posts))
                     }
                 }
+                completion(.success(posts))
+            }
+        }
+    }
+
+    func updatePost(
+        postID: String,
+        editTime: Int64,
+        content: String,
+        imageUrl: String?,
+        completion: @escaping StatusCompletion
+    ) {
+
+        posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            }
+
+            let targetPost = querySnapshot?.documents.first
+
+            targetPost?.reference.updateData([
+                "editTime": editTime,
+                "content": content,
+                "imageUrl": imageUrl as Any
+            ])
+
+            completion(.success("Updated post content"))
         }
     }
 }

@@ -216,7 +216,7 @@ class PostDetailViewController: BaseDetailViewController {
                 postID: post?.postID
             )
 
-            CommentManager.shared.addComment(
+            CommentManager.shared.createComment(
                 comment: &comment
             ) { result in
 
@@ -312,7 +312,7 @@ class PostDetailViewController: BaseDetailViewController {
 
     func deletePostFromCard(postID: String) {
 
-        CardManager.shared.removePostFromCard(postID: postID) { result in
+        CardManager.shared.deletePostFromCard(postID: postID) { result in
 
             switch result {
 

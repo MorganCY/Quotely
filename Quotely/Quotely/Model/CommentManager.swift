@@ -11,15 +11,15 @@ import FirebaseFirestoreSwift
 
 class CommentManager {
 
-    static let shared = CommentManager()
-
     private init() {}
+
+    static let shared = CommentManager()
 
     let postComments = Firestore.firestore().collection("postComments")
 
-    func addComment(
+    func createComment(
         comment: inout Comment,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         let document = postComments.document()
@@ -56,11 +56,10 @@ class CommentManager {
             .order(by: "createdTime", descending: true)
             .getDocuments { (querySnapshot, error) in
 
-            if let error = error {
+                if let error = error {
 
-                completion(.failure(error))
-
-            } else {
+                    completion(.failure(error))
+                }
 
                 var comments = [Comment]()
 
@@ -94,7 +93,6 @@ class CommentManager {
 
                 completion(.success(comments))
             }
-        }
     }
 
     func updateComment(

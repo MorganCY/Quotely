@@ -89,7 +89,7 @@ class JournalViewController: UIViewController {
             content: journalTextView.text
         )
 
-        JournalManager.shared.addJournal(
+        JournalManager.shared.createJournal(
             journal: &journal
         ) { result in
 

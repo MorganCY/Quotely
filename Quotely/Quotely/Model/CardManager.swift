@@ -28,11 +28,10 @@ class CardManager {
             .limit(to: limitNumber)
             .getDocuments { (querySnapshot, error) in
 
-            if let error = error {
+                if let error = error {
 
-                completion(.failure(error))
-
-            } else {
+                    completion(.failure(error))
+                }
 
                 var cards = [Card]()
 
@@ -53,7 +52,6 @@ class CardManager {
 
                 completion(.success(cards))
             }
-        }
     }
 
     func fetchSpecificCard(
@@ -96,20 +94,19 @@ class CardManager {
 
                 completion(.failure(error))
 
-            } else {
-
-                let targetCard = querySnapshot?.documents.first
-
-                targetCard?.reference.updateData([
-                    "postList": FieldValue.arrayUnion([postID])
-                ])
-
-                completion(.success("Card was updated"))
             }
+
+            let targetCard = querySnapshot?.documents.first
+
+            targetCard?.reference.updateData([
+                "postList": FieldValue.arrayUnion([postID])
+            ])
+
+            completion(.success("Card was updated"))
         }
     }
 
-    func removePostFromCard(
+    func deletePostFromCard(
         postID: String,
         completion: @escaping StatusCompletion
     ) {
@@ -120,16 +117,15 @@ class CardManager {
 
                 completion(.failure(error))
 
-            } else {
-
-                let targetCard = querySnapshot?.documents.first
-
-                targetCard?.reference.updateData([
-                    "postList": FieldValue.arrayRemove([postID])
-                ])
-
-                completion(.success("Post was deleted from card"))
             }
+
+            let targetCard = querySnapshot?.documents.first
+
+            targetCard?.reference.updateData([
+                "postList": FieldValue.arrayRemove([postID])
+            ])
+
+            completion(.success("Post was deleted from card"))
         }
     }
 }

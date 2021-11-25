@@ -143,7 +143,7 @@ class MyViewController: BaseProfileViewController {
 
                     // upload new image to firebase storage
 
-                    ImageManager.shared.uploadImage(image: selectedImage) { result in
+                    ImageManager.shared.createImage(image: selectedImage) { result in
 
                         switch result {
 
@@ -227,7 +227,7 @@ class MyViewController: BaseProfileViewController {
 
                             // upload new image to firebase storage
 
-                            ImageManager.shared.uploadImage(image: selectedImage) { result in
+                            ImageManager.shared.createImage(image: selectedImage) { result in
 
                                 switch result {
 

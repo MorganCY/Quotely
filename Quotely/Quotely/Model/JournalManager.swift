@@ -17,7 +17,7 @@ class JournalManager {
 
     let journals = Firestore.firestore().collection("journals")
 
-    func addJournal(
+    func createJournal(
         journal: inout Journal,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
@@ -64,29 +64,29 @@ class JournalManager {
                 if let error = error {
 
                     completion(.failure(error))
-
-                } else {
-
-                    var journals = [Journal]()
-
-                    for document in querySnapshot!.documents {
-
-                        do {
-
-                            if let journal = try document.data(as: Journal.self, decoder: Firestore.Decoder()
-                            ) {
-
-                                journals.append(journal)
-                            }
-
-                        } catch {
-
-                            completion(.failure(error))
-                        }
-                    }
-
-                    completion(.success(journals))
                 }
+
+                var journals = [Journal]()
+
+                guard let querySnapshot = querySnapshot else { return }
+
+                for document in querySnapshot.documents {
+
+                    do {
+
+                        if let journal = try document.data(as: Journal.self, decoder: Firestore.Decoder()
+                        ) {
+
+                            journals.append(journal)
+                        }
+
+                    } catch {
+
+                        completion(.failure(error))
+                    }
+                }
+
+                completion(.success(journals))
             }
     }
 }

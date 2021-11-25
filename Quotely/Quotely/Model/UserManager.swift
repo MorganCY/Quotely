@@ -25,40 +25,9 @@ class UserManager {
 
     let users = Firestore.firestore().collection("users")
 
-    func listenToUserUpdate(
-        uid: String,
-        completion: @escaping (Result<User, Error>
-        ) -> Void
-    ) -> ListenerRegistration {
-
-        return users.document(uid).addSnapshotListener { documentSnapshot, error in
-
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
-
-                do {
-
-                    if let userInfo = try documentSnapshot?.data(
-                        as: User.self
-                    ) {
-
-                        completion(.success(userInfo))
-                    }
-
-                } catch {
-
-                    completion(.failure(error))
-                }
-            }
-        }
-    }
-
     func createUser(
         user: User,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         do {
@@ -115,10 +84,39 @@ class UserManager {
         }
     }
 
+    func listenToUserUpdate(
+        uid: String,
+        completion: @escaping (Result<User, Error>
+        ) -> Void
+    ) -> ListenerRegistration {
+
+        return users.document(uid).addSnapshotListener { documentSnapshot, error in
+
+            if let error = error {
+
+                completion(.failure(error))
+            }
+
+            do {
+
+                if let userInfo = try documentSnapshot?.data(
+                    as: User.self
+                ) {
+
+                    completion(.success(userInfo))
+                }
+
+            } catch {
+
+                completion(.failure(error))
+            }
+        }
+    }
+
     func updateFavoriteCard(
         cardID: String,
         likeAction: FirebaseAction,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
@@ -168,7 +166,8 @@ class UserManager {
 
         reference.getDocument { document, error in
 
-            if let document = document, document.exists {
+            if let document = document,
+               document.exists {
 
                 switch postAction {
 
@@ -207,7 +206,7 @@ class UserManager {
     func updateUserInfo(
         profileImageUrl: String?,
         userName: String?,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
