@@ -298,9 +298,10 @@ class ExploreViewController: UIViewController {
                 self.unfollowUser(index: index)
             }
 
-            UserManager.shared.updateUserBlockList(
+            UserManager.shared.updateUserList(
+                userAction: .block,
                 visitedUid: self.userList[index]?.uid ?? "",
-                blockAction: .block
+                action: .positive
             ) { result in
 
                 switch result {
@@ -331,10 +332,10 @@ class ExploreViewController: UIViewController {
     }
 
     func unfollowUser(index: Int) {
-        UserManager.shared.updateUserFollow(
-            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+        UserManager.shared.updateUserList(
+            userAction: .follow,
             visitedUid: self.userList[index]?.uid ?? "",
-            followAction: .unfollow
+            action: .negative
         ) { result in
 
             switch result {
@@ -346,7 +347,7 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    func updatePostLike(postID: String, likeAction: FirebaseManager.FirebaseAction, completion: @escaping () -> Void) {
+    func updatePostLike(postID: String, likeAction: FirebaseAction, completion: @escaping () -> Void) {
 
         FirebaseManager.shared.updateFieldNumber(
             collection: .posts,
@@ -456,7 +457,7 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
             guard let postID = post.postID else { return }
 
-            let likeAction: FirebaseManager.FirebaseAction = self.isLikePost
+            let likeAction: FirebaseAction = self.isLikePost
             ? .negative : .positive
 
             cell.likeButton.isEnabled = false

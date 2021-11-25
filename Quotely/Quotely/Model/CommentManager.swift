@@ -108,18 +108,16 @@ class CommentManager {
             if let error = error {
 
                 completion(.failure(error))
-
-            } else {
-
-                let targetComment = querySnapshot?.documents.first
-
-                targetComment?.reference.updateData([
-                    "content": newContent,
-                    "editTime": Date().millisecondsSince1970
-                ])
-
-                completion(.success("Changed content"))
             }
+
+            let targetComment = querySnapshot?.documents.first
+
+            targetComment?.reference.updateData([
+                "content": newContent,
+                "editTime": Date().millisecondsSince1970
+            ])
+
+            completion(.success("Changed content"))
         }
     }
 }

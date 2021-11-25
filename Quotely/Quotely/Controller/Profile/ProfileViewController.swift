@@ -48,13 +48,14 @@ class ProfileViewController: BaseProfileViewController {
         visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
 
-    func updateUserBlock(blockAction: UserManager.BlockAction) {
+    func updateUserBlock(blockAction: FirebaseAction) {
 
         guard let visitedUid = visitedUid else { return }
 
-        UserManager.shared.updateUserBlockList(
+        UserManager.shared.updateUserList(
+            userAction: .block,
             visitedUid: visitedUid,
-            blockAction: blockAction
+            action: blockAction
         ) { result in
 
             switch result {
@@ -63,7 +64,7 @@ class ProfileViewController: BaseProfileViewController {
 
                 print(success)
 
-                self.isBlock = blockAction == .block
+                self.isBlock = blockAction == .positive
 
                 self.fetchVisitedUserInfo(uid: visitedUid)
 
@@ -78,15 +79,14 @@ class ProfileViewController: BaseProfileViewController {
         }
     }
 
-    func updateUserFollow(followAction: UserManager.FollowAction) {
+    func updateUserFollow(followAction: FirebaseAction) {
 
-        guard let visitorUid = visitorUid,
-              let visitedUid = visitedUid else { return }
+        guard let visitedUid = visitedUid else { return }
 
-        UserManager.shared.updateUserFollow(
-            visitorUid: visitorUid,
+        UserManager.shared.updateUserList(
+            userAction: .follow,
             visitedUid: visitedUid,
-            followAction: followAction
+            action: followAction
         ) { result in
 
             switch result {
@@ -95,7 +95,7 @@ class ProfileViewController: BaseProfileViewController {
 
                 print(success)
 
-                self.isFollow = followAction == .follow
+                self.isFollow = followAction == .positive
 
                 self.fetchVisitedUserInfo(uid: visitedUid)
 
@@ -140,18 +140,18 @@ class ProfileViewController: BaseProfileViewController {
 
         header.blockHanlder = {
 
-            var blockAction: UserManager.BlockAction = .block
+            var blockAction: FirebaseAction = .positive
 
-            blockAction = self.isBlock ? .unblock : .block
+            blockAction = self.isBlock ? .negative : .positive
 
             self.updateUserBlock(blockAction: blockAction)
         }
 
         header.followHandler = {
 
-            var followAction: UserManager.FollowAction = .follow
+            var followAction: FirebaseAction = .positive
 
-            followAction = self.isFollow ? .unfollow : .follow
+            followAction = self.isFollow ? .negative : .positive
 
             self.updateUserFollow(followAction: followAction)
         }

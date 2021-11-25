@@ -146,7 +146,7 @@ class FavoriteCardViewController: UIViewController {
             }
     }
 
-    func updateCard(cardID: String, likeAction: FirebaseManager.FirebaseAction) {
+    func updateCard(cardID: String, likeAction: FirebaseAction) {
 
         FirebaseManager.shared.updateFieldNumber(
             collection: .cards,

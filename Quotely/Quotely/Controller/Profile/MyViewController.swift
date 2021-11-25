@@ -75,7 +75,6 @@ class MyViewController: BaseProfileViewController {
         header.editNameHandler = { userName in
 
             UserManager.shared.updateUserInfo(
-                uid: userInfo.uid,
                 profileImageUrl: nil,
                 userName: userName
             ) { result in
@@ -155,7 +154,6 @@ class MyViewController: BaseProfileViewController {
                             // update user profile image in firestore
 
                             UserManager.shared.updateUserInfo(
-                                uid: self.visitedUserInfo?.uid ?? "",
                                 profileImageUrl: url,
                                 userName: nil
                             ) { result in
@@ -240,7 +238,6 @@ class MyViewController: BaseProfileViewController {
                                     // update profile image in firestore
 
                                     UserManager.shared.updateUserInfo(
-                                        uid: self.visitedUserInfo?.uid ?? "",
                                         profileImageUrl: url,
                                         userName: nil
                                     ) { result in

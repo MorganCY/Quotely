@@ -80,7 +80,7 @@ class JournalViewController: UIViewController {
 
     @objc func submitJournal(_ sender: UIButton) {
 
-        var journal: Journal? = Journal(
+        var journal = Journal(
             uid: UserManager.shared.visitorUserInfo?.uid ?? "",
             createdTime: Date().millisecondsSince1970,
             createdMonth: "\(Calendar.current.component(.month, from: Date()))",
@@ -89,9 +89,10 @@ class JournalViewController: UIViewController {
             content: journalTextView.text
         )
 
-        FirebaseManager.shared.addDocument(
-            collection: .journals, data: &journal
+        JournalManager.shared.addJournal(
+            journal: &journal
         ) { result in
+
             switch result {
 
             case .success(let success):

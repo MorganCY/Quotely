@@ -169,7 +169,7 @@ class SwipeViewController: UIViewController {
     func updateUserLikeCardList(
         visitorUid: String,
         cardID: String,
-        likeAction: FirebaseManager.FirebaseAction
+        likeAction: FirebaseAction
     ) {
 
         UserManager.shared.updateFavoriteCard(
@@ -188,7 +188,7 @@ class SwipeViewController: UIViewController {
         }
     }
 
-    func updateCard(cardID: String, likeAction: FirebaseManager.FirebaseAction) {
+    func updateCard(cardID: String, likeAction: FirebaseAction) {
 
         FirebaseManager.shared.updateFieldNumber(
             collection: .cards,

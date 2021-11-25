@@ -15,22 +15,8 @@ class UserManager {
 
     private init() {}
 
-    enum FollowAction: Int {
-
-        case follow = 1
-        case unfollow = -1
-    }
-
-    enum PostAction: Int {
-
-        case publish = 1
-        case delete = -1
-    }
-
-    enum BlockAction: Int {
-
-        case block = 1
-        case unblock = -1
+    enum UserAction {
+        case follow, block
     }
 
     static let shared = UserManager()
@@ -38,6 +24,37 @@ class UserManager {
     var visitorUserInfo: User?
 
     let users = Firestore.firestore().collection("users")
+
+    func listenToUserUpdate(
+        uid: String,
+        completion: @escaping (Result<User, Error>
+        ) -> Void
+    ) -> ListenerRegistration {
+
+        return users.document(uid).addSnapshotListener { documentSnapshot, error in
+
+            if let error = error {
+
+                completion(.failure(error))
+
+            } else {
+
+                do {
+
+                    if let userInfo = try documentSnapshot?.data(
+                        as: User.self
+                    ) {
+
+                        completion(.success(userInfo))
+                    }
+
+                } catch {
+
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
 
     func createUser(
         user: User,
@@ -100,49 +117,50 @@ class UserManager {
 
     func updateFavoriteCard(
         cardID: String,
-        likeAction: FirebaseManager.FirebaseAction,
-        completion: @escaping (Result<String, Error>) -> Void) {
+        likeAction: FirebaseAction,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
 
-            let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
+        let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
 
-            reference.getDocument { document, error in
+        reference.getDocument { document, error in
 
-                if let document = document, document.exists {
+            if let document = document, document.exists {
 
-                    switch likeAction {
+                switch likeAction {
 
-                    case .positive:
+                case .positive:
 
-                        document.reference.updateData([
+                    document.reference.updateData([
 
-                            "likeCardList": FieldValue.arrayUnion([cardID])
-                        ])
+                        "likeCardList": FieldValue.arrayUnion([cardID])
+                    ])
 
-                        completion(.success("Favorite card list was updated"))
+                    completion(.success("Favorite card list was updated"))
 
-                    case .negative:
+                case .negative:
 
-                        document.reference.updateData([
+                    document.reference.updateData([
 
-                            "likeCardList": FieldValue.arrayRemove([cardID])
-                        ])
+                        "likeCardList": FieldValue.arrayRemove([cardID])
+                    ])
 
-                        completion(.success("Favorite card list was updated"))
-                    }
+                    completion(.success("Favorite card list was updated"))
+                }
 
-                } else {
+            } else {
 
-                    if let error = error {
+                if let error = error {
 
-                        completion(.failure(error))
-                    }
+                    completion(.failure(error))
                 }
             }
         }
+    }
 
     func updateUserPost(
         postID: String,
-        postAction: PostAction,
+        postAction: FirebaseAction,
         completion: @escaping StatusCompletion
     ) {
 
@@ -154,7 +172,7 @@ class UserManager {
 
                 switch postAction {
 
-                case .publish:
+                case .positive:
 
                     document.reference.updateData([
 
@@ -163,7 +181,7 @@ class UserManager {
                         "postList": FieldValue.arrayUnion([postID])
                     ])
 
-                case .delete:
+                case .negative:
 
                     document.reference.updateData([
 
@@ -187,13 +205,12 @@ class UserManager {
     }
 
     func updateUserInfo(
-        uid: String,
         profileImageUrl: String?,
         userName: String?,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
-        let reference = users.document(uid)
+        let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
 
         reference.getDocument { document, error in
 
@@ -227,157 +244,99 @@ class UserManager {
         }
     }
 
-    func updateUserFollow(
-        visitorUid: String,
+    func updateUserList(
+        userAction: UserAction,
         visitedUid: String,
-        followAction: FollowAction,
+        action: FirebaseAction,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
-        let visitorReference = users.document(visitorUid)
+        let visitorReference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
 
         let visitedReference = users.document(visitedUid)
 
+        var numberField: String {
+            switch userAction {
+            case .follow: return "followingNumber"
+            case .block: return "blockNumber"
+            }
+        }
+
+        var listField: String {
+            switch userAction {
+            case .follow: return "followingList"
+            case .block: return "blockList"
+            }
+        }
+
         visitorReference.getDocument { document, error in
-
-            if let document = document, document.exists {
-
-                switch followAction {
-                case .follow:
-
-                    document.reference.updateData([
-
-                        "followingNumber": FieldValue.increment(Int64(followAction.rawValue)),
-
-                        "followingList": FieldValue.arrayUnion([visitedUid])
-                    ])
-
-                case .unfollow:
-
-                    document.reference.updateData([
-
-                        "followingNumber": FieldValue.increment(Int64(followAction.rawValue)),
-
-                        "followingList": FieldValue.arrayRemove([visitedUid])
-                    ])
-                }
-
-                completion(.success("Visitor follow was updated"))
-
-            } else {
-
-                if let error = error {
-
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        visitedReference.getDocument { document, error in
-
-            if let document = document, document.exists {
-
-                switch followAction {
-                case .follow:
-
-                    document.reference.updateData([
-
-                        "followerNumber": FieldValue.increment(Int64(followAction.rawValue)),
-
-                        "followerList": FieldValue.arrayUnion([visitorUid])
-                    ])
-
-                case .unfollow:
-
-                    document.reference.updateData([
-
-                        "followerNumber": FieldValue.increment(Int64(followAction.rawValue)),
-
-                        "followerList": FieldValue.arrayRemove([visitorUid])
-                    ])
-                }
-
-                completion(.success("Visitor follow was updated"))
-
-            } else {
-
-                if let error = error {
-
-                    completion(.failure(error))
-                }
-            }
-        }
-    }
-
-    func listenToUserUpdate(
-        uid: String,
-        completion: @escaping (Result<User, Error>
-        ) -> Void
-    ) -> ListenerRegistration {
-
-        return users.document(uid).addSnapshotListener { documentSnapshot, error in
 
             if let error = error {
 
                 completion(.failure(error))
-
-            } else {
-
-                do {
-
-                    if let userInfo = try documentSnapshot?.data(
-                        as: User.self
-                    ) {
-
-                        completion(.success(userInfo))
-                    }
-
-                } catch {
-
-                    completion(.failure(error))
-                }
             }
-        }
-    }
-
-    func updateUserBlockList(
-        visitedUid: String,
-        blockAction: BlockAction,
-        completion: @escaping (Result<String, Error>) -> Void
-    ) {
-
-        let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
-
-        reference.getDocument { document, error in
 
             if let document = document, document.exists {
 
-                switch blockAction {
-                case .block:
+                switch action {
+
+                case .positive:
 
                     document.reference.updateData([
 
-                        "blockList": FieldValue.arrayUnion([visitedUid]),
-                        "blockNumber": FieldValue.increment(Int64(blockAction.rawValue))
+                        numberField: FieldValue.increment(Int64(action.rawValue)),
+
+                        listField: FieldValue.arrayUnion([visitedUid])
                     ])
 
-                case .unblock:
+                case .negative:
 
                     document.reference.updateData([
 
-                        "blockList": FieldValue.arrayRemove([visitedUid]),
-                        "blockNumber": FieldValue.increment(Int64(blockAction.rawValue))
-                    ])
+                        numberField: FieldValue.increment(Int64(action.rawValue)),
 
+                        listField: FieldValue.arrayRemove([visitedUid])
+                    ])
                 }
 
-                completion(.success("User information was updated"))
+                completion(.success("Visitor follow/block was updated"))
+            }
+        }
 
-            } else {
+        if userAction == .follow {
 
-                if let error = error {
+            visitedReference.getDocument { document, error in
 
-                    completion(.failure(error))
+                if let document = document, document.exists {
+
+                    if let error = error {
+
+                        completion(.failure(error))
+                    }
+
+                    switch action {
+
+                    case .positive:
+
+                        document.reference.updateData([
+
+                            "followerNumber": FieldValue.increment(Int64(action.rawValue)),
+
+                            "followerList": FieldValue.arrayUnion([UserManager.shared.visitorUserInfo?.uid ?? ""])
+                        ])
+
+                    case .negative:
+
+                        document.reference.updateData([
+
+                            "followerNumber": FieldValue.increment(Int64(action.rawValue)),
+
+                            "followerList": FieldValue.arrayRemove([UserManager.shared.visitorUserInfo?.uid ?? ""])
+                        ])
+                    }
+
+                    completion(.success("Visitor follow/block was updated"))
+
                 }
             }
         }

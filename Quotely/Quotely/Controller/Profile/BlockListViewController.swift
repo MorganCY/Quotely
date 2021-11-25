@@ -85,9 +85,10 @@ class BlockListViewController: UIViewController {
 
     func updateUserBlock(visitedUid: String) {
 
-        UserManager.shared.updateUserBlockList(
+        UserManager.shared.updateUserList(
+            userAction: .block,
             visitedUid: visitedUid,
-            blockAction: .unblock
+            action: .negative
         ) { result in
 
             switch result {

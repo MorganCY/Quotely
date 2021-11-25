@@ -112,31 +112,43 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
     func updateUserPost(
         postID: String,
-        action: FirebaseManager.FirebaseAction,
-        successHandler: @escaping () -> Void,
-        errorHandler: @escaping () -> Void
+        action: FirebaseAction
     ) {
 
-        FirebaseManager.shared.updateFieldNumber(
-            collection: .users,
-            targetID: postID,
-            action: action,
-            updateType: .userPost
+        UserManager.shared.updateUserPost(
+            postID: postID,
+            postAction: action
         ) { result in
 
             switch result {
 
             case .success(let successStatus):
-
                 print(successStatus)
 
-                successHandler()
+                guard let cardPostHandler = self.cardPostHandler else {
+
+                    DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+
+                    let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+
+                    let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
+
+                    sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
+
+                        tabBar?.selectedIndex = 2
+                    })
+
+                    return
+                }
+
+                cardPostHandler
 
             case .failure(let error):
-
                 print(error)
 
-                errorHandler()
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "上傳失敗")
+                }
             }
         }
     }
@@ -328,32 +340,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             self.onPublishPostID = postID
 
-                            guard let cardPostHandler = self.cardPostHandler else {
-
-                                self.updateUserPost(
-                                    postID: postID,
-                                    action: .positive) {
-
-                                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
-
-                                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-
-                                        let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
-
-                                        sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
-
-                                            tabBar?.selectedIndex = 2
-                                        })
-
-                                    } errorHandler: {
-
-                                        DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
-                                    }
-
-                                return
-                            }
-
-                            cardPostHandler
+                            self.updateUserPost(postID: postID, action: .positive)
 
                         case .failure(let error):
 
@@ -397,32 +384,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     self.onPublishPostID = postID
 
-                    guard let cardPostHandler = self.cardPostHandler else {
-
-                        self.updateUserPost(
-                            postID: postID,
-                            action: .positive) {
-
-                                DispatchQueue.main.async { Toast.shared.hud.dismiss() }
-
-                                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-
-                                let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
-
-                                sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
-
-                                    tabBar?.selectedIndex = 2
-                                })
-
-                            } errorHandler: {
-
-                                DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
-                            }
-
-                        return
-                    }
-
-                    cardPostHandler
+                    self.updateUserPost(postID: postID, action: .positive)
 
                 case .failure(let error):
 

@@ -221,9 +221,10 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
             }
 
-            UserManager.shared.updateUserBlockList(
+            UserManager.shared.updateUserList(
+                userAction: .block,
                 visitedUid: blockedUid,
-                blockAction: .block
+                action: .positive
             ) { result in
 
                 switch result {
@@ -264,10 +265,10 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     func unfollowUser(blockedUid: String) {
-        UserManager.shared.updateUserFollow(
-            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+        UserManager.shared.updateUserList(
+            userAction: .follow,
             visitedUid: blockedUid,
-            followAction: .unfollow
+            action: .negative
         ) { result in
 
             switch result {

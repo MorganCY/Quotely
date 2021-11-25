@@ -125,7 +125,7 @@ class PostDetailViewController: BaseDetailViewController {
                     self.deleteImage(imageUrl: postImageUrl)
                 }
                 self.deleteComment(idType: .postID, targetID: postID)
-                self.updateUserPost(postID: postID, action: .delete)
+                self.updateUserPost(postID: postID, action: .negative)
 
             case .failure(let error):
                 print(error)
@@ -137,7 +137,7 @@ class PostDetailViewController: BaseDetailViewController {
     }
 
     func updateCommentNumber(
-        action: FirebaseManager.FirebaseAction,
+        action: FirebaseAction,
         completion: (() -> Void)?
     ) {
 
@@ -261,7 +261,7 @@ class PostDetailViewController: BaseDetailViewController {
 
     func updatePostLike(
         postID: String,
-        likeAction: FirebaseManager.FirebaseAction,
+        likeAction: FirebaseAction,
         successHandler: @escaping () -> Void,
         errorHandler: @escaping () -> Void
     ) {
@@ -329,7 +329,7 @@ class PostDetailViewController: BaseDetailViewController {
         }
     }
 
-    func updateUserPost(postID: String, action: UserManager.PostAction) {
+    func updateUserPost(postID: String, action: FirebaseAction) {
 
         UserManager.shared.updateUserPost(
             postID: postID,
@@ -384,7 +384,7 @@ class PostDetailViewController: BaseDetailViewController {
 
             guard let postID = self.post?.postID else { return }
 
-            let likeAction: FirebaseManager.FirebaseAction = self.isLike
+            let likeAction: FirebaseAction = self.isLike
             ? .negative : .positive
 
             header.likeButton.isEnabled = false

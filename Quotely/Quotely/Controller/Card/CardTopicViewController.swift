@@ -153,7 +153,7 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    func updateUserLikeCardList(cardID: String, likeAction: FirebaseManager.FirebaseAction) {
+    func updateUserLikeCardList(cardID: String, likeAction: FirebaseAction) {
 
         UserManager.shared.updateFavoriteCard(
             cardID: cardID,
@@ -171,7 +171,7 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    func updateCard(cardID: String, likeAction: FirebaseManager.FirebaseAction) {
+    func updateCard(cardID: String, likeAction: FirebaseAction) {
 
         FirebaseManager.shared.updateFieldNumber(
             collection: .cards,
@@ -306,9 +306,10 @@ class CardTopicViewController: UIViewController {
                 }
             }
 
-            UserManager.shared.updateUserBlockList(
+            UserManager.shared.updateUserList(
+                userAction: .block,
                 visitedUid: blockedUid,
-                blockAction: .block
+                action: .positive
             ) { result in
 
                 switch result {
@@ -349,10 +350,10 @@ class CardTopicViewController: UIViewController {
     }
 
     func unfollowUser(blockedUid: String) {
-        UserManager.shared.updateUserFollow(
-            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+        UserManager.shared.updateUserList(
+            userAction: .follow,
             visitedUid: blockedUid,
-            followAction: .unfollow
+            action: .negative
         ) { result in
 
             switch result {
