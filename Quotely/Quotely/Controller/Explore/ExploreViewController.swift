@@ -74,9 +74,6 @@ class ExploreViewController: UIViewController {
 
         navigationItem.title = "想法"
 
-        filterView.delegate = self
-        filterView.dataSource = self
-
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.addPost),
             text: nil,
@@ -86,16 +83,13 @@ class ExploreViewController: UIViewController {
         )
 
         setupFilterView()
-
-        view.backgroundColor = .M1
-
         currentFilter = .latest
+        view.backgroundColor = .M1
+        setupLoadingAnimation()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        setupLoadingAnimation()
 
         visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList ?? [""]
 
@@ -506,6 +500,9 @@ extension ExploreViewController {
 
         view.addSubview(filterView)
         filterView.translatesAutoresizingMaskIntoConstraints = false
+
+        filterView.delegate = self
+        filterView.dataSource = self
 
         NSLayoutConstraint.activate([
             filterView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
