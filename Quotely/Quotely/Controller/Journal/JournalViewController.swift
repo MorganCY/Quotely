@@ -80,27 +80,29 @@ class JournalViewController: UIViewController {
 
     @objc func submitJournal(_ sender: UIButton) {
 
-        var journal = Journal(
+        var journal: Journal? = Journal(
             uid: UserManager.shared.visitorUserInfo?.uid ?? "",
             createdTime: Date().millisecondsSince1970,
+            createdMonth: "\(Calendar.current.component(.month, from: Date()))",
+            createdYear: "\(Calendar.current.component(.year, from: Date()))",
             emoji: selectedEmoji?.rawValue ?? "face.smiling",
-            content: journalTextView.text)
+            content: journalTextView.text
+        )
 
-        JournalManager.shared.addJournal(
-            journal: &journal
+        FirebaseManager.shared.addDocument(
+            collection: .journals, data: &journal
         ) { result in
-
             switch result {
 
             case .success(let success):
                 print(success)
                 self.isEditPanelExpand = false
                 self.journalTextView.text.removeAll()
-                Toast.showSuccess(text: "成功新增隻字")
+                Toast.showSuccess(text: "新增成功")
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: "新增隻字失敗")
+                Toast.showFailure(text: "新增失敗")
             }
         }
     }

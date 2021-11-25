@@ -50,7 +50,7 @@ class CardWriteViewController: BaseWriteViewController {
         set {}
     }
 
-    override var cardHandler: ()? {
+    override var cardPostHandler: ()? {
 
         get {
 

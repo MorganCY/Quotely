@@ -166,10 +166,13 @@ class SwipeViewController: UIViewController {
         }
     }
 
-    func updateUserLikeCardList(visitorUid: String, cardID: String, likeAction: LikeAction) {
+    func updateUserLikeCardList(
+        visitorUid: String,
+        cardID: String,
+        likeAction: FirebaseManager.FirebaseAction
+    ) {
 
         UserManager.shared.updateFavoriteCard(
-            uid: visitorUid,
             cardID: cardID,
             likeAction: likeAction
         ) { result in
@@ -374,7 +377,7 @@ class SwipeViewController: UIViewController {
             return Toast.showFailure(text: "收藏失敗")
         }
 
-        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .like)
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
         updateCard(cardID: cardID, likeAction: .positive)
 
         cards[currentCardIndex].likeNumber += 1
@@ -446,7 +449,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
-        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .dislike)
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .negative)
 
         updateCard(cardID: cardID, likeAction: .negative)
 
@@ -467,7 +470,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
-        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .like)
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
 
         updateCard(cardID: cardID, likeAction: .positive)
 

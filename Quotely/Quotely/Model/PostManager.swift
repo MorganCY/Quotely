@@ -8,36 +8,25 @@
 import Foundation
 import FirebaseFirestore
 
-enum LikeAction: Int64 {
-
-    case like = 1
-    case dislike = -1
-}
-
 class PostManager {
 
-    enum FilterType: String {
+    private init() {}
+
+    enum PilterType: String {
 
         case latest = "最新"
         case following = "追蹤"
         case user
     }
 
-    enum CommentAction: Int64 {
-
-        case add = 1
-        case delete = -1
-    }
-
     static let shared = PostManager()
-
-    let visitorUid = SignInManager.shared.visitorUid
-
-    private init() {}
 
     let posts = Firestore.firestore().collection("posts")
 
-    func publishPost(post: inout Post, completion: @escaping (Result<String, Error>) -> Void) {
+    func addPost(
+        post: inout Post,
+        completion: @escaping StatusCompletion
+    ) {
 
         let document = posts.document()
 
@@ -68,7 +57,7 @@ class PostManager {
         editTime: Int64,
         content: String,
         imageUrl: String?,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
@@ -92,91 +81,10 @@ class PostManager {
         }
     }
 
-    func fetchPost(
-        type: FilterType,
-        uid: String?,
-        cardID: String? = nil,
-        completion: @escaping (Result<[Post], Error>) -> Void
+    func fetchCardPost(
+        cardID: String,
+        completion: @escaping (Result<[Post]?, Error>) -> Void
     ) {
-
-        switch type {
-
-        case .latest:
-
-            posts
-                .order(by: "createdTime", descending: true)
-                .getDocuments { (querySnapshot, error) in
-
-                    if let error = error {
-
-                        completion(.failure(error))
-
-                    } else {
-
-                        var posts = [Post]()
-
-                        for document in querySnapshot!.documents {
-
-                            do {
-                                if let post = try document.data(
-                                    as: Post.self, decoder: Firestore.Decoder()
-                                ) {
-
-                                    posts.append(post)
-                                }
-
-                            } catch {
-
-                                completion(.failure(error))
-                            }
-                        }
-
-                        completion(.success(posts))
-                    }
-                }
-
-        case .following: break
-
-        case .user:
-
-            guard let uid = uid else { return }
-
-            posts
-                .whereField("uid", isEqualTo: uid)
-                .order(by: "createdTime", descending: true)
-                .getDocuments { (querySnapshot, error) in
-
-                    if let error = error {
-
-                        completion(.failure(error))
-
-                    } else {
-
-                        var posts = [Post]()
-
-                        for document in querySnapshot!.documents {
-
-                            do {
-                                if let post = try document.data(
-                                    as: Post.self, decoder: Firestore.Decoder()
-                                ) {
-
-                                    posts.append(post)
-                                }
-
-                            } catch {
-
-                                completion(.failure(error))
-                            }
-                        }
-
-                        completion(.success(posts))
-                    }
-                }
-        }
-    }
-
-    func fetchCardPost(cardID: String, completion: @escaping (Result<[Post]?, Error>) -> Void) {
 
         posts
             .whereField("cardID", isEqualTo: cardID)
@@ -224,20 +132,28 @@ class PostManager {
     }
 
     func listenToPostUpdate(
-        type: FilterType,
+        type: PilterType,
         uid: String?,
         followingList: [String]?,
-        completion: @escaping (Result<[Post], Error>
-        ) -> Void
+        completion: @escaping (Result<[Post], Error>) -> Void
     ) -> ListenerRegistration {
+
+        var query: Query {
+            switch type {
+            case .latest:
+                return posts.order(by: "createdTime", descending: true)
+            case .following:
+                return posts.whereField("uid", in: followingList ?? [""]).order(by: "createdTime", descending: true)
+            case .user:
+                return posts.whereField("uid", isEqualTo: uid ?? "").order(by: "createdTime", descending: true)
+            }
+        }
 
         switch type {
 
         case .latest:
 
-            return posts
-                .order(by: "createdTime", descending: true)
-                .addSnapshotListener { (documentSnapshot, error) in
+            return query.addSnapshotListener { (documentSnapshot, error) in
 
                     if let error = error {
 
@@ -247,7 +163,9 @@ class PostManager {
 
                         var posts = [Post]()
 
-                        for document in documentSnapshot!.documents {
+                        guard let documentSnapshot = documentSnapshot else { return }
+
+                        for document in documentSnapshot.documents {
 
                             do {
 
@@ -278,47 +196,9 @@ class PostManager {
                     }
                 }
 
-        case.following:
+        default:
 
-            return posts
-                .whereField("uid", in: followingList ?? [""])
-                .order(by: "createdTime", descending: true)
-                .addSnapshotListener { (documentSnapshot, error) in
-
-                    if let error = error {
-
-                        completion(.failure(error))
-
-                    } else {
-
-                        var posts = [Post]()
-
-                        for document in documentSnapshot!.documents {
-
-                            do {
-
-                                if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
-
-                                ) {
-
-                                    posts.append(post)
-                                }
-
-                            } catch {
-
-                                completion(.failure(error))
-                            }
-                        }
-                        completion(.success(posts))
-                    }
-                }
-
-        case .user:
-
-            return posts
-                .whereField("uid", isEqualTo: uid ?? "")
-                .order(by: "createdTime", descending: true)
-                .addSnapshotListener { (documentSnapshot, error) in
+            return query.addSnapshotListener { (documentSnapshot, error) in
 
                     if let error = error {
 

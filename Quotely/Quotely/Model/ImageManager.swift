@@ -37,13 +37,6 @@ class ImageManager {
 
         uploadTask.observe(.success) { (snapshot) in
 
-            // Enable this after implementing firestore Auth
-            /*
-             guard let uid = Auth.auth().currentUser?.uid else {
-             return
-             }
-             */
-
             snapshot.reference.downloadURL(completion: { (url, error) in
 
                 guard let urlString = url?.absoluteString else {
@@ -73,7 +66,8 @@ class ImageManager {
 
     func deleteImage(
         imageUrl: String,
-        completion: @escaping (Result<String, Error>) -> Void) {
+        completion: @escaping StatusCompletion
+    ) {
 
         if imageUrl == "" {
 

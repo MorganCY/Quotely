@@ -222,7 +222,6 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             }
 
             UserManager.shared.updateUserBlockList(
-                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
                 visitedUid: blockedUid,
                 blockAction: .block
             ) { result in

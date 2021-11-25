@@ -116,6 +116,7 @@ class SignInManager: NSObject {
 
 extension SignInManager: ASAuthorizationControllerDelegate {
 
+    // swiftlint:disable function_body_length
     func authorizationController(
         controller: ASAuthorizationController,
         didCompleteWithAuthorization authorization: ASAuthorization
@@ -254,9 +255,9 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                     window.rootViewController = tabBarVC
                 }
 
-                if error != nil {
+                if let error = error {
 
-                    print(error?.localizedDescription)
+                    print(error)
                     return
                 }
 

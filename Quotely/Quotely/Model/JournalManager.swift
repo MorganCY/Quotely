@@ -11,9 +11,9 @@ import FirebaseFirestoreSwift
 
 class JournalManager {
 
-    static let shared = JournalManager()
-
     private init() {}
+
+    static let shared = JournalManager()
 
     let journals = Firestore.firestore().collection("journals")
 
@@ -49,14 +49,13 @@ class JournalManager {
     }
 
     func fetchJournal(
-        uid: String,
         month: String,
         year: String,
         completion: @escaping (Result<[Journal], Error>) -> Void
     ) {
 
         journals
-            .whereField("uid", isEqualTo: uid)
+            .whereField("uid", isEqualTo: UserManager.shared.visitorUserInfo?.uid ?? "")
             .whereField("createdMonth", isEqualTo: month)
             .whereField("createdYear", isEqualTo: year)
             .order(by: "createdTime", descending: true)

@@ -122,9 +122,8 @@ class FavoriteCardViewController: UIViewController {
         guard let cardID = likeCardList[index].cardID else { return }
 
         UserManager.shared.updateFavoriteCard(
-            uid: visitorUid,
             cardID: cardID,
-            likeAction: .dislike
+            likeAction: .negative
         ) { result in
 
                 switch result {

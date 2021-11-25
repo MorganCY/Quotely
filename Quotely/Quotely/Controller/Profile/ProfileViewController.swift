@@ -50,11 +50,9 @@ class ProfileViewController: BaseProfileViewController {
 
     func updateUserBlock(blockAction: UserManager.BlockAction) {
 
-        guard let visitorUid = visitorUid,
-              let visitedUid = visitedUid else { return }
+        guard let visitedUid = visitedUid else { return }
 
         UserManager.shared.updateUserBlockList(
-            visitorUid: visitorUid,
             visitedUid: visitedUid,
             blockAction: blockAction
         ) { result in

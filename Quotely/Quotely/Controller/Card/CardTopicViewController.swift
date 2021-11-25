@@ -153,10 +153,9 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+    func updateUserLikeCardList(cardID: String, likeAction: FirebaseManager.FirebaseAction) {
 
         UserManager.shared.updateFavoriteCard(
-            uid: visitorUid,
             cardID: cardID,
             likeAction: likeAction
         ) { result in
@@ -267,7 +266,7 @@ class CardTopicViewController: UIViewController {
             return
         }
 
-        updateUserLikeCardList(cardID: cardID, likeAction: .like)
+        updateUserLikeCardList(cardID: cardID, likeAction: .positive)
         updateCard(cardID: cardID, likeAction: .positive)
         card?.likeNumber += 1
 
@@ -308,7 +307,6 @@ class CardTopicViewController: UIViewController {
             }
 
             UserManager.shared.updateUserBlockList(
-                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
                 visitedUid: blockedUid,
                 blockAction: .block
             ) { result in

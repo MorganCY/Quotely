@@ -85,10 +85,7 @@ class BlockListViewController: UIViewController {
 
     func updateUserBlock(visitedUid: String) {
 
-        guard let visitorUid = visitorUserInfo?.uid else { return }
-
         UserManager.shared.updateUserBlockList(
-            visitorUid: visitorUid,
             visitedUid: visitedUid,
             blockAction: .unblock
         ) { result in

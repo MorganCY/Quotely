@@ -13,6 +13,8 @@ import UIKit
 
 class UserManager {
 
+    private init() {}
+
     enum FollowAction: Int {
 
         case follow = 1
@@ -33,83 +35,9 @@ class UserManager {
 
     static let shared = UserManager()
 
-    private init() {}
-
     var visitorUserInfo: User?
 
     let users = Firestore.firestore().collection("users")
-
-    func fetchUserInfo(
-        uid: String,
-        completion: @escaping (Result<User, Error>) -> Void
-    ) {
-
-        let reference = users.document(uid)
-
-        reference.getDocument { document, error in
-
-            if let document = document,
-                document.exists {
-
-                do {
-
-                    if let userInfo = try document.data(
-                        as: User.self
-                    ) {
-
-                        completion(.success(userInfo))
-                    }
-
-                } catch {
-
-                    completion(.failure(error))
-                }
-            }
-        }
-    }
-
-    func updateFavoriteCard(
-        uid: String,
-        cardID: String,
-        likeAction: LikeAction,
-        completion: @escaping (Result<String, Error>) -> Void) {
-
-            let reference = users.document(uid)
-
-            reference.getDocument { document, error in
-
-                if let document = document, document.exists {
-
-                    switch likeAction {
-
-                    case .like:
-
-                        document.reference.updateData([
-
-                            "likeCardList": FieldValue.arrayUnion([cardID])
-                        ])
-
-                        completion(.success("Favorite card list was updated"))
-
-                    case .dislike:
-
-                        document.reference.updateData([
-
-                            "likeCardList": FieldValue.arrayRemove([cardID])
-                        ])
-
-                        completion(.success("Favorite card list was updated"))
-                    }
-
-                } else {
-
-                    if let error = error {
-
-                        completion(.failure(error))
-                    }
-                }
-            }
-        }
 
     func createUser(
         user: User,
@@ -141,14 +69,84 @@ class UserManager {
         }
     }
 
-    func updateUserPost(
+    func fetchUserInfo(
         uid: String,
-        postID: String,
-        postAction: PostAction,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping (Result<User, Error>) -> Void
     ) {
 
         let reference = users.document(uid)
+
+        reference.getDocument { document, error in
+
+            if let document = document,
+                document.exists {
+
+                do {
+
+                    if let userInfo = try document.data(
+                        as: User.self
+                    ) {
+
+                        completion(.success(userInfo))
+                    }
+
+                } catch {
+
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    func updateFavoriteCard(
+        cardID: String,
+        likeAction: FirebaseManager.FirebaseAction,
+        completion: @escaping (Result<String, Error>) -> Void) {
+
+            let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
+
+            reference.getDocument { document, error in
+
+                if let document = document, document.exists {
+
+                    switch likeAction {
+
+                    case .positive:
+
+                        document.reference.updateData([
+
+                            "likeCardList": FieldValue.arrayUnion([cardID])
+                        ])
+
+                        completion(.success("Favorite card list was updated"))
+
+                    case .negative:
+
+                        document.reference.updateData([
+
+                            "likeCardList": FieldValue.arrayRemove([cardID])
+                        ])
+
+                        completion(.success("Favorite card list was updated"))
+                    }
+
+                } else {
+
+                    if let error = error {
+
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+
+    func updateUserPost(
+        postID: String,
+        postAction: PostAction,
+        completion: @escaping StatusCompletion
+    ) {
+
+        let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
 
         reference.getDocument { document, error in
 
@@ -343,13 +341,12 @@ class UserManager {
     }
 
     func updateUserBlockList(
-        visitorUid: String,
         visitedUid: String,
         blockAction: BlockAction,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
 
-        let reference = users.document(visitorUid)
+        let reference = users.document(UserManager.shared.visitorUserInfo?.uid ?? "")
 
         reference.getDocument { document, error in
 

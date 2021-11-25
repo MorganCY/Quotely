@@ -16,8 +16,8 @@ class ExploreViewController: UIViewController {
 
     var visitorFollowingList: [String] = []
 
-    let filters: [PostManager.FilterType] = [.latest, .following]
-    var currentFilter: PostManager.FilterType = .latest {
+    let filters: [PostManager.PilterType] = [.latest, .following]
+    var currentFilter: PostManager.PilterType = .latest {
         didSet {
             if currentFilter == .following,
                visitorFollowingList.count > 0 {
@@ -116,7 +116,7 @@ class ExploreViewController: UIViewController {
 
     // MARK: Data
     func addPostListener(
-        type: PostManager.FilterType,
+        type: PostManager.PilterType,
         uid: String?,
         followingList: [String]?
     ) -> ListenerRegistration {
@@ -299,7 +299,6 @@ class ExploreViewController: UIViewController {
             }
 
             UserManager.shared.updateUserBlockList(
-                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
                 visitedUid: self.userList[index]?.uid ?? "",
                 blockAction: .block
             ) { result in

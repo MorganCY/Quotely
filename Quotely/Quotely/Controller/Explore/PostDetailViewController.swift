@@ -332,7 +332,6 @@ class PostDetailViewController: BaseDetailViewController {
     func updateUserPost(postID: String, action: UserManager.PostAction) {
 
         UserManager.shared.updateUserPost(
-            uid: self.postAuthor?.uid ?? "",
             postID: postID,
             postAction: action
         ) { result in

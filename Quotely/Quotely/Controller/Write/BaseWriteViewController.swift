@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import PhotosUI
 import Vision
+import SwiftUI
+import Accelerate
 
 class BaseWriteViewController: BaseImagePickerViewController {
 
@@ -33,6 +35,8 @@ class BaseWriteViewController: BaseImagePickerViewController {
     // pass content to detail page after finishing editing
 
     var contentHandler: ((String, Int64, UIImage?) -> Void) = {_, _, _ in}
+
+    var cardPostHandler: ()?
 
     // pass value to this property if user use recoginition feature
 
@@ -106,7 +110,36 @@ class BaseWriteViewController: BaseImagePickerViewController {
         onPublish()
     }
 
-    var cardHandler: ()?
+    func updateUserPost(
+        postID: String,
+        action: FirebaseManager.FirebaseAction,
+        successHandler: @escaping () -> Void,
+        errorHandler: @escaping () -> Void
+    ) {
+
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .users,
+            targetID: postID,
+            action: action,
+            updateType: .userPost
+        ) { result in
+
+            switch result {
+
+            case .success(let successStatus):
+
+                print(successStatus)
+
+                successHandler()
+
+            case .failure(let error):
+
+                print(error)
+
+                errorHandler()
+            }
+        }
+    }
 
     func onPublish() {
 
@@ -287,7 +320,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     // create post data with image url
 
-                    PostManager.shared.publishPost(post: &post) { result in
+                    PostManager.shared.addPost(post: &post) { result in
 
                         switch result {
 
@@ -295,19 +328,11 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                             self.onPublishPostID = postID
 
-                            UserManager.shared.updateUserPost(
-                                uid: uid,
-                                postID: postID,
-                                postAction: .publish
-                            ) { result in
+                            guard let cardPostHandler = self.cardPostHandler else {
 
-                                switch result {
-
-                                case .success(let success):
-
-                                    print(success)
-
-                                    guard let cardHandler = self.cardHandler else {
+                                self.updateUserPost(
+                                    postID: postID,
+                                    action: .positive) {
 
                                         DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
@@ -320,18 +345,15 @@ class BaseWriteViewController: BaseImagePickerViewController {
                                             tabBar?.selectedIndex = 2
                                         })
 
-                                        return
+                                    } errorHandler: {
+
+                                        DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
                                     }
 
-                                    cardHandler
-
-                                case .failure(let error):
-
-                                    print(error)
-
-                                    DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
-                                }
+                                return
                             }
+
+                            cardPostHandler
 
                         case .failure(let error):
 
@@ -367,7 +389,7 @@ class BaseWriteViewController: BaseImagePickerViewController {
                 cardAuthor: self.card?.author
             )
 
-            PostManager.shared.publishPost(post: &post) { result in
+            PostManager.shared.addPost(post: &post) { result in
 
                 switch result {
 
@@ -375,19 +397,11 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                     self.onPublishPostID = postID
 
-                    UserManager.shared.updateUserPost(
-                        uid: uid,
-                        postID: postID,
-                        postAction: .publish
-                    ) { result in
+                    guard let cardPostHandler = self.cardPostHandler else {
 
-                        switch result {
-
-                        case .success(let success):
-
-                            print(success)
-
-                            guard let cardHandler = self.cardHandler else {
+                        self.updateUserPost(
+                            postID: postID,
+                            action: .positive) {
 
                                 DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
@@ -400,18 +414,15 @@ class BaseWriteViewController: BaseImagePickerViewController {
                                     tabBar?.selectedIndex = 2
                                 })
 
-                                return
+                            } errorHandler: {
+
+                                DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
                             }
 
-                            cardHandler
-
-                        case .failure(let error):
-
-                            print(error)
-
-                            DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
-                        }
+                        return
                     }
+
+                    cardPostHandler
 
                 case .failure(let error):
 

@@ -12,8 +12,6 @@ import MapKit
 
 class JournalListViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.visitorUid ?? ""
-
     var journals = [Journal]() {
         didSet {
             if journals.count == 0 {
@@ -26,7 +24,7 @@ class JournalListViewController: UIViewController {
     }
     var selectedMonth = Date().getCurrentTime(format: .MM) {
         didSet {
-            fetchJournals(visitorUid: visitorUid)
+            fetchJournals()
         }
     }
     var selectedYear = Date().getCurrentTime(format: .yyyy)
@@ -80,7 +78,7 @@ class JournalListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchJournals(visitorUid: visitorUid)
+        fetchJournals()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,10 +87,9 @@ class JournalListViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
-    func fetchJournals(visitorUid: String) {
+    func fetchJournals() {
 
         JournalManager.shared.fetchJournal(
-            uid: visitorUid,
             month: self.selectedMonth,
             year: self.selectedYear
         ) { result in

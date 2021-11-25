@@ -10,11 +10,9 @@ import FirebaseFirestore
 
 class CardManager {
 
-    static let shared = CardManager()
-
     private init() {}
 
-    let visitorUid = SignInManager.shared.visitorUid ?? ""
+    static let shared = CardManager()
 
     let cards = Firestore.firestore().collection("cards")
 
@@ -58,7 +56,10 @@ class CardManager {
         }
     }
 
-    func fetchSpecificCard(cardID: String, completion: @escaping (Result<Card, Error>) -> Void) {
+    func fetchSpecificCard(
+        cardID: String,
+        completion: @escaping (Result<Card, Error>) -> Void
+    ) {
 
         let reference = cards.document(cardID)
 
@@ -86,7 +87,7 @@ class CardManager {
     func updateCardPostList(
         cardID: String,
         postID: String,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
@@ -110,7 +111,7 @@ class CardManager {
 
     func removePostFromCard(
         postID: String,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         cards.whereField("postList", arrayContains: postID).getDocuments { (querySnapshot, error) in
