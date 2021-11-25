@@ -54,34 +54,27 @@ extension UIView {
 
         self.layer.cornerRadius = radius
 
-        if #available(iOS 11.0, *) {
+        var arr: CACornerMask = []
 
-            var arr: CACornerMask = []
+        let allCorners: [UIRectCorner] = [.topLeft, .topRight, .bottomLeft, .bottomRight]
 
-            let allCorners: [UIRectCorner] = [.topLeft, .topRight, .bottomLeft, .bottomRight]
-
-            for corn in allCorners {
-                if corners.contains(corn) {
-                    switch corn {
-                    case .topLeft:
-                        arr.insert(.layerMinXMinYCorner)
-                    case .topRight:
-                        arr.insert(.layerMaxXMinYCorner)
-                    case .bottomLeft:
-                        arr.insert(.layerMinXMaxYCorner)
-                    case .bottomRight:
-                        arr.insert(.layerMaxXMaxYCorner)
-                    default: break
-                    }
+        for corn in allCorners {
+            if corners.contains(corn) {
+                switch corn {
+                case .topLeft:
+                    arr.insert(.layerMinXMinYCorner)
+                case .topRight:
+                    arr.insert(.layerMaxXMinYCorner)
+                case .bottomLeft:
+                    arr.insert(.layerMinXMaxYCorner)
+                case .bottomRight:
+                    arr.insert(.layerMaxXMaxYCorner)
+                default: break
                 }
             }
-
-            self.layer.maskedCorners = arr
-
-        } else {
-
-            self.roundCornersBezierPath(corners: corners, radius: radius)
         }
+
+        self.layer.maskedCorners = arr
     }
 
     private func roundCornersBezierPath(corners: UIRectCorner, radius: CGFloat) {
@@ -153,8 +146,16 @@ extension UIView {
 extension UIView {
 
     func fadeInAnimation(duration: Double) {
-        UIView.animate(withDuration: duration, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.alpha = 1.0
-        }, completion: nil)
+
+        UIView.animate(
+            withDuration: duration,
+            delay: 0.0,
+            options: UIView.AnimationOptions.curveEaseIn,
+            animations: {
+
+                self.alpha = 1.0
+
+            }, completion: nil
+        )
     }
 }

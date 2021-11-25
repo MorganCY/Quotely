@@ -7,8 +7,8 @@
 
 import Foundation
 import UIKit
-import SwiftUI
 
+// swiftlint:disable type_body_length
 class SwipeViewController: UIViewController {
 
     let notificationCenter = NotificationCenter.default
@@ -59,16 +59,13 @@ class SwipeViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .BG
-
         navigationItem.title = "片語"
 
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.collection),
-            text: nil,
-            target: self,
+            text: nil, target: self,
             action: #selector(goToFavoritePage(_:)),
-            color: .M1
-        )
+            color: .M1)
 
         initialLoadingCards()
         setupCardView()
@@ -89,14 +86,9 @@ class SwipeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        // open share template when a user takes screenshot
-
         notificationCenter.addObserver(
-            self,
-            selector: #selector(goToSharePage(_:)),
-            name: UIApplication.userDidTakeScreenshotNotification, object: nil
-        )
+            self, selector: #selector(goToSharePage(_:)),
+            name: UIApplication.userDidTakeScreenshotNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

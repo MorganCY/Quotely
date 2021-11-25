@@ -47,26 +47,20 @@ class FavoriteCardViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupLoadingAnimation()
-
         fetchFavoriteCardList()
-
         view.backgroundColor = .M3
-
         navigationController?.setupBackButton(color: .white)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-
+        super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-
         navigationItem.title = navigationTitle
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         tabBarController?.tabBar.isHidden = false
     }
 
@@ -262,7 +256,8 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
 
-    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint
+    ) -> UIContextMenuConfiguration? {
 
         let comment = UIAction(title: "查看討論",
                                image: UIImage.sfsymbol(.comment)) { _ in

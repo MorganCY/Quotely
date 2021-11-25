@@ -15,8 +15,6 @@ import UIKit
     case image
 }
 
-// MARK: Protocol
-
 @objc protocol SelectionViewDataSource: AnyObject {
 
     // swiftlint:disable identifier_name
@@ -39,7 +37,6 @@ import UIKit
     @objc optional func heightForButton(_ view: SelectionView) -> CGFloat
 }
 
-// MARK: Delegate
 @objc protocol SelectionViewDelegate: AnyObject {
 
     @objc optional func didSelectButtonAt(_ view: SelectionView, at index: Int)
@@ -242,13 +239,7 @@ class SelectionView: UIView {
 // MARK: ProtocolExtension
 extension SelectionViewDataSource {
 
-    func buttonTitleFont(_ view: SelectionView) -> UIFont {
+    func buttonTitleFont(_ view: SelectionView) -> UIFont { UIFont.setRegular(size: 18) }
 
-        UIFont.setRegular(size: 18) ?? UIFont.systemFont(ofSize: 18)
-    }
-
-    func heightForButton(_ view: SelectionView) -> CGFloat {
-
-        CGFloat(20)
-    }
+    func heightForButton(_ view: SelectionView) -> CGFloat { CGFloat(20) }
 }

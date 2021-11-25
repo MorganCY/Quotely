@@ -24,6 +24,7 @@ class SwipeCardView: UIView {
     let contentLabel = UILabel()
     let authorLabel = UILabel()
     let likeImageView = UIImageView()
+    let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3, .bg4]
 
     var hasLiked = true
 
@@ -33,8 +34,6 @@ class SwipeCardView: UIView {
     var xCenter: CGFloat = 0.0
     var yCenter: CGFloat = 0.0
     var originPoint = CGPoint.zero
-
-    let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3, .bg4]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,8 +48,6 @@ class SwipeCardView: UIView {
         super.init(coder: coder)
     }
 
-    // MARK: SetupView
-
     func setupView() {
         cornerRadius = CornerRadius.standard.rawValue
         layer.shadowRadius = 3
@@ -58,7 +55,7 @@ class SwipeCardView: UIView {
         borderWidth = 0.5
         borderColor = .gray
 
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragged(_:)))
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragCard(_:)))
         panGestureRecognizer.delegate = self
         addGestureRecognizer(panGestureRecognizer)
     }
@@ -193,7 +190,7 @@ class SwipeCardView: UIView {
 
 extension SwipeCardView: UIGestureRecognizerDelegate {
 
-    @objc func dragged(_ sender: UIPanGestureRecognizer) {
+    @objc func dragCard(_ sender: UIPanGestureRecognizer) {
 
         xCenter = sender.translation(in: self).x
         yCenter = sender.translation(in: self).y

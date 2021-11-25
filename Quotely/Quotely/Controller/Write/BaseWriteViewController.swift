@@ -9,13 +9,11 @@ import Foundation
 import UIKit
 import PhotosUI
 import Vision
-import SwiftUI
-import Accelerate
 
+// swiftlint:disable type_body_length
 class BaseWriteViewController: BaseImagePickerViewController {
 
-    // if it's under edit state, postID will be passed in
-
+    // if it's in edit state, postID will be passed in
     var postID: String? {
         didSet {
             guard postID != nil else { return }
@@ -24,100 +22,114 @@ class BaseWriteViewController: BaseImagePickerViewController {
             setupNavigation()
         }
     }
+    private var navTitle = "撰寫"
+    private var navButtonTitle = "分享"
 
     var card: Card?
-
-    // navigation title
-
-    var navTitle = "撰寫"
-    var navButtonTitle = "分享"
-
-    // pass content to detail page after finishing editing
-
-    var contentHandler: ((String, Int64, UIImage?) -> Void) = {_, _, _ in}
-
+    var onPublishPostID: String?
+    var editContentHandler: ((String, Int64, UIImage?) -> Void) = {_, _, _ in}
     var cardPostHandler: ()?
-
-    // pass value to this property if user use recoginition feature
-
-    var recognizedImage: UIImage? = UIImage() {
-        didSet {
-            tapRecognizeTextButton(image: recognizedImage)
-        }
-    }
-
-    // define if the user uploads a image
 
     var hasPostImage = false
     var imageUrl: String?
     var uploadedImage: UIImage? = UIImage.asset(.bg4)
-
-    // define if upload image button or recognize text button is tapped
-
-    var isRecognizedTextButtonTapped = false
-
-    var contentTextView = ContentTextView() {
+    private var isRecognizedTextButtonTapped = false
+    private var recognizedImage: UIImage? = UIImage() {
         didSet {
-            contentTextView.placeholder(text: Placeholder.comment.rawValue, color: .lightGray)
+            recognizeText(image: recognizedImage)
         }
     }
-    let textNumberLabel = UILabel()
-    let optionPanel = UIView()
-    let recognizeTextButton = RowButton(
-        image: UIImage.sfsymbol(.fileScanner),
-        imageColor: .M2,
-        labelColor: .black,
-        text: "掃描文字"
-    )
-    var uploadImageButton = RowButton(
-        image: UIImage.sfsymbol(.photo),
-        imageColor: .M2,
-        labelColor: .black,
-        text: "上傳圖片"
-    )
 
-    var onPublishPostID: String?
+    var contentTextView = ContentTextView()
+    private let textNumberLabel = UILabel()
+    private let optionPanel = UIView()
+    private let recognizeTextButton = RowButton(
+        image: UIImage.sfsymbol(.fileScanner),
+        imageColor: .M2, labelColor: .black, text: "掃描文字")
+    private var uploadImageButton = RowButton(
+        image: UIImage.sfsymbol(.photo),
+        imageColor: .M2, labelColor: .black, text: "上傳圖片")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         layoutViews()
-
-        recognizeTextButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
-        uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
+        setupViews()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        setupViews()
+        recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
+        uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         setupNavigation()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         recognizedImage = nil
     }
 
-    @objc func tapPublishButton(_ sender: UIBarButtonItem) {
+    private func createPost(post: inout Post) {
 
-        onPublish()
+        PostManager.shared.createPost(post: &post) { result in
+
+            switch result {
+
+            case .success(let postID):
+                self.onPublishPostID = postID
+                self.updateUser(postID: postID, action: .positive)
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "新增想法失敗")
+                }
+            }
+        }
     }
 
-    func updateUserPost(
-        postID: String,
-        action: FirebaseAction
-    ) {
+    private func updatePost(postID: String, imageUrl: String?) {
+
+        PostManager.shared.updatePost(
+            postID: postID,
+            editTime: Date().millisecondsSince1970,
+            content: self.contentTextView.text,
+            imageUrl: imageUrl
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+
+                print(success)
+
+                self.dismiss(animated: true) {
+                    DispatchQueue.main.async {
+                        Toast.showSuccess(text: "更新成功")
+                    }
+
+                    self.editContentHandler(
+                        self.contentTextView.text,
+                        Date().millisecondsSince1970,
+                        self.uploadedImage)
+                }
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "更新失敗")
+                }
+            }
+        }
+    }
+
+    private func updateUser(postID: String, action: FirebaseAction) {
 
         UserManager.shared.updateUserPost(
-            postID: postID,
-            postAction: action
+            postID: postID, postAction: action
         ) { result in
 
             switch result {
@@ -127,14 +139,14 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
                 guard let cardPostHandler = self.cardPostHandler else {
 
-                    DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+                    DispatchQueue.main.async {
+                        Toast.shared.hud.dismiss()
+                    }
 
                     let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-
                     let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
 
                     sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
-
                         tabBar?.selectedIndex = 2
                     })
 
@@ -153,151 +165,75 @@ class BaseWriteViewController: BaseImagePickerViewController {
         }
     }
 
-    func onPublish() {
+    private func onPublish() {
 
         guard !contentTextView.text.isEmpty else {
 
-            DispatchQueue.main.async { Toast.showFailure(text: "請輸入內容") }
-
+            DispatchQueue.main.async {
+                Toast.showFailure(text: "請輸入內容")
+            }
             return
         }
 
-        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
+        DispatchQueue.main.async {
+            Toast.showLoading(text: "上傳中")
+        }
 
         guard SignInManager.shared.visitorUid != nil else {
 
-            DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
-
+            DispatchQueue.main.async {
+                Toast.showFailure(text: "上傳失敗")
+            }
             return
         }
 
-        // check if the post is under edit state
-
         if let postID = self.postID {
-
-            // upload the edited image
 
             switch hasPostImage {
 
             case true:
-
-                // upload the image
 
                 ImageManager.shared.createImage(image: uploadedImage ?? UIImage()) { result in
 
                     switch result {
 
                     case .success(let url):
-
-                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
-
-                        // Check if the page is under edit state
-
-                        PostManager.shared.updatePost(
-                            postID: postID,
-                            editTime: Date().millisecondsSince1970,
-                            content: self.contentTextView.text,
-                            imageUrl: url
-                        ) { result in
-
-                            switch result {
-
-                            case .success(let success):
-
-                                print(success)
-
-                                self.dismiss(animated: true) {
-
-                                    DispatchQueue.main.async { Toast.showSuccess(text: "更新成功") }
-
-                                    // Pass edited content to post detail page
-
-                                    self.contentHandler(
-                                        self.contentTextView.text,
-                                        Date().millisecondsSince1970,
-                                        self.uploadedImage
-                                    )
-                                }
-
-                            case .failure(let error):
-
-                                DispatchQueue.main.async { Toast.showFailure(text: "更新失敗") }
-
-                                print(error)
-                            }
+                        self.updatePost(postID: postID, imageUrl: url)
+                        DispatchQueue.main.async {
+                            Toast.shared.hud.dismiss()
                         }
 
                     case .failure(let error):
-
                         print(error)
-
-                        DispatchQueue.main.async { Toast.showFailure(text: "上傳圖片失敗") }
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "上傳圖片失敗")
+                        }
                     }
                 }
 
             case false:
 
-                PostManager.shared.updatePost(
-                    postID: postID,
-                    editTime: Date().millisecondsSince1970,
-                    content: self.contentTextView.text,
-                    imageUrl: imageUrl
-                ) { result in
-
-                    switch result {
-
-                    case .success(let success):
-
-                        print(success)
-
-                        self.dismiss(animated: true) {
-
-                            DispatchQueue.main.async { Toast.showSuccess(text: "更新成功") }
-
-                            // Pass edited content to post detail page
-
-                            self.contentHandler(
-                                self.contentTextView.text,
-                                Date().millisecondsSince1970,
-                                self.uploadedImage
-                            )
-                        }
-
-                    case .failure(let error):
-
-                        DispatchQueue.main.async { Toast.showFailure(text: "更新失敗") }
-
-                        print(error)
-                    }
-                }
+                self.updatePost(postID: postID, imageUrl: imageUrl)
             }
 
         } else {
-
-            // not under edit state, create new post
 
             publishNewPost()
         }
     }
 
-    func publishNewPost() {
-
-        // check if text view has content
+    private func publishNewPost() {
 
         guard !contentTextView.text.isEmpty else {
 
-            DispatchQueue.main.async { Toast.showFailure(text: "請輸入內容") }
-
+            DispatchQueue.main.async {
+                Toast.showFailure(text: "請輸入內容")
+            }
             return
         }
 
-        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
-
-        guard let uid = SignInManager.shared.visitorUid else {
-
-            DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
-
-            return
+        DispatchQueue.main.async {
+            Toast.showLoading(text: "上傳中")
         }
 
         // check if there's image
@@ -317,38 +253,17 @@ class BaseWriteViewController: BaseImagePickerViewController {
                     DispatchQueue.main.async { Toast.shared.hud.dismiss() }
 
                     var post = Post(
-                        uid: uid,
-                        createdTime: Date().millisecondsSince1970,
-                        editTime: nil,
-                        content: self.contentTextView.text   ,
-                        imageUrl: url,
-                        likeNumber: 0,
-                        commentNumber: 0,
-                        likeUser: nil,
+                        uid: UserManager.shared.visitorUserInfo?.uid ?? "",
+                        createdTime: Date().millisecondsSince1970, editTime: nil,
+                        content: self.contentTextView.text, imageUrl: url,
+                        likeNumber: 0, commentNumber: 0, likeUser: nil,
                         cardID: self.card?.cardID,
                         cardContent: self.card?.content,
-                        cardAuthor: self.card?.author
-                    )
+                        cardAuthor: self.card?.author)
 
                     // create post data with image url
 
-                    PostManager.shared.createPost(post: &post) { result in
-
-                        switch result {
-
-                        case .success(let postID):
-
-                            self.onPublishPostID = postID
-
-                            self.updateUserPost(postID: postID, action: .positive)
-
-                        case .failure(let error):
-
-                            print(error)
-
-                            DispatchQueue.main.async { Toast.showFailure(text: "新增想法失敗") }
-                        }
-                    }
+                    self.createPost(post: &post)
 
                 case .failure(let error):
 
@@ -363,48 +278,27 @@ class BaseWriteViewController: BaseImagePickerViewController {
             // create a post without image url
 
             var post = Post(
-                uid: uid,
-                createdTime: Date().millisecondsSince1970,
-                editTime: nil,
-                content: self.contentTextView.text   ,
-                imageUrl: nil,
-                likeNumber: 0,
-                commentNumber: 0,
-                likeUser: nil,
+                uid: UserManager.shared.visitorUserInfo?.uid ?? "",
+                createdTime: Date().millisecondsSince1970, editTime: nil,
+                content: self.contentTextView.text, imageUrl: nil,
+                likeNumber: 0, commentNumber: 0, likeUser: nil,
                 cardID: self.card?.cardID,
                 cardContent: self.card?.content,
-                cardAuthor: self.card?.author
-            )
+                cardAuthor: self.card?.author)
 
-            PostManager.shared.createPost(post: &post) { result in
-
-                switch result {
-
-                case .success(let postID):
-
-                    self.onPublishPostID = postID
-
-                    self.updateUserPost(postID: postID, action: .positive)
-
-                case .failure(let error):
-
-                    print(error)
-
-                    DispatchQueue.main.async { Toast.showFailure(text: "新增想法失敗") }
-                }
-            }
+            self.createPost(post: &post)
         }
     }
 
-    // Text Recognition
-
-    private func tapRecognizeTextButton(image: UIImage?) {
+    private func recognizeText(image: UIImage?) {
 
         guard let cgImage = image?.cgImage else {
             return
         }
 
-        DispatchQueue.main.async { Toast.showLoading(text: "掃描中") }
+        DispatchQueue.main.async {
+            Toast.showLoading(text: "掃描中")
+        }
 
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
 
@@ -413,8 +307,9 @@ class BaseWriteViewController: BaseImagePickerViewController {
             guard let observations = request.results as? [VNRecognizedTextObservation],
                   error == nil else {
 
-                      DispatchQueue.main.async { Toast.showFailure(text: "掃描失敗") }
-
+                      DispatchQueue.main.async {
+                          Toast.showFailure(text: "掃描失敗")
+                      }
                       return
                   }
 
@@ -427,8 +322,9 @@ class BaseWriteViewController: BaseImagePickerViewController {
             DispatchQueue.main.async {
 
                 self?.contentTextView.text = text
-
-                DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+                DispatchQueue.main.async {
+                    Toast.shared.hud.dismiss()
+                }
             }
         }
 
@@ -453,8 +349,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
         }
     }
 
-    // upload image
-
     override func openImagePicker(_ sender: UIButton) {
 
         super.openImagePicker(sender)
@@ -474,11 +368,11 @@ class BaseWriteViewController: BaseImagePickerViewController {
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
 
-        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
+        DispatchQueue.main.async {
+            Toast.showLoading(text: "上傳中")
+        }
 
         switch isRecognizedTextButtonTapped {
-
-        // user is using text recognition
 
         case true:
 
@@ -486,23 +380,25 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             guard let selectedImage = info[.editedImage] as? UIImage else {
 
-                DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
-
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "沒有選取圖片")
+                }
                 return
             }
 
             self.recognizedImage = selectedImage
 
-            DispatchQueue.main.async { Toast.shared.hud.dismiss() }
-
-        // user is uploading image
+            DispatchQueue.main.async {
+                Toast.shared.hud.dismiss()
+            }
 
         case false:
 
             guard let selectedImage = info[.editedImage] as? UIImage else {
 
-                DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
-
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "沒有選取圖片")
+                }
                 return
             }
 
@@ -510,7 +406,9 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
             self.hasPostImage = true
 
-            DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+            DispatchQueue.main.async {
+                Toast.shared.hud.dismiss()
+            }
 
             picker.dismiss(animated: true)
         }
@@ -521,18 +419,19 @@ class BaseWriteViewController: BaseImagePickerViewController {
 
         picker.dismiss(animated: true)
 
-        DispatchQueue.main.async { Toast.showLoading(text: "上傳中") }
+        DispatchQueue.main.async {
+            Toast.showLoading(text: "上傳中")
+        }
 
         guard !results.isEmpty else {
 
-            DispatchQueue.main.async { Toast.showFailure(text: "沒有選取照片") }
-
+            DispatchQueue.main.async {
+                Toast.showFailure(text: "沒有選取照片")
+            }
             return
         }
 
         switch isRecognizedTextButtonTapped {
-
-            // user is using text recognition
 
         case true:
 
@@ -543,26 +442,24 @@ class BaseWriteViewController: BaseImagePickerViewController {
                     if let error = error {
 
                         print(error)
-
-                        DispatchQueue.main.async { Toast.showFailure(text: "上傳照片失敗") }
-
-                    } else {
-
-                        guard let image = image as? UIImage else {
-
-                            picker.dismiss(animated: true)
-
-                            return
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "上傳照片失敗")
                         }
+                    }
 
-                        self.recognizedImage = image
+                    guard let image = image as? UIImage else {
 
-                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+                        picker.dismiss(animated: true)
+                        return
+                    }
+
+                    self.recognizedImage = image
+
+                    DispatchQueue.main.async {
+                        Toast.shared.hud.dismiss()
                     }
                 })
             }
-
-            // user is uploading image
 
         case false:
 
@@ -573,33 +470,33 @@ class BaseWriteViewController: BaseImagePickerViewController {
                     if let error = error {
 
                         print(error)
-
-                        DispatchQueue.main.async { Toast.showFailure(text: "上傳照片失敗") }
-
-                    } else {
-
-                        guard let selectedImage = image as? UIImage else {
-
-                            picker.dismiss(animated: true)
-
-                            DispatchQueue.main.async { Toast.shared.hud.dismiss() }
-
-                            return
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "上傳照片失敗")
                         }
+                    }
 
-                        self.uploadedImage = selectedImage
+                    guard let selectedImage = image as? UIImage else {
 
-                        self.hasPostImage = true
+                        picker.dismiss(animated: true)
 
-                        DispatchQueue.main.async { Toast.shared.hud.dismiss() }
+                        DispatchQueue.main.async {
+                            Toast.shared.hud.dismiss()
+                        }
+                        return
+                    }
+
+                    self.uploadedImage = selectedImage
+
+                    self.hasPostImage = true
+
+                    DispatchQueue.main.async {
+                        Toast.shared.hud.dismiss()
                     }
                 })
             }
         }
     }
 }
-
-// Text length restriction
 
 extension BaseWriteViewController: UITextViewDelegate {
 
@@ -619,37 +516,31 @@ extension BaseWriteViewController: UITextViewDelegate {
 
 extension BaseWriteViewController {
 
+    @objc func tapPublishButton(_ sender: UIBarButtonItem) {
+        onPublish()
+    }
+
+    @objc func dismissSelf(_ sender: UIBarButtonItem) {
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: nil)
+    }
+
     func setupNavigation() {
 
         navigationItem.title = navTitle
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
-            target: self,
-            action: #selector(dismissSelf(_:))
-        )
+            target: self, action: #selector(dismissSelf(_:)))
 
         navigationItem.setupRightBarButton(
-            image: nil,
-            text: "發布",
-            target: self,
-            action: #selector(tapPublishButton(_:)),
-            color: .M1
-        )
-    }
-
-    @objc func dismissSelf(_ sender: UIBarButtonItem) {
-
-        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-
-        sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            image: nil, text: "發布", target: self,
+            action: #selector(tapPublishButton(_:)), color: .M1)
     }
 
     func layoutViews() {
 
-        let views = [
-            contentTextView, textNumberLabel, optionPanel, recognizeTextButton, uploadImageButton
-        ]
+        let views = [contentTextView, textNumberLabel, optionPanel, recognizeTextButton, uploadImageButton]
 
         views.forEach {
             view.addSubview($0)
@@ -676,6 +567,7 @@ extension BaseWriteViewController {
             recognizeTextButton.topAnchor.constraint(equalTo: optionPanel.topAnchor, constant: 16),
             recognizeTextButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
             recognizeTextButton.heightAnchor.constraint(equalTo: optionPanel.heightAnchor, multiplier: 0.3),
+
             uploadImageButton.leadingAnchor.constraint(equalTo: optionPanel.leadingAnchor),
             uploadImageButton.topAnchor.constraint(equalTo: recognizeTextButton.bottomAnchor, constant: 6),
             uploadImageButton.widthAnchor.constraint(equalTo: optionPanel.widthAnchor),
@@ -689,8 +581,8 @@ extension BaseWriteViewController {
         contentTextView.delegate = self
         contentTextView.contentInset = .init(top: 0, left: 10, bottom: 0, right: 0)
 
-        recognizeTextButton.cornerRadius = recognizeTextButton.frame.width / 2
-        uploadImageButton.cornerRadius = uploadImageButton.frame.width / 2
+        recognizeTextButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
+        uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
 
         textNumberLabel.text = "\(contentTextView.text.count) / 140"
         textNumberLabel.textColor = .black

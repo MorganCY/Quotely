@@ -10,16 +10,6 @@ import UIKit
 
 class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
-    enum DetailPageType { case post }
-
-    let visitorUid = SignInManager.shared.visitorUid ?? ""
-
-    // MARK: ViewControls
-    let commentPanel = UIView()
-    let userImageView = UIImageView()
-    let commentTextField = CommentTextField()
-    let submitButton = ImageButton(image: UIImage.sfsymbol(.send), color: .M2)
-
     @IBOutlet weak var tableView: UITableView!
 
     // MARK: DetailDataProperty
@@ -44,20 +34,20 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var hasTabBar = false
     var isLike = false
 
-    // MARK: LifeCycle
+    let commentPanel = UIView()
+    let userImageView = UIImageView()
+    let commentTextField = CommentTextField()
+    let submitButton = ImageButton(image: UIImage.sfsymbol(.send), color: .M2)
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         fetchUserInfo()
-
         setupTableView()
-
         navigationController?.setupBackButton(color: .gray)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
@@ -100,7 +90,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     // MARK: Action
 
-    @objc func addComment(_ sender: UIButton) {
+    @objc func createComment(_ sender: UIButton) {
 
         commentTextField.resignFirstResponder()
     }
@@ -130,31 +120,26 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.backgroundColor = .white
     }
 
-    func fetchComments(type: DetailPageType) {
+    func fetchComments() {
 
-        switch type {
+        guard let postID = post?.postID else { return }
 
-        case .post:
+        CommentManager.shared.fetchComment(postID: postID) { result in
 
-            guard let postID = post?.postID else { return }
+            switch result {
 
-            CommentManager.shared.fetchComment(postID: postID) { result in
+            case .success(let comments):
 
-                switch result {
+                self.comments = comments
 
-                case .success(let comments):
+                self.fetchCommentUserInfo(commentList: comments)
 
-                    self.comments = comments
+            case .failure(let error):
 
-                    self.fetchCommentUserInfo(commentList: comments)
+                print("fetchData.failure: \(error)")
 
-                case .failure(let error):
-
-                    print("fetchData.failure: \(error)")
-
-                    DispatchQueue.main.async {
-                        Toast.showFailure(text: "評論資料載入異常")
-                    }
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "評論資料載入異常")
                 }
             }
         }
@@ -341,7 +326,7 @@ class BaseDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
 
         submitButton.addTarget(
-            self, action: #selector(addComment(_:)),
+            self, action: #selector(createComment(_:)),
             for: .touchUpInside
         )
     }

@@ -15,14 +15,14 @@ extension UIFont {
         case bold = "PingfangTC-Semibold"
     }
 
-    static func setRegular(size: CGFloat) -> UIFont? {
+    static func setRegular(size: CGFloat) -> UIFont {
 
-        return baseFont(.regular, size: size)
+        return baseFont(.regular, size: size) ?? UIFont.systemFont(ofSize: 16)
     }
 
-    static func setBold(size: CGFloat) -> UIFont? {
+    static func setBold(size: CGFloat) -> UIFont {
 
-        return baseFont(.bold, size: size)
+        return baseFont(.bold, size: size) ?? UIFont.systemFont(ofSize: 16)
     }
 
     private static func baseFont(_ font: FontName, size: CGFloat) -> UIFont? {

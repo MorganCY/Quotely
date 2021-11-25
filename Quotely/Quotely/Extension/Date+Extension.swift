@@ -7,15 +7,15 @@
 
 import Foundation
 
-enum Format: String {
-
-    // swiftlint:disable identifier_name
-    case yyyy
-    case MM
-    case dd
-}
-
 extension Date {
+
+    enum Format: String {
+
+        // swiftlint:disable identifier_name
+        case yyyy
+        case MM
+        case dd
+    }
 
     init(milliseconds: Int64) {
         self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
@@ -23,19 +23,6 @@ extension Date {
 
     var millisecondsSince1970: Int64 {
         return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
-    }
-
-    func currentTimeMillis() -> Int64 {
-        return Int64(self.timeIntervalSince1970 * 1000)
-    }
-
-    static var fullDateFormatter: DateFormatter {
-
-        let formatter = DateFormatter()
-
-        formatter.dateFormat = "yyyy年MM月dd日 HH:mm"
-
-        return formatter
     }
 
     static var dateFormatter: DateFormatter {

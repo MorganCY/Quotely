@@ -173,8 +173,7 @@ extension JournalListViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
 
-        guard let userRegisterDate = userRegisterDate else { fatalError("Cannot create item")
-        }
+        guard let userRegisterDate = userRegisterDate else { fatalError("Cannot create item") }
 
         let monthlist = Date.getMonthAndYearBetween(
             from: userRegisterDate,
@@ -184,10 +183,8 @@ extension JournalListViewController: UICollectionViewDataSource {
         guard let item = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: JournalListCollectionViewCell.self),
             for: indexPath
-        ) as? JournalListCollectionViewCell else {
-
-            fatalError("Cannot create item")
-        }
+        ) as? JournalListCollectionViewCell
+        else { fatalError("Cannot create item") }
 
         item.layoutItem(month: monthlist[indexPath.item])
 
@@ -243,7 +240,7 @@ extension JournalListViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
 
-        return CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.12)
+        CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.12)
     }
 
 }

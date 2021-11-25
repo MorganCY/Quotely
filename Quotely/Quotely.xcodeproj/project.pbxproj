@@ -339,7 +339,6 @@
 		5C2C730F271D17A800F8B9EC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */,
 				5C4B9684271FA70C008B21C7 /* Base */,
 				5C54F4D62732337500E62DBF /* Auth */,
 				5C2846E72728E92500393562 /* Journal */,
@@ -435,6 +434,7 @@
 		5C4B9684271FA70C008B21C7 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */,
 				5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */,
 				5CC40AE5272E965A00DF51D9 /* BaseNavigaitonController.swift */,
 			);
@@ -453,10 +453,6 @@
 			isa = PBXGroup;
 			children = (
 				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
-				5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */,
-				5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */,
-				5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */,
-				5C4B9694271FBCCF008B21C7 /* BaseDetailCommentCell.xib */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -477,6 +473,10 @@
 				5C2C7320271D3D5500F8B9EC /* Explore.storyboard */,
 				5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */,
 				5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */,
+				5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */,
+				5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */,
+				5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */,
+				5C4B9694271FBCCF008B21C7 /* BaseDetailCommentCell.xib */,
 			);
 			path = Explore;
 			sourceTree = "<group>";

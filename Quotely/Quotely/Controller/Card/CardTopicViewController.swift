@@ -10,6 +10,19 @@ import UIKit
 
 class CardTopicViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.registerCellWithNib(identifier: CardTopicTableViewCell.identifier, bundle: nil)
+            tableView.registerHeaderWithNib(identifier: CardTopicTableViewHeader.identifier, bundle: nil)
+            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
+            tableView.backgroundColor = .M3
+        }
+    }
+
+    @IBOutlet weak var backgroundImageView: UIImageView!
+
     let visitorUid = SignInManager.shared.visitorUid ?? ""
 
     // if user comes from explore page, get card ID
@@ -34,36 +47,21 @@ class CardTopicViewController: UIViewController {
 
     var userList: [User]? {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
             tableView.reloadData()
         }
     }
 
     var isLikePost = false
 
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            tableView.registerCellWithNib(identifier: CardTopicTableViewCell.identifier, bundle: nil)
-            tableView.registerHeaderWithNib(identifier: CardTopicTableViewHeader.identifier, bundle: nil)
-            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
-            tableView.backgroundColor = .M3
-        }
-    }
-
-    @IBOutlet weak var backgroundImageView: UIImageView!
-
     override func viewDidLoad() {
-
+        super.viewDidLoad()
         setupBackgroundImage()
-
-        setupBackButton()
+        setupNavigationBackButton()
     }
 
     func setupBackgroundImage() {
 
         let images = [UIImage.asset(.bg1), UIImage.asset(.bg2), UIImage.asset(.bg3), UIImage.asset(.bg4)]
-
         backgroundImageView.image = images[Int.random(in: 0...3)]
     }
 
@@ -209,7 +207,7 @@ class CardTopicViewController: UIViewController {
         navigationController?.pushViewController(cardPostVC, animated: true)
     }
 
-    func goToSharePage() {
+    func tapShareButton() {
 
         guard let shareVC =
                 UIStoryboard.share.instantiateViewController(
@@ -231,23 +229,6 @@ class CardTopicViewController: UIViewController {
         present(navigationVC, animated: true)
     }
 
-    func goToWritePage() {
-
-        guard let writeVC =
-                UIStoryboard.write.instantiateViewController(
-                    withIdentifier: CardWriteViewController.identifier
-                ) as? CardWriteViewController
-        else { return }
-
-        let nav = BaseNavigationController(rootViewController: writeVC)
-
-        writeVC.card = card
-
-        nav.modalPresentationStyle = .fullScreen
-
-        present(nav, animated: true)
-    }
-
     func tapLikeButton() {
 
         guard let cardID = card?.cardID else {
@@ -264,7 +245,24 @@ class CardTopicViewController: UIViewController {
         DispatchQueue.main.async { Toast.showSuccess(text: "已收藏") }
     }
 
-    func setupBackButton() {
+    func tapWriteButton() {
+
+        guard let writeVC =
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: CardWriteViewController.identifier
+                ) as? CardWriteViewController
+        else { return }
+
+        let nav = BaseNavigationController(rootViewController: writeVC)
+
+        writeVC.card = card
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
+
+    func setupNavigationBackButton() {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage.asset(.back).withRenderingMode(.alwaysOriginal),
@@ -371,16 +369,16 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         guard let card = card else {
 
-            fatalError("Cannot create header")
+            return UIView()
         }
 
         header.layoutHeader(card: card)
 
-        header.shareHandler = { self.goToSharePage() }
+        header.shareHandler = { self.tapShareButton() }
 
         header.likeHandler = { self.tapLikeButton() }
 
-        header.writeHandler = { self.goToWritePage() }
+        header.writeHandler = { self.tapWriteButton() }
 
         return header
     }

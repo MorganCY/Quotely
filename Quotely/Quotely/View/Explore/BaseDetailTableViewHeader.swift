@@ -10,6 +10,7 @@ import UIKit
 
 class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
 
+    @IBOutlet weak var userStackView: UIStackView!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!

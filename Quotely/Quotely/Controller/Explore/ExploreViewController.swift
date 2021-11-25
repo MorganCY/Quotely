@@ -44,6 +44,8 @@ class ExploreViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
             tableView.registerCellWithNib(
                 identifier: ExploreTableViewCell.identifier,
                 bundle: nil
@@ -58,10 +60,8 @@ class ExploreViewController: UIViewController {
 
     var postList: [Post] = []
 
-    var userList: [User?] = [] {
+    var userList: [User]? {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
             tableView.reloadData()
         }
     }
@@ -273,6 +273,10 @@ class ExploreViewController: UIViewController {
             isLikePost = false
         }
 
+        guard let userList = userList else {
+            return
+        }
+
         detailVC.post = postList[index]
         detailVC.postAuthor = userList[index]
         detailVC.isLike = isLikePost
@@ -294,7 +298,7 @@ class ExploreViewController: UIViewController {
 
             UserManager.shared.updateUserList(
                 userAction: .block,
-                visitedUid: self.userList[index]?.uid ?? "",
+                visitedUid: self.userList?[index].uid ?? "",
                 action: .positive
             ) { result in
 
@@ -326,9 +330,10 @@ class ExploreViewController: UIViewController {
     }
 
     func unfollowUser(index: Int) {
+
         UserManager.shared.updateUserList(
             userAction: .follow,
-            visitedUid: self.userList[index]?.uid ?? "",
+            visitedUid: self.userList?[index].uid ?? "",
             action: .negative
         ) { result in
 
@@ -403,7 +408,11 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { UITableView.automaticDimension }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+
+        UITableView.automaticDimension
+    }
 
     func tableView(
         _ tableView: UITableView,
@@ -428,8 +437,12 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             isLikePost = false
         }
 
+        guard let userList = userList else {
+            return UITableViewCell()
+        }
+
         cell.layoutCell(
-            userInfo: userList[indexPath.row]!,
+            userInfo: userList[indexPath.row],
             post: post,
             isLikePost: self.isLikePost
         )
@@ -467,25 +480,15 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             self.openOptionMenu(index: indexPath.row)
         }
 
-        // go to user's profile when tapping image, name, and time
-
         let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
-        let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
-        let tapGoToProfileGesture3 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
         let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
 
-        cell.userImageView.addGestureRecognizer(tapGoToProfileGesture)
-        cell.userImageView.isUserInteractionEnabled = true
-        cell.userNameLabel.addGestureRecognizer(tapGoToProfileGesture2)
-        cell.userNameLabel.isUserInteractionEnabled = true
-        cell.timeLabel.addGestureRecognizer(tapGoToProfileGesture3)
-        cell.timeLabel.isUserInteractionEnabled = true
+        cell.userStackView.addGestureRecognizer(tapGoToProfileGesture)
+        cell.userStackView.isUserInteractionEnabled = true
         cell.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
         cell.cardStackView.isUserInteractionEnabled = true
 
-        cell.userImageView.tag = indexPath.row
-        cell.userNameLabel.tag = indexPath.row
-        cell.timeLabel.tag = indexPath.row
+        cell.userStackView.tag = indexPath.row
         cell.cardStackView.tag = indexPath.row
 
         return cell

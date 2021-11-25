@@ -7,8 +7,6 @@
 
 import Foundation
 import UIKit
-import SwiftUI
-import Lottie
 
 class JournalViewController: UIViewController {
 
@@ -73,61 +71,8 @@ class JournalViewController: UIViewController {
         }
 
         backgroundView.cornerRadius = isEditPanelExpand
-        ?
-        0 : backgroundView.frame.width / 2
+        ? 0 : backgroundView.frame.width / 2
         collapseButton.cornerRadius = collapseButton.frame.width / 2
-    }
-
-    @objc func submitJournal(_ sender: UIButton) {
-
-        var journal = Journal(
-            uid: UserManager.shared.visitorUserInfo?.uid ?? "",
-            createdTime: Date().millisecondsSince1970,
-            createdMonth: "\(Calendar.current.component(.month, from: Date()))",
-            createdYear: "\(Calendar.current.component(.year, from: Date()))",
-            emoji: selectedEmoji?.rawValue ?? "face.smiling",
-            content: journalTextView.text
-        )
-
-        JournalManager.shared.createJournal(
-            journal: &journal
-        ) { result in
-
-            switch result {
-
-            case .success(let success):
-                print(success)
-                self.isEditPanelExpand = false
-                self.journalTextView.text.removeAll()
-                Toast.showSuccess(text: "新增成功")
-
-            case .failure(let error):
-                print(error)
-                Toast.showFailure(text: "新增失敗")
-            }
-        }
-    }
-
-    @objc func goToFavoriteCardList(_ sender: UIButton) {
-
-        guard let favCardVC =
-                UIStoryboard.card.instantiateViewController(
-                    withIdentifier: FavoriteCardViewController.identifier
-                ) as? FavoriteCardViewController
-        else { return }
-
-        show(favCardVC, sender: nil)
-    }
-
-    @objc func goToJournalList(_ sender: UIButton) {
-
-        guard let journalListVC =
-                UIStoryboard.journal.instantiateViewController(
-                    withIdentifier: JournalListViewController.identifier
-                ) as? JournalListViewController
-        else { return }
-
-        show(journalListVC, sender: nil)
     }
 
     func fetchQuoteOncePerDay() {
@@ -158,55 +103,23 @@ class JournalViewController: UIViewController {
 
     func fetchQuote() {
 
-        CardManager.shared.fetchRandomCards(
-            limitNumber: 1) { result in
+        CardManager.shared.fetchRandomCards(limitNumber: 1) { result in
 
-                switch result {
+            switch result {
 
-                case .success(let cards):
+            case .success(let cards):
 
-                    let lastJournalQuote = "\(cards.first?.content.replacingOccurrences(of: "\\n", with: "\n") ?? "")\n\n\(cards.first?.author ?? "")"
+                let lastJournalQuote = (cards.first?.content.replacingOccurrences(of: "\\n", with: "\n") ?? "")
+                + "\n\n" +
+                (cards.first?.author ?? "")
 
-                    self.defaults.set(lastJournalQuote, forKey: "LastJournalQuote")
+                self.defaults.set(lastJournalQuote, forKey: "LastJournalQuote")
 
-                    self.dailyQuoteLabel.text = lastJournalQuote
+                self.dailyQuoteLabel.text = lastJournalQuote
 
-                case .failure(let error):
-                    print(error)
-                }
+            case .failure(let error):
+                print(error)
             }
-    }
-
-    @objc func collapseEditPanel(_ sender: UIButton) {
-
-        isEditPanelExpand = false
-    }
-
-    func expandAnimation() {
-
-        UIView.animate(
-            withDuration: 1 / 2,
-            delay: 0,
-            options: .curveEaseIn
-        ) {
-            self.editPanelCollapse.isActive = !self.isEditPanelExpand
-            self.editPanelExpand.isActive = self.isEditPanelExpand
-
-            self.backgroundView.cornerRadius = self.isEditPanelExpand
-            ?
-            0 : self.backgroundView.frame.width / 2
-
-            self.journalTextViewCollapse.isActive = !self.isEditPanelExpand
-            self.journalTextViewExpand.isActive = self.isEditPanelExpand
-            self.textNumberLabel.isHidden = !self.isEditPanelExpand
-
-            self.submitButton.isHidden = !self.isEditPanelExpand
-
-            self.collapseButton.isHidden = !self.isEditPanelExpand
-
-            self.journalListButton.isHidden = self.isEditPanelExpand
-
-            self.view.layoutIfNeeded()
         }
     }
 }
@@ -278,8 +191,82 @@ extension JournalViewController: UITextViewDelegate {
     }
 }
 
-// MARK: SetupViews
+// swiftlint:disable function_body_length
 extension JournalViewController {
+
+    @objc func tapSubmitButton(_ sender: UIButton) {
+
+        var journal = Journal(
+            uid: UserManager.shared.visitorUserInfo?.uid ?? "",
+            createdTime: Date().millisecondsSince1970,
+            createdMonth: "\(Calendar.current.component(.month, from: Date()))",
+            createdYear: "\(Calendar.current.component(.year, from: Date()))",
+            emoji: selectedEmoji?.rawValue ?? "face.smiling",
+            content: journalTextView.text
+        )
+
+        JournalManager.shared.createJournal(
+            journal: &journal
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+                self.isEditPanelExpand = false
+                self.journalTextView.text.removeAll()
+                Toast.showSuccess(text: "新增成功")
+
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: "新增失敗")
+            }
+        }
+    }
+
+    @objc func tapJournalListButton(_ sender: UIButton) {
+
+        guard let journalListVC =
+                UIStoryboard.journal.instantiateViewController(
+                    withIdentifier: JournalListViewController.identifier
+                ) as? JournalListViewController
+        else { return }
+
+        show(journalListVC, sender: nil)
+    }
+
+    @objc func tapCollapseButton(_ sender: UIButton) {
+
+        isEditPanelExpand = false
+    }
+
+    func expandAnimation() {
+
+        UIView.animate(
+            withDuration: 1 / 2,
+            delay: 0,
+            options: .curveEaseIn
+        ) {
+            self.editPanelCollapse.isActive = !self.isEditPanelExpand
+            self.editPanelExpand.isActive = self.isEditPanelExpand
+
+            self.backgroundView.cornerRadius = self.isEditPanelExpand
+            ?
+            0 : self.backgroundView.frame.width / 2
+
+            self.journalTextViewCollapse.isActive = !self.isEditPanelExpand
+            self.journalTextViewExpand.isActive = self.isEditPanelExpand
+            self.textNumberLabel.isHidden = !self.isEditPanelExpand
+
+            self.submitButton.isHidden = !self.isEditPanelExpand
+
+            self.collapseButton.isHidden = !self.isEditPanelExpand
+
+            self.journalListButton.isHidden = self.isEditPanelExpand
+
+            self.view.layoutIfNeeded()
+        }
+    }
 
     func configureGradientLayer() {
 
@@ -351,7 +338,7 @@ extension JournalViewController {
         submitButton.cornerRadius = CornerRadius.standard.rawValue * 0.75
         submitButton.titleLabel?.font = UIFont.setRegular(size: 20)
 
-        submitButton.addTarget(self, action: #selector(submitJournal(_:)), for: .touchUpInside)
+        submitButton.addTarget(self, action: #selector(tapSubmitButton(_:)), for: .touchUpInside)
         journalTextViewCollapse = journalTextView.bottomAnchor.constraint(
             equalTo: editPanel.bottomAnchor,
             constant: -20
@@ -399,7 +386,7 @@ extension JournalViewController {
 
         collapseButton.isHidden = !isEditPanelExpand
         collapseButton.backgroundColor = .clear
-        collapseButton.addTarget(self, action: #selector(collapseEditPanel(_:)), for: .touchUpInside)
+        collapseButton.addTarget(self, action: #selector(tapCollapseButton(_:)), for: .touchUpInside)
 
         textNumberLabel.text = "\(journalTextView.text.count) / 140"
         textNumberLabel.textColor = .black
@@ -409,7 +396,7 @@ extension JournalViewController {
 
         journalListButton.cornerRadius = CornerRadius.standard.rawValue
         journalListButton.backgroundColor = .white
-        journalListButton.addTarget(self, action: #selector(goToJournalList(_:)), for: .touchUpInside)
+        journalListButton.addTarget(self, action: #selector(tapJournalListButton(_:)), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
             collapseButton.centerXAnchor.constraint(equalTo: editPanel.centerXAnchor),
