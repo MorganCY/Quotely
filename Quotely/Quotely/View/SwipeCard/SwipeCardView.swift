@@ -101,11 +101,11 @@ class SwipeCardView: UIView {
 
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.textColor = .black
-        contentLabel.font = UIFont.systemFont(ofSize: 16)
+        contentLabel.font = UIFont.setRegular(size: 16)
         contentLabel.numberOfLines = 0
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.textColor = .gray
-        authorLabel.font = UIFont.systemFont(ofSize: 12)
+        authorLabel.font = UIFont.setRegular(size: 12)
         authorLabel.numberOfLines = 1
 
         NSLayoutConstraint.activate([

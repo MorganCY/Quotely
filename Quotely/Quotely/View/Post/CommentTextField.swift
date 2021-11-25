@@ -12,7 +12,7 @@ class CommentTextField: UITextField {
     init() {
         super.init(frame: .zero)
         placeholder = "  說點什麼..."
-        font = UIFont.systemFont(ofSize: 18)
+        font = UIFont.setRegular(size: 18)
         keyboardType = UIKeyboardType.default
         clearButtonMode = UITextField.ViewMode.whileEditing
         contentVerticalAlignment = UIControl.ContentVerticalAlignment.center

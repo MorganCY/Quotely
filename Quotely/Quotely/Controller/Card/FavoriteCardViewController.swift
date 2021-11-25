@@ -328,7 +328,7 @@ extension FavoriteCardViewController {
 
         titleLabel.text = "還沒有收藏卡片，快去滑幾張吧！"
         titleLabel.textColor = .black
-        titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
+        titleLabel.font = UIFont.setBold(size: 22)
 
         NSLayoutConstraint.activate([
             emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),

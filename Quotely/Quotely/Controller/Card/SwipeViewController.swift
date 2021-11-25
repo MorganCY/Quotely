@@ -394,11 +394,11 @@ class SwipeViewController: UIViewController {
 
         titleLabel.text = "試試看左右滑動片語"
         titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        titleLabel.font = UIFont.setBold(size: 24)
         okButton.setTitle("好喔", for: .normal)
         okButton.setTitleColor(.black, for: .normal)
         okButton.backgroundColor = .white.withAlphaComponent(0.8)
-        okButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        okButton.titleLabel?.font = UIFont.setBold(size: 20)
         okButton.cornerRadius = CornerRadius.standard.rawValue
         okButton.addTarget(self, action: #selector(dismissEducationAnimation(_:)), for: .touchUpInside)
 

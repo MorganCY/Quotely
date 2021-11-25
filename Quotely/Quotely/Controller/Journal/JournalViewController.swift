@@ -303,8 +303,8 @@ extension JournalViewController {
         }
 
         dateLabel.text = "\(Date().getCurrentTime(format: .MM)).\(Date().getCurrentTime(format: .dd))"
-        dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 68.0)
-        dailyQuoteLabel.font = UIFont(name: "Pingfang TC", size: 16.0)
+        dateLabel.font = UIFont(name: "Avenir Next Heavy", size: 68)
+        dailyQuoteLabel.font = UIFont.setRegular(size: 16)
         dailyQuoteLabel.numberOfLines = 0
 
         NSLayoutConstraint.activate([
@@ -330,7 +330,7 @@ extension JournalViewController {
         editPanel.cornerRadius = CornerRadius.standard.rawValue
         emojiTitleLabel.text = "選擇一個代表心情的Emoji"
         emojiTitleLabel.textColor = .lightGray
-        emojiTitleLabel.font = UIFont(name: "PingfangTC-Semibold", size: 16)
+        emojiTitleLabel.font = UIFont.setBold(size: 16)
         emojiSelection.dataSource = self
         emojiSelection.delegate = self
         journalTextView.delegate = self
@@ -349,7 +349,7 @@ extension JournalViewController {
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.backgroundColor = .M2
         submitButton.cornerRadius = CornerRadius.standard.rawValue * 0.75
-        submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        submitButton.titleLabel?.font = UIFont.setRegular(size: 20)
 
         submitButton.addTarget(self, action: #selector(submitJournal(_:)), for: .touchUpInside)
         journalTextViewCollapse = journalTextView.bottomAnchor.constraint(
@@ -403,7 +403,7 @@ extension JournalViewController {
 
         textNumberLabel.text = "\(journalTextView.text.count) / 140"
         textNumberLabel.textColor = .black
-        textNumberLabel.font = UIFont.systemFont(ofSize: 14)
+        textNumberLabel.font = UIFont.setRegular(size: 14)
         textNumberLabel.textAlignment = .right
         textNumberLabel.isHidden = !isEditPanelExpand
 
@@ -450,14 +450,14 @@ extension JournalViewController {
 
         labels.forEach {
             $0.textColor = .white
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+            $0.font = UIFont.setBold(size: 18)
             $0.numberOfLines = 0
         }
 
         okButton.setTitle("好喔", for: .normal)
         okButton.setTitleColor(.black, for: .normal)
         okButton.backgroundColor = .white.withAlphaComponent(0.7)
-        okButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        okButton.titleLabel?.font = UIFont.setBold(size: 18)
         okButton.cornerRadius = CornerRadius.standard.rawValue
         okButton.addTarget(self, action: #selector(dismissEducationAnimation(_:)), for: .touchUpInside)
 

@@ -244,7 +244,7 @@ extension SelectionViewDataSource {
 
     func buttonTitleFont(_ view: SelectionView) -> UIFont {
 
-        UIFont.systemFont(ofSize: 18)
+        UIFont.setRegular(size: 18) ?? UIFont.systemFont(ofSize: 18)
     }
 
     func heightForButton(_ view: SelectionView) -> CGFloat {

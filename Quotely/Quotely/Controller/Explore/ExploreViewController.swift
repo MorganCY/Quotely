@@ -537,7 +537,7 @@ extension ExploreViewController {
 
         reminderLabel.text = "還沒有追蹤的用戶...QQ"
         reminderLabel.textColor = .gray
-        reminderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        reminderLabel.font = UIFont.setBold(size: 20)
 
         NSLayoutConstraint.activate([
             emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

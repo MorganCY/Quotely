@@ -135,7 +135,7 @@ extension CardWriteViewController {
         cardTopicTitleLabel.text = "引用片語"
         cardTopicTitleLabel.numberOfLines = 1
         cardTopicTitleLabel.textColor = .M1
-        cardTopicTitleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        cardTopicTitleLabel.font = UIFont.setBold(size: 18)
 
         NSLayoutConstraint.activate([
 

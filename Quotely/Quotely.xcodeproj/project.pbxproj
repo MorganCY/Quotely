@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		162163FFB6518EC3632F3366 /* Pods_Quotely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05474F971FBF3D667593F52F /* Pods_Quotely.framework */; };
 		5C00B1632746AB5900F3138F /* arrow.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C00B1622746AB5900F3138F /* arrow.json */; };
+		5C0B1C5F274F745800BD5666 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B1C5E274F745800BD5666 /* UIFont+Extension.swift */; };
 		5C150F732737FE510093A59C /* empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C150F722737FE510093A59C /* empty.json */; };
 		5C19204A27369591008B9F0D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C19204927369591008B9F0D /* SettingsViewController.swift */; };
 		5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */; };
@@ -123,6 +124,7 @@
 		3763E90984B855FC8226C461 /* Pods-Quotely.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.debug.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.debug.xcconfig"; sourceTree = "<group>"; };
 		4D42660FC57C60DE17A5B7D4 /* Pods-Quotely.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.release.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.release.xcconfig"; sourceTree = "<group>"; };
 		5C00B1622746AB5900F3138F /* arrow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = arrow.json; sourceTree = "<group>"; };
+		5C0B1C5E274F745800BD5666 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		5C150F722737FE510093A59C /* empty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = empty.json; sourceTree = "<group>"; };
 		5C19204927369591008B9F0D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5C19204B27369705008B9F0D /* SettingsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsTableViewCell.xib; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				5C2846E12727F0B200393562 /* UITextView+Extension.swift */,
 				5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */,
 				5C2846F02729248B00393562 /* UICollectionView+Extension.swift */,
+				5C0B1C5E274F745800BD5666 /* UIFont+Extension.swift */,
 				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
 				5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */,
 				5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */,
@@ -772,6 +775,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CDB314D274CEB5D00713CDE /* FirebaseManager.swift in Sources */,
+				5C0B1C5F274F745800BD5666 /* UIFont+Extension.swift in Sources */,
 				5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */,
 				5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */,
 				5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */,

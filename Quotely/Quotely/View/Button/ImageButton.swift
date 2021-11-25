@@ -51,7 +51,7 @@ class ImageButton: UIButton {
             buttonLabel.translatesAutoresizingMaskIntoConstraints = false
             buttonLabel.text = labelTitle
             buttonLabel.textColor = labelColor
-            buttonLabel.font = UIFont.systemFont(ofSize: fontSize)
+            buttonLabel.font = UIFont.setRegular(size: fontSize)
 
             NSLayoutConstraint.activate([
 
@@ -66,7 +66,7 @@ class ImageButtonLabel: UILabel {
 
     init(color: UIColor) {
         super.init(frame: .zero)
-        font = UIFont.systemFont(ofSize: 14)
+        font = UIFont.setRegular(size: 14)
         textColor = color
     }
 

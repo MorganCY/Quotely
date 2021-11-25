@@ -71,9 +71,9 @@ class ShareTemplateView: UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        contentLabel.font = UIFont.systemFont(ofSize: 16)
-        authorLabel.font = UIFont.systemFont(ofSize: 14)
-        quotelyLabel.font = UIFont.systemFont(ofSize: 14)
+        contentLabel.font = UIFont.setBold(size: 16)
+        authorLabel.font = UIFont.setRegular(size: 14)
+        quotelyLabel.font = UIFont.setRegular(size: 14)
         contentLabel.textColor = .black
         authorLabel.textColor = .gray
         contentLabel.numberOfLines = 0

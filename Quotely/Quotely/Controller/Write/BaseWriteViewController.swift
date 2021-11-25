@@ -694,7 +694,7 @@ extension BaseWriteViewController {
 
         textNumberLabel.text = "\(contentTextView.text.count) / 140"
         textNumberLabel.textColor = .black
-        textNumberLabel.font = UIFont.systemFont(ofSize: 14)
+        textNumberLabel.font = UIFont.setRegular(size: 14)
         textNumberLabel.textAlignment = .right
 
         optionPanel.backgroundColor = .white

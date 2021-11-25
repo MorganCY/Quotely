@@ -60,12 +60,12 @@ class AuthViewController: UIViewController {
 
         labels.forEach {
             $0.textColor = .gray
-            $0.font = UIFont(name: "PingfangTC-Regular", size: 12)
+            $0.font = UIFont.setRegular(size: 12)
         }
 
         buttons.forEach {
             $0.setTitleColor(.M1, for: .normal)
-            $0.titleLabel?.font = UIFont(name: "PingfangTC-Semibold", size: 12)
+            $0.titleLabel?.font = UIFont.setBold(size: 12)
         }
 
         claimerLabel.text = "點擊下方按鈕登入代表您同意"

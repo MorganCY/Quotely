@@ -102,10 +102,10 @@ class CardTopicView: UIView {
         backgroundView.cornerRadius = CornerRadius.standard.rawValue
         backgroundView.borderWidth = 0.5
         backgroundView.borderColor = .lightGray
-        contentLabel.font = UIFont.systemFont(ofSize: 14)
+        contentLabel.font = UIFont.setRegular(size: 14)
         contentLabel.textColor = .black
         contentLabel.numberOfLines = 0
-        authorLabel.font = UIFont.systemFont(ofSize: 10)
+        authorLabel.font = UIFont.setRegular(size: 10)
         authorLabel.textColor = .lightGray
         authorLabel.numberOfLines = 1
 

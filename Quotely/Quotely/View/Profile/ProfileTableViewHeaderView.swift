@@ -140,14 +140,14 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
             blockButton.setTitle("解除封鎖", for: .normal)
             blockButton.setTitleColor(.lightGray, for: .normal)
             blockButton.backgroundColor = .gray
-            blockButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+            blockButton.titleLabel?.font = UIFont.setBold(size: 18)
 
         } else {
 
             blockButton.setTitle("封鎖他", for: .normal)
             blockButton.setTitleColor(.M1, for: .normal)
             blockButton.backgroundColor = .white
-            blockButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+            blockButton.titleLabel?.font = UIFont.setRegular(size: 18)
         }
 
         if isFollow {
@@ -155,14 +155,14 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
             followButton.setTitle("追蹤中", for: .normal)
             followButton.setTitleColor(.M2, for: .normal)
             followButton.backgroundColor = .M1
-            followButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+            followButton.titleLabel?.font = UIFont.setBold(size: 18)
 
         } else {
 
             followButton.setTitle("追蹤他", for: .normal)
             followButton.setTitleColor(.M1, for: .normal)
             followButton.backgroundColor = .white
-            followButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+            followButton.titleLabel?.font = UIFont.setRegular(size: 18)
         }
 
         userNameLabel.text = userInfo.name
