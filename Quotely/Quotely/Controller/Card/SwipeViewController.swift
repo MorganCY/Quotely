@@ -211,13 +211,10 @@ class SwipeViewController: UIViewController {
     @objc func goToWritePage(_ sender: UIButton) {
 
         guard let writeVC =
-                UIStoryboard.write
-                .instantiateViewController(
-                    withIdentifier: String(describing: CardWriteViewController.self)
-                ) as? CardWriteViewController else {
-
-                    return
-                }
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: CardWriteViewController.identifier
+                ) as? CardWriteViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: writeVC)
 
@@ -231,13 +228,10 @@ class SwipeViewController: UIViewController {
     @objc func goToSharePage(_ sender: UIButton) {
 
         guard let shareVC =
-                UIStoryboard.share
-                .instantiateViewController(
-                    withIdentifier: String(describing: ShareViewController.self)
-                ) as? ShareViewController else {
-
-            return
-        }
+                UIStoryboard.share.instantiateViewController(
+                    withIdentifier: ShareViewController.identifier
+                ) as? ShareViewController
+        else { return }
 
         let card = cards[currentCardIndex]
         let nav = BaseNavigationController(rootViewController: shareVC)
@@ -255,13 +249,10 @@ class SwipeViewController: UIViewController {
     @objc func goToFavoritePage(_ sender: UIBarButtonItem) {
 
         guard let favCardVC =
-                UIStoryboard.card
-                .instantiateViewController(
-                    withIdentifier: String(describing: FavoriteCardViewController.self)
-                ) as? FavoriteCardViewController else {
-
-                    return
-                }
+                UIStoryboard.card.instantiateViewController(
+                    withIdentifier: FavoriteCardViewController.identifier
+                ) as? FavoriteCardViewController
+        else { return }
 
         show(favCardVC, sender: nil)
     }

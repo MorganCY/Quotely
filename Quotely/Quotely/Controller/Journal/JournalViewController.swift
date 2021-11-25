@@ -111,13 +111,10 @@ class JournalViewController: UIViewController {
     @objc func goToFavoriteCardList(_ sender: UIButton) {
 
         guard let favCardVC =
-                UIStoryboard.card
-                .instantiateViewController(
-                    withIdentifier: String(describing: FavoriteCardViewController.self)
-                ) as? FavoriteCardViewController else {
-
-                    return
-                }
+                UIStoryboard.card.instantiateViewController(
+                    withIdentifier: FavoriteCardViewController.identifier
+                ) as? FavoriteCardViewController
+        else { return }
 
         show(favCardVC, sender: nil)
     }
@@ -125,13 +122,10 @@ class JournalViewController: UIViewController {
     @objc func goToJournalList(_ sender: UIButton) {
 
         guard let journalListVC =
-                UIStoryboard.journal
-                .instantiateViewController(
-                    withIdentifier: String(describing: JournalListViewController.self)
-                ) as? JournalListViewController else {
-
-                    return
-                }
+                UIStoryboard.journal.instantiateViewController(
+                    withIdentifier: JournalListViewController.identifier
+                ) as? JournalListViewController
+        else { return }
 
         show(journalListVC, sender: nil)
     }

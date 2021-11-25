@@ -28,13 +28,10 @@ class MyViewController: BaseProfileViewController {
     @objc func tapSettingsButton(_ sender: UIBarButtonItem) {
 
         guard let settingsVC =
-                UIStoryboard.profile
-                .instantiateViewController(
-                    withIdentifier: String(describing: SettingsViewController.self)
-                ) as? SettingsViewController else {
-
-                    return
-                }
+                UIStoryboard.profile.instantiateViewController(
+                    withIdentifier: SettingsViewController.identifier
+                ) as? SettingsViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: settingsVC)
 

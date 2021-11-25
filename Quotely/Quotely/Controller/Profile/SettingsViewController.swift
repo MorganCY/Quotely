@@ -57,13 +57,10 @@ class SettingsViewController: UIViewController {
                 print(success)
 
                 guard let authVC =
-                        UIStoryboard.auth
-                        .instantiateViewController(
-                            withIdentifier: String(describing: AuthViewController.self)
-                        ) as? AuthViewController else {
-
-                            return
-                        }
+                        UIStoryboard.auth.instantiateViewController(
+                            withIdentifier: AuthViewController.identifier
+                        ) as? AuthViewController
+                else { return }
 
                 let window = UIApplication.shared.windows.first
 
@@ -78,13 +75,10 @@ class SettingsViewController: UIViewController {
     func tapBlockListButton() {
 
         guard let blockListVC =
-                UIStoryboard.profile
-                .instantiateViewController(
-                    withIdentifier: String(describing: BlockListViewController.self)
-                ) as? BlockListViewController else {
-
-                    return
-                }
+                UIStoryboard.profile.instantiateViewController(
+                    withIdentifier: BlockListViewController.identifier
+                ) as? BlockListViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: blockListVC)
 
@@ -121,13 +115,10 @@ class SettingsViewController: UIViewController {
     func tapPrivacyPolicyButton() {
 
         guard let policyVC =
-                UIStoryboard.auth
-                .instantiateViewController(
-                    withIdentifier: String(describing: PrivacyPolicyViewController.self)
-                ) as? PrivacyPolicyViewController else {
-
-                    return
-                }
+                UIStoryboard.auth.instantiateViewController(
+                    withIdentifier: PrivacyPolicyViewController.identifier
+                ) as? PrivacyPolicyViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: policyVC)
 

@@ -414,11 +414,15 @@ class PostDetailViewController: BaseDetailViewController {
 
                 if self.post?.cardID != nil {
 
-                    return UIStoryboard.write.instantiateViewController(withIdentifier: String(describing: CardWriteViewController.self)) as? CardWriteViewController
+                    return UIStoryboard.write.instantiateViewController(
+                        withIdentifier: CardWriteViewController.identifier
+                    ) as? CardWriteViewController
 
                 } else {
 
-                    return UIStoryboard.write.instantiateViewController(withIdentifier: String(describing: ExploreWriteViewController.self)) as? ExploreWriteViewController
+                    return UIStoryboard.write.instantiateViewController(
+                        withIdentifier: ExploreWriteViewController.identifier
+                    ) as? ExploreWriteViewController
                 }
             }
 

@@ -169,13 +169,10 @@ class FavoriteCardViewController: UIViewController {
     func goToCardWritePage(index: Int) {
 
         guard let writeVC =
-                UIStoryboard.write
-                .instantiateViewController(
-                    withIdentifier: String(describing: CardWriteViewController.self)
-                ) as? CardWriteViewController else {
-
-                    return
-                }
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: CardWriteViewController.identifier
+                ) as? CardWriteViewController
+        else { return }
 
         let card = likeCardList[index]
         let navVC = BaseNavigationController(rootViewController: writeVC)
@@ -191,13 +188,10 @@ class FavoriteCardViewController: UIViewController {
     func goToCardTopicPage(index: Int) {
 
         guard let cardTopicVC =
-                UIStoryboard.card
-                .instantiateViewController(
-                    withIdentifier: String(describing: CardTopicViewController.self)
-                ) as? CardTopicViewController else {
-
-                    return
-                }
+                UIStoryboard.card.instantiateViewController(
+                    withIdentifier: CardTopicViewController.identifier
+                ) as? CardTopicViewController
+        else { return }
 
         let card = likeCardList[index]
 
@@ -209,13 +203,10 @@ class FavoriteCardViewController: UIViewController {
     func goToSharePage(content: String, author: String) {
 
         guard let shareVC =
-                UIStoryboard.share
-                .instantiateViewController(
-                    withIdentifier: String(describing: ShareViewController.self)
-                ) as? ShareViewController else {
-
-            return
-        }
+                UIStoryboard.share.instantiateViewController(
+                    withIdentifier: ShareViewController.identifier
+                ) as? ShareViewController
+        else { return }
 
         let nav = BaseNavigationController(rootViewController: shareVC)
 

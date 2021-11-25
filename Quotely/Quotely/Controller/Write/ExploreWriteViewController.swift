@@ -74,13 +74,10 @@ class ExploreWriteViewController: BaseWriteViewController {
     @objc func goToFavoriteCardPage(_ sender: RowButton) {
 
         guard let favCardVC =
-                UIStoryboard.card
-                .instantiateViewController(
-                    withIdentifier: String(describing: FavoriteCardViewController.self)
-                ) as? FavoriteCardViewController else {
-
-                    return
-                }
+                UIStoryboard.card.instantiateViewController(
+                    withIdentifier: FavoriteCardViewController.identifier
+                ) as? FavoriteCardViewController
+        else { return }
 
         favCardVC.isFromWriteVC = true
         favCardVC.passedContentText = contentTextView.text

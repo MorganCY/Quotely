@@ -136,13 +136,10 @@ class JournalListViewController: UIViewController {
     func goToSharePage(content: String, author: String) {
 
         guard let shareVC =
-                UIStoryboard.share
-                .instantiateViewController(
-                    withIdentifier: String(describing: ShareViewController.self)
-                ) as? ShareViewController else {
-
-            return
-        }
+                UIStoryboard.share.instantiateViewController(
+                    withIdentifier: ShareViewController.identifier
+                ) as? ShareViewController
+        else { return }
 
         let nav = BaseNavigationController(rootViewController: shareVC)
 

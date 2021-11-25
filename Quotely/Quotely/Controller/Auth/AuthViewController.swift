@@ -101,13 +101,10 @@ class AuthViewController: UIViewController {
 
     @objc func tapPrivacyPolicyButton(_ sender: UIButton) {
         guard let policyVC =
-                UIStoryboard.auth
-                .instantiateViewController(
-                    withIdentifier: String(describing: PrivacyPolicyViewController.self)
-                ) as? PrivacyPolicyViewController else {
-
-                    return
-                }
+                UIStoryboard.auth.instantiateViewController(
+                    withIdentifier: PrivacyPolicyViewController.identifier
+                ) as? PrivacyPolicyViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: policyVC)
 
@@ -117,13 +114,10 @@ class AuthViewController: UIViewController {
     @objc func tapEulaButton(_ sender: UIButton) {
 
         guard let eulaVC =
-                UIStoryboard.auth
-                .instantiateViewController(
-                    withIdentifier: String(describing: EULAViewController.self)
-                ) as? EULAViewController else {
-
-                    return
-                }
+                UIStoryboard.auth.instantiateViewController(
+                    withIdentifier: EULAViewController.identifier
+                ) as? EULAViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: eulaVC)
 

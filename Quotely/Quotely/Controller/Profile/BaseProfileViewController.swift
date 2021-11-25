@@ -117,13 +117,10 @@ class BaseProfileViewController: BaseImagePickerViewController {
     @objc func goToFollowList(_ gestureRecognizer: UITapGestureRecognizer) {
 
         guard let followVC =
-                UIStoryboard.profile
-                .instantiateViewController(
-                    withIdentifier: String(describing: FollowListViewController.self)
-                ) as? FollowListViewController else {
-
-                    return
-                }
+                UIStoryboard.profile.instantiateViewController(
+                    withIdentifier: FollowListViewController.identifier
+                ) as? FollowListViewController
+        else { return }
 
         followVC.visitedUid = visitedUid
 
@@ -166,13 +163,10 @@ extension BaseProfileViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         guard let detailVC =
-                UIStoryboard.explore
-                .instantiateViewController(
-                    withIdentifier: String(describing: PostDetailViewController.self)
-                ) as? PostDetailViewController else {
-
-                    return
-                }
+                UIStoryboard.explore.instantiateViewController(
+                    withIdentifier: PostDetailViewController.identifier
+                ) as? PostDetailViewController
+        else { return }
 
         let row = indexPath.row
 

@@ -195,13 +195,10 @@ class ExploreViewController: UIViewController {
     @objc func addPost(_ sender: UIBarButtonItem) {
 
         guard let writeVC =
-                UIStoryboard.write
-                .instantiateViewController(
-                    withIdentifier: String(describing: ExploreWriteViewController.self)
-                ) as? ExploreWriteViewController else {
-
-                    return
-                }
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: ExploreWriteViewController.identifier
+                ) as? ExploreWriteViewController
+        else { return }
 
         let nav = BaseNavigationController(rootViewController: writeVC)
 
@@ -262,13 +259,10 @@ class ExploreViewController: UIViewController {
     func goToPostDetail(index: Int) {
 
         guard let detailVC =
-                UIStoryboard.explore
-                .instantiateViewController(
-                    withIdentifier: String(describing: PostDetailViewController.self)
-                ) as? PostDetailViewController else {
-
-                    return
-                }
+                UIStoryboard.explore.instantiateViewController(
+                    withIdentifier: PostDetailViewController.identifier
+                ) as? PostDetailViewController
+        else { return }
 
         if let likeUserList = postList[index].likeUser {
 

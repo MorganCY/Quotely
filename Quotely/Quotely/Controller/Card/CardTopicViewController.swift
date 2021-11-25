@@ -194,13 +194,10 @@ class CardTopicViewController: UIViewController {
     func goToCardPostPage(index: Int) {
 
         guard let cardPostVC =
-                UIStoryboard.explore
-                .instantiateViewController(
-                    withIdentifier: String(describing: PostDetailViewController.self)
-                ) as? PostDetailViewController else {
-
-                    return
-                }
+                UIStoryboard.explore.instantiateViewController(
+                    withIdentifier: PostDetailViewController.identifier
+                ) as? PostDetailViewController
+        else { return }
 
         let post = postList?[index]
         let user = userList?[index]
@@ -215,13 +212,10 @@ class CardTopicViewController: UIViewController {
     func goToSharePage() {
 
         guard let shareVC =
-                UIStoryboard.share
-                .instantiateViewController(
-                    withIdentifier: String(describing: ShareViewController.self)
-                ) as? ShareViewController else {
-
-            return
-        }
+                UIStoryboard.share.instantiateViewController(
+                    withIdentifier: ShareViewController.identifier
+                ) as? ShareViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: shareVC)
 
@@ -240,13 +234,10 @@ class CardTopicViewController: UIViewController {
     func goToWritePage() {
 
         guard let writeVC =
-                UIStoryboard.write
-                .instantiateViewController(
-                    withIdentifier: String(describing: CardWriteViewController.self)
-                ) as? CardWriteViewController else {
-
-                    return
-                }
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: CardWriteViewController.identifier
+                ) as? CardWriteViewController
+        else { return }
 
         let nav = BaseNavigationController(rootViewController: writeVC)
 
