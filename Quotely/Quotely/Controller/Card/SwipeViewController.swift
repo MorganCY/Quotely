@@ -122,7 +122,7 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
+            CardManager.shared.fetchRandomCards(limitNumber: 4) { result in
                 switch result {
 
                 case .success(let cards):

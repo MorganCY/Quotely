@@ -130,11 +130,8 @@ class ProfileViewController: BaseProfileViewController {
         )
 
         header.layoutProfileHeader(userInfo: userInfo, isBlock: isBlock, isFollow: isFollow)
-
         header.blockButton.isEnabled = !isFollow
-
         header.followButton.isEnabled = !isBlock
-
         header.followStackView.addGestureRecognizer(goToFollowListGesture)
         header.followStackView.isUserInteractionEnabled = true
 

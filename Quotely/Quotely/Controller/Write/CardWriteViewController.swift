@@ -23,7 +23,6 @@ class CardWriteViewController: BaseWriteViewController {
         didSet {
             DispatchQueue.main.async {
                 self.cardTopicView.dataSource = self
-//                self.cardTopicView.layoutIfNeeded()
             }
         }
     }

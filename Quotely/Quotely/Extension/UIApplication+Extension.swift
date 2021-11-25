@@ -15,7 +15,7 @@ extension UIApplication {
 
             UserDefaults.standard.set(true, forKey: forKey)
             UserDefaults.standard.synchronize()
-            
+
             return true
         }
 

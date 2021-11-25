@@ -63,20 +63,26 @@ class ShareTemplateView: UIView {
 
     func configureView(templateType: TemplateType) {
 
-        let views = [templateImageView, textBackgroundView, contentLabel, authorLabel, quotelyLabel]
+        let basicViews = [templateImageView, textBackgroundView, quotelyLabel]
+        let labels = [contentLabel, authorLabel]
 
-        views.forEach {
-
+        basicViews.forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        contentLabel.font = UIFont.setBold(size: 16)
+        labels.forEach {
+            textBackgroundView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        contentLabel.font = UIFont.setRegular(size: 16)
         authorLabel.font = UIFont.setRegular(size: 14)
         quotelyLabel.font = UIFont.setRegular(size: 14)
         contentLabel.textColor = .black
         authorLabel.textColor = .gray
         contentLabel.numberOfLines = 0
+        authorLabel.numberOfLines = 1
         quotelyLabel.textColor = .white
 
         templateImageView.contentMode = .scaleAspectFill
@@ -102,11 +108,10 @@ class ShareTemplateView: UIView {
 
                 textBackgroundView.leadingAnchor.constraint(equalTo: templateImageView.leadingAnchor, constant: 24),
                 textBackgroundView.trailingAnchor.constraint(equalTo: templateImageView.trailingAnchor, constant: -24),
-                textBackgroundView.heightAnchor.constraint(equalTo: templateImageView.heightAnchor, multiplier: 0.3),
                 textBackgroundView.bottomAnchor.constraint(equalTo: templateImageView.bottomAnchor, constant: -32),
 
                 contentLabel.leadingAnchor.constraint(equalTo: textBackgroundView.leadingAnchor, constant: 24),
-                contentLabel.topAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: 32),
+                contentLabel.topAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: 24),
                 contentLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor, constant: -24),
 
                 authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),

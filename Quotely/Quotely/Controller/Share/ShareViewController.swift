@@ -11,9 +11,6 @@ import PhotosUI
 
 class ShareViewController: BaseImagePickerViewController {
 
-    /*
-     * Templates
-     */
     enum TemplateType { case fullImage, halfImage, smallImage }
 
     var currentTemplateType: TemplateType = .fullImage {
@@ -34,13 +31,8 @@ class ShareViewController: BaseImagePickerViewController {
     let templateSelectionView = SelectionView()
     let selectionViewBackground = UIView()
 
-    /*
-     * Template content
-     */
     var sharingImage = UIImage()
-
     var templateImage: UIImage?
-
     var templateContent: [String] = [] {
         didSet {
             fullImageTemplateView = ShareTemplateView(
@@ -71,9 +63,6 @@ class ShareViewController: BaseImagePickerViewController {
         return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton, uploadImageButton]
     }
 
-    /*
-     * Share to social media
-     */
     let dimmingView = UIView()
     let shareOptionPanel = UIView()
     let instagramButton = RowButton(image: UIImage.asset(.instagram), imageColor: .M2, text: "Instagram 限時動態")
@@ -100,7 +89,8 @@ class ShareViewController: BaseImagePickerViewController {
         setupNavigaiton()
         layoutTemplateView()
         layoutSelectionView()
-        configureImageButtons(templateType: .fullImage)
+        configureImageButtons()
+        switchTemplateContent(templateType: .fullImage)
         configureShareOption()
     }
 
@@ -127,10 +117,7 @@ class ShareViewController: BaseImagePickerViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc func expandOptionPanel(_ sender: UIBarButtonItem) {
-
-        isSharing = true
-    }
+    @objc func expandOptionPanel(_ sender: UIBarButtonItem) { isSharing = true }
 
     @objc func collapseOptionPanel(_ sender: UITapGestureRecognizer) { isSharing = false }
 
@@ -249,19 +236,18 @@ class ShareViewController: BaseImagePickerViewController {
 
                     DispatchQueue.main.async { Toast.showFailure(text: "上傳照片失敗") }
 
-                } else {
-
-                    guard let selectedImage = image as? UIImage else {
-
-                        picker.dismiss(animated: true)
-
-                        return
-                    }
-
-                    self.templateImage = selectedImage
-
-                    self.templateViews.forEach { $0.dataSource = self }
                 }
+
+                guard let selectedImage = image as? UIImage else {
+
+                    picker.dismiss(animated: true)
+
+                    return
+                }
+
+                self.templateImage = selectedImage
+
+                self.templateViews.forEach { $0.dataSource = self }
             })
         }
     }
@@ -269,13 +255,11 @@ class ShareViewController: BaseImagePickerViewController {
 
 extension ShareViewController: ShareTemplateViewDataSource {
 
-    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage {
-
-        return templateImage ?? UIImage.asset(.bg4)
-    }
+    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage { templateImage ?? UIImage.asset(.bg4) }
 }
 
 extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
+
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { templateViews.count }
@@ -306,17 +290,20 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
 
         case 0:
 
-            configureImageButtons(templateType: .fullImage)
+            configureImageButtons()
+            switchTemplateContent(templateType: .fullImage)
             currentTemplateType = .fullImage
 
         case 1:
 
-            configureImageButtons(templateType: .halfImage)
+            configureImageButtons()
+            switchTemplateContent(templateType: .halfImage)
             currentTemplateType = .halfImage
 
         case 2:
 
-            configureImageButtons(templateType: .smallImage)
+            configureImageButtons()
+            switchTemplateContent(templateType: .smallImage)
             currentTemplateType = .smallImage
 
         default: break
@@ -324,9 +311,6 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
     }
 }
 
-/*
- * Layout views
- */
 extension ShareViewController {
 
     func setupNavigaiton() {
@@ -386,7 +370,8 @@ extension ShareViewController {
 
             templateSelectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             templateSelectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            templateSelectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+            templateSelectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                                          constant: -24),
             templateSelectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
             selectionViewBackground.topAnchor.constraint(equalTo: templateSelectionView.topAnchor, constant: -12),
             selectionViewBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -395,7 +380,7 @@ extension ShareViewController {
         ])
     }
 
-    func configureImageButtons(templateType: TemplateType) {
+    func configureImageButtons() {
 
         imageButtons.forEach {
             view.addSubview($0)
@@ -418,6 +403,9 @@ extension ShareViewController {
         bg3ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg3(_:)), for: .touchUpInside)
         bg4ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg4(_:)), for: .touchUpInside)
         uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
+    }
+
+    func switchTemplateContent(templateType: TemplateType) {
 
         switch templateType {
 
@@ -504,7 +492,7 @@ extension ShareViewController {
 
             instagramButton.leadingAnchor.constraint(equalTo: shareOptionPanel.leadingAnchor),
             instagramButton.trailingAnchor.constraint(equalTo: shareOptionPanel.trailingAnchor),
-            instagramButton.topAnchor.constraint(equalTo: shareOptionPanel.topAnchor),
+            instagramButton.topAnchor.constraint(equalTo: shareOptionPanel.topAnchor, constant: 10),
             instagramButton.heightAnchor.constraint(equalTo: shareOptionPanel.heightAnchor, multiplier: 0.4),
 
             savePhotoButton.leadingAnchor.constraint(equalTo: instagramButton.leadingAnchor),

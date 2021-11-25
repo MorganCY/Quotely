@@ -300,7 +300,6 @@
 			isa = PBXGroup;
 			children = (
 				5C54F4D527322ABD00E62DBF /* Quotely.entitlements */,
-				5C2846F827297D0200393562 /* Animation.swift */,
 				5CD765FB271ECE08008E8D00 /* ThirdPartyWrapper */,
 				5C2C7317271D1C4E00F8B9EC /* Extension */,
 				5C2C730E271D17A100F8B9EC /* Model */,
@@ -355,10 +354,13 @@
 			isa = PBXGroup;
 			children = (
 				5C5186C7273233E4007C5221 /* Auth.storyboard */,
-				5C46F25F273CAC40007E951D /* Post */,
+				5C2846F827297D0200393562 /* Animation.swift */,
+				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
+				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
+				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
+				5C4B968B271FA75E008B21C7 /* Base */,
 				5C46F25D273CABFC007E951D /* SwipeCard */,
 				5C46F25E273CAC11007E951D /* Button */,
-				5C4B968B271FA75E008B21C7 /* Base */,
 				5C2846EB2728F4BA00393562 /* Journal */,
 				5C7B6398272A84D500E18B96 /* Card */,
 				5C4B9685271FA724008B21C7 /* Write */,
@@ -373,19 +375,19 @@
 			isa = PBXGroup;
 			children = (
 				5C582102271D71CC002E21C9 /* Date+Extension.swift */,
-				5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */,
-				5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */,
-				5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */,
-				5C4B9690271FBBA3008B21C7 /* UIColor+Extension.swift */,
-				5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */,
-				5C2846E12727F0B200393562 /* UITextView+Extension.swift */,
-				5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */,
-				5C2846F02729248B00393562 /* UICollectionView+Extension.swift */,
-				5C0B1C5E274F745800BD5666 /* UIFont+Extension.swift */,
-				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
-				5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */,
 				5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */,
 				5C46F257273BB0EB007E951D /* UIButton+Extension.swift */,
+				5C2846F02729248B00393562 /* UICollectionView+Extension.swift */,
+				5C4B9690271FBBA3008B21C7 /* UIColor+Extension.swift */,
+				5C0B1C5E274F745800BD5666 /* UIFont+Extension.swift */,
+				5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */,
+				5CC40AE3272E94C300DF51D9 /* UINavigationItem+Extension.swift */,
+				5CD1FAD42732793600F87B98 /* UIScreen+Extension.swift */,
+				5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */,
+				5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */,
+				5C2846E12727F0B200393562 /* UITextView+Extension.swift */,
+				5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */,
+				5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -409,16 +411,6 @@
 				5CD9DDEF272D3394009618FA /* RowButton.swift */,
 			);
 			path = Button;
-			sourceTree = "<group>";
-		};
-		5C46F25F273CAC40007E951D /* Post */ = {
-			isa = PBXGroup;
-			children = (
-				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
-				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
-				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
-			);
-			path = Post;
 			sourceTree = "<group>";
 		};
 		5C4B9683271FA700008B21C7 /* Explore */ = {
