@@ -12,8 +12,7 @@ class FollowListViewController: UIViewController {
 
     enum ListType {
 
-        case following
-        case follower
+        case following, follower
     }
 
     let listTypeSelectionView = SelectionView()
@@ -73,15 +72,11 @@ class FollowListViewController: UIViewController {
             switch result {
 
             case .success(let user):
-
                 self.fetchListContent(uid: user.followerList ?? [""], listType: .follower)
-
                 self.fetchListContent(uid: user.followingList ?? [""], listType: .following)
 
             case .failure(let error):
-
                 print(error)
-
                 DispatchQueue.main.async {
                     Toast.showFailure(text: "資料載入異常")
                 }
@@ -106,15 +101,11 @@ class FollowListViewController: UIViewController {
                     switch result {
 
                     case .success(let user):
-
                         userList[index] = user
-
                         group.leave()
 
                     case .failure(let error):
-
                         print(error)
-
                         group.leave()
                     }
                 }

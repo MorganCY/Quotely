@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="lYm-1W-a2g">
-                    <rect key="frame" x="16" y="16" width="145" height="49.5"/>
+                    <rect key="frame" x="16" y="16" width="231.5" height="49.5"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="TJc-dZ-LO1">
                             <rect key="frame" x="0.0" y="1.5" width="49.5" height="47"/>
@@ -27,16 +27,16 @@
                             </constraints>
                         </imageView>
                         <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="i8w-He-DfK">
-                            <rect key="frame" x="65.5" y="0.0" width="79.5" height="49.5"/>
+                            <rect key="frame" x="65.5" y="0.0" width="166" height="49.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LeQ-xT-ol0">
-                                    <rect key="frame" x="0.0" y="0.0" width="79.5" height="32.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="166" height="32.5"/>
                                     <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63T-4b-AaH">
-                                    <rect key="frame" x="0.0" y="32.5" width="79.5" height="17"/>
+                                    <rect key="frame" x="0.0" y="32.5" width="166" height="17"/>
                                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -45,7 +45,7 @@
                         </stackView>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="TJc-dZ-LO1" firstAttribute="width" secondItem="lYm-1W-a2g" secondAttribute="width" multiplier="0.120773" constant="32.185982499999994" id="ClT-iU-Yka"/>
+                        <constraint firstAttribute="trailing" secondItem="i8w-He-DfK" secondAttribute="trailing" id="0BN-9x-E1R"/>
                     </constraints>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" axis="vertical" distribution="equalSpacing" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ns1-1m-5bY">
@@ -232,6 +232,7 @@
                 <constraint firstAttribute="trailing" secondItem="Uzi-If-l2e" secondAttribute="trailing" id="F1D-C9-YSZ"/>
                 <constraint firstItem="odH-F0-2Ix" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.5" id="GeP-L8-sOh"/>
                 <constraint firstItem="lYm-1W-a2g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Lys-OD-x0L"/>
+                <constraint firstItem="LeQ-xT-ol0" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" id="Nsh-Sd-PKE"/>
                 <constraint firstItem="1zD-Pb-1mq" firstAttribute="trailing" secondItem="ns1-1m-5bY" secondAttribute="trailing" id="ORv-Y6-6IE"/>
                 <constraint firstItem="FJJ-HB-Pwa" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" id="PW5-s0-LQB"/>
                 <constraint firstAttribute="bottom" secondItem="Uzi-If-l2e" secondAttribute="bottom" id="Rk2-jU-lRr"/>

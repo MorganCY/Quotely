@@ -63,7 +63,6 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     @IBAction func editName(_ sender: UIButton) {
 
         isEditing = true
-
         editNameTextField.text = userNameLabel.text
     }
 
@@ -86,9 +85,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
         followHandler()
     }
 
-    func layoutMyHeader(
-        userInfo: User
-    ) {
+    func layoutMyHeader(userInfo: User) {
 
         editImageButton.isHidden = false
         editNameButton.isHidden = false

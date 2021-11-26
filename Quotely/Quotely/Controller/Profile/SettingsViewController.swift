@@ -9,40 +9,25 @@ import Foundation
 import UIKit
 
 class SettingsViewController: UIViewController {
-    let logoImageView = UIImageView()
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
-            tableView.backgroundColor = .clear
-            tableView.separatorStyle = .none
-            tableView.showsHorizontalScrollIndicator = false
-            tableView.registerCellWithNib(identifier: SettingsTableViewCell.identifier, bundle: nil)
+            setupTableView()
         }
     }
 
+    let logoImageView = UIImageView()
     let options = ["封鎖名單", "隱私權政策", "登出", "刪除帳號"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "設定"
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .close,
-            target: self,
-            action: #selector(dismissSelf(_:))
-        )
-
-        layoutLogoImageView()
-
+        setupNavigation()
+        setupImageView()
         view.backgroundColor = .BG
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         logoImageView.fadeInAnimation(duration: 2.0)
     }
 
@@ -123,11 +108,6 @@ class SettingsViewController: UIViewController {
 
         present(navigationVC, animated: true)
     }
-
-    @objc func dismissSelf(_ sender: UIBarButtonItem) {
-
-        dismiss(animated: true, completion: nil)
-    }
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -143,7 +123,6 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         cell.layoutCell(buttonTitle: options[indexPath.row])
-
         cell.hideSelectionStyle()
 
         cell.buttonHandler = {
@@ -151,11 +130,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             switch indexPath.row {
 
             case 0: self.tapBlockListButton()
-
             case 1: self.tapPrivacyPolicyButton()
-
             case 2: self.tapSignOutButton()
-
             case 3: self.tapDeleteAccountButton()
 
             default: break
@@ -168,7 +144,32 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension SettingsViewController {
 
-    func layoutLogoImageView() {
+    @objc func dismissSelf(_ sender: UIBarButtonItem) {
+
+        dismiss(animated: true, completion: nil)
+    }
+
+    func setupNavigation() {
+
+        navigationItem.title = "設定"
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:)))
+    }
+
+    func setupTableView() {
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.registerCellWithNib(identifier: SettingsTableViewCell.identifier, bundle: nil)
+    }
+
+    func setupImageView() {
 
         view.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false

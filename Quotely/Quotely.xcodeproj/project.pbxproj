@@ -562,12 +562,12 @@
 		5CE8F1D1272F77840026864C /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				5C19204927369591008B9F0D /* SettingsViewController.swift */,
-				5C8748FD273CC201007471F6 /* BlockListViewController.swift */,
-				5C4983E12740E743008B721F /* FollowListViewController.swift */,
 				5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */,
 				5C7AF0E82748D08800476567 /* MyViewController.swift */,
 				5C7AF0EA2748D24300476567 /* ProfileViewController.swift */,
+				5C8748FD273CC201007471F6 /* BlockListViewController.swift */,
+				5C4983E12740E743008B721F /* FollowListViewController.swift */,
+				5C19204927369591008B9F0D /* SettingsViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

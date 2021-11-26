@@ -10,7 +10,6 @@ import UIKit
 
 class ProfileViewController: BaseProfileViewController {
 
-    // the user who is visiting other's profile
     var visitorUid: String?
 
     var visitorBlockList: [String]? {
@@ -32,18 +31,15 @@ class ProfileViewController: BaseProfileViewController {
     }
 
     var isBlock = false
-
     var isFollow = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         visitorUid = UserManager.shared.visitorUserInfo?.uid
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
         visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
@@ -126,8 +122,7 @@ class ProfileViewController: BaseProfileViewController {
 
         let goToFollowListGesture = UITapGestureRecognizer(
             target: self,
-            action: #selector(goToFollowList(_:))
-        )
+            action: #selector(tapFollowNumberLabel(_:)))
 
         header.layoutProfileHeader(userInfo: userInfo, isBlock: isBlock, isFollow: isFollow)
         header.blockButton.isEnabled = !isFollow
@@ -138,18 +133,14 @@ class ProfileViewController: BaseProfileViewController {
         header.blockHanlder = {
 
             var blockAction: FirebaseAction = .positive
-
             blockAction = self.isBlock ? .negative : .positive
-
             self.updateUserBlock(blockAction: blockAction)
         }
 
         header.followHandler = {
 
             var followAction: FirebaseAction = .positive
-
             followAction = self.isFollow ? .negative : .positive
-
             self.updateUserFollow(followAction: followAction)
         }
 

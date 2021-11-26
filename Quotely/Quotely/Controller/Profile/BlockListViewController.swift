@@ -37,8 +37,7 @@ class BlockListViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
             target: self,
-            action: #selector(dismissSelf(_:))
-        )
+            action: #selector(dismissSelf(_:)))
 
         fetchBlockListContent()
     }
