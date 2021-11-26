@@ -10,17 +10,16 @@ import UIKit
 
 class JournalViewController: UIViewController {
 
-    let defaults = UserDefaults.standard
+    private let defaults = UserDefaults.standard
 
     private let dateLabel = UILabel()
     private let dailyQuoteLabel = UILabel()
+    private var selectedEmoji: SFSymbol?
+    private let educationDimmingView = UIView()
 
-    var selectedEmoji: SFSymbol?
-    let educationDimmingView = UIView()
-
-    let backgroundView = UIView()
-    let editPanel = UIView()
-    let buttonImages = [
+    private let backgroundView = UIView()
+    private let editPanel = UIView()
+    private let buttonImages = [
         UIImage.sfsymbol(.smile),
         UIImage.sfsymbol(.book),
         UIImage.sfsymbol(.umbrella),
@@ -28,26 +27,25 @@ class JournalViewController: UIViewController {
         UIImage.sfsymbol(.fire),
         UIImage.sfsymbol(.music)
     ]
-    let emojiTitleLabel = UILabel()
-    var emojiSelection = SelectionView()
-    var journalTextView = ContentTextView()
-    let textNumberLabel = UILabel()
-    let submitButton = UIButton()
-    let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse), color: .M1)
-    let journalListButton = RowButton(
+    private let emojiTitleLabel = UILabel()
+    private var emojiSelection = SelectionView()
+    private var journalTextView = ContentTextView()
+    private let textNumberLabel = UILabel()
+    private let submitButton = UIButton()
+    private let collapseButton = ImageButton(image: UIImage.sfsymbol(.collapse), color: .M1)
+    private let journalListButton = RowButton(
         image: UIImage.sfsymbol(.calendar),
         imageColor: .M2,
         labelColor: .gray,
-        text: "查看所有隻字"
-    )
+        text: "查看所有隻字")
 
-    var editPanelCollapse = NSLayoutConstraint()
-    var editPanelExpand = NSLayoutConstraint()
-    var backgroundViewCornerRadius = CGFloat()
-    var journalTextViewCollapse = NSLayoutConstraint()
-    var journalTextViewExpand = NSLayoutConstraint()
+    private var editPanelCollapse = NSLayoutConstraint()
+    private var editPanelExpand = NSLayoutConstraint()
+    private var backgroundViewCornerRadius = CGFloat()
+    private var journalTextViewCollapse = NSLayoutConstraint()
+    private var journalTextViewExpand = NSLayoutConstraint()
 
-    var isEditPanelExpand = false {
+    private var isEditPanelExpand = false {
         didSet {
             expandAnimation()
         }
@@ -55,7 +53,6 @@ class JournalViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         fetchQuoteOncePerDay()
         configureGradientLayer()
         setupTitle()
@@ -65,11 +62,9 @@ class JournalViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         if UIApplication.isFirstLaunch(forKey: "HasLaunchedJournalVC") {
             setupEducationView()
         }
-
         backgroundView.cornerRadius = isEditPanelExpand
         ? 0 : backgroundView.frame.width / 2
         collapseButton.cornerRadius = collapseButton.frame.width / 2

@@ -12,23 +12,30 @@ import MapKit
 
 class JournalListViewController: UIViewController {
 
-    var journals = [Journal]() {
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
-            if journals.count == 0 {
-                setupEmptyReminder()
-            } else {
-                emptyReminderView.removeFromSuperview()
-            }
-            tableView.reloadData()
+            setupCollectionView()
         }
     }
-    var selectedMonth = Date().getCurrentTime(format: .MM) {
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
+
+    private var journals = [Journal]() {
+        didSet {
+            displayEmptyReminderView()
+        }
+    }
+    private var selectedMonth = Date().getCurrentTime(format: .MM) {
         didSet {
             fetchJournals()
         }
     }
-    var selectedYear = Date().getCurrentTime(format: .yyyy)
-    var userRegisterDate: Date? {
+    private var selectedYear = Date().getCurrentTime(format: .yyyy)
+    private var userRegisterDate: Date? {
         didSet {
             collectionView.reloadData()
             collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .left)
@@ -36,32 +43,8 @@ class JournalListViewController: UIViewController {
         }
     }
 
-    @IBOutlet weak var backgroundImageView: UIImageView!
-    @IBOutlet weak var collectionView: UICollectionView! {
-        didSet {
-            collectionView.dataSource = self
-            collectionView.delegate = self
-            collectionView.backgroundColor = .clear
-            collectionView.registerCellWithNib(identifier: JournalListCollectionViewCell.identifier, bundle: nil)
-            collectionView.showsHorizontalScrollIndicator = false
-        }
-    }
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
-            tableView.registerCellWithNib(
-                identifier: JournalListTableViewCell.identifier,
-                bundle: nil
-            )
-            tableView.backgroundColor = .M3
-            tableView.separatorStyle = .none
-            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
-        }
-    }
-
-    let emptyReminderView = LottieAnimationView(animationName: "empty")
-    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
+    private let emptyReminderView = LottieAnimationView(animationName: "empty")
+    private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -330,6 +313,37 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension JournalListViewController {
 
+    func setupCollectionView() {
+
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .clear
+        collectionView.registerCellWithNib(identifier: JournalListCollectionViewCell.identifier, bundle: nil)
+        collectionView.showsHorizontalScrollIndicator = false
+    }
+
+    func setupTableView() {
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.registerCellWithNib(
+            identifier: JournalListTableViewCell.identifier,
+            bundle: nil)
+        tableView.backgroundColor = .M3
+        tableView.separatorStyle = .none
+        tableView.setSpecificCorner(corners: [.topLeft, .topRight])
+    }
+
+    func displayEmptyReminderView() {
+
+        if journals.count == 0 {
+            setupEmptyReminderView()
+        } else {
+            emptyReminderView.removeFromSuperview()
+        }
+        tableView.reloadData()
+    }
+
     func setupLoadingAnimation() {
 
         view.addSubview(loadingAnimationView)
@@ -343,7 +357,7 @@ extension JournalListViewController {
         ])
     }
 
-    func setupEmptyReminder() {
+    func setupEmptyReminderView() {
 
         let titleLabel = UILabel()
 
