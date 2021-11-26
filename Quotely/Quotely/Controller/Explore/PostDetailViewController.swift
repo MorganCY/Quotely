@@ -491,7 +491,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
             withIdentifier: PostDetailTableViewHeader.identifier
         ) as? PostDetailTableViewHeader else { fatalError("Cannot load header view.") }
 
-        let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
+        let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(tapCardTopicView(_:)))
 
         header.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
         header.cardStackView.isUserInteractionEnabled = true
