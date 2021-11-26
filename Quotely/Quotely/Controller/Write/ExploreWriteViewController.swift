@@ -12,9 +12,6 @@ import Vision
 
 class ExploreWriteViewController: BaseWriteViewController {
 
-    private var postImageView = UIImageView()
-    private let deleteImageButton = DeleteButton()
-
     override var hasPostImage: Bool {
         didSet {
             DispatchQueue.main.async {
@@ -42,26 +39,25 @@ class ExploreWriteViewController: BaseWriteViewController {
         }
     }
 
+    private var postImageView = UIImageView()
+    private let deleteImageButton = DeleteButton()
+
     private let quoteButton = RowButton(
         image: UIImage.sfsymbol(.quoteNormal),
         imageColor: .M2,
         labelColor: .white,
-        text: "引用收藏的片語"
-    )
+        text: "引用收藏的片語")
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupQuoteButton()
-
         deleteImageButton.isHidden = true
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        layoutPostImage()
+        setupPostImage()
     }
 
     @objc func deleteImage(_ sender: UIButton) {
@@ -91,7 +87,7 @@ class ExploreWriteViewController: BaseWriteViewController {
 // MARK: SetupViews
 extension ExploreWriteViewController {
 
-    func layoutPostImage() {
+    func setupPostImage() {
 
         let views = [postImageView, deleteImageButton]
 

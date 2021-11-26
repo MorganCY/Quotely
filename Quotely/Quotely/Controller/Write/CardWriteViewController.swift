@@ -10,29 +10,6 @@ import UIKit
 
 class CardWriteViewController: BaseWriteViewController {
 
-    var contentFromFavCard = "" {
-        didSet {
-            contentTextView.text = contentFromFavCard
-        }
-    }
-
-    private let cardTopicTitleLabel = UILabel()
-    private var cardTopicView = CardTopicView(content: "", author: "")
-
-    override var uploadedImage: UIImage? {
-        didSet {
-            DispatchQueue.main.async {
-                self.cardTopicView.dataSource = self
-            }
-        }
-    }
-
-    override var imageUrl: String? {
-        didSet {
-            if imageUrl != nil { cardTopicView.dataSource = self }
-        }
-    }
-
     override var card: Card? {
         didSet {
             guard let card = card else { return }
@@ -43,11 +20,33 @@ class CardWriteViewController: BaseWriteViewController {
         }
     }
 
+    override var uploadedImage: UIImage? {
+        didSet {
+            DispatchQueue.main.async {
+                self.cardTopicView.dataSource = self
+            }
+        }
+    }
+    override var imageUrl: String? {
+        didSet {
+            if imageUrl != nil { cardTopicView.dataSource = self }
+        }
+    }
+
+    var contentFromFavCard = "" {
+        didSet {
+            contentTextView.text = contentFromFavCard
+        }
+    }
+
     override var hasPostImage: Bool {
         get { true }
         // swiftlint:disable unused_setter_value
         set {}
     }
+
+    private let cardTopicTitleLabel = UILabel()
+    private var cardTopicView = CardTopicView(content: "", author: "")
 
     override var cardPostHandler: ()? {
 
@@ -88,13 +87,11 @@ class CardWriteViewController: BaseWriteViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        cardTopicView.dataSource = self
-        cardTopicView.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        layoutCardView()
+        setupCardTopicView()
     }
 }
 
@@ -122,7 +119,7 @@ extension CardWriteViewController: CardTopicViewDataSource, CardTopicViewDelegat
 
 extension CardWriteViewController {
 
-    func layoutCardView() {
+    func setupCardTopicView() {
 
         let views = [cardTopicTitleLabel, cardTopicView]
 
@@ -130,6 +127,8 @@ extension CardWriteViewController {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        cardTopicView.dataSource = self
+        cardTopicView.delegate = self
 
         cardTopicTitleLabel.text = "引用片語"
         cardTopicTitleLabel.numberOfLines = 1

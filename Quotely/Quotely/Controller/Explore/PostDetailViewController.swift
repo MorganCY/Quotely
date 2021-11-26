@@ -648,10 +648,8 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
         return header
     }
 
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: PostDetailCommentCell.identifier, for: indexPath
@@ -883,7 +881,7 @@ extension PostDetailViewController {
         }
     }
 
-    @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
+    @objc func tapCardTopicView(_ gestureRecognizer: UITapGestureRecognizer) {
 
         guard let cardTopicVC = UIStoryboard
                 .card.instantiateViewController(withIdentifier: CardTopicViewController.identifier
