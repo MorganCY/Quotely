@@ -35,12 +35,12 @@ class ShareTemplateView: UIView {
         }
     }
 
-    let templateImageView = UIImageView()
-    let smallImageView = UIImageView()
-    let textBackgroundView = UIView()
-    let contentLabel = UILabel()
-    let authorLabel = UILabel()
-    let quotelyLabel = UILabel()
+    private let templateImageView = UIImageView()
+    private let smallImageView = UIImageView()
+    private let textBackgroundView = UIView()
+    private let contentLabel = UILabel()
+    private let authorLabel = UILabel()
+    private let quotelyLabel = UILabel()
 
     init(type: TemplateType, content: String, author: String) {
         super.init(frame: .zero)
@@ -61,7 +61,7 @@ class ShareTemplateView: UIView {
         smallImageView.cornerRadius = smallImageView.frame.width / 2
     }
 
-    func configureView(templateType: TemplateType) {
+    private func configureView(templateType: TemplateType) {
 
         let basicViews = [templateImageView, textBackgroundView, quotelyLabel]
         let labels = [contentLabel, authorLabel]

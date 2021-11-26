@@ -31,22 +31,22 @@ class CardTopicView: UIView {
         didSet {
             DispatchQueue.main.async {
                 self.setupViews()
-                self.configureImageButtons()
+                self.setupImageButtons()
             }
         }
     }
 
     weak var delegate: CardTopicViewDelegate?
 
-    let backgroundView = UIView()
-    let contentLabel = UILabel()
-    let authorLabel = UILabel()
-    let cardImageView = UIImageView()
-    let bg1ImageButton = UIButton()
-    let bg2ImageButton = UIButton()
-    let bg3ImageButton = UIButton()
-    let bg4ImageButton = UIButton()
-    var imageButtons: [UIButton] {
+    private let backgroundView = UIView()
+    private let contentLabel = UILabel()
+    private let authorLabel = UILabel()
+    private let cardImageView = UIImageView()
+    private let bg1ImageButton = UIButton()
+    private let bg2ImageButton = UIButton()
+    private let bg3ImageButton = UIButton()
+    private let bg4ImageButton = UIButton()
+    private var imageButtons: [UIButton] {
         return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton]
     }
 
@@ -91,7 +91,7 @@ class CardTopicView: UIView {
         delegate?.didSelectCard(self, index: sender.tag)
     }
 
-    func setupViews() {
+    private func setupViews() {
 
         let views = [backgroundView, contentLabel, authorLabel, cardImageView]
         views.forEach {
@@ -142,7 +142,7 @@ class CardTopicView: UIView {
         ])
     }
 
-    func configureImageButtons() {
+    private func setupImageButtons() {
 
         imageButtons.forEach {
             addSubview($0)

@@ -45,7 +45,7 @@ class SwipeCardStackView: UIStackView {
         super.init(coder: coder)
     }
 
-    func setupCards() {
+    private func setupCards() {
 
         guard let dataSource = dataSource else { return }
 
@@ -77,7 +77,7 @@ class SwipeCardStackView: UIStackView {
         }
     }
 
-    func calculateIndex() {
+    private func calculateIndex() {
 
         guard let dataSource = dataSource else { return }
 

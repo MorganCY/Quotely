@@ -60,9 +60,9 @@ class SelectionView: UIView {
 
     weak var delegate: SelectionViewDelegate?
 
-    var indicatorCenterX: NSLayoutConstraint!
+    private var indicatorCenterX: NSLayoutConstraint!
 
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
 
         let stackView = UIStackView()
 
@@ -71,7 +71,7 @@ class SelectionView: UIView {
         return stackView
     }()
 
-    lazy var indicator: UIView = {
+    private lazy var indicator: UIView = {
 
         let indicator = UIView()
 
