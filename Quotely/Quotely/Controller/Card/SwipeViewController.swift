@@ -8,78 +8,65 @@
 import Foundation
 import UIKit
 
-// swiftlint:disable type_body_length
 class SwipeViewController: UIViewController {
 
-    let notificationCenter = NotificationCenter.default
-    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
+    private let notificationCenter = NotificationCenter.default
 
-    var cards = [Card]() {
+    private var cards = [Card]() {
         didSet {
             if cards.count >= 1 { likeNumberLabel.text = "\(cards[currentCardIndex].likeNumber)" }
         }
     }
 
-    let educationDimmingView = UIView()
-    var cardStack = SwipeCardStackView()
-    let shareButton = ImageButton(
+    private let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
+    private let educationDimmingView = UIView()
+    private var cardStack = SwipeCardStackView()
+    private let shareButton = ImageButton(
         image: UIImage.sfsymbol(.shareNormal),
         color: .white,
         labelTitle: "分享",
-        labelColor: .gray
-    )
-    let likeButton = ImageButton(image: UIImage.sfsymbol(.colletionStroke), color: .white)
-    let writeButton = ImageButton(
+        labelColor: .gray)
+    private let likeButton = ImageButton(image: UIImage.sfsymbol(.colletionStroke), color: .white)
+    private let writeButton = ImageButton(
         image: UIImage.sfsymbol(.writeCardPost),
         color: .white,
         labelTitle: "引用片語",
-        labelColor: .gray
-    )
-    let resetButton = ImageButton(image: UIImage.sfsymbol(.reset), color: .M1)
-    let resetBackgroundView = UIView()
-    let likeNumberLabel = ImageButtonLabel(color: .gray)
+        labelColor: .gray)
+    private let resetButton = ImageButton(image: UIImage.sfsymbol(.reset), color: .M1)
+    private let resetBackgroundView = UIView()
+    private let likeNumberLabel = ImageButtonLabel(color: .gray)
 
-    var resetBackgroundViewHeight = NSLayoutConstraint()
-    var resetBackgroundViewHeightHidden = NSLayoutConstraint()
-    var resetBackgroundViewWidth = NSLayoutConstraint()
-    var resetBackgroundViewWidthHidden = NSLayoutConstraint()
+    private var resetBackgroundViewHeight = NSLayoutConstraint()
+    private var resetBackgroundViewHeightHidden = NSLayoutConstraint()
+    private var resetBackgroundViewWidth = NSLayoutConstraint()
+    private var resetBackgroundViewWidthHidden = NSLayoutConstraint()
 
-    var isLastCardSwiped = false {
+    private var isLastCardSwiped = false {
         didSet {
-            expandAnimation()
+            setupExpandAnimation()
             resetButton.isHidden = !isLastCardSwiped
             shareButton.isEnabled = !isLastCardSwiped
             likeButton.isEnabled = !isLastCardSwiped
             writeButton.isEnabled = !isLastCardSwiped
         }
     }
-    var currentCardIndex = 0
+    private var currentCardIndex = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .BG
-        navigationItem.title = "片語"
-
-        navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.collection),
-            text: nil, target: self,
-            action: #selector(goToFavoritePage(_:)),
-            color: .M1)
-
         initialLoadingCards()
+        setupNavigation()
         setupCardView()
         setupButtons()
         setupResetButton()
+        view.backgroundColor = .BG
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         if UIApplication.isFirstLaunch(forKey: "HasLaunchedSwipeVC") {
             setupEducationView()
         }
-
         resetBackgroundView.cornerRadius = resetBackgroundView.frame.width / 2
         resetButton.cornerRadius = resetButton.frame.width / 2
     }
@@ -87,31 +74,13 @@ class SwipeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         notificationCenter.addObserver(
-            self, selector: #selector(goToSharePage(_:)),
+            self, selector: #selector(tapShareButton(_:)),
             name: UIApplication.userDidTakeScreenshotNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         notificationCenter.removeObserver(self)
-    }
-
-    func fetchCards() {
-
-        CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
-
-            switch result {
-
-            case .success(let cards):
-
-                self.cards = cards
-
-            case .failure(let error):
-
-                print(error)
-            }
-        }
     }
 
     func initialLoadingCards() {
@@ -126,21 +95,16 @@ class SwipeViewController: UIViewController {
                 switch result {
 
                 case .success(let cards):
-
                     self.cards = cards
                     self.cardStack.dataSource = self
                     self.cardStack.delegate = self
-
                     group.leave()
 
                 case .failure(let error):
-
                     print(error)
-
                     DispatchQueue.main.async {
                         Toast.showFailure(text: "片語資料載入異常")
                     }
-
                     group.leave()
                 }
             }
@@ -148,13 +112,24 @@ class SwipeViewController: UIViewController {
             group.notify(queue: DispatchQueue.main, execute: {
 
                 self.loadingAnimationView.removeFromSuperview()
-
                 self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
-
                 self.shareButton.isEnabled = true
                 self.likeButton.isEnabled = true
                 self.writeButton.isEnabled = true
             })
+        }
+    }
+
+    func fetchCards() {
+
+        CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
+
+            switch result {
+
+            case .success(let cards): self.cards = cards
+
+            case .failure(let error): print(error)
+            }
         }
     }
 
@@ -199,25 +174,62 @@ class SwipeViewController: UIViewController {
             }
         }
     }
+}
 
-    @objc func goToWritePage(_ sender: UIButton) {
+extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewDelegate {
 
-        guard let writeVC =
-                UIStoryboard.write.instantiateViewController(
-                    withIdentifier: CardWriteViewController.identifier
-                ) as? CardWriteViewController
-        else { return }
+    func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int { cards.count }
 
-        let navigationVC = BaseNavigationController(rootViewController: writeVC)
+    func authorForCardsIn(_ stack: SwipeCardStackView, index: Int) -> String { cards.reversed()[index].author }
 
-        writeVC.card = cards[currentCardIndex]
+    func cardForStackIn(_ card: SwipeCardStackView, index: Int) -> String { cards.reversed()[index].content }
 
-        navigationVC.modalPresentationStyle = .fullScreen
+    func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
 
-        present(navigationVC, animated: true)
+        guard let cardID = cards[currentIndex].cardID else { return }
+
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .negative)
+
+        updateCard(cardID: cardID, likeAction: .negative)
+
+        if nextIndex < cards.count {
+
+            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
+            currentCardIndex = nextIndex
+
+        } else if nextIndex == cards.count {
+
+            likeNumberLabel.text = ""
+            currentCardIndex = 0
+            isLastCardSwiped = true
+        }
     }
 
-    @objc func goToSharePage(_ sender: UIButton) {
+    func cardGoesRight(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
+
+        guard let cardID = cards[currentIndex].cardID else { return }
+
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
+
+        updateCard(cardID: cardID, likeAction: .positive)
+
+        if nextIndex < cards.count {
+
+            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
+            currentCardIndex = nextIndex
+
+        } else if nextIndex == cards.count {
+
+            likeNumberLabel.text = ""
+            currentCardIndex = 0
+            isLastCardSwiped = true
+        }
+    }
+}
+
+extension SwipeViewController {
+
+    @objc func tapShareButton(_ sender: UIButton) {
 
         guard let shareVC =
                 UIStoryboard.share.instantiateViewController(
@@ -238,7 +250,38 @@ class SwipeViewController: UIViewController {
         present(nav, animated: true)
     }
 
-    @objc func goToFavoritePage(_ sender: UIBarButtonItem) {
+    @objc func tapLikeButton(_ sender: UIButton) {
+
+        guard let cardID = cards[currentCardIndex].cardID else {
+            return Toast.showFailure(text: "收藏失敗")
+        }
+
+        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
+        updateCard(cardID: cardID, likeAction: .positive)
+
+        cards[currentCardIndex].likeNumber += 1
+
+        Toast.showSuccess(text: "已收藏")
+    }
+
+    @objc func tapWriteButton(_ sender: UIButton) {
+
+        guard let writeVC =
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: CardWriteViewController.identifier
+                ) as? CardWriteViewController
+        else { return }
+
+        let navigationVC = BaseNavigationController(rootViewController: writeVC)
+
+        writeVC.card = cards[currentCardIndex]
+
+        navigationVC.modalPresentationStyle = .fullScreen
+
+        present(navigationVC, animated: true)
+    }
+
+    @objc func tapFavoriteButton(_ sender: UIBarButtonItem) {
 
         guard let favCardVC =
                 UIStoryboard.card.instantiateViewController(
@@ -280,9 +323,9 @@ class SwipeViewController: UIViewController {
             $0.cornerRadius = CornerRadius.standard.rawValue
         }
 
-        writeButton.addTarget(self, action: #selector(goToWritePage(_:)), for: .touchUpInside)
+        writeButton.addTarget(self, action: #selector(tapWriteButton(_:)), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(tapLikeButton(_:)), for: .touchUpInside)
-        shareButton.addTarget(self, action: #selector(goToSharePage(_:)), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(tapShareButton(_:)), for: .touchUpInside)
 
         view.addSubview(likeNumberLabel)
         likeNumberLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -354,20 +397,6 @@ class SwipeViewController: UIViewController {
         cardStack.nextCardIndex = 0
     }
 
-    @objc func tapLikeButton(_ sender: UIButton) {
-
-        guard let cardID = cards[currentCardIndex].cardID else {
-            return Toast.showFailure(text: "收藏失敗")
-        }
-
-        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
-        updateCard(cardID: cardID, likeAction: .positive)
-
-        cards[currentCardIndex].likeNumber += 1
-
-        Toast.showSuccess(text: "已收藏")
-    }
-
     func setupEducationView() {
 
         let titleLabel = UILabel()
@@ -417,60 +446,23 @@ class SwipeViewController: UIViewController {
         ])
     }
 
-    @objc func dismissEducationAnimation(_ sender: UIButton) { educationDimmingView.removeFromSuperview() }
-}
+    @objc func dismissEducationAnimation(_ sender: UIButton) {
 
-extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewDelegate {
-
-    func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int { cards.count }
-
-    func authorForCardsIn(_ stack: SwipeCardStackView, index: Int) -> String { cards.reversed()[index].author }
-
-    func cardForStackIn(_ card: SwipeCardStackView, index: Int) -> String { cards.reversed()[index].content }
-
-    func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
-
-        guard let cardID = cards[currentIndex].cardID else { return }
-
-        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .negative)
-
-        updateCard(cardID: cardID, likeAction: .negative)
-
-        if nextIndex < cards.count {
-
-            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
-            currentCardIndex = nextIndex
-
-        } else if nextIndex == cards.count {
-
-            likeNumberLabel.text = ""
-            currentCardIndex = 0
-            isLastCardSwiped = true
-        }
+        educationDimmingView.removeFromSuperview()
     }
 
-    func cardGoesRight(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
+    func setupNavigation() {
 
-        guard let cardID = cards[currentIndex].cardID else { return }
+        navigationItem.title = "片語"
 
-        updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
-
-        updateCard(cardID: cardID, likeAction: .positive)
-
-        if nextIndex < cards.count {
-
-            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
-            currentCardIndex = nextIndex
-
-        } else if nextIndex == cards.count {
-
-            likeNumberLabel.text = ""
-            currentCardIndex = 0
-            isLastCardSwiped = true
-        }
+        navigationItem.setupRightBarButton(
+            image: UIImage.sfsymbol(.collection),
+            text: nil, target: self,
+            action: #selector(tapFavoriteButton(_:)),
+            color: .M1)
     }
 
-    func expandAnimation() {
+    func setupExpandAnimation() {
 
         if isLastCardSwiped == true {
 

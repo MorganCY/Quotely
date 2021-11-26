@@ -11,9 +11,9 @@ import AVFoundation
 
 class FavoriteCardViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.visitorUid ?? ""
+    private var visitorUid: String?
 
-    var likeCardList = [Card]() {
+    private var likeCardList = [Card]() {
         didSet {
             tableView.reloadData()
         }
@@ -25,28 +25,21 @@ class FavoriteCardViewController: UIViewController {
         }
     }
 
-    var navigationTitle = "收藏清單"
-
+    private var navigationTitle = "收藏清單"
     var passedContentText = ""
 
-    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
-    let emptyReminderView = LottieAnimationView(animationName: "empty")
+    private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
+    private let emptyReminderView = LottieAnimationView(animationName: "empty")
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
-            tableView.registerCellWithNib(
-                identifier: FavoriteCardTableViewCell.identifier,
-                bundle: nil
-            )
-            tableView.backgroundColor = .clear
-            tableView.separatorStyle = .none
+            setupTableView()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        visitorUid = UserManager.shared.visitorUserInfo?.uid ?? ""
         setupLoadingAnimation()
         fetchFavoriteCardList()
         view.backgroundColor = .M3
@@ -55,8 +48,8 @@ class FavoriteCardViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = true
         navigationItem.title = navigationTitle
+        tabBarController?.tabBar.isHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,15 +73,11 @@ class FavoriteCardViewController: UIViewController {
                     switch result {
 
                     case .success(let card):
-
                         self.likeCardList.append(card)
-
                         group.leave()
 
                     case .failure(let error):
-
                         print(error)
-
                         DispatchQueue.main.async {
                             Toast.showFailure(text: "片語資料載入異常")
                         }
@@ -123,16 +112,12 @@ class FavoriteCardViewController: UIViewController {
                 switch result {
 
                 case .success(let success):
-
                     print(success)
-
                     self.updateCard(cardID: cardID, likeAction: .negative)
                     self.likeCardList.remove(at: index)
 
                 case .failure(let error):
-
                     print(error)
-
                     DispatchQueue.main.async {
                         Toast.showFailure(text: "片語資料載入異常")
                     }
@@ -158,60 +143,6 @@ class FavoriteCardViewController: UIViewController {
                 print(error)
             }
         }
-    }
-
-    func goToCardWritePage(index: Int) {
-
-        guard let writeVC =
-                UIStoryboard.write.instantiateViewController(
-                    withIdentifier: CardWriteViewController.identifier
-                ) as? CardWriteViewController
-        else { return }
-
-        let card = likeCardList[index]
-        let navVC = BaseNavigationController(rootViewController: writeVC)
-
-        writeVC.card = card
-        writeVC.contentFromFavCard = passedContentText
-
-        navVC.modalPresentationStyle = .fullScreen
-
-        present(navVC, animated: true)
-    }
-
-    func goToCardTopicPage(index: Int) {
-
-        guard let cardTopicVC =
-                UIStoryboard.card.instantiateViewController(
-                    withIdentifier: CardTopicViewController.identifier
-                ) as? CardTopicViewController
-        else { return }
-
-        let card = likeCardList[index]
-
-        cardTopicVC.card = card
-
-        navigationController?.pushViewController(cardTopicVC, animated: true)
-    }
-
-    func goToSharePage(content: String, author: String) {
-
-        guard let shareVC =
-                UIStoryboard.share.instantiateViewController(
-                    withIdentifier: ShareViewController.identifier
-                ) as? ShareViewController
-        else { return }
-
-        let nav = BaseNavigationController(rootViewController: shareVC)
-
-        shareVC.templateContent = [
-            content.replacingOccurrences(of: "\\n", with: "\n"),
-            author
-        ]
-
-        nav.modalPresentationStyle = .fullScreen
-
-        present(nav, animated: true)
     }
 }
 
@@ -298,6 +229,60 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
 extension FavoriteCardViewController {
 
+    func goToCardWritePage(index: Int) {
+
+        guard let writeVC =
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: CardWriteViewController.identifier
+                ) as? CardWriteViewController
+        else { return }
+
+        let card = likeCardList[index]
+        let navVC = BaseNavigationController(rootViewController: writeVC)
+
+        writeVC.card = card
+        writeVC.contentFromFavCard = passedContentText
+
+        navVC.modalPresentationStyle = .fullScreen
+
+        present(navVC, animated: true)
+    }
+
+    func goToCardTopicPage(index: Int) {
+
+        guard let cardTopicVC =
+                UIStoryboard.card.instantiateViewController(
+                    withIdentifier: CardTopicViewController.identifier
+                ) as? CardTopicViewController
+        else { return }
+
+        let card = likeCardList[index]
+
+        cardTopicVC.card = card
+
+        navigationController?.pushViewController(cardTopicVC, animated: true)
+    }
+
+    func goToSharePage(content: String, author: String) {
+
+        guard let shareVC =
+                UIStoryboard.share.instantiateViewController(
+                    withIdentifier: ShareViewController.identifier
+                ) as? ShareViewController
+        else { return }
+
+        let nav = BaseNavigationController(rootViewController: shareVC)
+
+        shareVC.templateContent = [
+            content.replacingOccurrences(of: "\\n", with: "\n"),
+            author
+        ]
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
+
     func setupLoadingAnimation() {
 
         view.addSubview(loadingAnimationView)
@@ -333,5 +318,16 @@ extension FavoriteCardViewController {
             titleLabel.topAnchor.constraint(equalTo: emptyReminderView.bottomAnchor, constant: -24),
             titleLabel.centerXAnchor.constraint(equalTo: emptyReminderView.centerXAnchor)
         ])
+    }
+
+    func setupTableView() {
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.registerCellWithNib(
+            identifier: FavoriteCardTableViewCell.identifier,
+            bundle: nil)
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
     }
 }
