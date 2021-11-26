@@ -175,7 +175,7 @@ extension BaseProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         if let likeUserList = visitedUserPostList?[row].likeUser {
 
-            detailVC.isLike = likeUserList.contains(UserManager.shared.visitorUserInfo?.uid ?? "")
+            detailVC.isLikePost = likeUserList.contains(UserManager.shared.visitorUserInfo?.uid ?? "")
         }
 
         navigationController?.pushViewController(detailVC, animated: true)

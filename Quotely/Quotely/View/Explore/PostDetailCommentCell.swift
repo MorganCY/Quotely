@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class BaseDetailCommentCell: UITableViewCell {
+class PostDetailCommentCell: UITableViewCell {
 
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!

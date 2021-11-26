@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14E733D7923198D8FA6B51FC /* Pods_QuotelyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A373E2BF48075AF8BCE451 /* Pods_QuotelyTests.framework */; };
 		162163FFB6518EC3632F3366 /* Pods_Quotely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05474F971FBF3D667593F52F /* Pods_Quotely.framework */; };
 		5C00B1632746AB5900F3138F /* arrow.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C00B1622746AB5900F3138F /* arrow.json */; };
 		5C0B1C5F274F745800BD5666 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B1C5E274F745800BD5666 /* UIFont+Extension.swift */; };
@@ -46,11 +45,11 @@
 		5C46F25A273BE0EA007E951D /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */; };
 		5C47E0D7273A77A600CE383C /* CardTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */; };
 		5C4983E22740E743008B721F /* FollowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4983E12740E743008B721F /* FollowListViewController.swift */; };
-		5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */; };
-		5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */; };
+		5C4B968D271FA78C008B21C7 /* PostDetailTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B968C271FA78C008B21C7 /* PostDetailTableViewHeader.swift */; };
+		5C4B968F271FA795008B21C7 /* PostDetailTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B968E271FA795008B21C7 /* PostDetailTableViewHeader.xib */; };
 		5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9690271FBBA3008B21C7 /* UIColor+Extension.swift */; };
-		5C4B9693271FBCC1008B21C7 /* BaseDetailCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */; };
-		5C4B9695271FBCCF008B21C7 /* BaseDetailCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B9694271FBCCF008B21C7 /* BaseDetailCommentCell.xib */; };
+		5C4B9693271FBCC1008B21C7 /* PostDetailCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9692271FBCC1008B21C7 /* PostDetailCommentCell.swift */; };
+		5C4B9695271FBCCF008B21C7 /* PostDetailCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B9694271FBCCF008B21C7 /* PostDetailCommentCell.xib */; };
 		5C4B9697271FBF4C008B21C7 /* CommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9696271FBF4C008B21C7 /* CommentManager.swift */; };
 		5C4B9699271FC0D3008B21C7 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B9698271FC0D3008B21C7 /* Comment.swift */; };
 		5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */; };
@@ -69,7 +68,6 @@
 		5C5C4A722742523F00B77631 /* BaseProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */; };
 		5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */; };
 		5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E627300E3B00B71DA8 /* Share.storyboard */; };
-		5C78570927508BD300305443 /* QuotelyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C78570127507B9200305443 /* QuotelyTests.swift */; };
 		5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0E82748D08800476567 /* MyViewController.swift */; };
 		5C7AF0EB2748D24300476567 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0EA2748D24300476567 /* ProfileViewController.swift */; };
 		5C7B6395272A798700E18B96 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6394272A798700E18B96 /* UserManager.swift */; };
@@ -103,7 +101,6 @@
 		5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765F9271EAE24008E8D00 /* ImageManager.swift */; };
 		5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FC271ECE33008E8D00 /* Kingfisher.swift */; };
 		5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */; };
-		5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */; };
 		5CD9DDF0272D3394009618FA /* RowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD9DDEF272D3394009618FA /* RowButton.swift */; };
 		5CDB314D274CEB5D00713CDE /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB314C274CEB5D00713CDE /* FirebaseManager.swift */; };
 		5CE3D83D273A7A5300DF07E8 /* CardTopicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CE3D83C273A7A5300DF07E8 /* CardTopicTableViewCell.xib */; };
@@ -120,16 +117,6 @@
 		5CF36A192732EEB900F6B3BD /* ProfileTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */; };
 		5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5C78570327507B9200305443 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5C2C72ED271D12E100F8B9EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C2C72F4271D12E100F8B9EC;
-			remoteInfo = Quotely;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		05474F971FBF3D667593F52F /* Pods_Quotely.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quotely.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,11 +162,11 @@
 		5C46F259273BE0EA007E951D /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		5C47E0D6273A77A600CE383C /* CardTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTopicViewController.swift; sourceTree = "<group>"; };
 		5C4983E12740E743008B721F /* FollowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListViewController.swift; sourceTree = "<group>"; };
-		5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailTableViewHeader.swift; sourceTree = "<group>"; };
-		5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseDetailTableViewHeader.xib; sourceTree = "<group>"; };
+		5C4B968C271FA78C008B21C7 /* PostDetailTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewHeader.swift; sourceTree = "<group>"; };
+		5C4B968E271FA795008B21C7 /* PostDetailTableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailTableViewHeader.xib; sourceTree = "<group>"; };
 		5C4B9690271FBBA3008B21C7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailCommentCell.swift; sourceTree = "<group>"; };
-		5C4B9694271FBCCF008B21C7 /* BaseDetailCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseDetailCommentCell.xib; sourceTree = "<group>"; };
+		5C4B9692271FBCC1008B21C7 /* PostDetailCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCommentCell.swift; sourceTree = "<group>"; };
+		5C4B9694271FBCCF008B21C7 /* PostDetailCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailCommentCell.xib; sourceTree = "<group>"; };
 		5C4B9696271FBF4C008B21C7 /* CommentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentManager.swift; sourceTree = "<group>"; };
 		5C4B9698271FC0D3008B21C7 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		5C4B969A271FDCA4008B21C7 /* JGProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUD.swift; sourceTree = "<group>"; };
@@ -199,7 +186,6 @@
 		5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseProfileViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
-		5C7856FF27507B9100305443 /* QuotelyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuotelyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C78570127507B9200305443 /* QuotelyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotelyTests.swift; sourceTree = "<group>"; };
 		5C7AF0E82748D08800476567 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
 		5C7AF0EA2748D24300476567 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -234,7 +220,6 @@
 		5CD765F9271EAE24008E8D00 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		5CD765FC271ECE33008E8D00 /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
 		5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
-		5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailViewController.swift; sourceTree = "<group>"; };
 		5CD9DDEF272D3394009618FA /* RowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowButton.swift; sourceTree = "<group>"; };
 		5CDB314C274CEB5D00713CDE /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		5CE3D83C273A7A5300DF07E8 /* CardTopicTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardTopicTableViewCell.xib; sourceTree = "<group>"; };
@@ -260,14 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				162163FFB6518EC3632F3366 /* Pods_Quotely.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C7856FC27507B9100305443 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				14E733D7923198D8FA6B51FC /* Pods_QuotelyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				5C2C72F5271D12E100F8B9EC /* Quotely.app */,
-				5C7856FF27507B9100305443 /* QuotelyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -445,7 +421,6 @@
 			isa = PBXGroup;
 			children = (
 				5C582104271D791A002E21C9 /* ExploreViewController.swift */,
-				5CD76600271F06B5008E8D00 /* BaseDetailViewController.swift */,
 				5CD765FE271F069E008E8D00 /* PostDetailViewController.swift */,
 			);
 			path = Explore;
@@ -493,10 +468,10 @@
 				5C2C7320271D3D5500F8B9EC /* Explore.storyboard */,
 				5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */,
 				5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */,
-				5C4B968C271FA78C008B21C7 /* BaseDetailTableViewHeader.swift */,
-				5C4B968E271FA795008B21C7 /* BaseDetailTableViewHeader.xib */,
-				5C4B9692271FBCC1008B21C7 /* BaseDetailCommentCell.swift */,
-				5C4B9694271FBCCF008B21C7 /* BaseDetailCommentCell.xib */,
+				5C4B968C271FA78C008B21C7 /* PostDetailTableViewHeader.swift */,
+				5C4B968E271FA795008B21C7 /* PostDetailTableViewHeader.xib */,
+				5C4B9692271FBCC1008B21C7 /* PostDetailCommentCell.swift */,
+				5C4B9694271FBCCF008B21C7 /* PostDetailCommentCell.xib */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -648,26 +623,6 @@
 			productReference = 5C2C72F5271D12E100F8B9EC /* Quotely.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5C7856FE27507B9100305443 /* QuotelyTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C78570727507B9200305443 /* Build configuration list for PBXNativeTarget "QuotelyTests" */;
-			buildPhases = (
-				B8D49472C5E84FEC7138B677 /* [CP] Check Pods Manifest.lock */,
-				5C7856FB27507B9100305443 /* Sources */,
-				5C7856FC27507B9100305443 /* Frameworks */,
-				5C7856FD27507B9100305443 /* Resources */,
-				318E9A9ACDA3E72E04F6C5B8 /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5C78570427507B9200305443 /* PBXTargetDependency */,
-			);
-			name = QuotelyTests;
-			productName = QuotelyTests;
-			productReference = 5C7856FF27507B9100305443 /* QuotelyTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -680,10 +635,6 @@
 				TargetAttributes = {
 					5C2C72F4271D12E100F8B9EC = {
 						CreatedOnToolsVersion = 13.0;
-					};
-					5C7856FE27507B9100305443 = {
-						CreatedOnToolsVersion = 13.1;
-						TestTargetID = 5C2C72F4271D12E100F8B9EC;
 					};
 				};
 			};
@@ -701,7 +652,6 @@
 			projectRoot = "";
 			targets = (
 				5C2C72F4271D12E100F8B9EC /* Quotely */,
-				5C7856FE27507B9100305443 /* QuotelyTests */,
 			);
 		};
 /* End PBXProject section */
@@ -726,14 +676,14 @@
 				5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */,
 				5CE8F1D5272F79210026864C /* ball.json in Resources */,
 				5C874902273CC2C5007471F6 /* BlockListTableViewCell.xib in Resources */,
-				5C4B968F271FA795008B21C7 /* BaseDetailTableViewHeader.xib in Resources */,
+				5C4B968F271FA795008B21C7 /* PostDetailTableViewHeader.xib in Resources */,
 				5C2C7302271D12E300F8B9EC /* Assets.xcassets in Resources */,
 				5C150F732737FE510093A59C /* empty.json in Resources */,
 				5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */,
 				5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */,
 				5C19C7A8273E4A7E00DDA159 /* greenLoading.json in Resources */,
 				5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */,
-				5C4B9695271FBCCF008B21C7 /* BaseDetailCommentCell.xib in Resources */,
+				5C4B9695271FBCCF008B21C7 /* PostDetailCommentCell.xib in Resources */,
 				5C2C7321271D3D5500F8B9EC /* Explore.storyboard in Resources */,
 				5CE3D83D273A7A5300DF07E8 /* CardTopicTableViewCell.xib in Resources */,
 				5CF36A172732C3E400F6B3BD /* ProfileTableViewCell.xib in Resources */,
@@ -741,13 +691,6 @@
 				5CE3D843273A809A00DF07E8 /* CardTopicTableViewHeader.xib in Resources */,
 				5C2C7327271D3D6E00F8B9EC /* Profile.storyboard in Resources */,
 				5C2C7300271D12E100F8B9EC /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C7856FD27507B9100305443 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,23 +717,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		318E9A9ACDA3E72E04F6C5B8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5C2C730D271D16AF00F8B9EC /* ShellScript */ = {
@@ -829,28 +755,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
-		B8D49472C5E84FEC7138B677 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-QuotelyTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		CF8FDF50BC0AEDD1ED86B0E5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -879,7 +783,7 @@
 				5C0B1C5F274F745800BD5666 /* UIFont+Extension.swift in Sources */,
 				5C4B9691271FBBA3008B21C7 /* UIColor+Extension.swift in Sources */,
 				5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */,
-				5C4B968D271FA78C008B21C7 /* BaseDetailTableViewHeader.swift in Sources */,
+				5C4B968D271FA78C008B21C7 /* PostDetailTableViewHeader.swift in Sources */,
 				5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */,
 				5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */,
 				5C2846F927297D0200393562 /* Animation.swift in Sources */,
@@ -891,7 +795,6 @@
 				5C8C0E8F2724261F0054480A /* UIViewController+Extension.swift in Sources */,
 				5C4B969B271FDCA4008B21C7 /* JGProgressHUD.swift in Sources */,
 				5C46F258273BB0EB007E951D /* UIButton+Extension.swift in Sources */,
-				5CD76601271F06B5008E8D00 /* BaseDetailViewController.swift in Sources */,
 				5C9F02652739179D00FAC2B1 /* CardTopicView.swift in Sources */,
 				5C8C0E8D272425980054480A /* SwipeViewController.swift in Sources */,
 				5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */,
@@ -903,7 +806,7 @@
 				5CE3D841273A808A00DF07E8 /* CardTopicTableViewHeader.swift in Sources */,
 				5CA65BF3271D46DD00B877FB /* UIView+Extension.swift in Sources */,
 				5C874900273CC2BD007471F6 /* BlockListTableViewCell.swift in Sources */,
-				5C4B9693271FBCC1008B21C7 /* BaseDetailCommentCell.swift in Sources */,
+				5C4B9693271FBCC1008B21C7 /* PostDetailCommentCell.swift in Sources */,
 				5CD1FAD52732793600F87B98 /* UIScreen+Extension.swift in Sources */,
 				5C91FFC82737986700A216D4 /* LottieAnimation.swift in Sources */,
 				5C2846EF2728F4F500393562 /* JournalListTableViewCell.swift in Sources */,
@@ -957,23 +860,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5C7856FB27507B9100305443 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C78570927508BD300305443 /* QuotelyTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5C78570427507B9200305443 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C2C72F4271D12E100F8B9EC /* Quotely */;
-			targetProxy = 5C78570327507B9200305443 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5C2C72FE271D12E100F8B9EC /* Main.storyboard */ = {
@@ -1185,56 +1072,6 @@
 			};
 			name = Release;
 		};
-		5C78570527507B9200305443 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D5ACECFEEB41362164CC721 /* Pods-QuotelyTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = D68W2FWD7S;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.QuotelyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quotely.app/Quotely";
-			};
-			name = Debug;
-		};
-		5C78570627507B9200305443 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D58774C66BEB4BDFACA45197 /* Pods-QuotelyTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = D68W2FWD7S;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.QuotelyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quotely.app/Quotely";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1252,15 +1089,6 @@
 			buildConfigurations = (
 				5C2C730A271D12E300F8B9EC /* Debug */,
 				5C2C730B271D12E300F8B9EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5C78570727507B9200305443 /* Build configuration list for PBXNativeTarget "QuotelyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C78570527507B9200305443 /* Debug */,
-				5C78570627507B9200305443 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

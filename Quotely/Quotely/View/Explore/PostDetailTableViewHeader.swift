@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class BaseDetailTableViewHeader: UITableViewHeaderFooterView {
+class PostDetailTableViewHeader: UITableViewHeaderFooterView {
 
     @IBOutlet weak var userStackView: UIStackView!
     @IBOutlet weak var userImageView: UIImageView!

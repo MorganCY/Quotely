@@ -47,10 +47,25 @@
                     <view key="view" contentMode="scaleToFill" id="l8p-ZX-qDQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="etf-IC-taP">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="RSE-Ff-Aaq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="etf-IC-taP" firstAttribute="top" secondItem="RSE-Ff-Aaq" secondAttribute="top" id="5ne-iB-qQH"/>
+                            <constraint firstItem="RSE-Ff-Aaq" firstAttribute="bottom" secondItem="etf-IC-taP" secondAttribute="bottom" id="aFc-RE-GMa"/>
+                            <constraint firstItem="RSE-Ff-Aaq" firstAttribute="trailing" secondItem="etf-IC-taP" secondAttribute="trailing" id="m4j-Uk-hA6"/>
+                            <constraint firstItem="etf-IC-taP" firstAttribute="leading" secondItem="RSE-Ff-Aaq" secondAttribute="leading" id="zan-FO-vkf"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yPi-ED-KHV"/>
+                    <connections>
+                        <outlet property="tableView" destination="etf-IC-taP" id="XcQ-Xs-eHw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1L4-KS-dgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -202,7 +202,7 @@ class CardTopicViewController: UIViewController {
 
         cardPostVC.post = post
         cardPostVC.postAuthor = user
-        cardPostVC.isLike = isLikePost
+        cardPostVC.isLikePost = isLikePost
 
         navigationController?.pushViewController(cardPostVC, animated: true)
     }

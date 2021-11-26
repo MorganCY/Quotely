@@ -179,14 +179,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
             Toast.showLoading(text: "上傳中")
         }
 
-        guard SignInManager.shared.visitorUid != nil else {
-
-            DispatchQueue.main.async {
-                Toast.showFailure(text: "上傳失敗")
-            }
-            return
-        }
-
         if let postID = self.postID {
 
             switch hasPostImage {
@@ -223,18 +215,6 @@ class BaseWriteViewController: BaseImagePickerViewController {
     }
 
     private func publishNewPost() {
-
-        guard !contentTextView.text.isEmpty else {
-
-            DispatchQueue.main.async {
-                Toast.showFailure(text: "請輸入內容")
-            }
-            return
-        }
-
-        DispatchQueue.main.async {
-            Toast.showLoading(text: "上傳中")
-        }
 
         // check if there's image
 

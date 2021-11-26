@@ -8,152 +8,264 @@
 import Foundation
 import UIKit
 
-class PostDetailViewController: BaseDetailViewController {
+class PostDetailViewController: UIViewController {
 
-    var isAuthor = false
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
 
     var author: User? {
         didSet {
             tableView.reloadData()
         }
     }
+    var post: Post?
+    var postAuthor: User?
+    var likeNumber: Int?
+    var comments: [Comment] = []
+    var commentUserList: [User] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    var isAuthor = false
+    var isLikePost = false
+
+    let commentPanel = UIView()
+    let userImageView = UIImageView()
+    let commentTextField = CommentTextField()
+    let submitCommentButton = ImageButton(image: UIImage.sfsymbol(.send), color: .M2)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupNavigation()
+        setupTableView()
+        setupCommentPanel()
         fetchComments()
-        navigationItem.title = "想法"
     }
 
-    @objc func goToProfileFromHeader(_ gestureRecognizer: UITapGestureRecognizer) {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        userImageView.cornerRadius = userImageView.frame.width / 2
+    }
 
-        guard let profileVC = UIStoryboard.profile
-                .instantiateViewController(withIdentifier: ProfileViewController.identifier
-                ) as? ProfileViewController
-        else { return }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
 
-        guard let myVC = UIStoryboard.profile
-                .instantiateViewController(withIdentifier: MyViewController.identifier
-                ) as? MyViewController
-        else { return }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
 
-        profileVC.visitedUid = postAuthor?.uid
+    func fetchComments() {
 
-        if postAuthor?.uid == UserManager.shared.visitorUserInfo?.uid {
+        guard let postID = post?.postID else { return }
 
-            navigationController?.pushViewController(myVC, animated: true)
+        CommentManager.shared.fetchComment(postID: postID) { result in
 
-        } else {
+            switch result {
 
-            navigationController?.pushViewController(profileVC, animated: true)
+            case .success(let comments):
+                self.comments = comments
+                self.fetchCommentUserInfo(commentList: comments)
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "評論資料載入異常")
+                }
+            }
         }
     }
 
-    @objc func goToProfileFromCell(_ gestureRecognizer: UITapGestureRecognizer) {
+    func fetchCommentUserInfo(commentList: [Comment]) {
 
-        guard let profileVC = UIStoryboard.profile
-                .instantiateViewController(withIdentifier: ProfileViewController.identifier
-                ) as? ProfileViewController
-        else { return }
+        var userList: [User] = Array(repeating: User.default, count: commentList.count)
 
-        guard let myVC = UIStoryboard.profile
-                .instantiateViewController(withIdentifier: MyViewController.identifier
-                ) as? MyViewController
-        else { return }
+        let group = DispatchGroup()
 
-        guard let currentRow = gestureRecognizer.view?.tag else { return }
+        DispatchQueue.main.async {
 
-        profileVC.visitedUid = comments[currentRow].uid
+            for (index, comment) in commentList.enumerated() {
 
-        if comments[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
+                group.enter()
 
-            self.show(myVC, sender: nil)
+                UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
 
-        } else {
+                    switch result {
 
-            self.show(profileVC, sender: nil)
-        }
-    }
+                    case .success(let user):
+                        userList[index] = user
+                        group.leave()
 
-    @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
-
-        guard let cardTopicVC = UIStoryboard
-                .card.instantiateViewController(withIdentifier: CardTopicViewController.identifier
-                ) as? CardTopicViewController
-        else { return }
-
-        cardTopicVC.cardID = post?.cardID
-
-        self.show(cardTopicVC, sender: nil)
-    }
-
-    override func createComment(_ sender: UIButton) {
-        super.createComment(sender)
-
-        guard commentTextField.text != "" else {
-
-            DispatchQueue.main.async { Toast.showFailure(text: "請輸入內容") }
-            return
-        }
-
-        submitButton.isEnabled = false
-
-        if let message = commentTextField.text {
-
-            guard let visitorUid = SignInManager.shared.visitorUid else { return }
-
-            var comment = Comment(
-                uid: visitorUid,
-                createdTime: Date().millisecondsSince1970,
-                editTime: nil,
-                content: message,
-                postID: post?.postID
-            )
-
-            CommentManager.shared.createComment(
-                comment: &comment
-            ) { result in
-
-                switch result {
-
-                case .success(let success):
-
-                    print(success)
-
-                    self.commentTextField.text = ""
-
-                    self.updateCommentNumber(
-                        action: .positive
-                    ) {
-
-                        self.submitButton.isEnabled = true
+                    case .failure(let error):
+                        print(error)
+                        DispatchQueue.main.async {
+                            Toast.showFailure(text: "評論資料載入異常")
+                        }
+                        group.leave()
                     }
-
-                    self.fetchComments()
-
-                case .failure(let error):
-
-                    print(error)
-
-                    DispatchQueue.main.async {
-                        Toast.showFailure(text: "新增評論失敗")
-                    }
-
-                    self.submitButton.isEnabled = true
                 }
             }
 
-        } else {
+            group.notify(queue: DispatchQueue.main) {
+
+                self.commentUserList = userList
+            }
+        }
+    }
+
+    func openOptionMenu(blockedUid: String,
+                        index: Int?,
+                        completion: (() -> Void)?) {
+
+        let blockUserAction = UIAlertAction(
+            title: "檢舉並封鎖用戶",
+            style: .destructive
+        ) { _ in
+
+            if let followingList = UserManager.shared.visitorUserInfo?.followingList {
+
+                if followingList.contains(blockedUid) {
+
+                    self.unfollowUser(blockedUid: blockedUid)
+                }
+            }
+
+            self.blockUser(blockedUid: blockedUid, index: index, completion: completion)
+        }
+
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+        let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        optionAlert.addAction(blockUserAction)
+        optionAlert.addAction(cancelAction)
+
+        present(optionAlert, animated: true)
+    }
+
+    func unfollowUser(blockedUid: String) {
+
+        UserManager.shared.updateUserList(
+            userAction: .follow,
+            visitedUid: blockedUid,
+            action: .negative
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "資料載入異常")
+                }
+            }
+        }
+    }
+
+    func blockUser(blockedUid: String,
+                   index: Int?,
+                   completion: (() -> Void)?) {
+
+        UserManager.shared.updateUserList(
+            userAction: .block,
+            visitedUid: blockedUid,
+            action: .positive
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+                if let index = index {
+
+                    self.comments.remove(at: index)
+                    self.commentUserList.remove(at: index)
+
+                } else {
+
+                    guard let completion = completion else { return }
+
+                    completion()
+                }
+
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: "封鎖失敗")
+            }
+        }
+    }
+
+    func createComment() {
+
+        guard commentTextField.text != "" else {
 
             DispatchQueue.main.async {
                 Toast.showFailure(text: "請輸入內容")
             }
+            return
+        }
 
-            submitButton.isEnabled = true
+        submitCommentButton.isEnabled = false
+
+        guard let commentText = commentTextField.text else { return }
+
+        guard let visitorUid = SignInManager.shared.visitorUid else { return }
+
+        var comment = Comment(
+            uid: visitorUid,
+            createdTime: Date().millisecondsSince1970,
+            editTime: nil,
+            content: commentText,
+            postID: post?.postID
+        )
+
+        CommentManager.shared.createComment(
+            comment: &comment
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+
+                print(success)
+
+                self.commentTextField.text = ""
+
+                self.updateCommentNumber(
+                    action: .positive
+                ) {
+
+                    self.submitCommentButton.isEnabled = true
+                }
+
+                self.fetchComments()
+
+            case .failure(let error):
+
+                print(error)
+
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "新增評論失敗")
+                }
+
+                self.submitCommentButton.isEnabled = true
+            }
         }
     }
 
-    func fetchCard(cardID: String, completion: @escaping (Result<Card,Error>) -> Void) {
+    func fetchCard(cardID: String,
+                   completion: @escaping (Result<Card, Error>) -> Void
+    ) {
 
         CardManager.shared.fetchSpecificCard(cardID: cardID) { result in
 
@@ -199,11 +311,49 @@ class PostDetailViewController: BaseDetailViewController {
         }
     }
 
-    func updatePostLike(
-        postID: String,
-        likeAction: FirebaseAction,
-        successHandler: @escaping () -> Void,
-        errorHandler: @escaping () -> Void
+    func updateUserPost(postID: String, action: FirebaseAction) {
+
+        UserManager.shared.updateUserPost(
+            postID: postID, postAction: action
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+                self.deletePostFromCard(postID: postID)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+    func updateComment(postCommentID: String, text: String) {
+
+        CommentManager.shared.updateComment(
+            postCommentID: postCommentID, newContent: text
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+                self.fetchComments()
+
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    Toast.showFailure(text: "編輯評論失敗")
+                }
+            }
+        }
+    }
+
+    func updatePostLike(postID: String,
+                        likeAction: FirebaseAction,
+                        successHandler: @escaping () -> Void,
+                        errorHandler: @escaping () -> Void
     ) {
 
         FirebaseManager.shared.updateFieldNumber(
@@ -309,229 +459,215 @@ class PostDetailViewController: BaseDetailViewController {
             }
         }
     }
+}
 
-    func updateUserPost(postID: String, action: FirebaseAction) {
+extension PostDetailViewController: UITextFieldDelegate {
 
-        UserManager.shared.updateUserPost(
-            postID: postID, postAction: action
-        ) { result in
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
 
-            switch result {
+        let currentText = textField.text ?? ""
 
-            case .success(let success):
-                print(success)
-                self.deletePostFromCard(postID: postID)
+        guard let stringRange = Range(range, in: currentText) else { return false }
 
-            case .failure(let error):
-                print(error)
-            }
-        }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+        return updatedText.count <= 80
+    }
+}
+
+extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        return comments.count
     }
 
-    func updateComment(postCommentID: String, text: String) {
+    func tableView(_ tableView: UITableView,
+                   viewForHeaderInSection section: Int ) -> UIView? {
 
-        CommentManager.shared.updateComment(
-            postCommentID: postCommentID, newContent: text
-        ) { result in
+        guard let header = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: PostDetailTableViewHeader.identifier
+        ) as? PostDetailTableViewHeader else { fatalError("Cannot load header view.") }
 
-            switch result {
+        let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
 
-            case .success(let success):
-                print(success)
-                self.fetchComments()
+        header.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
+        header.cardStackView.isUserInteractionEnabled = true
 
-            case .failure(let error):
-                print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "編輯評論失敗")
+        isAuthor = postAuthor?.uid == UserManager.shared.visitorUserInfo?.uid ?? ""
+
+        guard post != nil, postAuthor != nil else { fatalError("Cannot fetch post data") }
+
+        header.layoutHeader(post: post,
+                            postAuthor: postAuthor,
+                            isAuthor: self.isAuthor,
+                            isLike: isLikePost)
+
+        header.likeHandler = { [weak self] in
+
+            guard let self = self else { return }
+
+            guard let postID = self.post?.postID else { return }
+
+            let likeAction: FirebaseAction = self.isLikePost ? .negative : .positive
+
+            header.likeButton.isEnabled = false
+
+            self.updatePostLike(
+                postID: postID,
+                likeAction: likeAction) {
+                    if likeAction == .positive {
+                        self.post?.likeNumber += 1
+                        self.isLikePost = true
+                    } else if likeAction == .negative {
+                        self.post?.likeNumber -= 1
+                        self.isLikePost = false
+                    }
+                    header.likeButton.isEnabled = true
+                    tableView.reloadData()
+
+                } errorHandler: {
+
+                    header.likeButton.isEnabled = true
                 }
-            }
         }
-    }
 
-    override func tableView(
-        _ tableView: UITableView,
-        viewForHeaderInSection section: Int ) -> UIView? {
+        header.editHandler = { [weak self] in
 
-            guard let header = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: BaseDetailTableViewHeader.identifier
-            ) as? BaseDetailTableViewHeader else { fatalError("Cannot load header view.") }
+            guard let self = self else { return }
 
-            let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
+            var writeVC: BaseWriteViewController?
 
-            header.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
-            header.cardStackView.isUserInteractionEnabled = true
+            writeVC = self.post?.cardID == nil
+            ?
+            UIStoryboard.write.instantiateViewController(
+                withIdentifier: ExploreWriteViewController.identifier
+            ) as? ExploreWriteViewController :
+            UIStoryboard.write.instantiateViewController(
+                withIdentifier: CardWriteViewController.identifier
+            ) as? CardWriteViewController
 
-            isAuthor = postAuthor?.uid == UserManager.shared.visitorUserInfo?.uid ?? ""
+            guard let writeVC = writeVC else { return }
 
-            guard post != nil, postAuthor != nil else { fatalError("Cannot fetch post data") }
+            let navigationVC = UINavigationController(rootViewController: writeVC)
 
-            header.layoutHeader(
-                post: post,
-                postAuthor: postAuthor,
-                isAuthor: self.isAuthor,
-                isLike: isLike)
+            navigationVC.modalPresentationStyle = .automatic
 
-            header.likeHandler = { [weak self] in
+            writeVC.contentTextView.text = self.post?.content
 
-                guard let self = self else { return }
+            writeVC.postID = self.post?.postID
 
-                guard let postID = self.post?.postID else { return }
+            if let imageUrl = self.post?.imageUrl { writeVC.imageUrl = imageUrl }
 
-                let likeAction: FirebaseAction = self.isLike
-                ? .negative : .positive
+            writeVC.editContentHandler = { content, editTime, postImage in
 
-                header.likeButton.isEnabled = false
+                self.post?.content = content
 
-                self.updatePostLike(
-                    postID: postID,
-                    likeAction: likeAction) {
-                        if likeAction == .positive {
-                            self.post?.likeNumber += 1
-                            self.isLike = true
-                        } else if likeAction == .negative {
-                            self.post?.likeNumber -= 1
-                            self.isLike = false
-                        }
-                        header.likeButton.isEnabled = true
-                        tableView.reloadData()
+                self.post?.editTime = editTime
 
-                    } errorHandler: {
+                if self.post?.cardID != nil {
 
-                        header.likeButton.isEnabled = true
-                    }
-            }
-
-            header.editHandler = { [weak self] in
-
-                guard let self = self else { return }
-
-                var writeVC: BaseWriteViewController?
-
-                writeVC = self.post?.cardID == nil
-                ?
-                UIStoryboard.write.instantiateViewController(
-                    withIdentifier: ExploreWriteViewController.identifier
-                ) as? ExploreWriteViewController :
-                UIStoryboard.write.instantiateViewController(
-                    withIdentifier: CardWriteViewController.identifier
-                ) as? CardWriteViewController
-
-                guard let writeVC = writeVC else { return }
-
-                let navigationVC = UINavigationController(rootViewController: writeVC)
-
-                navigationVC.modalPresentationStyle = .automatic
-
-                writeVC.contentTextView.text = self.post?.content
-
-                writeVC.postID = self.post?.postID
-
-                if let imageUrl = self.post?.imageUrl { writeVC.imageUrl = imageUrl }
-
-                writeVC.editContentHandler = { content, editTime, postImage in
-
-                    self.post?.content = content
-
-                    self.post?.editTime = editTime
-
-                    if self.post?.cardID != nil {
-                        header.cardImageView.image = postImage
-                        header.cardImageView.layoutIfNeeded()
-                    } else {
-                        if postImage == nil {
-                            header.postImageView.isHidden = true
-                        } else {
-                            header.postImageView.image = postImage
-                        }
-                        header.postImageView.layoutIfNeeded()
-                    }
-                }
-
-                if let cardID = self.post?.cardID {
-
-                    writeVC.uploadedImage = header.cardImageView.image
-
-                    self.fetchCard(cardID: cardID) { result in
-
-                        switch result {
-
-                        case .success(let card):
-                            writeVC.card = card
-                            self.navigationController?.present(navigationVC, animated: true)
-
-                        case .failure(let error):
-                            print(error)
-                        }
-                    }
+                    header.cardImageView.image = postImage
+                    header.cardImageView.layoutIfNeeded()
 
                 } else {
 
-                    self.navigationController?.present(navigationVC, animated: true)
+                    if postImage == nil {
+
+                        header.postImageView.isHidden = true
+                    } else {
+
+                        header.postImageView.image = postImage
+                    }
+
+                    header.postImageView.layoutIfNeeded()
                 }
             }
 
-            header.deleteHandler = { [weak self] in
+            if let cardID = self.post?.cardID {
 
-                guard let self = self else { return }
+                writeVC.uploadedImage = header.cardImageView.image
 
-                let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
+                self.fetchCard(cardID: cardID) { result in
 
-                let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
+                    switch result {
 
-                    guard let postID = self.post?.postID else { return }
+                    case .success(let card):
+                        writeVC.card = card
+                        self.navigationController?.present(navigationVC, animated: true)
 
-                    self.deletePost(postID: postID)
+                    case .failure(let error):
+                        print(error)
+                    }
                 }
 
-                let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
+            } else {
 
-                alert.addAction(cancelAction)
-                alert.addAction(okAction)
-                self.present(alert, animated: true, completion: nil)
+                self.navigationController?.present(navigationVC, animated: true)
             }
-
-            header.optionHandler = { [weak self] in
-
-                guard let self = self else { return }
-
-                self.openOptionMenu(blockedUid: self.post?.uid ?? "", index: nil) {
-
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-
-            let tapGoToProfileGesture = UITapGestureRecognizer(
-                target: self, action: #selector(goToProfileFromHeader(_:))
-            )
-            header.userStackView.addGestureRecognizer(tapGoToProfileGesture)
-            header.userImageView.isUserInteractionEnabled = true
-
-            return header
         }
 
-    override func tableView(
+        header.deleteHandler = { [weak self] in
+
+            guard let self = self else { return }
+
+            let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
+
+            let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
+
+                guard let postID = self.post?.postID else { return }
+
+                self.deletePost(postID: postID)
+            }
+
+            let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
+
+            alert.addAction(cancelAction)
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+
+        header.optionHandler = { [weak self] in
+
+            guard let self = self else { return }
+
+            self.openOptionMenu(blockedUid: self.post?.uid ?? "", index: nil) {
+
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+
+        let tapGoToProfileGesture = UITapGestureRecognizer(
+            target: self, action: #selector(goToProfileFromHeader(_:))
+        )
+        header.userStackView.addGestureRecognizer(tapGoToProfileGesture)
+        header.userImageView.isUserInteractionEnabled = true
+
+        return header
+    }
+
+    func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: BaseDetailCommentCell.identifier, for: indexPath
-        ) as? BaseDetailCommentCell
+            withIdentifier: PostDetailCommentCell.identifier, for: indexPath
+        ) as? PostDetailCommentCell
         else { fatalError("Cannot create cell.") }
 
         let comment = comments[indexPath.row]
-        let commentUser = commentUser[indexPath.row]
+        let commentUser = commentUserList[indexPath.row]
         var isCommentAuthor = false
 
         isCommentAuthor = comment.uid == UserManager.shared.visitorUserInfo?.uid ?? ""
 
-        cell.layoutCell(
-            comment: comment,
-            userImageUrl: commentUser.profileImageUrl,
-            userName: commentUser.name,
-            isAuthor: isCommentAuthor
-        )
+        cell.layoutCell(comment: comment,
+                        userImageUrl: commentUser.profileImageUrl,
+                        userName: commentUser.name,
+                        isAuthor: isCommentAuthor)
 
         cell.hideSelectionStyle()
 
@@ -590,5 +726,172 @@ class PostDetailViewController: BaseDetailViewController {
         cell.nameLabel.tag = indexPath.row
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat { 200 }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+        UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+
+        view.tintColor = UIColor.white
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        UITableView.automaticDimension
+    }
+}
+
+extension PostDetailViewController {
+
+    @objc func tapSubmitCommentButton(_ sender: UIButton) {
+
+        commentTextField.resignFirstResponder()
+        createComment()
+    }
+
+    func setupNavigation() {
+
+        navigationController?.setupBackButton(color: .gray)
+        navigationItem.title = "想法"
+    }
+
+    func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.registerHeaderWithNib(
+            identifier: PostDetailTableViewHeader.identifier,
+            bundle: nil)
+        tableView.registerCellWithNib(
+            identifier: PostDetailCommentCell.identifier, bundle: nil)
+        tableView.backgroundColor = .white
+
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
+    }
+
+    func setupCommentPanel() {
+
+        let commentPanelObject = [
+            commentPanel, userImageView, commentTextField, submitCommentButton
+        ]
+
+        commentPanelObject.forEach {
+
+            self.view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        self.view.sendSubviewToBack(tableView)
+
+        NSLayoutConstraint.activate([
+
+            commentPanel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            commentPanel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            commentPanel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            commentPanel.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1),
+
+            userImageView.leadingAnchor.constraint(equalTo: commentPanel.leadingAnchor, constant: 10),
+            userImageView.topAnchor.constraint(equalTo: commentPanel.topAnchor, constant: 10),
+            userImageView.widthAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1),
+            userImageView.heightAnchor.constraint(equalTo: userImageView.widthAnchor),
+
+            commentTextField.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 10),
+            commentTextField.heightAnchor.constraint(equalTo: userImageView.heightAnchor),
+            commentTextField.trailingAnchor.constraint(equalTo: submitCommentButton.leadingAnchor, constant: -10),
+            commentTextField.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
+
+            submitCommentButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            submitCommentButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
+            submitCommentButton.widthAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1),
+            submitCommentButton.heightAnchor.constraint(equalTo: commentPanel.widthAnchor, multiplier: 0.1)
+        ])
+
+        commentPanel.backgroundColor = .white
+        userImageView.backgroundColor = .gray
+        userImageView.clipsToBounds = true
+        commentTextField.delegate = self
+        commentTextField.setLeftPaddingPoints(amount: 10)
+
+        if let visitorUserImageUrl = UserManager.shared.visitorUserInfo?.profileImageUrl {
+
+            userImageView.loadImage(visitorUserImageUrl, placeHolder: nil)
+
+        } else {
+
+            userImageView.image = UIImage.asset(.logo)
+        }
+
+        submitCommentButton.addTarget(
+            self, action: #selector(tapSubmitCommentButton(_:)),
+            for: .touchUpInside
+        )
+    }
+
+    @objc func goToProfileFromHeader(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let profileVC = UIStoryboard.profile
+                .instantiateViewController(withIdentifier: ProfileViewController.identifier
+                ) as? ProfileViewController
+        else { return }
+
+        guard let myVC = UIStoryboard.profile
+                .instantiateViewController(withIdentifier: MyViewController.identifier
+                ) as? MyViewController
+        else { return }
+
+        profileVC.visitedUid = postAuthor?.uid
+
+        if postAuthor?.uid == UserManager.shared.visitorUserInfo?.uid {
+
+            navigationController?.pushViewController(myVC, animated: true)
+
+        } else {
+
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
+    }
+
+    @objc func goToProfileFromCell(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let profileVC = UIStoryboard.profile
+                .instantiateViewController(withIdentifier: ProfileViewController.identifier
+                ) as? ProfileViewController
+        else { return }
+
+        guard let myVC = UIStoryboard.profile
+                .instantiateViewController(withIdentifier: MyViewController.identifier
+                ) as? MyViewController
+        else { return }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+
+        profileVC.visitedUid = comments[currentRow].uid
+
+        if comments[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
+
+            self.show(myVC, sender: nil)
+
+        } else {
+
+            self.show(profileVC, sender: nil)
+        }
+    }
+
+    @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let cardTopicVC = UIStoryboard
+                .card.instantiateViewController(withIdentifier: CardTopicViewController.identifier
+                ) as? CardTopicViewController
+        else { return }
+
+        cardTopicVC.cardID = post?.cardID
+
+        self.show(cardTopicVC, sender: nil)
     }
 }

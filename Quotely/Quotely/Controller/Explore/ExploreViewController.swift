@@ -273,7 +273,7 @@ class ExploreViewController: UIViewController {
 
         detailVC.post = postList[index]
         detailVC.postAuthor = userList[index]
-        detailVC.isLike = isLikePost
+        detailVC.isLikePost = isLikePost
 
         navigationController?.pushViewController(detailVC, animated: true)
     }
