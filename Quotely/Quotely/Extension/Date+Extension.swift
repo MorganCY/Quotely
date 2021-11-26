@@ -10,11 +10,8 @@ import Foundation
 extension Date {
 
     enum Format: String {
-
         // swiftlint:disable identifier_name
-        case yyyy
-        case MM
-        case dd
+        case yyyy, MM, dd
     }
 
     init(milliseconds: Int64) {
@@ -28,27 +25,21 @@ extension Date {
     static var dateFormatter: DateFormatter {
 
         let formatter = DateFormatter()
-
         formatter.dateFormat = "dd"
-
         return formatter
     }
 
     static var monthFormatter: DateFormatter {
 
         let formatter = DateFormatter()
-
         formatter.dateFormat = "MM"
-
         return formatter
     }
 
     static var timeFormatter: DateFormatter {
 
         let formatter = DateFormatter()
-
         formatter.dateFormat = "h:mm a"
-
         return formatter
     }
 
@@ -84,10 +75,9 @@ extension Date {
 
         let month = calendar.dateComponents([.month], from: start, to: end).month ?? 0
 
-        for i in 0...month {
+        for index in 0...month {
 
-            if let date = calendar.date(byAdding: .month, value: i, to: start) {
-
+            if let date = calendar.date(byAdding: .month, value: index, to: start) {
                 allMonths.append(Date.monthFormatter.string(from: date))
             }
         }
