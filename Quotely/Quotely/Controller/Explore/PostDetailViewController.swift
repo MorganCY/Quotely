@@ -25,13 +25,6 @@ class PostDetailViewController: BaseDetailViewController {
         navigationItem.title = "想法"
     }
 
-    // MARK: LiftCycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    // MARK: Action
-
     @objc func goToProfileFromHeader(_ gestureRecognizer: UITapGestureRecognizer) {
 
         guard let profileVC = UIStoryboard.profile
@@ -584,12 +577,14 @@ class PostDetailViewController: BaseDetailViewController {
 
         let tapGoToProfileGesture = UITapGestureRecognizer(
             target: self,
-            action: #selector(self.goToProfileFromCell(_:))
-        )
+            action: #selector(self.goToProfileFromCell(_:)))
+        let tapGoToProfileGesture2 = UITapGestureRecognizer(
+            target: self,
+            action: #selector(self.goToProfileFromCell(_:)))
 
         cell.userImageView.addGestureRecognizer(tapGoToProfileGesture)
         cell.userImageView.isUserInteractionEnabled = true
-        cell.nameLabel.addGestureRecognizer(tapGoToProfileGesture)
+        cell.nameLabel.addGestureRecognizer(tapGoToProfileGesture2)
         cell.nameLabel.isUserInteractionEnabled = true
         cell.userImageView.tag = indexPath.row
         cell.nameLabel.tag = indexPath.row
