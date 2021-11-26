@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14E733D7923198D8FA6B51FC /* Pods_QuotelyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A373E2BF48075AF8BCE451 /* Pods_QuotelyTests.framework */; };
 		162163FFB6518EC3632F3366 /* Pods_Quotely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05474F971FBF3D667593F52F /* Pods_Quotely.framework */; };
 		5C00B1632746AB5900F3138F /* arrow.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C00B1622746AB5900F3138F /* arrow.json */; };
 		5C0B1C5F274F745800BD5666 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B1C5E274F745800BD5666 /* UIFont+Extension.swift */; };
@@ -68,6 +69,7 @@
 		5C5C4A722742523F00B77631 /* BaseProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */; };
 		5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */; };
 		5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E627300E3B00B71DA8 /* Share.storyboard */; };
+		5C78570927508BD300305443 /* QuotelyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C78570127507B9200305443 /* QuotelyTests.swift */; };
 		5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0E82748D08800476567 /* MyViewController.swift */; };
 		5C7AF0EB2748D24300476567 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0EA2748D24300476567 /* ProfileViewController.swift */; };
 		5C7B6395272A798700E18B96 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7B6394272A798700E18B96 /* UserManager.swift */; };
@@ -119,8 +121,19 @@
 		5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5C78570327507B9200305443 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5C2C72ED271D12E100F8B9EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C2C72F4271D12E100F8B9EC;
+			remoteInfo = Quotely;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		05474F971FBF3D667593F52F /* Pods_Quotely.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quotely.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D5ACECFEEB41362164CC721 /* Pods-QuotelyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuotelyTests.debug.xcconfig"; path = "Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3763E90984B855FC8226C461 /* Pods-Quotely.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.debug.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.debug.xcconfig"; sourceTree = "<group>"; };
 		4D42660FC57C60DE17A5B7D4 /* Pods-Quotely.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quotely.release.xcconfig"; path = "Target Support Files/Pods-Quotely/Pods-Quotely.release.xcconfig"; sourceTree = "<group>"; };
 		5C00B1622746AB5900F3138F /* arrow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = arrow.json; sourceTree = "<group>"; };
@@ -186,6 +199,8 @@
 		5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseProfileViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
+		5C7856FF27507B9100305443 /* QuotelyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuotelyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C78570127507B9200305443 /* QuotelyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotelyTests.swift; sourceTree = "<group>"; };
 		5C7AF0E82748D08800476567 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
 		5C7AF0EA2748D24300476567 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5C7B6394272A798700E18B96 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -235,6 +250,8 @@
 		5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		5CF36A182732EEB900F6B3BD /* ProfileTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewHeaderView.xib; sourceTree = "<group>"; };
 		5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTemplateView.swift; sourceTree = "<group>"; };
+		D58774C66BEB4BDFACA45197 /* Pods-QuotelyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuotelyTests.release.xcconfig"; path = "Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests.release.xcconfig"; sourceTree = "<group>"; };
+		F8A373E2BF48075AF8BCE451 /* Pods_QuotelyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuotelyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +263,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5C7856FC27507B9100305443 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14E733D7923198D8FA6B51FC /* Pods_QuotelyTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -253,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				05474F971FBF3D667593F52F /* Pods_Quotely.framework */,
+				F8A373E2BF48075AF8BCE451 /* Pods_QuotelyTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -282,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				5C2C72F7271D12E100F8B9EC /* Quotely */,
+				5C78570027507B9200305443 /* QuotelyTests */,
 				5C2C72F6271D12E100F8B9EC /* Products */,
 				81480211F51DEE3E19D91963 /* Pods */,
 				5021B01E70D8ECD3D96001EF /* Frameworks */,
@@ -292,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				5C2C72F5271D12E100F8B9EC /* Quotely.app */,
+				5C7856FF27507B9100305443 /* QuotelyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -489,6 +517,14 @@
 			path = Share;
 			sourceTree = "<group>";
 		};
+		5C78570027507B9200305443 /* QuotelyTests */ = {
+			isa = PBXGroup;
+			children = (
+				5C78570127507B9200305443 /* QuotelyTests.swift */,
+			);
+			path = QuotelyTests;
+			sourceTree = "<group>";
+		};
 		5C7B6398272A84D500E18B96 /* Card */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,6 +618,8 @@
 			children = (
 				3763E90984B855FC8226C461 /* Pods-Quotely.debug.xcconfig */,
 				4D42660FC57C60DE17A5B7D4 /* Pods-Quotely.release.xcconfig */,
+				2D5ACECFEEB41362164CC721 /* Pods-QuotelyTests.debug.xcconfig */,
+				D58774C66BEB4BDFACA45197 /* Pods-QuotelyTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -610,6 +648,26 @@
 			productReference = 5C2C72F5271D12E100F8B9EC /* Quotely.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5C7856FE27507B9100305443 /* QuotelyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C78570727507B9200305443 /* Build configuration list for PBXNativeTarget "QuotelyTests" */;
+			buildPhases = (
+				B8D49472C5E84FEC7138B677 /* [CP] Check Pods Manifest.lock */,
+				5C7856FB27507B9100305443 /* Sources */,
+				5C7856FC27507B9100305443 /* Frameworks */,
+				5C7856FD27507B9100305443 /* Resources */,
+				318E9A9ACDA3E72E04F6C5B8 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C78570427507B9200305443 /* PBXTargetDependency */,
+			);
+			name = QuotelyTests;
+			productName = QuotelyTests;
+			productReference = 5C7856FF27507B9100305443 /* QuotelyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -617,11 +675,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1300;
+				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					5C2C72F4271D12E100F8B9EC = {
 						CreatedOnToolsVersion = 13.0;
+					};
+					5C7856FE27507B9100305443 = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = 5C2C72F4271D12E100F8B9EC;
 					};
 				};
 			};
@@ -639,6 +701,7 @@
 			projectRoot = "";
 			targets = (
 				5C2C72F4271D12E100F8B9EC /* Quotely */,
+				5C7856FE27507B9100305443 /* QuotelyTests */,
 			);
 		};
 /* End PBXProject section */
@@ -681,6 +744,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5C7856FD27507B9100305443 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -704,6 +774,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		318E9A9ACDA3E72E04F6C5B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuotelyTests/Pods-QuotelyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5C2C730D271D16AF00F8B9EC /* ShellScript */ = {
@@ -741,6 +828,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
+		B8D49472C5E84FEC7138B677 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QuotelyTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		CF8FDF50BC0AEDD1ED86B0E5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -848,7 +957,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5C7856FB27507B9100305443 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C78570927508BD300305443 /* QuotelyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5C78570427507B9200305443 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C2C72F4271D12E100F8B9EC /* Quotely */;
+			targetProxy = 5C78570327507B9200305443 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5C2C72FE271D12E100F8B9EC /* Main.storyboard */ = {
@@ -1060,6 +1185,56 @@
 			};
 			name = Release;
 		};
+		5C78570527507B9200305443 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D5ACECFEEB41362164CC721 /* Pods-QuotelyTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D68W2FWD7S;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.QuotelyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quotely.app/Quotely";
+			};
+			name = Debug;
+		};
+		5C78570627507B9200305443 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D58774C66BEB4BDFACA45197 /* Pods-QuotelyTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D68W2FWD7S;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.morganyu.QuotelyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quotely.app/Quotely";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1077,6 +1252,15 @@
 			buildConfigurations = (
 				5C2C730A271D12E300F8B9EC /* Debug */,
 				5C2C730B271D12E300F8B9EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C78570727507B9200305443 /* Build configuration list for PBXNativeTarget "QuotelyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C78570527507B9200305443 /* Debug */,
+				5C78570627507B9200305443 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

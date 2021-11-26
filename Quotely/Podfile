@@ -19,4 +19,9 @@ target 'Quotely' do
   pod 'IQKeyboardManagerSwift'
   pod 'FirebaseFirestoreSwift', '8.1.0-beta'
 
+target 'QuotelyTests' do
+        inherit! :search_paths
+        pod 'Firebase'
+    end
+
 end
