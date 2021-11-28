@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import PhotosUI
-import Kingfisher
 
 class BaseImagePickerViewController: UIViewController,
     UIImagePickerControllerDelegate,
@@ -158,9 +157,13 @@ class BaseImagePickerViewController: UIViewController,
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {}
+    ) {
+        fatalError("didFinishPickingMediaWithInfo is not overridden")
+    }
 
     // PHPicker delegate method which should be properly overridden by subclasses
     @available(iOS 14, *)
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {}
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        fatalError("didFinishPickingMediaWithInfo is not overridden")
+    }
 }

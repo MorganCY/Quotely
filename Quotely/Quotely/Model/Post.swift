@@ -25,3 +25,22 @@ struct Post: Codable, Equatable, Hashable {
 
     static let `default` = Post(uid: "404", createdTime: 0, content: "找不到內容", likeNumber: 404, commentNumber: 404)
 }
+
+// custom initializer
+extension Post {
+
+    init(uid: String, createdTime: Int64, content: String, imageUrl: String?, cardID: String?, cardContent: String?, cardAuthor: String?) {
+
+        self.uid = uid
+        self.createdTime = createdTime
+        self.editTime = nil
+        self.content = content
+        self.imageUrl = imageUrl
+        self.likeNumber = 0
+        self.commentNumber = 0
+        self.likeUser = []
+        self.cardID = cardID
+        self.cardContent = cardContent
+        self.cardAuthor = cardAuthor
+    }
+}

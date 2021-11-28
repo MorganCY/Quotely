@@ -538,28 +538,31 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
             guard let self = self else { return }
 
-            var writeVC: BaseWriteViewController?
+            var writeVC: BaseAddPostViewController?
 
             writeVC = self.post?.cardID == nil
             ?
             UIStoryboard.write.instantiateViewController(
-                withIdentifier: ExploreWriteViewController.identifier
-            ) as? ExploreWriteViewController :
+                withIdentifier: AddPostViewController.identifier
+            ) as? AddPostViewController :
             UIStoryboard.write.instantiateViewController(
-                withIdentifier: CardWriteViewController.identifier
-            ) as? CardWriteViewController
+                withIdentifier: AddCardPostViewController.identifier
+            ) as? AddCardPostViewController
 
             guard let writeVC = writeVC else { return }
 
             let navigationVC = UINavigationController(rootViewController: writeVC)
 
-            navigationVC.modalPresentationStyle = .automatic
+            navigationVC.modalPresentationStyle = .fullScreen
 
             writeVC.contentTextView.text = self.post?.content
 
             writeVC.postID = self.post?.postID
 
-            if let imageUrl = self.post?.imageUrl { writeVC.imageUrl = imageUrl }
+            if let imageUrl = self.post?.imageUrl {
+                writeVC.imageUrl = imageUrl
+                writeVC.hasPostImage = true
+            }
 
             writeVC.editContentHandler = { content, editTime, postImage in
 

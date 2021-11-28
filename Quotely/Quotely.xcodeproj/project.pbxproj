@@ -32,13 +32,13 @@
 		5C2C7300271D12E100F8B9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C72FE271D12E100F8B9EC /* Main.storyboard */; };
 		5C2C7302271D12E300F8B9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7301271D12E300F8B9EC /* Assets.xcassets */; };
 		5C2C7305271D12E300F8B9EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7303271D12E300F8B9EC /* LaunchScreen.storyboard */; };
-		5C2C7316271D19AD00F8B9EC /* ExploreWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */; };
+		5C2C7316271D19AD00F8B9EC /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C7315271D19AD00F8B9EC /* AddPostViewController.swift */; };
 		5C2C7319271D1C6200F8B9EC /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */; };
 		5C2C731B271D1DB200F8B9EC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */; };
 		5C2C731D271D37DD00F8B9EC /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */; };
 		5C2C731F271D3D4B00F8B9EC /* Card.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C731E271D3D4B00F8B9EC /* Card.storyboard */; };
 		5C2C7321271D3D5500F8B9EC /* Explore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7320271D3D5500F8B9EC /* Explore.storyboard */; };
-		5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7322271D3D5C00F8B9EC /* Write.storyboard */; };
+		5C2C7323271D3D5C00F8B9EC /* AddPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7322271D3D5C00F8B9EC /* AddPost.storyboard */; };
 		5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7324271D3D6400F8B9EC /* Journal.storyboard */; };
 		5C2C7327271D3D6E00F8B9EC /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */; };
 		5C46F258273BB0EB007E951D /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46F257273BB0EB007E951D /* UIButton+Extension.swift */; };
@@ -57,6 +57,7 @@
 		5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969E27216007008B21C7 /* ImageButton.swift */; };
 		5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C5186C7273233E4007C5221 /* Auth.storyboard */; };
 		5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C54F4D72732338500E62DBF /* AuthViewController.swift */; };
+		5C5670432753794E00D4F341 /* BaseImagePickerViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5670422753794E00D4F341 /* BaseImagePickerViewController+Extension.swift */; };
 		5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5820FE271D6D80002E21C9 /* PostManager.swift */; };
 		5C582101271D6FBE002E21C9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582100271D6FBE002E21C9 /* Post.swift */; };
 		5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582102271D71CC002E21C9 /* Date+Extension.swift */; };
@@ -109,8 +110,8 @@
 		5CE3D843273A809A00DF07E8 /* CardTopicTableViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CE3D842273A809A00DF07E8 /* CardTopicTableViewHeader.xib */; };
 		5CE8F1D5272F79210026864C /* ball.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D4272F79210026864C /* ball.json */; };
 		5CE8F1D7272F7BD50026864C /* nothingFound.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8F1D6272F7BD50026864C /* nothingFound.json */; };
-		5CEE4B4B273A02B000CE7DE1 /* BaseWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */; };
-		5CEE4B4D273A149700CE7DE1 /* CardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */; };
+		5CEE4B4B273A02B000CE7DE1 /* BaseAddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4A273A02B000CE7DE1 /* BaseAddPostViewController.swift */; };
+		5CEE4B4D273A149700CE7DE1 /* AddCardPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEE4B4C273A149700CE7DE1 /* AddCardPostViewController.swift */; };
 		5CF00F3A2744D0FA00EF229A /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF00F392744D0FA00EF229A /* EULAViewController.swift */; };
 		5CF36A142732C3B000F6B3BD /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */; };
 		5CF36A172732C3E400F6B3BD /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */; };
@@ -149,13 +150,13 @@
 		5C2C7301271D12E300F8B9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C2C7304271D12E300F8B9EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C2C7306271D12E300F8B9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreWriteViewController.swift; sourceTree = "<group>"; };
+		5C2C7315271D19AD00F8B9EC /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
 		5C2C7318271D1C6200F8B9EC /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		5C2C731A271D1DB200F8B9EC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		5C2C731C271D37DD00F8B9EC /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		5C2C731E271D3D4B00F8B9EC /* Card.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Card.storyboard; sourceTree = "<group>"; };
 		5C2C7320271D3D5500F8B9EC /* Explore.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Explore.storyboard; sourceTree = "<group>"; };
-		5C2C7322271D3D5C00F8B9EC /* Write.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Write.storyboard; sourceTree = "<group>"; };
+		5C2C7322271D3D5C00F8B9EC /* AddPost.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddPost.storyboard; sourceTree = "<group>"; };
 		5C2C7324271D3D6400F8B9EC /* Journal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Journal.storyboard; sourceTree = "<group>"; };
 		5C2C7326271D3D6E00F8B9EC /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		5C46F257273BB0EB007E951D /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		5C5186C7273233E4007C5221 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		5C54F4D527322ABD00E62DBF /* Quotely.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quotely.entitlements; sourceTree = "<group>"; };
 		5C54F4D72732338500E62DBF /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		5C5670422753794E00D4F341 /* BaseImagePickerViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseImagePickerViewController+Extension.swift"; sourceTree = "<group>"; };
 		5C5820FE271D6D80002E21C9 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		5C582100271D6FBE002E21C9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		5C582102271D71CC002E21C9 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -228,8 +230,8 @@
 		5CE3D842273A809A00DF07E8 /* CardTopicTableViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardTopicTableViewHeader.xib; sourceTree = "<group>"; };
 		5CE8F1D4272F79210026864C /* ball.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ball.json; sourceTree = "<group>"; };
 		5CE8F1D6272F7BD50026864C /* nothingFound.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nothingFound.json; sourceTree = "<group>"; };
-		5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWriteViewController.swift; sourceTree = "<group>"; };
-		5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWriteViewController.swift; sourceTree = "<group>"; };
+		5CEE4B4A273A02B000CE7DE1 /* BaseAddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAddPostViewController.swift; sourceTree = "<group>"; };
+		5CEE4B4C273A149700CE7DE1 /* AddCardPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardPostViewController.swift; sourceTree = "<group>"; };
 		5CF00F392744D0FA00EF229A /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		5CF36A132732C3B000F6B3BD /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		5CF36A162732C3E400F6B3BD /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
@@ -346,7 +348,7 @@
 				5C54F4D62732337500E62DBF /* Auth */,
 				5C2846E72728E92500393562 /* Journal */,
 				5C8C0E9F2725A4A20054480A /* Card */,
-				5CA65BF4271D4E5F00B877FB /* Write */,
+				5CA65BF4271D4E5F00B877FB /* AddPost */,
 				5C4B9683271FA700008B21C7 /* Explore */,
 				5CE8F1D1272F77840026864C /* Profile */,
 				5C6CC7EA27301AAE00B71DA8 /* Share */,
@@ -367,7 +369,7 @@
 				5C46F25E273CAC11007E951D /* Button */,
 				5C2846EB2728F4BA00393562 /* Journal */,
 				5C7B6398272A84D500E18B96 /* Card */,
-				5C4B9685271FA724008B21C7 /* Write */,
+				5C4B9685271FA724008B21C7 /* AddPost */,
 				5C582106271D79B5002E21C9 /* Explore */,
 				5CF36A152732C3BC00F6B3BD /* Profile */,
 				5C6CC7E327300CF800B71DA8 /* Share */,
@@ -378,6 +380,7 @@
 		5C2C7317271D1C4E00F8B9EC /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				5C5670422753794E00D4F341 /* BaseImagePickerViewController+Extension.swift */,
 				5C582102271D71CC002E21C9 /* Date+Extension.swift */,
 				5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */,
 				5C46F257273BB0EB007E951D /* UIButton+Extension.swift */,
@@ -401,7 +404,6 @@
 			children = (
 				5C8C0E91272426550054480A /* SwipeCardView.swift */,
 				5C8C0E9727246EB50054480A /* SwipeCardStack.swift */,
-				5C9F02642739179D00FAC2B1 /* CardTopicView.swift */,
 				5CF54D582730EF4100BAE9F6 /* ShareTemplateView.swift */,
 			);
 			path = SwipeCard;
@@ -436,12 +438,13 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
-		5C4B9685271FA724008B21C7 /* Write */ = {
+		5C4B9685271FA724008B21C7 /* AddPost */ = {
 			isa = PBXGroup;
 			children = (
-				5C2C7322271D3D5C00F8B9EC /* Write.storyboard */,
+				5C2C7322271D3D5C00F8B9EC /* AddPost.storyboard */,
+				5C9F02642739179D00FAC2B1 /* CardTopicView.swift */,
 			);
-			path = Write;
+			path = AddPost;
 			sourceTree = "<group>";
 		};
 		5C4B968B271FA75E008B21C7 /* Base */ = {
@@ -539,14 +542,14 @@
 			path = Card;
 			sourceTree = "<group>";
 		};
-		5CA65BF4271D4E5F00B877FB /* Write */ = {
+		5CA65BF4271D4E5F00B877FB /* AddPost */ = {
 			isa = PBXGroup;
 			children = (
-				5CEE4B4A273A02B000CE7DE1 /* BaseWriteViewController.swift */,
-				5C2C7315271D19AD00F8B9EC /* ExploreWriteViewController.swift */,
-				5CEE4B4C273A149700CE7DE1 /* CardWriteViewController.swift */,
+				5CEE4B4A273A02B000CE7DE1 /* BaseAddPostViewController.swift */,
+				5C2C7315271D19AD00F8B9EC /* AddPostViewController.swift */,
+				5CEE4B4C273A149700CE7DE1 /* AddCardPostViewController.swift */,
 			);
-			path = Write;
+			path = AddPost;
 			sourceTree = "<group>";
 		};
 		5CD765FB271ECE08008E8D00 /* ThirdPartyWrapper */ = {
@@ -682,7 +685,7 @@
 				5C19204C27369705008B9F0D /* SettingsTableViewCell.xib in Resources */,
 				5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */,
 				5C19C7A8273E4A7E00DDA159 /* greenLoading.json in Resources */,
-				5C2C7323271D3D5C00F8B9EC /* Write.storyboard in Resources */,
+				5C2C7323271D3D5C00F8B9EC /* AddPost.storyboard in Resources */,
 				5C4B9695271FBCCF008B21C7 /* PostDetailCommentCell.xib in Resources */,
 				5C2C7321271D3D5500F8B9EC /* Explore.storyboard in Resources */,
 				5CE3D83D273A7A5300DF07E8 /* CardTopicTableViewCell.xib in Resources */,
@@ -815,6 +818,7 @@
 				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
 				5C4983E22740E743008B721F /* FollowListViewController.swift in Sources */,
+				5C5670432753794E00D4F341 /* BaseImagePickerViewController+Extension.swift in Sources */,
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
 				5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */,
 				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,
@@ -825,8 +829,8 @@
 				5CD765FD271ECE33008E8D00 /* Kingfisher.swift in Sources */,
 				5C4B969D2721575B008B21C7 /* CommentTextField.swift in Sources */,
 				5C8C0E9A2725293E0054480A /* CardManager.swift in Sources */,
-				5CEE4B4B273A02B000CE7DE1 /* BaseWriteViewController.swift in Sources */,
-				5C2C7316271D19AD00F8B9EC /* ExploreWriteViewController.swift in Sources */,
+				5CEE4B4B273A02B000CE7DE1 /* BaseAddPostViewController.swift in Sources */,
+				5C2C7316271D19AD00F8B9EC /* AddPostViewController.swift in Sources */,
 				5C7CE5FE2732F444005D0D18 /* ProfileTableViewHeaderView.swift in Sources */,
 				5CD765FA271EAE24008E8D00 /* ImageManager.swift in Sources */,
 				5C4B9699271FC0D3008B21C7 /* Comment.swift in Sources */,
@@ -834,7 +838,7 @@
 				5C2846FB2729B2FA00393562 /* FavoriteCardViewController.swift in Sources */,
 				5CF54D592730EF4100BAE9F6 /* ShareTemplateView.swift in Sources */,
 				5C47E0D7273A77A600CE383C /* CardTopicViewController.swift in Sources */,
-				5CEE4B4D273A149700CE7DE1 /* CardWriteViewController.swift in Sources */,
+				5CEE4B4D273A149700CE7DE1 /* AddCardPostViewController.swift in Sources */,
 				5C91FFCC2737B78A00A216D4 /* UIApplication+Extension.swift in Sources */,
 				5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */,
 				5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */,

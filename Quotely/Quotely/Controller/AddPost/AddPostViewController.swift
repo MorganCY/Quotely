@@ -10,7 +10,7 @@ import UIKit
 import PhotosUI
 import Vision
 
-class ExploreWriteViewController: BaseWriteViewController {
+class AddPostViewController: BaseAddPostViewController {
 
     override var hasPostImage: Bool {
         didSet {
@@ -85,7 +85,7 @@ class ExploreWriteViewController: BaseWriteViewController {
 }
 
 // MARK: SetupViews
-extension ExploreWriteViewController {
+extension AddPostViewController {
 
     func setupPostImage() {
 

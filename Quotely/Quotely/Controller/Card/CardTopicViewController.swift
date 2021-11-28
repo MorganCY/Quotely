@@ -400,8 +400,8 @@ extension CardTopicViewController {
 
         guard let writeVC =
                 UIStoryboard.write.instantiateViewController(
-                    withIdentifier: CardWriteViewController.identifier
-                ) as? CardWriteViewController
+                    withIdentifier: AddCardPostViewController.identifier
+                ) as? AddCardPostViewController
         else { return }
 
         let nav = BaseNavigationController(rootViewController: writeVC)

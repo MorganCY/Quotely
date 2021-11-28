@@ -8,6 +8,22 @@
 import Foundation
 import JGProgressHUD
 
+enum ToastText: String {
+
+    case scanning = "掃描中"
+    case uploading = "上傳中"
+
+    case remindInput = "請輸入內容"
+    case remindImage = "沒有選取圖片"
+
+    case successUpdated = "更新成功"
+    case failToUpdate = "更新失敗"
+
+    case failToScan = "掃描失敗"
+    case failToAddPost = "新增想法失敗"
+    case failToUpload = "上傳失敗"
+}
+
 class Toast {
 
     static let shared = Toast()

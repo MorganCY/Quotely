@@ -233,8 +233,8 @@ extension FavoriteCardViewController {
 
         guard let writeVC =
                 UIStoryboard.write.instantiateViewController(
-                    withIdentifier: CardWriteViewController.identifier
-                ) as? CardWriteViewController
+                    withIdentifier: AddCardPostViewController.identifier
+                ) as? AddCardPostViewController
         else { return }
 
         let card = likeCardList[index]

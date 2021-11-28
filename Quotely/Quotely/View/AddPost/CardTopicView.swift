@@ -71,7 +71,9 @@ class CardTopicView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
+        imageButtons.forEach {
+            $0.cornerRadius = $0.frame.width / 2
+        }
     }
 
     @objc func changeTemplateImageToBg1(_ sender: UIButton) {
@@ -147,11 +149,13 @@ class CardTopicView: UIView {
         imageButtons.forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
-            $0.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
+            $0.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.12).isActive = true
+            $0.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.12).isActive = true
             $0.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 8).isActive = true
             $0.clipsToBounds = true
             $0.imageView?.contentMode = .scaleToFill
+            $0.borderColor = .lightGray
+            $0.borderWidth = 0.5
         }
 
         imageButtons[0].tag = 0

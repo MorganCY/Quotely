@@ -369,7 +369,7 @@ extension JournalListViewController {
 
         titleLabel.text = "還沒有任何隻字，快回首頁新增一則吧！"
         titleLabel.textColor = .black
-        titleLabel.font = UIFont.setBold(size: 22)
+        titleLabel.font = UIFont.setBold(size: 16)
 
         NSLayoutConstraint.activate([
             emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),

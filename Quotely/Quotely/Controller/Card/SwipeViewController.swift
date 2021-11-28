@@ -91,7 +91,8 @@ class SwipeViewController: UIViewController {
 
             group.enter()
 
-            CardManager.shared.fetchRandomCards(limitNumber: 4) { result in
+            CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
+
                 switch result {
 
                 case .success(let cards):
@@ -268,8 +269,8 @@ extension SwipeViewController {
 
         guard let writeVC =
                 UIStoryboard.write.instantiateViewController(
-                    withIdentifier: CardWriteViewController.identifier
-                ) as? CardWriteViewController
+                    withIdentifier: AddCardPostViewController.identifier
+                ) as? AddCardPostViewController
         else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: writeVC)

@@ -19,7 +19,7 @@ class JournalManager {
 
     func createJournal(
         journal: inout Journal,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         let document = journals.document()

@@ -412,8 +412,8 @@ extension ExploreViewController {
 
         guard let writeVC =
                 UIStoryboard.write.instantiateViewController(
-                    withIdentifier: ExploreWriteViewController.identifier
-                ) as? ExploreWriteViewController
+                    withIdentifier: AddPostViewController.identifier
+                ) as? AddPostViewController
         else { return }
 
         let nav = BaseNavigationController(rootViewController: writeVC)

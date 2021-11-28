@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CardWriteViewController: BaseWriteViewController {
+class AddCardPostViewController: BaseAddPostViewController {
 
     override var card: Card? {
         didSet {
@@ -23,13 +23,16 @@ class CardWriteViewController: BaseWriteViewController {
     override var uploadedImage: UIImage? {
         didSet {
             DispatchQueue.main.async {
-                self.cardTopicView.dataSource = self
+//                self.cardTopicView.dataSource = self
+                self.cardTopicView.layoutIfNeeded()
             }
         }
     }
     override var imageUrl: String? {
         didSet {
-            if imageUrl != nil { cardTopicView.dataSource = self }
+            if imageUrl != nil {
+                cardTopicView.dataSource = self
+            }
         }
     }
 
@@ -39,63 +42,48 @@ class CardWriteViewController: BaseWriteViewController {
         }
     }
 
-    override var hasPostImage: Bool {
-        get { true }
-        // swiftlint:disable unused_setter_value
-        set {}
-    }
-
     private let cardTopicTitleLabel = UILabel()
     private var cardTopicView = CardTopicView(content: "", author: "")
-
-    override var cardPostHandler: ()? {
-
-        get {
-
-            CardManager.shared.updateCardPostList(
-                cardID: card?.cardID ?? "",
-                postID: onPublishPostID ?? ""
-            ) { result in
-
-                switch result {
-
-                case .success(let success):
-                    print(success)
-
-                    DispatchQueue.main.async { Toast.shared.hud.dismiss() }
-
-                    let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-
-                    let tabBar = sceneDelegate?.window?.rootViewController as? UITabBarController
-
-                    sceneDelegate?.window?.rootViewController?.dismiss(animated: true, completion: {
-
-                        tabBar?.selectedIndex = 2
-                    })
-
-                case .failure(let error):
-                    print(error)
-
-                    DispatchQueue.main.async { Toast.showFailure(text: "上傳失敗") }
-                }
-            }
-        }
-        // swiftlint:disable unused_setter_value
-        set {}
-    }
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        hasPostImage = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupCardTopicView()
     }
+
+    override func updateUser(postID: String, action: FirebaseAction) {
+        super.updateUser(postID: postID, action: action)
+
+        updateCardPostList(cardID: self.card?.cardID ?? "", postID: postID)
+    }
+
+    func updateCardPostList(cardID: String, postID: String) {
+
+        CardManager.shared.updateCardPostList(
+            cardID: cardID, postID: postID
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+                Toast.shared.hud.dismiss()
+                self.goToDesignatedTab(.explore)
+
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: ToastText.failToUpload.rawValue)
+            }
+        }
+    }
 }
 
-extension CardWriteViewController: CardTopicViewDataSource, CardTopicViewDelegate {
+extension AddCardPostViewController: CardTopicViewDataSource, CardTopicViewDelegate {
 
     func getCardImage(_ view: CardTopicView) -> UIImage? { uploadedImage }
 
@@ -117,7 +105,7 @@ extension CardWriteViewController: CardTopicViewDataSource, CardTopicViewDelegat
     }
 }
 
-extension CardWriteViewController {
+extension AddCardPostViewController {
 
     func setupCardTopicView() {
 

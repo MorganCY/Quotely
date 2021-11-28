@@ -8,9 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import SwiftUI
 
-typealias GenericCompletion<T: Decodable> = (([T]?, Error?) -> Void)
 typealias StatusCompletion = ((Result<String, Error>) -> Void)
 
 enum FirebaseAction: Int64 {
@@ -42,6 +40,20 @@ class FirebaseManager {
 
     enum FirebaseUpdateType: String {
         case like, comment
+
+        var numberField: String {
+            switch self {
+            case .like: return "likeNumber"
+            case .comment: return "commentNumber"
+            }
+        }
+
+        var arrayField: String {
+            switch self {
+            case .like: return "likeUser"
+            case .comment: return ""
+            }
+        }
     }
 
     enum FirebaseField: String {
@@ -62,10 +74,7 @@ class FirebaseManager {
             .whereField(collection.idField, isEqualTo: targetID)
 
         var numberField: String {
-            switch updateType {
-            case .like: return "likeNumber"
-            case .comment: return "commentNumber"
-            }
+            updateType.numberField
         }
 
         var arrayField: String {
