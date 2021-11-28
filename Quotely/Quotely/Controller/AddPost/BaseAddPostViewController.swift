@@ -156,9 +156,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
         if let postID = self.postID {
 
-            switch hasPostImage {
-
-            case true:
+            if hasPostImage {
 
                 ImageManager.shared.createImage(image: uploadedImage ?? UIImage()) { result in
 
@@ -173,8 +171,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
                         Toast.showFailure(text: ToastText.failToUpload.rawValue)
                     }
                 }
-
-            case false:
+            } else {
 
                 self.updatePost(postID: postID, imageUrl: imageUrl)
             }

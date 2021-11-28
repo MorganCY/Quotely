@@ -58,9 +58,9 @@ extension UIView {
 
         let allCorners: [UIRectCorner] = [.topLeft, .topRight, .bottomLeft, .bottomRight]
 
-        for corn in allCorners {
-            if corners.contains(corn) {
-                switch corn {
+        for corner in allCorners {
+            if corners.contains(corner) {
+                switch corner {
                 case .topLeft:
                     arr.insert(.layerMinXMinYCorner)
                 case .topRight:
