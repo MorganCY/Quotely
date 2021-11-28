@@ -82,7 +82,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToAddPost.rawValue)
+                Toast.showFailure(text: ToastText.failToAdd.rawValue)
             }
         }
     }

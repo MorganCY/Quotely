@@ -77,9 +77,7 @@ class FollowListViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }

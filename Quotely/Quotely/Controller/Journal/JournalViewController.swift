@@ -210,11 +210,11 @@ extension JournalViewController {
                 print(success)
                 self.isEditPanelExpand = false
                 self.journalTextView.text.removeAll()
-                Toast.showSuccess(text: "新增成功")
+                Toast.showSuccess(text: ToastText.successAdd.rawValue)
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: "新增失敗")
+                Toast.showFailure(text: ToastText.failToAdd.rawValue)
             }
         }
     }

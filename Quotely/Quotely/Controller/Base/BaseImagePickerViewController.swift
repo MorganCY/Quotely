@@ -76,7 +76,7 @@ class BaseImagePickerViewController: UIViewController,
 
         } else {
 
-            Toast.showFailure(text: "沒有相機可使用")
+            Toast.showFailure(text: ToastText.noCamera.rawValue)
         }
     }
 
@@ -104,7 +104,7 @@ class BaseImagePickerViewController: UIViewController,
 
             } else {
 
-                Toast.showFailure(text: "沒有相機可使用")
+                Toast.showFailure(text: ToastText.noCamera.rawValue)
             }
         }
     }

@@ -103,9 +103,7 @@ class SwipeViewController: UIViewController {
 
                 case .failure(let error):
                     print(error)
-                    DispatchQueue.main.async {
-                        Toast.showFailure(text: "片語資料載入異常")
-                    }
+                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
                     group.leave()
                 }
             }
@@ -254,7 +252,7 @@ extension SwipeViewController {
     @objc func tapLikeButton(_ sender: UIButton) {
 
         guard let cardID = cards[currentCardIndex].cardID else {
-            return Toast.showFailure(text: "收藏失敗")
+            return Toast.showFailure(text: ToastText.failToLike.rawValue)
         }
 
         updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
@@ -262,7 +260,7 @@ extension SwipeViewController {
 
         cards[currentCardIndex].likeNumber += 1
 
-        Toast.showSuccess(text: "已收藏")
+        Toast.showSuccess(text: ToastText.successLike.rawValue)
     }
 
     @objc func tapWriteButton(_ sender: UIButton) {

@@ -72,9 +72,7 @@ class CardTopicViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "片語資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -94,9 +92,7 @@ class CardTopicViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "想法資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -217,10 +213,8 @@ class CardTopicViewController: UIViewController {
                     }
 
                 case .failure(let error):
-
                     print(error)
-
-                    Toast.showFailure(text: "封鎖失敗")
+                    Toast.showFailure(text: ToastText.failToBlock.rawValue)
                 }
             }
         }
@@ -384,16 +378,14 @@ extension CardTopicViewController {
 
         guard let cardID = card?.cardID else {
 
-            DispatchQueue.main.async { Toast.showFailure(text: "收藏失敗") }
-
+            Toast.showFailure(text: ToastText.failToLike.rawValue)
             return
         }
 
         updateUserLikeCardList(cardID: cardID, likeAction: .positive)
         updateCard(cardID: cardID, likeAction: .positive)
         card?.likeNumber += 1
-
-        DispatchQueue.main.async { Toast.showSuccess(text: "已收藏") }
+        Toast.showSuccess(text: ToastText.successLike.rawValue)
     }
 
     func tapWriteButton() {

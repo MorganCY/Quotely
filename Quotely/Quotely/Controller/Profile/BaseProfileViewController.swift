@@ -74,9 +74,7 @@ class BaseProfileViewController: BaseImagePickerViewController {
             case .failure(let error):
                 print(error)
                 self.loadingAnimationView.removeFromSuperview()
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }

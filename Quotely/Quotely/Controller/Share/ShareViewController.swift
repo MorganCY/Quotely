@@ -156,7 +156,7 @@ class ShareViewController: BaseImagePickerViewController {
 
             } else {
 
-                Toast.showFailure(text: "裝置未安裝Instagram")
+                Toast.showFailure(text: ToastText.noInstagram.rawValue)
                 print("User doesn't have instagram on their device.")
             }
         }
@@ -175,7 +175,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         UIImageWriteToSavedPhotosAlbum(sharingImage, nil, nil, nil)
         isSharing = false
-        Toast.showSuccess(text: "已下載")
+        Toast.showSuccess(text: ToastText.successSave.rawValue)
     }
 
     @objc func changeTemplateImageToBg1(_ sender: UIButton) {
@@ -204,8 +204,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
-            DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
-
+            Toast.showFailure(text: ToastText.remindImage.rawValue)
             return
         }
 
@@ -221,8 +220,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         guard !results.isEmpty else {
 
-            DispatchQueue.main.async { Toast.showFailure(text: "沒有選取圖片") }
-
+            Toast.showFailure(text: ToastText.remindImage.rawValue)
             return
         }
 
@@ -233,20 +231,16 @@ class ShareViewController: BaseImagePickerViewController {
                 if let error = error {
 
                     print(error)
-
-                    DispatchQueue.main.async { Toast.showFailure(text: "上傳照片失敗") }
-
+                    Toast.showFailure(text: ToastText.remindImage.rawValue)
                 }
 
                 guard let selectedImage = image as? UIImage else {
 
                     picker.dismiss(animated: true)
-
                     return
                 }
 
                 self.templateImage = selectedImage
-
                 self.templateViews.forEach { $0.dataSource = self }
             })
         }

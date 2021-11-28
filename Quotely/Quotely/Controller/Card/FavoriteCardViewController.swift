@@ -78,10 +78,7 @@ class FavoriteCardViewController: UIViewController {
 
                     case .failure(let error):
                         print(error)
-                        DispatchQueue.main.async {
-                            Toast.showFailure(text: "片語資料載入異常")
-                        }
-
+                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
                         group.leave()
                     }
                 }
@@ -118,9 +115,7 @@ class FavoriteCardViewController: UIViewController {
 
                 case .failure(let error):
                     print(error)
-                    DispatchQueue.main.async {
-                        Toast.showFailure(text: "片語資料載入異常")
-                    }
+                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
                 }
             }
     }

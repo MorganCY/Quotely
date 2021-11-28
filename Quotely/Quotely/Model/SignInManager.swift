@@ -48,7 +48,7 @@ class SignInManager: NSObject {
 
             completion(.failure(signOutError))
 
-            Toast.showFailure(text: "登出失敗")
+            Toast.showFailure(text: ToastText.failToSignOut.rawValue)
         }
 
         completion(.success("Signed out successfully"))

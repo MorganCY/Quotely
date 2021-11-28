@@ -65,12 +65,8 @@ class ProfileViewController: BaseProfileViewController {
                 self.fetchVisitedUserInfo(uid: visitedUid)
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料更新失敗")
-                }
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }
@@ -88,20 +84,13 @@ class ProfileViewController: BaseProfileViewController {
             switch result {
 
             case .success(let success):
-
                 print(success)
-
                 self.isFollow = followAction == .positive
-
                 self.fetchVisitedUserInfo(uid: visitedUid)
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料更新失敗")
-                }
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }

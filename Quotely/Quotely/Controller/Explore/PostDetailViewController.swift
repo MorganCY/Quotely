@@ -76,9 +76,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "評論資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -105,9 +103,7 @@ class PostDetailViewController: UIViewController {
 
                     case .failure(let error):
                         print(error)
-                        DispatchQueue.main.async {
-                            Toast.showFailure(text: "評論資料載入異常")
-                        }
+                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
                         group.leave()
                     }
                 }
@@ -164,9 +160,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -200,7 +194,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: "封鎖失敗")
+                Toast.showFailure(text: ToastText.failToBlock.rawValue)
             }
         }
     }
@@ -209,9 +203,7 @@ class PostDetailViewController: UIViewController {
 
         guard commentTextField.text != "" else {
 
-            DispatchQueue.main.async {
-                Toast.showFailure(text: "請輸入內容")
-            }
+            Toast.showFailure(text: ToastText.remindInput.rawValue)
             return
         }
 
@@ -251,13 +243,8 @@ class PostDetailViewController: UIViewController {
                 self.fetchComments()
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "新增評論失敗")
-                }
-
+                Toast.showFailure(text: ToastText.failToAdd.rawValue)
                 self.submitCommentButton.isEnabled = true
             }
         }
@@ -343,9 +330,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "編輯評論失敗")
-                }
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }
@@ -371,9 +356,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入失敗")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
                 errorHandler()
             }
         }
@@ -397,9 +380,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "刪除失敗")
-                }
+                Toast.showFailure(text: ToastText.failToDelete.rawValue)
             }
         }
     }
@@ -419,9 +400,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "刪除評論失敗")
-                }
+                Toast.showFailure(text: ToastText.failToDelete.rawValue)
             }
         }
     }
@@ -437,9 +416,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "刪除圖片失敗")
-                }
+                Toast.showFailure(text: ToastText.failToDelete.rawValue)
             }
         }
     }

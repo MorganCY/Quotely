@@ -18,7 +18,7 @@ extension BaseImagePickerViewController {
             return
         }
 
-        Toast.showLoading(text: "掃描中")
+        Toast.showLoading(text: ToastText.scanning.rawValue)
 
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
 
@@ -27,7 +27,7 @@ extension BaseImagePickerViewController {
             guard let observations = request.results as? [VNRecognizedTextObservation],
                   error == nil else {
 
-                      Toast.showFailure(text: "掃描失敗")
+                      Toast.showFailure(text: ToastText.failToScan.rawValue)
                       return
                   }
 

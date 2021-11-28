@@ -36,7 +36,7 @@ class MyViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: "上傳失敗")
+                Toast.showFailure(text: ToastText.failToUpload.rawValue)
                 imagePicker.dismiss(animated: true)
             }
         }
@@ -61,7 +61,7 @@ class MyViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: "資料更新失敗")
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }
@@ -79,7 +79,7 @@ class MyViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: "上傳失敗")
+                Toast.showFailure(text: ToastText.failToUpload.rawValue)
                 phpicker.dismiss(animated: true, completion: nil)
             }
         }
@@ -163,7 +163,7 @@ class MyViewController: BaseProfileViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: "上傳中")
+        Toast.showLoading(text: ToastText.uploading.rawValue)
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
@@ -190,7 +190,7 @@ class MyViewController: BaseProfileViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: "上傳中")
+        Toast.showLoading(text: ToastText.uploading.rawValue)
 
         guard !results.isEmpty else { return }
 

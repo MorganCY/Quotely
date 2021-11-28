@@ -16,12 +16,23 @@ enum ToastText: String {
     case remindInput = "請輸入內容"
     case remindImage = "沒有選取圖片"
 
+    case successAdd = "新增成功"
     case successUpdated = "更新成功"
-    case failToUpdate = "更新失敗"
+    case successLike = "已收藏"
+    case successSave = "已下載"
 
     case failToScan = "掃描失敗"
-    case failToAddPost = "新增想法失敗"
+    case failToAdd = "新增失敗"
+    case failToUpdate = "更新失敗"
+    case failToDelete = "刪除失敗"
+    case failToLike = "收藏失敗"
     case failToUpload = "上傳失敗"
+    case failToSignOut = "登出失敗"
+    case failToBlock = "封鎖失敗"
+    case failToDownload = "資料載入異常"
+
+    case noCamera = "沒有相機可使用"
+    case noInstagram = "無法開啟Instagram"
 }
 
 class Toast {
