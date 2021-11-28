@@ -194,8 +194,6 @@ class BaseAddPostViewController: BaseImagePickerViewController {
                     Toast.shared.hud.dismiss()
 
                     var post = Post(
-                        uid: UserManager.shared.visitorUserInfo?.uid ?? "",
-                        createdTime: Date().millisecondsSince1970,
                         content: self.contentTextView.text,
                         imageUrl: url,
                         cardID: self.card?.cardID,
@@ -212,8 +210,6 @@ class BaseAddPostViewController: BaseImagePickerViewController {
         } else {
 
             var post = Post(
-                uid: UserManager.shared.visitorUserInfo?.uid ?? "",
-                createdTime: Date().millisecondsSince1970,
                 content: self.contentTextView.text,
                 imageUrl: nil,
                 cardID: self.card?.cardID,

@@ -211,15 +211,9 @@ class PostDetailViewController: UIViewController {
 
         guard let commentText = commentTextField.text else { return }
 
-        guard let visitorUid = SignInManager.shared.visitorUid else { return }
-
         var comment = Comment(
-            uid: visitorUid,
-            createdTime: Date().millisecondsSince1970,
-            editTime: nil,
             content: commentText,
-            postID: post?.postID
-        )
+            postID: post?.postID)
 
         CommentManager.shared.createComment(
             comment: &comment
@@ -228,18 +222,13 @@ class PostDetailViewController: UIViewController {
             switch result {
 
             case .success(let success):
-
                 print(success)
-
                 self.commentTextField.text = ""
-
                 self.updateCommentNumber(
                     action: .positive
                 ) {
-
                     self.submitCommentButton.isEnabled = true
                 }
-
                 self.fetchComments()
 
             case .failure(let error):

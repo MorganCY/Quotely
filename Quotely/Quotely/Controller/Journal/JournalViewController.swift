@@ -188,8 +188,6 @@ extension JournalViewController {
     @objc func tapSubmitButton(_ sender: UIButton) {
 
         var journal = Journal(
-            uid: UserManager.shared.visitorUserInfo?.uid ?? "",
-            createdTime: Date().millisecondsSince1970,
             createdMonth: "\(Calendar.current.component(.month, from: Date()))",
             createdYear: "\(Calendar.current.component(.year, from: Date()))",
             emoji: selectedEmoji?.rawValue ?? "face.smiling",

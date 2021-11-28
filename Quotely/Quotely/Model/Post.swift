@@ -26,13 +26,17 @@ struct Post: Codable, Equatable, Hashable {
     static let `default` = Post(uid: "404", createdTime: 0, content: "找不到內容", likeNumber: 404, commentNumber: 404)
 }
 
-// custom initializer
+// Custom initializer
 extension Post {
 
-    init(uid: String, createdTime: Int64, content: String, imageUrl: String?, cardID: String?, cardContent: String?, cardAuthor: String?) {
-
-        self.uid = uid
-        self.createdTime = createdTime
+    init(content: String,
+         imageUrl: String?,
+         cardID: String?,
+         cardContent: String?,
+         cardAuthor: String?
+    ) {
+        self.uid = UserManager.shared.visitorUserInfo?.uid ?? ""
+        self.createdTime = Date().millisecondsSince1970
         self.editTime = nil
         self.content = content
         self.imageUrl = imageUrl
