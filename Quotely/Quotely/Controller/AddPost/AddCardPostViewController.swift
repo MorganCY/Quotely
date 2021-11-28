@@ -23,7 +23,6 @@ class AddCardPostViewController: BaseAddPostViewController {
     override var uploadedImage: UIImage? {
         didSet {
             DispatchQueue.main.async {
-//                self.cardTopicView.dataSource = self
                 self.cardTopicView.layoutIfNeeded()
             }
         }
@@ -35,7 +34,6 @@ class AddCardPostViewController: BaseAddPostViewController {
             }
         }
     }
-
     var contentFromFavCard = "" {
         didSet {
             contentTextView.text = contentFromFavCard

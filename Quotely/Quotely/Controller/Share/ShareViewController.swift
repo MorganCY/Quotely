@@ -11,7 +11,10 @@ import PhotosUI
 
 class ShareViewController: BaseImagePickerViewController {
 
-    enum TemplateType { case fullImage, halfImage, smallImage }
+    enum TemplateType {
+        
+        case fullImage, halfImage, smallImage
+    }
 
     var currentTemplateType: TemplateType = .fullImage {
         didSet {
@@ -77,15 +80,12 @@ class ShareViewController: BaseImagePickerViewController {
             if isSharing { optionPanelViews.forEach { view.bringSubviewToFront($0) } }
         }
     }
-
     var isLayoutFirstTime = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .BG
         navigationItem.title = "分享隻字片語"
-
         setupNavigaiton()
         layoutTemplateView()
         layoutSelectionView()

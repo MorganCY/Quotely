@@ -10,22 +10,19 @@ import UIKit
 
 class BaseProfileViewController: BaseImagePickerViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-
     var visitedUid: String?
-
     var visitedUserInfo: User? {
         didSet {
             tableView.reloadData()
         }
     }
-
     var visitedUserPostList: [Post]? {
         didSet {
             tableView.reloadData()
         }
     }
 
+    @IBOutlet weak var tableView: UITableView!
     let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
     override func viewDidLoad() {

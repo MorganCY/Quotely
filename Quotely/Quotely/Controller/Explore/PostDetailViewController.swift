@@ -10,12 +10,7 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            setupTableView()
-        }
-    }
-
+    // MARK: Post Data
     var author: User? {
         didSet {
             tableView.reloadData()
@@ -30,10 +25,15 @@ class PostDetailViewController: UIViewController {
             tableView.reloadData()
         }
     }
-
     var isAuthor = false
     var isLikePost = false
 
+    // MARK: Interface
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
     let commentPanel = UIView()
     let userImageView = UIImageView()
     let commentTextField = CommentTextField()

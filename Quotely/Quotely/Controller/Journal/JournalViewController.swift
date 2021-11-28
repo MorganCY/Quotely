@@ -10,13 +10,14 @@ import UIKit
 
 class JournalViewController: UIViewController {
 
+    // MARK: User Default
     private let defaults = UserDefaults.standard
 
+    // MARK: Interface
     private let dateLabel = UILabel()
     private let dailyQuoteLabel = UILabel()
     private var selectedEmoji: SFSymbol?
     private let educationDimmingView = UIView()
-
     private let backgroundView = UIView()
     private let editPanel = UIView()
     private let buttonImages = [
@@ -39,12 +40,12 @@ class JournalViewController: UIViewController {
         labelColor: .gray,
         text: "查看所有隻字")
 
+    // MARK: Expand EditPanel Animation
     private var editPanelCollapse = NSLayoutConstraint()
     private var editPanelExpand = NSLayoutConstraint()
     private var backgroundViewCornerRadius = CGFloat()
     private var journalTextViewCollapse = NSLayoutConstraint()
     private var journalTextViewExpand = NSLayoutConstraint()
-
     private var isEditPanelExpand = false {
         didSet {
             expandAnimation()
@@ -88,7 +89,6 @@ class JournalViewController: UIViewController {
                 self.dailyQuoteLabel.text = defaults.string(forKey: "LastJournalQuote")?
                     .replacingOccurrences(of: "\\n", with: "\n")
             }
-
         } else {
 
             fetchQuote()
@@ -103,13 +103,10 @@ class JournalViewController: UIViewController {
             switch result {
 
             case .success(let cards):
-
                 let lastJournalQuote = (cards.first?.content.replacingOccurrences(of: "\\n", with: "\n") ?? "")
                 + "\n\n" +
                 (cards.first?.author ?? "")
-
                 self.defaults.set(lastJournalQuote, forKey: "LastJournalQuote")
-
                 self.dailyQuoteLabel.text = lastJournalQuote
 
             case .failure(let error):
@@ -134,7 +131,6 @@ extension JournalViewController: SelectionViewDataSource {
     func buttonImage(_ view: SelectionView, index: Int) -> UIImage {
 
         view.buttons[0].tintColor = .black
-
         return buttonImages[index]
     }
 }
@@ -244,19 +240,14 @@ extension JournalViewController {
         ) {
             self.editPanelCollapse.isActive = !self.isEditPanelExpand
             self.editPanelExpand.isActive = self.isEditPanelExpand
-
             self.backgroundView.cornerRadius = self.isEditPanelExpand
             ?
             0 : self.backgroundView.frame.width / 2
-
             self.journalTextViewCollapse.isActive = !self.isEditPanelExpand
             self.journalTextViewExpand.isActive = self.isEditPanelExpand
             self.textNumberLabel.isHidden = !self.isEditPanelExpand
-
             self.submitButton.isHidden = !self.isEditPanelExpand
-
             self.collapseButton.isHidden = !self.isEditPanelExpand
-
             self.journalListButton.isHidden = self.isEditPanelExpand
 
             self.view.layoutIfNeeded()
@@ -266,7 +257,6 @@ extension JournalViewController {
     func configureGradientLayer() {
 
         let gradient = CAGradientLayer()
-
         view.backgroundColor = .clear
         gradient.colors = [UIColor.M1.cgColor, UIColor.M4.cgColor]
         gradient.locations = [0, 1]
@@ -474,5 +464,7 @@ extension JournalViewController {
         ])
     }
 
-    @objc func dismissEducationAnimation(_ sender: UIButton) { educationDimmingView.removeFromSuperview() }
+    @objc func dismissEducationAnimation(_ sender: UIButton) {
+        educationDimmingView.removeFromSuperview()
+    }
 }

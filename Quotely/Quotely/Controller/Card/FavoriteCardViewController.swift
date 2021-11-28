@@ -24,7 +24,6 @@ class FavoriteCardViewController: UIViewController {
             navigationTitle = isFromWriteVC ? "點選引用片語" : "收藏清單"
         }
     }
-
     private var navigationTitle = "收藏清單"
     var passedContentText = ""
 

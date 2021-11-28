@@ -11,9 +11,7 @@ import UIKit
 class BlockListViewController: UIViewController {
 
     var visitorUserInfo = UserManager.shared.visitorUserInfo
-
     var blockUidList = UserManager.shared.visitorUserInfo?.blockList
-
     var blockUserList: [User]? {
         didSet {
             tableView.dataSource = self

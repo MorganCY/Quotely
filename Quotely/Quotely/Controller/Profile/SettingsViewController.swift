@@ -10,14 +10,14 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    let options = ["封鎖名單", "隱私權政策", "登出", "刪除帳號"]
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             setupTableView()
         }
     }
-
     let logoImageView = UIImageView()
-    let options = ["封鎖名單", "隱私權政策", "登出", "刪除帳號"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,16 +72,13 @@ class SettingsViewController: UIViewController {
     func tapSignOutButton() {
 
         let alert = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
-
         let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
 
             self.performSignOut()
         }
-
         let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
 
         alert.addAction(confirm)
-
         alert.addAction(cancel)
 
         present(alert, animated: true, completion: nil)

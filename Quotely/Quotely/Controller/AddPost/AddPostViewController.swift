@@ -41,7 +41,6 @@ class AddPostViewController: BaseAddPostViewController {
 
     private var postImageView = UIImageView()
     private let deleteImageButton = DeleteButton()
-
     private let quoteButton = RowButton(
         image: UIImage.sfsymbol(.quoteNormal),
         imageColor: .M2,

@@ -10,6 +10,8 @@ import UIKit
 
 class CardTopicViewController: UIViewController {
 
+    private var visitorUid: String?
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -22,8 +24,6 @@ class CardTopicViewController: UIViewController {
     }
 
     @IBOutlet weak var backgroundImageView: UIImageView!
-
-    private var visitorUid: String?
 
     // if user comes from explore page, get card ID
 
@@ -44,20 +44,18 @@ class CardTopicViewController: UIViewController {
     }
 
     private var postList: [Post]?
-
     private var userList: [User]? {
         didSet {
             tableView.reloadData()
         }
     }
-
     private var isLikePost = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        visitorUid = UserManager.shared.visitorUserInfo?.uid ?? ""
         setupBackgroundImage()
         setupNavigationBackButton()
-        visitorUid = UserManager.shared.visitorUserInfo?.uid ?? ""
     }
 
     func fetchCardData(cardID: String) {

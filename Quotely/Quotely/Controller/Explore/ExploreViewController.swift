@@ -12,6 +12,7 @@ import SwiftUI
 
 class ExploreViewController: UIViewController {
 
+    // MARK: Post Data
     var postListener: ListenerRegistration?
     var visitorFollowingList: [String] = []
     let filters: [PostManager.PilterType] = [.latest, .following]
@@ -20,27 +21,23 @@ class ExploreViewController: UIViewController {
             setupFilterResult()
         }
     }
-
-    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
-    let emptyReminderView = LottieAnimationView(animationName: "empty")
-
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            setupTableView()
-        }
-    }
-
-    let filterView = SelectionView()
-
     var postList: [Post] = []
-
     var userList: [User]? {
         didSet {
             tableView.reloadData()
         }
     }
-
     var isLikePost = false
+
+    // MARK: Interface
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
+    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
+    let filterView = SelectionView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -222,7 +219,6 @@ class ExploreViewController: UIViewController {
         }
 
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)
-
         let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         optionAlert.addAction(blockUserAction)
@@ -241,9 +237,11 @@ class ExploreViewController: UIViewController {
 
             switch result {
 
-            case . success(let success): print(success)
+            case . success(let success):
+                print(success)
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+                print(error)
             }
         }
     }

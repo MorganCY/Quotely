@@ -10,14 +10,19 @@ import UIKit
 
 class SwipeViewController: UIViewController {
 
+    // MARK: Screenshot Notification
     private let notificationCenter = NotificationCenter.default
 
+    // MARK: Card Data
     private var cards = [Card]() {
         didSet {
-            if cards.count >= 1 { likeNumberLabel.text = "\(cards[currentCardIndex].likeNumber)" }
+            if cards.count >= 1 {
+                likeNumberLabel.text = "\(cards[currentCardIndex].likeNumber)"
+            }
         }
     }
 
+    // MARK: Interface
     private let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
     private let educationDimmingView = UIView()
     private var cardStack = SwipeCardStackView()
@@ -125,9 +130,11 @@ class SwipeViewController: UIViewController {
 
             switch result {
 
-            case .success(let cards): self.cards = cards
+            case .success(let cards):
+                self.cards = cards
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+                print(error)
             }
         }
     }
@@ -257,9 +264,7 @@ extension SwipeViewController {
 
         updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
         updateCard(cardID: cardID, likeAction: .positive)
-
         cards[currentCardIndex].likeNumber += 1
-
         Toast.showSuccess(text: ToastText.successLike.rawValue)
     }
 
@@ -272,11 +277,8 @@ extension SwipeViewController {
         else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: writeVC)
-
         writeVC.card = cards[currentCardIndex]
-
         navigationVC.modalPresentationStyle = .fullScreen
-
         present(navigationVC, animated: true)
     }
 
@@ -453,7 +455,6 @@ extension SwipeViewController {
     func setupNavigation() {
 
         navigationItem.title = "片語"
-
         navigationItem.setupRightBarButton(
             image: UIImage.sfsymbol(.collection),
             text: nil, target: self,

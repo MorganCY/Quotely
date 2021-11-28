@@ -15,8 +15,32 @@ class FollowListViewController: UIViewController {
         case following, follower
     }
 
-    let listTypeSelectionView = SelectionView()
+    var visitedUid: String? {
+        didSet {
+            guard let visitedUid = visitedUid else { return }
+            fetchVisitedUserInfo(visitedUid: visitedUid)
+        }
+    }
+    private var followerList: [User]? {
+        didSet {
+            toDisplayList = followerList
+        }
+    }
+    private var followingList: [User]?
+    var toDisplayList: [User]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    var currentFilterType: ListType = .following {
+        didSet {
+            toDisplayList = currentFilterType == .following
+            ? followingList : followerList
+        }
+    }
 
+    let listTypeSelectionView = SelectionView()
+    let listTypeTitle = ["被追蹤", "追蹤中"]
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -25,39 +49,8 @@ class FollowListViewController: UIViewController {
         }
     }
 
-    let listTypeTitle = ["被追蹤", "追蹤中"]
-
-    var visitedUid: String? {
-        didSet {
-            guard let visitedUid = visitedUid else { return }
-            fetchVisitedUserInfo(visitedUid: visitedUid)
-        }
-    }
-
-    private var followerList: [User]? {
-        didSet {
-            toDisplayList = followerList
-        }
-    }
-
-    private var followingList: [User]?
-
-    var toDisplayList: [User]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-
-    var currentFilterType: ListType = .following {
-        didSet {
-            toDisplayList = currentFilterType == .following
-            ? followingList : followerList
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
         layoutListFilter()
         listTypeSelectionView.dataSource = self
         listTypeSelectionView.delegate = self
