@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class JournalManager {
 
@@ -29,21 +28,14 @@ class JournalManager {
         journal.createdYear = Date().getCurrentTime(format: .yyyy)
 
         do {
-
             _ = try journals.addDocument(from: journal, encoder: Firestore.Encoder(), completion: { error in
-
                 if let error = error {
-
                     completion(.failure(error))
-
                 } else {
-
                     completion(.success("Added journal"))
                 }
             })
-
         } catch {
-
             completion(.failure(error))
         }
     }
@@ -62,7 +54,6 @@ class JournalManager {
             .getDocuments { (querySnapshot, error) in
 
                 if let error = error {
-
                     completion(.failure(error))
                 }
 
@@ -73,19 +64,13 @@ class JournalManager {
                 for document in querySnapshot.documents {
 
                     do {
-
-                        if let journal = try document.data(as: Journal.self, decoder: Firestore.Decoder()
-                        ) {
-
+                        if let journal = try document.data(as: Journal.self, decoder: Firestore.Decoder()) {
                             journals.append(journal)
                         }
-
                     } catch {
-
                         completion(.failure(error))
                     }
                 }
-
                 completion(.success(journals))
             }
     }

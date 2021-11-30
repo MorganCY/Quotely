@@ -27,21 +27,13 @@ class CommentManager {
         comment.postCommentID = document.documentID
 
         do {
-
             _ = try postComments.addDocument(from: comment, encoder: Firestore.Encoder(), completion: { error in
-
                 if let error = error {
-
                     completion(.failure(error))
-
-                } else {
-
-                    completion(.success("Added comment"))
                 }
+                completion(.success("Added comment"))
             })
-
         } catch {
-
             completion(.failure(error))
         }
     }
@@ -57,40 +49,20 @@ class CommentManager {
             .getDocuments { (querySnapshot, error) in
 
                 if let error = error {
-
                     completion(.failure(error))
                 }
 
                 var comments = [Comment]()
 
                 for document in querySnapshot!.documents {
-
                     do {
-
-                        if let comment = try document.data(as: Comment.self, decoder: Firestore.Decoder()
-
-                        ) {
-
-                            if let blockList = UserManager.shared.visitorUserInfo?.blockList {
-
-                                if !blockList.contains(comment.uid) {
-
-                                    comments.append(comment)
-
-                                }
-
-                            } else {
-
-                                comments.append(comment)
-                            }
+                        if let comment = try document.data(as: Comment.self, decoder: Firestore.Decoder()) {
+                            self.filterOutBlockedUser(comment: comment, comments: &comments)
                         }
-
                     } catch {
-
                         completion(.failure(error))
                     }
                 }
-
                 completion(.success(comments))
             }
     }
@@ -104,7 +76,6 @@ class CommentManager {
         postComments.whereField("postCommentID", isEqualTo: postCommentID).getDocuments { querySnapshot, error in
 
             if let error = error {
-
                 completion(.failure(error))
             }
 
@@ -113,9 +84,22 @@ class CommentManager {
             targetComment?.reference.updateData([
                 "content": newContent,
                 "editTime": Date().millisecondsSince1970
-            ])
-
+            ], completion: { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+            })
             completion(.success("Changed content"))
+        }
+    }
+
+    func filterOutBlockedUser(comment: Comment, comments: inout [Comment]) {
+        if let blockList = UserManager.shared.visitorUserInfo?.blockList {
+            if !blockList.contains(comment.uid) {
+                comments.append(comment)
+            }
+        } else {
+            comments.append(comment)
         }
     }
 }

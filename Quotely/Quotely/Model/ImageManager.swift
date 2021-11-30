@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import Firebase
-import FirebaseDatabase
 import FirebaseStorage
 
 class ImageManager {
@@ -43,25 +41,19 @@ class ImageManager {
             snapshot.reference.downloadURL(completion: { (url, error) in
 
                 guard let urlString = url?.absoluteString else {
-
                     return
                 }
 
                 if let error = error {
-
                     completion(.failure(error))
-
                 } else {
-
                     completion(.success(urlString))
                 }
             })
         }
 
         uploadTask.observe(.failure) { (snapshot) in
-
             if let error = snapshot.error {
-
                 print(error)
             }
         }
@@ -81,13 +73,9 @@ class ImageManager {
             let reference = imagePath.storage.reference(forURL: imageUrl)
 
             reference.delete { error in
-
                 if let error = error {
-
                     completion(.failure(error))
-
                 } else {
-
                     completion(.success("Image was deleted from storage"))
                 }
             }

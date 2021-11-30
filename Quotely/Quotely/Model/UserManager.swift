@@ -7,9 +7,6 @@
 
 import Foundation
 import Firebase
-import FirebaseFirestoreSwift
-import CoreMedia
-import UIKit
 
 class UserManager {
 
@@ -31,7 +28,6 @@ class UserManager {
     ) {
 
         do {
-
             _ = try users
                 .document(user.uid)
                 .setData(
@@ -40,17 +36,12 @@ class UserManager {
                 completion: { error in
 
                 if let error = error {
-
                     completion(.failure(error))
-
                 } else {
-
                     completion(.success("Created user"))
                 }
             })
-
         } catch {
-
             completion(.failure(error))
         }
     }
@@ -68,16 +59,12 @@ class UserManager {
                 document.exists {
 
                 do {
-
                     if let userInfo = try document.data(
                         as: User.self
                     ) {
-
                         completion(.success(userInfo))
                     }
-
                 } catch {
-
                     completion(.failure(error))
                 }
             }
@@ -93,21 +80,16 @@ class UserManager {
         return users.document(uid).addSnapshotListener { documentSnapshot, error in
 
             if let error = error {
-
                 completion(.failure(error))
             }
 
             do {
-
                 if let userInfo = try documentSnapshot?.data(
                     as: User.self
                 ) {
-
                     completion(.success(userInfo))
                 }
-
             } catch {
-
                 completion(.failure(error))
             }
         }
@@ -130,26 +112,28 @@ class UserManager {
                 case .positive:
 
                     document.reference.updateData([
-
                         "likeCardList": FieldValue.arrayUnion([cardID])
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
 
                     completion(.success("Favorite card list was updated"))
 
                 case .negative:
 
                     document.reference.updateData([
-
                         "likeCardList": FieldValue.arrayRemove([cardID])
-                    ])
-
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
                     completion(.success("Favorite card list was updated"))
                 }
-
             } else {
-
                 if let error = error {
-
                     completion(.failure(error))
                 }
             }
@@ -174,21 +158,24 @@ class UserManager {
                 case .positive:
 
                     document.reference.updateData([
-
                         "postNumber": FieldValue.increment(Int64(postAction.rawValue)),
-
                         "postList": FieldValue.arrayUnion([postID])
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
 
                 case .negative:
 
                     document.reference.updateData([
-
                         "postNumber": FieldValue.increment(Int64(postAction.rawValue)),
-
                         "postList": FieldValue.arrayRemove([postID])
-                    ])
-
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
                 }
 
                 completion(.success("Updated user post number and post list"))
@@ -196,7 +183,6 @@ class UserManager {
             } else {
 
                 if let error = error {
-
                     completion(.failure(error))
                 }
             }
@@ -218,25 +204,29 @@ class UserManager {
                 if let profileImageUrl = profileImageUrl {
 
                     document.reference.updateData([
-
                         "profileImageUrl": profileImageUrl
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
                 }
 
                 if let userName = userName {
 
                     document.reference.updateData([
-
                         "name": userName
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
                 }
-
                 completion(.success("User information was updated"))
 
             } else {
 
                 if let error = error {
-
                     completion(.failure(error))
                 }
             }
@@ -282,22 +272,25 @@ class UserManager {
                 case .positive:
 
                     document.reference.updateData([
-
                         numberField: FieldValue.increment(Int64(action.rawValue)),
-
                         listField: FieldValue.arrayUnion([visitedUid])
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
 
                 case .negative:
 
                     document.reference.updateData([
-
                         numberField: FieldValue.increment(Int64(action.rawValue)),
-
                         listField: FieldValue.arrayRemove([visitedUid])
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
                 }
-
                 completion(.success("Visitor follow/block was updated"))
             }
         }
@@ -309,7 +302,6 @@ class UserManager {
                 if let document = document, document.exists {
 
                     if let error = error {
-
                         completion(.failure(error))
                     }
 
@@ -318,24 +310,26 @@ class UserManager {
                     case .positive:
 
                         document.reference.updateData([
-
                             "followerNumber": FieldValue.increment(Int64(action.rawValue)),
-
                             "followerList": FieldValue.arrayUnion([UserManager.shared.visitorUserInfo?.uid ?? ""])
-                        ])
+                        ], completion: { error in
+                            if let error = error {
+                                completion(.failure(error))
+                            }
+                        })
 
                     case .negative:
 
                         document.reference.updateData([
-
                             "followerNumber": FieldValue.increment(Int64(action.rawValue)),
-
                             "followerList": FieldValue.arrayRemove([UserManager.shared.visitorUserInfo?.uid ?? ""])
-                        ])
+                        ], completion: { error in
+                            if let error = error {
+                                completion(.failure(error))
+                            }
+                        })
                     }
-
                     completion(.success("Visitor follow/block was updated"))
-
                 }
             }
         }

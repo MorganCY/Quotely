@@ -33,21 +33,14 @@ class PostManager {
         post.postID = document.documentID
 
         do {
-
             _ = try posts.addDocument(from: post, encoder: Firestore.Encoder(), completion: { error in
-
                 if let error = error {
-
                     completion(.failure(error))
-
                 } else {
-
                     completion(.success(document.documentID))
                 }
             })
-
         } catch {
-
             completion(.failure(error))
         }
     }
@@ -60,10 +53,9 @@ class PostManager {
         posts
             .whereField("cardID", isEqualTo: cardID)
             .order(by: "createdTime", descending: true)
-            .getDocuments { (querySnapshot, error) in
+            .getDocuments { [self] (querySnapshot, error) in
 
                 if let error = error {
-
                     completion(.failure(error))
                 }
 
@@ -75,27 +67,12 @@ class PostManager {
                         if let post = try document.data(
                             as: Post.self, decoder: Firestore.Decoder()
                         ) {
-
-                            if let blockList = UserManager.shared.visitorUserInfo?.blockList {
-
-                                if !blockList.contains(post.uid) {
-
-                                    posts.append(post)
-
-                                }
-
-                            } else {
-
-                                posts.append(post)
-                            }
+                            filterOutBlockedUser(post: post, posts: &posts)
                         }
-
                     } catch {
-
                         completion(.failure(error))
                     }
                 }
-
                 completion(.success(posts))
             }
     }
@@ -122,12 +99,10 @@ class PostManager {
 
         case .latest:
 
-            return query.addSnapshotListener { (documentSnapshot, error) in
+            return query.addSnapshotListener { [self] (documentSnapshot, error) in
 
                 if let error = error {
-
                     completion(.failure(error))
-
                 }
 
                 var posts = [Post]()
@@ -137,27 +112,10 @@ class PostManager {
                 for document in documentSnapshot.documents {
 
                     do {
-
-                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
-
-                        ) {
-
-                            if let blockList = UserManager.shared.visitorUserInfo?.blockList {
-
-                                if !blockList.contains(post.uid) {
-
-                                    posts.append(post)
-
-                                }
-
-                            } else {
-
-                                posts.append(post)
-                            }
+                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()) {
+                            filterOutBlockedUser(post: post, posts: &posts)
                         }
-
                     } catch {
-
                         completion(.failure(error))
                     }
                 }
@@ -169,9 +127,7 @@ class PostManager {
             return query.addSnapshotListener { (documentSnapshot, error) in
 
                 if let error = error {
-
                     completion(.failure(error))
-
                 }
 
                 var posts = [Post]()
@@ -179,16 +135,10 @@ class PostManager {
                 for document in documentSnapshot!.documents {
 
                     do {
-
-                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()
-
-                        ) {
-
-                            posts.append(post)
+                        if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()) {
+                            self.filterOutBlockedUser(post: post, posts: &posts)
                         }
-
                     } catch {
-
                         completion(.failure(error))
                     }
                 }
@@ -208,9 +158,7 @@ class PostManager {
         posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
 
             if let error = error {
-
                 completion(.failure(error))
-
             }
 
             let targetPost = querySnapshot?.documents.first
@@ -219,9 +167,22 @@ class PostManager {
                 "editTime": editTime,
                 "content": content,
                 "imageUrl": imageUrl as Any
-            ])
-
+            ], completion: { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+            })
             completion(.success("Updated post content"))
+        }
+    }
+
+    func filterOutBlockedUser(post: Post, posts: inout [Post]) {
+        if let blockList = UserManager.shared.visitorUserInfo?.blockList {
+            if !blockList.contains(post.uid) {
+                posts.append(post)
+            }
+        } else {
+            posts.append(post)
         }
     }
 }

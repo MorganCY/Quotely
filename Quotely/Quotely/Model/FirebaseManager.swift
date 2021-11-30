@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 typealias StatusCompletion = ((Result<String, Error>) -> Void)
 
@@ -21,7 +20,7 @@ class FirebaseManager {
     private init() {}
 
     enum FirebaseCollection: String {
-        case journals, cards, posts, postComments, users
+        case journals, cards, posts, postComments
 
         var idField: String {
             switch self {
@@ -29,13 +28,12 @@ class FirebaseManager {
             case .cards: return "cardID"
             case .posts: return "postID"
             case .postComments: return "postCommentID"
-            case .users: return "uid"
             }
         }
     }
 
     enum FirebaseDataID: String {
-        case journalID, cardID, postID, postCommentID, uid
+        case journalID, cardID, postID, postCommentID
     }
 
     enum FirebaseUpdateType: String {
@@ -87,9 +85,7 @@ class FirebaseManager {
         targetCollection.getDocuments { querySnapshot, error in
 
             if let error = error {
-
                 completion(.failure(error))
-
             }
 
             let targetDocument = querySnapshot?.documents.first
@@ -98,15 +94,22 @@ class FirebaseManager {
 
                 targetDocument?.reference.updateData([
                     numberField: FieldValue.increment(action.rawValue)
-                ])
-
+                ], completion: { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    }
+                })
                 completion(.success("Updated document successfully"))
 
             } else {
 
                 targetDocument?.reference.updateData([
                     numberField: FieldValue.increment(action.rawValue)
-                ])
+                ], completion: { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    }
+                })
 
                 switch action {
 
@@ -114,15 +117,22 @@ class FirebaseManager {
 
                     targetDocument?.reference.updateData([
                         arrayField: FieldValue.arrayUnion([UserManager.shared.visitorUserInfo?.uid as Any])
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
 
                 case .negative:
 
                     targetDocument?.reference.updateData([
                         arrayField: FieldValue.arrayRemove([UserManager.shared.visitorUserInfo?.uid as Any])
-                    ])
+                    ], completion: { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                    })
                 }
-
                 completion(.success("Updated document successfully"))
             }
         }
@@ -141,14 +151,16 @@ class FirebaseManager {
         targetCollection.getDocuments { querySnapshot, error in
 
             if let error = error {
-
                 completion(.failure(error))
             }
 
             let targetDocument = querySnapshot?.documents.first
 
-            targetDocument?.reference.delete()
-
+            targetDocument?.reference.delete(completion: { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+            })
             completion(.success("Delete data successfully"))
         }
     }

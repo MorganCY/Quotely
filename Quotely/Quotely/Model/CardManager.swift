@@ -29,7 +29,6 @@ class CardManager {
             .getDocuments { (querySnapshot, error) in
 
                 if let error = error {
-
                     completion(.failure(error))
                 }
 
@@ -38,18 +37,13 @@ class CardManager {
                 for document in querySnapshot!.documents {
 
                     do {
-                        if let card = try document.data(as: Card.self, decoder: Firestore.Decoder()
-                        ) {
-
+                        if let card = try document.data(as: Card.self, decoder: Firestore.Decoder()) {
                             cards.append(card)
                         }
-
                     } catch {
-
                         completion(.failure(error))
                     }
                 }
-
                 completion(.success(cards))
             }
     }
@@ -66,16 +60,10 @@ class CardManager {
             if let document = document, document.exists {
 
                 do {
-
-                    if let card = try document.data(
-                        as: Card.self
-                    ) {
-
+                    if let card = try document.data(as: Card.self) {
                         completion(.success(card))
                     }
-
                 } catch {
-
                     completion(.failure(error))
                 }
             }
@@ -91,16 +79,18 @@ class CardManager {
         cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
 
             if let error = error {
-
                 completion(.failure(error))
-
             }
 
             let targetCard = querySnapshot?.documents.first
 
             targetCard?.reference.updateData([
                 "postList": FieldValue.arrayUnion([postID])
-            ])
+            ], completion: { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+            })
 
             completion(.success("Card was updated"))
         }
@@ -114,17 +104,18 @@ class CardManager {
         cards.whereField("postList", arrayContains: postID).getDocuments { (querySnapshot, error) in
 
             if let error = error {
-
                 completion(.failure(error))
-
             }
 
             let targetCard = querySnapshot?.documents.first
 
             targetCard?.reference.updateData([
                 "postList": FieldValue.arrayRemove([postID])
-            ])
-
+            ], completion: { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+            })
             completion(.success("Post was deleted from card"))
         }
     }

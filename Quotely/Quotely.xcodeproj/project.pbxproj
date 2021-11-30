@@ -347,9 +347,9 @@
 				5C2846E327280EA600393562 /* JournalManager.swift */,
 				5C8C0E992725293E0054480A /* CardManager.swift */,
 				5C5820FE271D6D80002E21C9 /* PostManager.swift */,
+				5C4B9696271FBF4C008B21C7 /* CommentManager.swift */,
 				5CD765F9271EAE24008E8D00 /* ImageManager.swift */,
 				5C7B6394272A798700E18B96 /* UserManager.swift */,
-				5C4B9696271FBF4C008B21C7 /* CommentManager.swift */,
 				5CD1FAD62732840F00F87B98 /* SignInManager.swift */,
 			);
 			path = Model;
