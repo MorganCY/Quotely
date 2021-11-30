@@ -75,7 +75,6 @@ class AddPostViewController: BaseAddPostViewController {
         else { return }
 
         favCardVC.isFromWriteVC = true
-        favCardVC.passedContentText = contentTextView.text
 
         let navigationVC = BaseNavigationController(rootViewController: favCardVC)
 

@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
-import SwiftUI
 
 class ExploreViewController: UIViewController {
 
@@ -206,9 +205,7 @@ class ExploreViewController: UIViewController {
                 switch result {
 
                 case .success(let success):
-
                     print(success)
-
                     self.postListener = self.addPostListener(type: self.currentFilter, uid: nil, followingList: nil)
 
                 case .failure(let error):

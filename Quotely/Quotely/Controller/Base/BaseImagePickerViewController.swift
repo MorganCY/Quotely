@@ -21,14 +21,12 @@ class BaseImagePickerViewController: UIViewController,
         image: UIImage.sfsymbol(.cameraNormal),
         imageColor: .M1,
         labelColor: .gray,
-        text: "打開相機"
-    )
+        text: "打開相機")
     let galleryButton = RowButton(
         image: UIImage.sfsymbol(.photo),
         imageColor: .M1,
         labelColor: .gray,
-        text: "打開相簿"
-    )
+        text: "打開相簿")
     var imageOptionViews: [UIView] {
         return [imageOptionDimmingView, cameraButton, galleryButton]
     }
@@ -48,9 +46,7 @@ class BaseImagePickerViewController: UIViewController,
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureImageOption()
-
+        setupImageOption()
         imagePicker.delegate = self
     }
 
@@ -111,7 +107,7 @@ class BaseImagePickerViewController: UIViewController,
 
     @objc func collapseImageOption(_ sender: UITapGestureRecognizer) { isImageOptionShow = false }
 
-    func configureImageOption() {
+    func setupImageOption() {
 
         let dismissOptionGesture = UITapGestureRecognizer(target: self, action: #selector(collapseImageOption(_:)))
 

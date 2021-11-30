@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import AVFoundation
 
 class FavoriteCardViewController: UIViewController {
 
@@ -25,8 +24,6 @@ class FavoriteCardViewController: UIViewController {
         }
     }
     private var navigationTitle = "收藏清單"
-    var passedContentText = ""
-
     private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
     private let emptyReminderView = LottieAnimationView(animationName: "empty")
 
@@ -235,7 +232,6 @@ extension FavoriteCardViewController {
         let navVC = BaseNavigationController(rootViewController: writeVC)
 
         writeVC.card = card
-        writeVC.contentFromFavCard = passedContentText
 
         navVC.modalPresentationStyle = .fullScreen
 

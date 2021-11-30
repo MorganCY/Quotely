@@ -7,8 +7,6 @@
 
 import Foundation
 import UIKit
-import SwiftUI
-import MapKit
 
 class JournalListViewController: UIViewController {
 

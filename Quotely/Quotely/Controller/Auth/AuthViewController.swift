@@ -20,14 +20,12 @@ class AuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .BG
         configureAuthVC()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         authViews.forEach { $0.fadeInAnimation(duration: 2.0) }
     }
 
