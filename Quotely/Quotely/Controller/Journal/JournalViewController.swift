@@ -128,7 +128,7 @@ extension JournalViewController: SelectionViewDataSource {
 
     func indicatorWidth(_ view: SelectionView) -> CGFloat { 0.8 }
 
-    func buttonImage(_ view: SelectionView, index: Int) -> UIImage {
+    func buttonImage(_ view: SelectionView, index: Int) -> UIImage? {
 
         view.buttons[0].tintColor = .black
         return buttonImages[index]

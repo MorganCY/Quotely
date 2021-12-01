@@ -117,7 +117,7 @@ extension FollowListViewController: SelectionViewDataSource, SelectionViewDelega
 
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String { listTypeTitle[index] }
+    func buttonTitle(_ view: SelectionView, index: Int) -> String? { listTypeTitle[index] }
 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { listTypeTitle.count }
 

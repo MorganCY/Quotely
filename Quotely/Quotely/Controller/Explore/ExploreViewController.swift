@@ -272,7 +272,7 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String { filters[index].rawValue }
+    func buttonTitle(_ view: SelectionView, index: Int) -> String? { filters[index].rawValue }
 
     func buttonColor(_ view: SelectionView) -> UIColor { .white }
 

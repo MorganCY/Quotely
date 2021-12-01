@@ -58,7 +58,7 @@ class JournalListTableViewCell: UITableViewCell {
             default: return ""
             }
         }()
-        emojiImageView.image = UIImage.sfsymbol(SFSymbol(rawValue: journal.emoji) ?? .smile) ?? UIImage()
+        emojiImageView.image = UIImage.sfsymbol(SFSymbol(rawValue: journal.emoji) ?? .smile)
         journalContent.text = journal.content
         timeLabel.text = Date.timeFormatter.string(from: Date.init(milliseconds: journal.createdTime))
     }

@@ -96,10 +96,8 @@ class ShareViewController: BaseImagePickerViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         templateViews.forEach { $0.dropShadow(opacity: 0.5) }
         imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
-
         if isLayoutFirstTime {
             currentTemplateType = .fullImage
             isLayoutFirstTime = false
@@ -108,7 +106,6 @@ class ShareViewController: BaseImagePickerViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         imageButtonStackView.subviews.forEach { $0.cornerRadius = $0.frame.width / 2 }
     }
 
@@ -258,7 +255,7 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { templateViews.count }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String {
+    func buttonTitle(_ view: SelectionView, index: Int) -> String? {
 
         let titles = ["滿版圖片", "半張圖片", "小張圖片"]
 
