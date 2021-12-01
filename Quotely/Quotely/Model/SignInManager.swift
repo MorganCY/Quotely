@@ -48,7 +48,7 @@ class SignInManager: NSObject {
 
             completion(.failure(signOutError))
 
-            Toast.showFailure(text: "登出失敗")
+            Toast.showFailure(text: ToastText.failToSignOut.rawValue)
         }
 
         completion(.success("Signed out successfully"))
@@ -116,6 +116,7 @@ class SignInManager: NSObject {
 
 extension SignInManager: ASAuthorizationControllerDelegate {
 
+    // swiftlint:disable function_body_length
     func authorizationController(
         controller: ASAuthorizationController,
         didCompleteWithAuthorization authorization: ASAuthorization
@@ -254,9 +255,9 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                     window.rootViewController = tabBarVC
                 }
 
-                if error != nil {
+                if let error = error {
 
-                    print(error?.localizedDescription)
+                    print(error)
                     return
                 }
 

@@ -66,7 +66,7 @@ class RowButton: UIButton {
 
         rowButttonTitleLabel.textColor = labelColor
         rowButttonTitleLabel.text = text
-        rowButttonTitleLabel.font = UIFont.systemFont(ofSize: 18)
+        rowButttonTitleLabel.font = UIFont.setRegular(size: 18)
 
         nextImageView.image = UIImage.sfsymbol(.next)
         nextImageView.tintColor = labelColor

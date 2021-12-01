@@ -15,31 +15,28 @@ import UIKit
     case image
 }
 
-// MARK: Protocol
-
-@objc protocol SelectionViewDataSource: AnyObject {
+protocol SelectionViewDataSource: AnyObject {
 
     // swiftlint:disable identifier_name
-    @objc func buttonStyle(_ view: SelectionView) -> ButtonStyle
+    func numberOfButtonsAt(_ view: SelectionView) -> Int
 
-    @objc func numberOfButtonsAt(_ view: SelectionView) -> Int
+    func buttonStyle(_ view: SelectionView) -> ButtonStyle
 
-    @objc optional func buttonTitle(_ view: SelectionView, index: Int) -> String
+    func buttonTitle(_ view: SelectionView, index: Int) -> String?
 
-    @objc optional func buttonTitleFont(_ view: SelectionView) -> UIFont
+    func buttonTitleFont(_ view: SelectionView) -> UIFont?
 
-    @objc optional func buttonImage(_ view: SelectionView, index: Int) -> UIImage
+    func buttonImage(_ view: SelectionView, index: Int) -> UIImage?
 
-    @objc func buttonColor(_ view: SelectionView) -> UIColor
+    func buttonColor(_ view: SelectionView) -> UIColor
 
-    @objc func indicatorColor(_ view: SelectionView) -> UIColor
+    func indicatorColor(_ view: SelectionView) -> UIColor
 
-    @objc func indicatorWidth(_ view: SelectionView) -> CGFloat
+    func indicatorWidth(_ view: SelectionView) -> CGFloat
 
-    @objc optional func heightForButton(_ view: SelectionView) -> CGFloat
+    func heightForButton(_ view: SelectionView) -> CGFloat
 }
 
-// MARK: Delegate
 @objc protocol SelectionViewDelegate: AnyObject {
 
     @objc optional func didSelectButtonAt(_ view: SelectionView, at index: Int)
@@ -63,9 +60,9 @@ class SelectionView: UIView {
 
     weak var delegate: SelectionViewDelegate?
 
-    var indicatorCenterX: NSLayoutConstraint!
+    private var indicatorCenterX: NSLayoutConstraint!
 
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
 
         let stackView = UIStackView()
 
@@ -74,7 +71,7 @@ class SelectionView: UIView {
         return stackView
     }()
 
-    lazy var indicator: UIView = {
+    private lazy var indicator: UIView = {
 
         let indicator = UIView()
 
@@ -131,7 +128,7 @@ class SelectionView: UIView {
 
             case .text:
 
-                guard let buttonTitle = dataSource?.buttonTitle?(self, index: i) else { return }
+                guard let buttonTitle = dataSource?.buttonTitle(self, index: i) else { return }
 
                 button.setTitle(buttonTitle, for: .normal)
 
@@ -151,7 +148,7 @@ class SelectionView: UIView {
 
             case .image:
 
-                guard let buttonImage = dataSource?.buttonImage?(self, index: i) else { return }
+                guard let buttonImage = dataSource?.buttonImage(self, index: i) else { return }
 
                 button.setBackgroundImage(buttonImage, for: .normal)
 
@@ -242,13 +239,19 @@ class SelectionView: UIView {
 // MARK: ProtocolExtension
 extension SelectionViewDataSource {
 
-    func buttonTitleFont(_ view: SelectionView) -> UIFont {
+    func buttonTitle(_ view: SelectionView, index: Int) -> String? {
+        nil
+    }
 
-        UIFont.systemFont(ofSize: 18)
+    func buttonTitleFont(_ view: SelectionView) -> UIFont? {
+        nil
+    }
+
+    func buttonImage(_ view: SelectionView, index: Int) -> UIImage? {
+        nil
     }
 
     func heightForButton(_ view: SelectionView) -> CGFloat {
-
         CGFloat(20)
     }
 }

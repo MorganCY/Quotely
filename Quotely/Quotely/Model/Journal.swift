@@ -17,3 +17,20 @@ struct Journal: Codable {
     var content: String
     var journalID: String?
 }
+
+// Custom initializer
+extension Journal {
+
+    init(createdMonth: String?,
+         createdYear: String?,
+         emoji: String,
+         content: String
+    ) {
+        self.uid = UserManager.shared.visitorUserInfo?.uid ?? ""
+        self.createdTime = Date().millisecondsSince1970
+        self.createdMonth = createdMonth
+        self.createdYear = createdYear
+        self.emoji = emoji
+        self.content = content
+    }
+}

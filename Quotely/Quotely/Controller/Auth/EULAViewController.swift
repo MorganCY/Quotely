@@ -25,12 +25,10 @@ class EULAViewController: UIViewController, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.load(URLRequest(url: eulaUrl))
         webView.allowsBackForwardNavigationGestures = true
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
             target: self,
-            action: #selector(dismissSelf(_:))
-        )
+            action: #selector(dismissSelf(_:)))
     }
 
     @objc func dismissSelf(_ sender: UIBarButtonItem) {

@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import PhotosUI
-import Kingfisher
 
 class BaseImagePickerViewController: UIViewController,
     UIImagePickerControllerDelegate,
@@ -22,14 +21,12 @@ class BaseImagePickerViewController: UIViewController,
         image: UIImage.sfsymbol(.cameraNormal),
         imageColor: .M1,
         labelColor: .gray,
-        text: "打開相機"
-    )
+        text: "打開相機")
     let galleryButton = RowButton(
         image: UIImage.sfsymbol(.photo),
         imageColor: .M1,
         labelColor: .gray,
-        text: "打開相簿"
-    )
+        text: "打開相簿")
     var imageOptionViews: [UIView] {
         return [imageOptionDimmingView, cameraButton, galleryButton]
     }
@@ -49,9 +46,7 @@ class BaseImagePickerViewController: UIViewController,
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureImageOption()
-
+        setupImageOption()
         imagePicker.delegate = self
     }
 
@@ -77,7 +72,7 @@ class BaseImagePickerViewController: UIViewController,
 
         } else {
 
-            Toast.showFailure(text: "沒有相機可使用")
+            Toast.showFailure(text: ToastText.noCamera.rawValue)
         }
     }
 
@@ -105,14 +100,14 @@ class BaseImagePickerViewController: UIViewController,
 
             } else {
 
-                Toast.showFailure(text: "沒有相機可使用")
+                Toast.showFailure(text: ToastText.noCamera.rawValue)
             }
         }
     }
 
     @objc func collapseImageOption(_ sender: UITapGestureRecognizer) { isImageOptionShow = false }
 
-    func configureImageOption() {
+    func setupImageOption() {
 
         let dismissOptionGesture = UITapGestureRecognizer(target: self, action: #selector(collapseImageOption(_:)))
 
@@ -158,9 +153,13 @@ class BaseImagePickerViewController: UIViewController,
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {}
+    ) {
+        fatalError("didFinishPickingMediaWithInfo is not overridden")
+    }
 
     // PHPicker delegate method which should be properly overridden by subclasses
     @available(iOS 14, *)
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {}
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        fatalError("didFinishPickingMediaWithInfo is not overridden")
+    }
 }

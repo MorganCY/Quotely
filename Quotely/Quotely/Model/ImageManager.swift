@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import Firebase
-import FirebaseDatabase
 import FirebaseStorage
 
 class ImageManager {
@@ -18,7 +16,10 @@ class ImageManager {
 
     let imagePath = Storage.storage().reference()
 
-    func uploadImage(image: UIImage, postHandler: @escaping (Result<String, Error>) -> Void) {
+    func createImage(
+        image: UIImage,
+        completion: @escaping StatusCompletion
+    ) {
 
         let scaledImage = image.scale(newWidth: 320.0)
 
@@ -37,43 +38,31 @@ class ImageManager {
 
         uploadTask.observe(.success) { (snapshot) in
 
-            // Enable this after implementing firestore Auth
-            /*
-             guard let uid = Auth.auth().currentUser?.uid else {
-             return
-             }
-             */
-
             snapshot.reference.downloadURL(completion: { (url, error) in
 
                 guard let urlString = url?.absoluteString else {
-
                     return
                 }
 
                 if let error = error {
-
-                    postHandler(.failure(error))
-
+                    completion(.failure(error))
                 } else {
-
-                    postHandler(.success(urlString))
+                    completion(.success(urlString))
                 }
             })
         }
 
         uploadTask.observe(.failure) { (snapshot) in
-
             if let error = snapshot.error {
-
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }
 
     func deleteImage(
         imageUrl: String,
-        completion: @escaping (Result<String, Error>) -> Void) {
+        completion: @escaping StatusCompletion
+    ) {
 
         if imageUrl == "" {
 
@@ -84,13 +73,9 @@ class ImageManager {
             let reference = imagePath.storage.reference(forURL: imageUrl)
 
             reference.delete { error in
-
                 if let error = error {
-
                     completion(.failure(error))
-
                 } else {
-
                     completion(.success("Image was deleted from storage"))
                 }
             }

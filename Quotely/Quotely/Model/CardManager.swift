@@ -10,11 +10,9 @@ import FirebaseFirestore
 
 class CardManager {
 
-    static let shared = CardManager()
-
     private init() {}
 
-    let visitorUid = SignInManager.shared.visitorUid ?? ""
+    static let shared = CardManager()
 
     let cards = Firestore.firestore().collection("cards")
 
@@ -30,35 +28,30 @@ class CardManager {
             .limit(to: limitNumber)
             .getDocuments { (querySnapshot, error) in
 
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
+                if let error = error {
+                    completion(.failure(error))
+                }
 
                 var cards = [Card]()
 
                 for document in querySnapshot!.documents {
 
                     do {
-                        if let card = try document.data(as: Card.self, decoder: Firestore.Decoder()
-                        ) {
-
+                        if let card = try document.data(as: Card.self, decoder: Firestore.Decoder()) {
                             cards.append(card)
                         }
-
                     } catch {
-
                         completion(.failure(error))
                     }
                 }
-
                 completion(.success(cards))
             }
-        }
     }
 
-    func fetchSpecificCard(cardID: String, completion: @escaping (Result<Card, Error>) -> Void) {
+    func fetchSpecificCard(
+        cardID: String,
+        completion: @escaping (Result<Card, Error>) -> Void
+    ) {
 
         let reference = cards.document(cardID)
 
@@ -67,60 +60,12 @@ class CardManager {
             if let document = document, document.exists {
 
                 do {
-
-                    if let card = try document.data(
-                        as: Card.self
-                    ) {
-
+                    if let card = try document.data(as: Card.self) {
                         completion(.success(card))
                     }
-
                 } catch {
-
                     completion(.failure(error))
                 }
-            }
-        }
-    }
-
-    func updateCards(
-        cardID: String,
-        likeAction: LikeAction,
-        uid: String,
-        completion: @escaping (Result<String, Error>) -> Void
-    ) {
-
-        cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
-
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
-
-                let targetCard = querySnapshot?.documents.first
-
-                switch likeAction {
-
-                case .like:
-
-                    targetCard?.reference.updateData([
-                        "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "likeUser": FieldValue.arrayUnion([self.visitorUid]),
-                        "dislikeUser": FieldValue.arrayRemove([self.visitorUid])
-                    ])
-
-                case .dislike:
-                    
-
-                    targetCard?.reference.updateData([
-                        "likeNumber": FieldValue.increment(Int64(likeAction.rawValue)),
-                        "dislikeUser": FieldValue.arrayUnion([self.visitorUid]),
-                        "likeUser": FieldValue.arrayRemove([self.visitorUid])
-                    ])
-                }
-
-                completion(.success("Card was updated"))
             }
         }
     }
@@ -128,49 +73,50 @@ class CardManager {
     func updateCardPostList(
         cardID: String,
         postID: String,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
 
             if let error = error {
-
                 completion(.failure(error))
-
-            } else {
-
-                let targetCard = querySnapshot?.documents.first
-
-                targetCard?.reference.updateData([
-                    "postList": FieldValue.arrayUnion([postID])
-                ])
-
-                completion(.success("Card was updated"))
             }
+
+            let targetCard = querySnapshot?.documents.first
+
+            targetCard?.reference.updateData([
+                "postList": FieldValue.arrayUnion([postID])
+            ], completion: { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+            })
+
+            completion(.success("Card was updated"))
         }
     }
 
-    func removePostFromCard(
+    func deletePostFromCard(
         postID: String,
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         cards.whereField("postList", arrayContains: postID).getDocuments { (querySnapshot, error) in
 
             if let error = error {
-
                 completion(.failure(error))
-
-            } else {
-
-                let targetCard = querySnapshot?.documents.first
-
-                targetCard?.reference.updateData([
-                    "postList": FieldValue.arrayRemove([postID])
-                ])
-
-                completion(.success("Post was deleted from card"))
             }
+
+            let targetCard = querySnapshot?.documents.first
+
+            targetCard?.reference.updateData([
+                "postList": FieldValue.arrayRemove([postID])
+            ], completion: { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+            })
+            completion(.success("Post was deleted from card"))
         }
     }
 }

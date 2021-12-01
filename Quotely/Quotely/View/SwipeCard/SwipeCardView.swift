@@ -19,26 +19,24 @@ class SwipeCardView: UIView {
 
     weak var delegate: SwipeCardViewDelegate?
 
-    let backgroundImageView = UIImageView()
-    let textBackgroundView = UIView()
+    private let backgroundImageView = UIImageView()
+    private let textBackgroundView = UIView()
     let contentLabel = UILabel()
     let authorLabel = UILabel()
-    let likeImageView = UIImageView()
+    private let likeImageView = UIImageView()
+    private let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3, .bg4]
 
-    var hasLiked = true
+    private var hasLiked = true
 
-    let theresoldMargin = (UIScreen.main.bounds.size.width/2) * 0.75
-    let stength: CGFloat = 4
-    let range: CGFloat = 0.90
-    var xCenter: CGFloat = 0.0
-    var yCenter: CGFloat = 0.0
-    var originPoint = CGPoint.zero
-
-    let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3, .bg4]
+    private let theresoldMargin = (UIScreen.main.bounds.size.width/2) * 0.75
+    private let stength: CGFloat = 4
+    private let range: CGFloat = 0.90
+    private var xCenter: CGFloat = 0.0
+    private var yCenter: CGFloat = 0.0
+    private var originPoint = CGPoint.zero
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setupView()
         setupBackground()
         setupContent()
@@ -49,93 +47,7 @@ class SwipeCardView: UIView {
         super.init(coder: coder)
     }
 
-    // MARK: SetupView
-
-    func setupView() {
-        cornerRadius = CornerRadius.standard.rawValue
-        layer.shadowRadius = 3
-        layer.shouldRasterize = true
-        borderWidth = 0.5
-        borderColor = .gray
-
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragged(_:)))
-        panGestureRecognizer.delegate = self
-        addGestureRecognizer(panGestureRecognizer)
-    }
-
-    func setupBackground() {
-
-        addSubview(backgroundImageView)
-        addSubview(textBackgroundView)
-
-        textBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-
-        backgroundImageView.contentMode = .scaleToFill
-        backgroundImageView.cornerRadius = CornerRadius.standard.rawValue
-        backgroundImageView.clipsToBounds = true
-
-        textBackgroundView.backgroundColor = .white
-        textBackgroundView.cornerRadius = CornerRadius.standard.rawValue
-        self.layer.shouldRasterize = false
-
-        backgroundImageView.image = UIImage.asset(backgroundImages[Int.random(in: 0...3)])
-
-        NSLayoutConstraint.activate([
-
-            backgroundImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            backgroundImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            backgroundImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            backgroundImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-
-            textBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
-            textBackgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
-            textBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24)
-        ])
-    }
-
-    func setupContent() {
-
-        textBackgroundView.addSubview(contentLabel)
-        textBackgroundView.addSubview(authorLabel)
-
-        contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.textColor = .black
-        contentLabel.font = UIFont.systemFont(ofSize: 16)
-        contentLabel.numberOfLines = 0
-        authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        authorLabel.textColor = .gray
-        authorLabel.font = UIFont.systemFont(ofSize: 12)
-        authorLabel.numberOfLines = 1
-
-        NSLayoutConstraint.activate([
-            contentLabel.leadingAnchor.constraint(equalTo: textBackgroundView.leadingAnchor, constant: 24),
-            contentLabel.topAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: 32),
-            contentLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor, constant: -24),
-
-            authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),
-            authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-            authorLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
-            authorLabel.bottomAnchor.constraint(equalTo: textBackgroundView.bottomAnchor, constant: -24),
-            authorLabel.heightAnchor.constraint(equalTo: textBackgroundView.heightAnchor, multiplier: 0.1)
-        ])
-    }
-
-    func setupLikeImageView() {
-
-        addSubview(likeImageView)
-        likeImageView.translatesAutoresizingMaskIntoConstraints = false
-        likeImageView.alpha = 0
-
-        NSLayoutConstraint.activate([
-            likeImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            likeImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            likeImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
-            likeImageView.heightAnchor.constraint(equalTo: likeImageView.widthAnchor)
-        ])
-    }
-
-    func setupLikeStatus(isLeft: Bool) {
+    private func setupLikeStatus(isLeft: Bool) {
 
         likeImageView.image = isLeft
         ? UIImage.asset(.dislike) : UIImage.asset(.like)
@@ -148,7 +60,7 @@ class SwipeCardView: UIView {
     }
 
     // When card goes left
-    func goesLeft() {
+    private func goesLeft() {
 
         let finishPoint = CGPoint(
             x: -(frame.size.width * 2),
@@ -170,7 +82,7 @@ class SwipeCardView: UIView {
     }
 
     // When card goes right
-    func goesRight() {
+    private func goesRight() {
 
         let finishPoint = CGPoint(
             x: frame.size.width * 2,
@@ -193,7 +105,7 @@ class SwipeCardView: UIView {
 
 extension SwipeCardView: UIGestureRecognizerDelegate {
 
-    @objc func dragged(_ sender: UIPanGestureRecognizer) {
+    @objc func dragCard(_ sender: UIPanGestureRecognizer) {
 
         xCenter = sender.translation(in: self).x
         yCenter = sender.translation(in: self).y
@@ -230,7 +142,7 @@ extension SwipeCardView: UIGestureRecognizerDelegate {
         }
     }
 
-    func afterSwipeAction() {
+    private func afterSwipeAction() {
 
         if xCenter > theresoldMargin {
             goesRight()
@@ -243,5 +155,92 @@ extension SwipeCardView: UIGestureRecognizerDelegate {
                 self.likeImageView.alpha = 0
             })
         }
+    }
+}
+
+extension SwipeCardView {
+
+    private func setupView() {
+        cornerRadius = CornerRadius.standard.rawValue
+        layer.shadowRadius = 3
+        layer.shouldRasterize = true
+        borderWidth = 0.5
+        borderColor = .gray
+
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragCard(_:)))
+        panGestureRecognizer.delegate = self
+        addGestureRecognizer(panGestureRecognizer)
+    }
+
+    private func setupBackground() {
+
+        addSubview(backgroundImageView)
+        addSubview(textBackgroundView)
+
+        textBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        backgroundImageView.contentMode = .scaleToFill
+        backgroundImageView.cornerRadius = CornerRadius.standard.rawValue
+        backgroundImageView.clipsToBounds = true
+
+        textBackgroundView.backgroundColor = .white
+        textBackgroundView.cornerRadius = CornerRadius.standard.rawValue
+        self.layer.shouldRasterize = false
+
+        backgroundImageView.image = UIImage.asset(backgroundImages[Int.random(in: 0...3)])
+
+        NSLayoutConstraint.activate([
+
+            backgroundImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            backgroundImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
+            backgroundImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            backgroundImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+
+            textBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            textBackgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            textBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24)
+        ])
+    }
+
+    private func setupContent() {
+
+        textBackgroundView.addSubview(contentLabel)
+        textBackgroundView.addSubview(authorLabel)
+
+        contentLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentLabel.textColor = .black
+        contentLabel.font = UIFont.setRegular(size: 16)
+        contentLabel.numberOfLines = 0
+        authorLabel.translatesAutoresizingMaskIntoConstraints = false
+        authorLabel.textColor = .gray
+        authorLabel.font = UIFont.setRegular(size: 12)
+        authorLabel.numberOfLines = 1
+
+        NSLayoutConstraint.activate([
+            contentLabel.leadingAnchor.constraint(equalTo: textBackgroundView.leadingAnchor, constant: 24),
+            contentLabel.topAnchor.constraint(equalTo: textBackgroundView.topAnchor, constant: 32),
+            contentLabel.trailingAnchor.constraint(equalTo: textBackgroundView.trailingAnchor, constant: -24),
+
+            authorLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 24),
+            authorLabel.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
+            authorLabel.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
+            authorLabel.bottomAnchor.constraint(equalTo: textBackgroundView.bottomAnchor, constant: -24),
+            authorLabel.heightAnchor.constraint(equalTo: textBackgroundView.heightAnchor, multiplier: 0.1)
+        ])
+    }
+
+    private func setupLikeImageView() {
+
+        addSubview(likeImageView)
+        likeImageView.translatesAutoresizingMaskIntoConstraints = false
+        likeImageView.alpha = 0
+
+        NSLayoutConstraint.activate([
+            likeImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            likeImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            likeImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
+            likeImageView.heightAnchor.constraint(equalTo: likeImageView.widthAnchor)
+        ])
     }
 }

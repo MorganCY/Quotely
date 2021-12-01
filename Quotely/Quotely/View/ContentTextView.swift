@@ -12,7 +12,7 @@ class ContentTextView: UITextView {
 
     init(bgColor: UIColor = UIColor.gray) {
         super.init(frame: .zero, textContainer: nil)
-        font = UIFont.systemFont(ofSize: 18)
+        font = UIFont.setRegular(size: 18)
         backgroundColor = bgColor.withAlphaComponent(0.2)
         cornerRadius = CornerRadius.standard.rawValue
     }

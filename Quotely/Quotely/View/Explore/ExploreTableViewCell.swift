@@ -11,6 +11,7 @@ import Kingfisher
 
 class ExploreTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var userStackView: UIStackView!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!

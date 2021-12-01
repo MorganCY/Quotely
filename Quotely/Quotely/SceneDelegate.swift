@@ -50,13 +50,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let window = UIWindow(windowScene: windowScene)
 
                 guard let authVC =
-                        UIStoryboard.auth
-                        .instantiateViewController(
-                            withIdentifier: String(describing: AuthViewController.self)
-                        ) as? AuthViewController else {
-
-                            return
-                        }
+                        UIStoryboard.auth.instantiateViewController(
+                            withIdentifier: AuthViewController.identifier
+                        ) as? AuthViewController
+                else { return }
 
                 window.rootViewController = authVC
 

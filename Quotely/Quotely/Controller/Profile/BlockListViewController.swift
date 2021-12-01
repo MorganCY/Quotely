@@ -11,9 +11,7 @@ import UIKit
 class BlockListViewController: UIViewController {
 
     var visitorUserInfo = UserManager.shared.visitorUserInfo
-
     var blockUidList = UserManager.shared.visitorUserInfo?.blockList
-
     var blockUserList: [User]? {
         didSet {
             tableView.dataSource = self
@@ -37,8 +35,7 @@ class BlockListViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
             target: self,
-            action: #selector(dismissSelf(_:))
-        )
+            action: #selector(dismissSelf(_:)))
 
         fetchBlockListContent()
     }
@@ -85,12 +82,10 @@ class BlockListViewController: UIViewController {
 
     func updateUserBlock(visitedUid: String) {
 
-        guard let visitorUid = visitorUserInfo?.uid else { return }
-
-        UserManager.shared.updateUserBlockList(
-            visitorUid: visitorUid,
+        UserManager.shared.updateUserList(
+            userAction: .block,
             visitedUid: visitedUid,
-            blockAction: .unblock
+            action: .negative
         ) { result in
 
             switch result {

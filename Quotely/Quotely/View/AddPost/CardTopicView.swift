@@ -31,22 +31,22 @@ class CardTopicView: UIView {
         didSet {
             DispatchQueue.main.async {
                 self.setupViews()
-                self.configureImageButtons()
+                self.setupImageButtons()
             }
         }
     }
 
     weak var delegate: CardTopicViewDelegate?
 
-    let backgroundView = UIView()
-    let contentLabel = UILabel()
-    let authorLabel = UILabel()
-    let cardImageView = UIImageView()
-    let bg1ImageButton = UIButton()
-    let bg2ImageButton = UIButton()
-    let bg3ImageButton = UIButton()
-    let bg4ImageButton = UIButton()
-    var imageButtons: [UIButton] {
+    private let backgroundView = UIView()
+    private let contentLabel = UILabel()
+    private let authorLabel = UILabel()
+    private let cardImageView = UIImageView()
+    private let bg1ImageButton = UIButton()
+    private let bg2ImageButton = UIButton()
+    private let bg3ImageButton = UIButton()
+    private let bg4ImageButton = UIButton()
+    private var imageButtons: [UIButton] {
         return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton]
     }
 
@@ -71,7 +71,9 @@ class CardTopicView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
+        imageButtons.forEach {
+            $0.cornerRadius = $0.frame.width / 2
+        }
     }
 
     @objc func changeTemplateImageToBg1(_ sender: UIButton) {
@@ -91,7 +93,7 @@ class CardTopicView: UIView {
         delegate?.didSelectCard(self, index: sender.tag)
     }
 
-    func setupViews() {
+    private func setupViews() {
 
         let views = [backgroundView, contentLabel, authorLabel, cardImageView]
         views.forEach {
@@ -102,10 +104,10 @@ class CardTopicView: UIView {
         backgroundView.cornerRadius = CornerRadius.standard.rawValue
         backgroundView.borderWidth = 0.5
         backgroundView.borderColor = .lightGray
-        contentLabel.font = UIFont.systemFont(ofSize: 14)
+        contentLabel.font = UIFont.setRegular(size: 14)
         contentLabel.textColor = .black
         contentLabel.numberOfLines = 0
-        authorLabel.font = UIFont.systemFont(ofSize: 10)
+        authorLabel.font = UIFont.setRegular(size: 10)
         authorLabel.textColor = .lightGray
         authorLabel.numberOfLines = 1
 
@@ -142,16 +144,18 @@ class CardTopicView: UIView {
         ])
     }
 
-    func configureImageButtons() {
+    private func setupImageButtons() {
 
         imageButtons.forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
-            $0.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
+            $0.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.12).isActive = true
+            $0.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.12).isActive = true
             $0.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 8).isActive = true
             $0.clipsToBounds = true
             $0.imageView?.contentMode = .scaleToFill
+            $0.borderColor = .lightGray
+            $0.borderWidth = 0.5
         }
 
         imageButtons[0].tag = 0

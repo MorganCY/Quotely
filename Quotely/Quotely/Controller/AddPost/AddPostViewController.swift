@@ -10,10 +10,7 @@ import UIKit
 import PhotosUI
 import Vision
 
-class ExploreWriteViewController: BaseWriteViewController {
-
-    private var postImageView = UIImageView()
-    private let deleteImageButton = DeleteButton()
+class AddPostViewController: BaseAddPostViewController {
 
     override var hasPostImage: Bool {
         didSet {
@@ -42,26 +39,24 @@ class ExploreWriteViewController: BaseWriteViewController {
         }
     }
 
+    private var postImageView = UIImageView()
+    private let deleteImageButton = DeleteButton()
     private let quoteButton = RowButton(
         image: UIImage.sfsymbol(.quoteNormal),
         imageColor: .M2,
         labelColor: .white,
-        text: "引用收藏的片語"
-    )
+        text: "引用收藏的片語")
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupQuoteButton()
-
         deleteImageButton.isHidden = true
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        layoutPostImage()
+        setupPostImage()
     }
 
     @objc func deleteImage(_ sender: UIButton) {
@@ -74,16 +69,12 @@ class ExploreWriteViewController: BaseWriteViewController {
     @objc func goToFavoriteCardPage(_ sender: RowButton) {
 
         guard let favCardVC =
-                UIStoryboard.card
-                .instantiateViewController(
-                    withIdentifier: String(describing: FavoriteCardViewController.self)
-                ) as? FavoriteCardViewController else {
-
-                    return
-                }
+                UIStoryboard.card.instantiateViewController(
+                    withIdentifier: FavoriteCardViewController.identifier
+                ) as? FavoriteCardViewController
+        else { return }
 
         favCardVC.isFromWriteVC = true
-        favCardVC.passedContentText = contentTextView.text
 
         let navigationVC = BaseNavigationController(rootViewController: favCardVC)
 
@@ -92,9 +83,9 @@ class ExploreWriteViewController: BaseWriteViewController {
 }
 
 // MARK: SetupViews
-extension ExploreWriteViewController {
+extension AddPostViewController {
 
-    func layoutPostImage() {
+    func setupPostImage() {
 
         let views = [postImageView, deleteImageButton]
 

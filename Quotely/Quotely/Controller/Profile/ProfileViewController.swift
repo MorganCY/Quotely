@@ -10,7 +10,6 @@ import UIKit
 
 class ProfileViewController: BaseProfileViewController {
 
-    // the user who is visiting other's profile
     var visitorUid: String?
 
     var visitorBlockList: [String]? {
@@ -32,31 +31,28 @@ class ProfileViewController: BaseProfileViewController {
     }
 
     var isBlock = false
-
     var isFollow = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         visitorUid = UserManager.shared.visitorUserInfo?.uid
+        navigationController?.setupBackButton(color: .gray)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         visitorBlockList = UserManager.shared.visitorUserInfo?.blockList
         visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList
     }
 
-    func updateUserBlock(blockAction: UserManager.BlockAction) {
+    func updateUserBlock(blockAction: FirebaseAction) {
 
-        guard let visitorUid = visitorUid,
-              let visitedUid = visitedUid else { return }
+        guard let visitedUid = visitedUid else { return }
 
-        UserManager.shared.updateUserBlockList(
-            visitorUid: visitorUid,
+        UserManager.shared.updateUserList(
+            userAction: .block,
             visitedUid: visitedUid,
-            blockAction: blockAction
+            action: blockAction
         ) { result in
 
             switch result {
@@ -65,49 +61,37 @@ class ProfileViewController: BaseProfileViewController {
 
                 print(success)
 
-                self.isBlock = blockAction == .block
+                self.isBlock = blockAction == .positive
 
                 self.fetchVisitedUserInfo(uid: visitedUid)
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料更新失敗")
-                }
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }
 
-    func updateUserFollow(followAction: UserManager.FollowAction) {
+    func updateUserFollow(followAction: FirebaseAction) {
 
-        guard let visitorUid = visitorUid,
-              let visitedUid = visitedUid else { return }
+        guard let visitedUid = visitedUid else { return }
 
-        UserManager.shared.updateUserFollow(
-            visitorUid: visitorUid,
+        UserManager.shared.updateUserList(
+            userAction: .follow,
             visitedUid: visitedUid,
-            followAction: followAction
+            action: followAction
         ) { result in
 
             switch result {
 
             case .success(let success):
-
                 print(success)
-
-                self.isFollow = followAction == .follow
-
+                self.isFollow = followAction == .positive
                 self.fetchVisitedUserInfo(uid: visitedUid)
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料更新失敗")
-                }
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }
@@ -128,33 +112,25 @@ class ProfileViewController: BaseProfileViewController {
 
         let goToFollowListGesture = UITapGestureRecognizer(
             target: self,
-            action: #selector(goToFollowList(_:))
-        )
+            action: #selector(tapFollowNumberLabel(_:)))
 
         header.layoutProfileHeader(userInfo: userInfo, isBlock: isBlock, isFollow: isFollow)
-
         header.blockButton.isEnabled = !isFollow
-
         header.followButton.isEnabled = !isBlock
-
         header.followStackView.addGestureRecognizer(goToFollowListGesture)
         header.followStackView.isUserInteractionEnabled = true
 
         header.blockHanlder = {
 
-            var blockAction: UserManager.BlockAction = .block
-
-            blockAction = self.isBlock ? .unblock : .block
-
+            var blockAction: FirebaseAction = .positive
+            blockAction = self.isBlock ? .negative : .positive
             self.updateUserBlock(blockAction: blockAction)
         }
 
         header.followHandler = {
 
-            var followAction: UserManager.FollowAction = .follow
-
-            followAction = self.isFollow ? .unfollow : .follow
-
+            var followAction: FirebaseAction = .positive
+            followAction = self.isFollow ? .negative : .positive
             self.updateUserFollow(followAction: followAction)
         }
 

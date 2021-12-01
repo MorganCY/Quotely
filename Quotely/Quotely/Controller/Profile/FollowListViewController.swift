@@ -12,12 +12,35 @@ class FollowListViewController: UIViewController {
 
     enum ListType {
 
-        case following
-        case follower
+        case following, follower
+    }
+
+    var visitedUid: String? {
+        didSet {
+            guard let visitedUid = visitedUid else { return }
+            fetchVisitedUserInfo(visitedUid: visitedUid)
+        }
+    }
+    private var followerList: [User]? {
+        didSet {
+            toDisplayList = followerList
+        }
+    }
+    private var followingList: [User]?
+    var toDisplayList: [User]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    var currentFilterType: ListType = .following {
+        didSet {
+            toDisplayList = currentFilterType == .following
+            ? followingList : followerList
+        }
     }
 
     let listTypeSelectionView = SelectionView()
-
+    let listTypeTitle = ["被追蹤", "追蹤中"]
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -26,39 +49,8 @@ class FollowListViewController: UIViewController {
         }
     }
 
-    let listTypeTitle = ["被追蹤", "追蹤中"]
-
-    var visitedUid: String? {
-        didSet {
-            guard let visitedUid = visitedUid else { return }
-            fetchVisitedUserInfo(visitedUid: visitedUid)
-        }
-    }
-
-    private var followerList: [User]? {
-        didSet {
-            toDisplayList = followerList
-        }
-    }
-
-    private var followingList: [User]?
-
-    var toDisplayList: [User]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-
-    var currentFilterType: ListType = .following {
-        didSet {
-            toDisplayList = currentFilterType == .following
-            ? followingList : followerList
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
         layoutListFilter()
         listTypeSelectionView.dataSource = self
         listTypeSelectionView.delegate = self
@@ -73,18 +65,12 @@ class FollowListViewController: UIViewController {
             switch result {
 
             case .success(let user):
-
                 self.fetchListContent(uid: user.followerList ?? [""], listType: .follower)
-
                 self.fetchListContent(uid: user.followingList ?? [""], listType: .following)
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
             }
         }
     }
@@ -106,15 +92,11 @@ class FollowListViewController: UIViewController {
                     switch result {
 
                     case .success(let user):
-
                         userList[index] = user
-
                         group.leave()
 
                     case .failure(let error):
-
                         print(error)
-
                         group.leave()
                     }
                 }
@@ -135,7 +117,7 @@ extension FollowListViewController: SelectionViewDataSource, SelectionViewDelega
 
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String { listTypeTitle[index] }
+    func buttonTitle(_ view: SelectionView, index: Int) -> String? { listTypeTitle[index] }
 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { listTypeTitle.count }
 
