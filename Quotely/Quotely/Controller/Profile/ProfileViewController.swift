@@ -36,6 +36,7 @@ class ProfileViewController: BaseProfileViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         visitorUid = UserManager.shared.visitorUserInfo?.uid
+        navigationController?.setupBackButton(color: .gray)
     }
 
     override func viewWillAppear(_ animated: Bool) {
