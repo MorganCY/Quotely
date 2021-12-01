@@ -65,8 +65,10 @@
 		5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */; };
 		5C58210A271D79D4002E21C9 /* ExploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */; };
 		5C58210C271D8F7D002E21C9 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */; };
+		5C58BE97275762F800038E4F /* ImageDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C58BE96275762F800038E4F /* ImageDetail.storyboard */; };
 		5C5BD852272BD6BA008D5FEC /* BaseImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */; };
 		5C5C4A722742523F00B77631 /* BaseProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */; };
+		5C60F1CE27575D9800E48528 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C60F1CD27575D9800E48528 /* ImageViewController.swift */; };
 		5C6CC7E527300D1A00B71DA8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */; };
 		5C6CC7E727300E3B00B71DA8 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C6CC7E627300E3B00B71DA8 /* Share.storyboard */; };
 		5C7AF0E92748D08800476567 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AF0E82748D08800476567 /* MyViewController.swift */; };
@@ -184,8 +186,10 @@
 		5C582107271D79C9002E21C9 /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		5C582109271D79D4002E21C9 /* ExploreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreTableViewCell.xib; sourceTree = "<group>"; };
 		5C58210B271D8F7D002E21C9 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		5C58BE96275762F800038E4F /* ImageDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageDetail.storyboard; sourceTree = "<group>"; };
 		5C5BD851272BD6BA008D5FEC /* BaseImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseImagePickerViewController.swift; sourceTree = "<group>"; };
 		5C5C4A712742523E00B77631 /* BaseProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseProfileViewController.swift; sourceTree = "<group>"; };
+		5C60F1CD27575D9800E48528 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
 		5C78570127507B9200305443 /* QuotelyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotelyTests.swift; sourceTree = "<group>"; };
@@ -367,6 +371,7 @@
 				5C4B9683271FA700008B21C7 /* Explore */,
 				5CE8F1D1272F77840026864C /* Profile */,
 				5C6CC7EA27301AAE00B71DA8 /* Share */,
+				5C60F1D127575DEF00E48528 /* ImageDetail */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -388,6 +393,7 @@
 				5C582106271D79B5002E21C9 /* Explore */,
 				5CF36A152732C3BC00F6B3BD /* Profile */,
 				5C6CC7E327300CF800B71DA8 /* Share */,
+				5C58BE96275762F800038E4F /* ImageDetail.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -491,6 +497,14 @@
 				5C4B9694271FBCCF008B21C7 /* PostDetailCommentCell.xib */,
 			);
 			path = Explore;
+			sourceTree = "<group>";
+		};
+		5C60F1D127575DEF00E48528 /* ImageDetail */ = {
+			isa = PBXGroup;
+			children = (
+				5C60F1CD27575D9800E48528 /* ImageViewController.swift */,
+			);
+			path = ImageDetail;
 			sourceTree = "<group>";
 		};
 		5C6CC7E327300CF800B71DA8 /* Share */ = {
@@ -682,6 +696,7 @@
 				5C91FFCE2737B8D500A216D4 /* swipe.json in Resources */,
 				5C2846F32729250900393562 /* JournalListCollectionViewCell.xib in Resources */,
 				5C2C7325271D3D6400F8B9EC /* Journal.storyboard in Resources */,
+				5C58BE97275762F800038E4F /* ImageDetail.storyboard in Resources */,
 				5C2846ED2728F4E500393562 /* JournalListTableViewCell.xib in Resources */,
 				5C00B1632746AB5900F3138F /* arrow.json in Resources */,
 				5CA65BF8271D69A600B877FB /* GoogleService-Info.plist in Resources */,
@@ -812,6 +827,7 @@
 				5C2846F52729251500393562 /* JournalListCollectionViewCell.swift in Sources */,
 				5C2846F12729248B00393562 /* UICollectionView+Extension.swift in Sources */,
 				5C19204A27369591008B9F0D /* SettingsViewController.swift in Sources */,
+				5C60F1CE27575D9800E48528 /* ImageViewController.swift in Sources */,
 				5CD765FF271F069E008E8D00 /* PostDetailViewController.swift in Sources */,
 				5C2846E627280EE000393562 /* Journal.swift in Sources */,
 				5CE3D841273A808A00DF07E8 /* CardTopicTableViewHeader.swift in Sources */,

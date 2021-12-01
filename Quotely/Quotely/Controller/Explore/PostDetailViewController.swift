@@ -458,9 +458,14 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? PostDetailTableViewHeader else { fatalError("Cannot load header view.") }
 
         let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(tapCardTopicView(_:)))
+        let tapGoToPostImageDetailGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(self.tapPostImageView(_:)))
 
         header.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
         header.cardStackView.isUserInteractionEnabled = true
+        header.postImageView.addGestureRecognizer(tapGoToPostImageDetailGesture)
+        header.postImageView.isUserInteractionEnabled = true
 
         isAuthor = postAuthor?.uid == UserManager.shared.visitorUserInfo?.uid ?? ""
 
@@ -715,16 +720,23 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension PostDetailViewController {
 
+    func setupNavigation() {
+
+        navigationController?.setupBackButton(color: .gray)
+        navigationItem.title = "想法"
+    }
+
     @objc func tapSubmitCommentButton(_ sender: UIButton) {
 
         commentTextField.resignFirstResponder()
         createComment()
     }
 
-    func setupNavigation() {
+    @objc func tapPostImageView(_ sender: UIImageView) {
 
-        navigationController?.setupBackButton(color: .gray)
-        navigationItem.title = "想法"
+        guard let postImageUrl = post?.imageUrl else { return }
+        let imageDetailVC = ImageDetailViewController(imageUrl: postImageUrl)
+        navigationController?.pushViewController(imageDetailVC, animated: true)
     }
 
     func setupTableView() {
