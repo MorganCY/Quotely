@@ -145,14 +145,12 @@ class ExploreViewController: UIViewController {
             postListener = addPostListener(
                 type: currentFilter,
                 uid: SignInManager.shared.visitorUid,
-                followingList: visitorFollowingList
-            )
+                followingList: visitorFollowingList)
         } else if visitorFollowingList.count == 0 {
             postListener = addPostListener(
                 type: currentFilter,
                 uid: nil,
-                followingList: nil
-            )
+                followingList: nil)
         }
     }
 
@@ -324,11 +322,8 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         let post = postList[indexPath.row]
 
         if let likeUserList = post.likeUser {
-
             isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
-
         } else {
-
             isLikePost = false
         }
 
@@ -339,21 +334,14 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layoutCell(
             userInfo: userList[indexPath.row],
             post: post,
-            isLikePost: self.isLikePost
-        )
+            isLikePost: self.isLikePost)
 
         cell.hideSelectionStyle()
 
         cell.likeHandler = {
-
-            // When tapping on the like button, check if the user has likedPost
-
             if let likeUserList = post.likeUser {
-
                 self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
-
             } else {
-
                 self.isLikePost = false
             }
 
@@ -377,14 +365,18 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         let goToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(tapUserProfile(_:)))
         let goToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(tapCardTopicView(_:)))
+        let goToImageDetailGesture = UITapGestureRecognizer(target: self, action: #selector(tapPostImageView(_:)))
 
         cell.userStackView.addGestureRecognizer(goToProfileGesture)
         cell.userStackView.isUserInteractionEnabled = true
         cell.cardStackView.addGestureRecognizer(goToCardTopicGesture)
         cell.cardStackView.isUserInteractionEnabled = true
+        cell.postImageView.addGestureRecognizer(goToImageDetailGesture)
+        cell.postImageView.isUserInteractionEnabled = true
 
-        cell.userStackView.tag = indexPath.row
-        cell.cardStackView.tag = indexPath.row
+        cell.subviews.forEach {
+            $0.tag = indexPath.row
+        }
 
         return cell
     }
@@ -406,9 +398,7 @@ extension ExploreViewController {
         else { return }
 
         let nav = BaseNavigationController(rootViewController: writeVC)
-
         nav.modalPresentationStyle = .fullScreen
-
         present(nav, animated: true)
     }
 
@@ -416,30 +406,21 @@ extension ExploreViewController {
 
         guard let profileVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
-        ) as? ProfileViewController else {
-
-            return
-        }
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)) as? ProfileViewController
+        else { return }
 
         guard let myVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
-        ) as? MyViewController else {
-
-            return
-        }
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)) as? MyViewController
+        else { return }
 
         guard let currentRow = gestureRecognizer.view?.tag else { return }
 
         profileVC.visitedUid = postList[currentRow].uid
 
         if postList[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
-
             navigationController?.pushViewController(myVC, animated: true)
-
         } else {
-
             navigationController?.pushViewController(profileVC, animated: true)
         }
     }
@@ -448,17 +429,20 @@ extension ExploreViewController {
 
         guard let cardTopicVC = UIStoryboard
                 .card
-                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)
-        ) as? CardTopicViewController else {
-
-            return
-        }
+                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)) as? CardTopicViewController
+        else { return }
 
         guard let currentRow = gestureRecognizer.view?.tag else { return }
-
         cardTopicVC.cardID = postList[currentRow].cardID
-
         navigationController?.pushViewController(cardTopicVC, animated: true)
+    }
+
+    @objc func tapPostImageView(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+        guard let postImageUrl = postList[currentRow].imageUrl else { return }
+        let imageDetailVC = ImageDetailViewController(imageUrl: postImageUrl)
+        navigationController?.pushViewController(imageDetailVC, animated: true)
     }
 
     func setupNavigation() {
