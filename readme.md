@@ -55,21 +55,27 @@ Swipe Tinder-esque cards to browse different sentences from books, shows, and mo
 > There's one inspiring quote on each card.</br>
 > By swiping the cards to left and right, users decide whether to save the quote card to favorite list.
 
-<img src="https://i.imgur.com/rluy0vV.gif"/>
-<img src="https://i.imgur.com/CeyfP7q.png"/>
+<p>
+    <img src="https://i.imgur.com/rluy0vV.gif"/>
+    <img src="https://i.imgur.com/CeyfP7q.png"/>
+</p>
 
 - Favorite List
 > Through the entry button on top-right corner, users browse the list of their favorite cards.
 
-<img src="https://i.imgur.com/ijzhuyF.gif"/>
-<img src="https://i.imgur.com/mefkRCg.png"/>
+<p>
+    <img src="https://i.imgur.com/ijzhuyF.gif"/>
+    <img src="https://i.imgur.com/mefkRCg.png"/>
+</p>
 
 - Share to Social Media
 > By taking a screenshot on iPhone or tapping the button on the bottom-left corner, users are guided to the page where they can customize a card image.</br>
 > Afterwards, users can share the image to Instagram Stories or save to photo album.
 
-<img src="https://i.imgur.com/C7dMRDL.gif"/>
-<img src="https://i.imgur.com/luqtM0j.png"/>
+<p>
+    <img src="https://i.imgur.com/C7dMRDL.gif"/>
+    <img src="https://i.imgur.com/luqtM0j.png"/>
+</p>
 
 #### 2. Share Thoughts/Emotions/Mood
 Write down what you think about the quotes or any thoughts with the supportive community!
@@ -77,14 +83,18 @@ Write down what you think about the quotes or any thoughts with the supportive c
 > By tapping the button on the bottom-right corner, users can quote the current line and write a post.</br>
 > Text recognition is also supported.
 
-<img src="https://i.imgur.com/9ceo2MW.png"/>
-<img src="https://i.imgur.com/DSIZfNp.gif"/>
+<p>
+    <img src="https://i.imgur.com/9ceo2MW.png"/>
+    <img src="https://i.imgur.com/DSIZfNp.gif"/>
+</p>
 
 - Responsive News Feed
 > Users can like and comment on the posts.
 > Each user has their own profile. By following the user, I can brower their latest posts on 探索 tab.
 
-<img src="https://i.imgur.com/JXoDUvJ.png"/>
+<p>
+    <img src="https://i.imgur.com/JXoDUvJ.png"/>
+</p>
 
 #### 3. Save Touching Lines
 Catch each inspiring moment and write down every single piece of thoughts with the journal feature.</br>
@@ -93,8 +103,10 @@ Catch each inspiring moment and write down every single piece of thoughts with t
 > Choose an icon representing current emotion and write down the notes.
 > Browse the written notes on list.
 
-<img src="https://i.imgur.com/XimFKmB.gif"/>
-<img src="https://i.imgur.com/2yxcOaj.gif"/>
+<p>
+    <img src="https://i.imgur.com/XimFKmB.gif"/>
+    <img src="https://i.imgur.com/2yxcOaj.gif"/>
+</p>
 
 # Technical Highlights
 - Programmed Auto Layout with codes for most of the views to make the app compatible for different devices
@@ -134,4 +146,3 @@ Catch each inspiring moment and write down every single piece of thoughts with t
 Morgan Yu nihao0705@gmail.com
 
 # License
-
