@@ -23,19 +23,19 @@
 </p>
 
 <p align="center">
-    [Features](https://github.com/MorganCY/Quotely/tree/readme#features)
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#features">Features</a>
     <span style="color:gray">‧</span>
-    [Technical Highlights](https://github.com/MorganCY/Quotely/tree/readme#technical-highlights)
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#technical-highlights">Technical Highlights</a>
     <span style="color:gray">‧</span>
-    [Release Note](https://github.com/MorganCY/Quotely/tree/readme#release-note)
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#release-note">Release Note</a>
     <span style="color:gray">‧</span>
-    [Requirement](https://github.com/MorganCY/Quotely/tree/readme#requirement)
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#requirement">Requirement</a>
     <span style="color:gray">‧</span>
-    [Libraries](https://github.com/MorganCY/Quotely/tree/readme#libraries)
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#libraries">Libraries</a>
     <span style="color:gray">‧</span>
-    [Contact](https://github.com/MorganCY/Quotely/tree/readme#contact)
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#contact">Contact</a>
     <span style="color:gray">‧</span>
-    [License](https://github.com/MorganCY/Quotely/tree/readme#license)
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#license">License</a>
 </p>
 
 # Features
