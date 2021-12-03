@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
 
         IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.toolbarTintColor = .M1
 
         return true
     }
