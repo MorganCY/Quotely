@@ -47,6 +47,7 @@ enum SFSymbol: String {
     // Swipe Card
     case reset = "arrow.clockwise"
     case bookmarkNormal = "bookmark"
+    case bookmarkSelected = "bookmark.fill"
     case bookmarkSlashed = "bookmark.slash"
     case shareNormal = "square.and.arrow.up"
     case heartNormal = "heart"

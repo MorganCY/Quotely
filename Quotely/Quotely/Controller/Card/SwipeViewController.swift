@@ -456,7 +456,7 @@ extension SwipeViewController {
 
         navigationItem.title = "片語"
         navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.collection),
+            image: UIImage.sfsymbol(.bookmarkSelected),
             text: nil, target: self,
             action: #selector(tapFavoriteButton(_:)),
             color: .M1)

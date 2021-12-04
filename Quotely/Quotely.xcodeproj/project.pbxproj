@@ -57,7 +57,7 @@
 		5C4B969F27216007008B21C7 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B969E27216007008B21C7 /* ImageButton.swift */; };
 		5C5186C8273233E4007C5221 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C5186C7273233E4007C5221 /* Auth.storyboard */; };
 		5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C54F4D72732338500E62DBF /* AuthViewController.swift */; };
-		5C5670432753794E00D4F341 /* BaseImagePickerViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5670422753794E00D4F341 /* BaseImagePickerViewController+Extension.swift */; };
+		5C5670432753794E00D4F341 /* Vision+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5670422753794E00D4F341 /* Vision+Extension.swift */; };
 		5C5820FF271D6D80002E21C9 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5820FE271D6D80002E21C9 /* PostManager.swift */; };
 		5C582101271D6FBE002E21C9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582100271D6FBE002E21C9 /* Post.swift */; };
 		5C582103271D71CC002E21C9 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C582102271D71CC002E21C9 /* Date+Extension.swift */; };
@@ -178,7 +178,7 @@
 		5C5186C7273233E4007C5221 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		5C54F4D527322ABD00E62DBF /* Quotely.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quotely.entitlements; sourceTree = "<group>"; };
 		5C54F4D72732338500E62DBF /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
-		5C5670422753794E00D4F341 /* BaseImagePickerViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseImagePickerViewController+Extension.swift"; sourceTree = "<group>"; };
+		5C5670422753794E00D4F341 /* Vision+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vision+Extension.swift"; sourceTree = "<group>"; };
 		5C5820FE271D6D80002E21C9 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		5C582100271D6FBE002E21C9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		5C582102271D71CC002E21C9 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -401,7 +401,6 @@
 		5C2C7317271D1C4E00F8B9EC /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				5C5670422753794E00D4F341 /* BaseImagePickerViewController+Extension.swift */,
 				5C582102271D71CC002E21C9 /* Date+Extension.swift */,
 				5C91FFCB2737B78A00A216D4 /* UIApplication+Extension.swift */,
 				5C46F257273BB0EB007E951D /* UIButton+Extension.swift */,
@@ -416,6 +415,7 @@
 				5C2846E12727F0B200393562 /* UITextView+Extension.swift */,
 				5CA65BF2271D46DD00B877FB /* UIView+Extension.swift */,
 				5C8C0E8E2724261F0054480A /* UIViewController+Extension.swift */,
+				5C5670422753794E00D4F341 /* Vision+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -842,7 +842,7 @@
 				5CC40AE6272E965A00DF51D9 /* BaseNavigaitonController.swift in Sources */,
 				5C8A04B62722911800289431 /* SceneDelegate.swift in Sources */,
 				5C4983E22740E743008B721F /* FollowListViewController.swift in Sources */,
-				5C5670432753794E00D4F341 /* BaseImagePickerViewController+Extension.swift in Sources */,
+				5C5670432753794E00D4F341 /* Vision+Extension.swift in Sources */,
 				5C582108271D79C9002E21C9 /* ExploreTableViewCell.swift in Sources */,
 				5C54F4D82732338500E62DBF /* AuthViewController.swift in Sources */,
 				5C7B639A272A84F000E18B96 /* FavoriteCardTableViewCell.swift in Sources */,
