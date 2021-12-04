@@ -369,14 +369,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.userStackView.addGestureRecognizer(goToProfileGesture)
         cell.userStackView.isUserInteractionEnabled = true
+        cell.userStackView.tag = indexPath.row
         cell.cardStackView.addGestureRecognizer(goToCardTopicGesture)
         cell.cardStackView.isUserInteractionEnabled = true
+        cell.cardStackView.tag = indexPath.row
         cell.postImageView.addGestureRecognizer(goToImageDetailGesture)
         cell.postImageView.isUserInteractionEnabled = true
-
-        cell.subviews.forEach {
-            $0.tag = indexPath.row
-        }
+        cell.postImageView.tag = indexPath.row
 
         return cell
     }
