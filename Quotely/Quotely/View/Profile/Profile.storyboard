@@ -168,10 +168,10 @@
             </objects>
             <point key="canvasLocation" x="138" y="808"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Base Navigation Controller-->
         <scene sceneID="Ar7-gF-rgb">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mhP-vR-MvA" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mhP-vR-MvA" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oh8-SF-HYQ">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

@@ -52,6 +52,7 @@ class FollowListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         layoutListFilter()
+        setupNavigation()
         listTypeSelectionView.dataSource = self
         listTypeSelectionView.delegate = self
     }
@@ -160,6 +161,11 @@ extension FollowListViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension FollowListViewController {
+
+    func setupNavigation() {
+        navigationItem.title = "追蹤名單"
+        navigationController?.setupBackButton(color: .gray)
+    }
 
     func layoutListFilter() {
         view.addSubview(listTypeSelectionView)
