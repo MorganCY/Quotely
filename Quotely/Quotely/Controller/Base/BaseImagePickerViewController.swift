@@ -18,7 +18,7 @@ class BaseImagePickerViewController: UIViewController,
 
     let imageOptionDimmingView = UIView()
     let cameraButton = RowButton(
-        image: UIImage.sfsymbol(.cameraNormal),
+        image: UIImage.sfsymbol(.camera),
         imageColor: .M1,
         labelColor: .gray,
         text: "打開相機")

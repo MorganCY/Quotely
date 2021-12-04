@@ -156,8 +156,7 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         cell.layoutCell(
             content: likeCardList[indexPath.row].content.replacingOccurrences(of: "\\n", with: "\n"),
-            author: likeCardList[indexPath.row].author
-        )
+            author: likeCardList[indexPath.row].author)
 
         cell.hideSelectionStyle()
 
@@ -168,13 +167,9 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         switch isFromWriteVC {
 
-        case true:
+        case true: goToCardWritePage(index: indexPath.row)
 
-            goToCardWritePage(index: indexPath.row)
-
-        case false:
-
-            goToCardTopicPage(index: indexPath.row)
+        case false: goToCardTopicPage(index: indexPath.row)
         }
     }
 
@@ -196,8 +191,8 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
             )
         }
 
-        let delete = UIAction(title: "不喜歡",
-                              image: UIImage.sfsymbol(.dislike),
+        let delete = UIAction(title: "取消收藏",
+                              image: UIImage.sfsymbol(.bookmarkSlashed),
                               attributes: .destructive) { _ in
 
             self.disLikeCard(index: indexPath.row)
@@ -232,9 +227,7 @@ extension FavoriteCardViewController {
         let navVC = BaseNavigationController(rootViewController: writeVC)
 
         writeVC.card = card
-
         navVC.modalPresentationStyle = .fullScreen
-
         present(navVC, animated: true)
     }
 
@@ -247,9 +240,7 @@ extension FavoriteCardViewController {
         else { return }
 
         let card = likeCardList[index]
-
         cardTopicVC.card = card
-
         navigationController?.pushViewController(cardTopicVC, animated: true)
     }
 
@@ -269,7 +260,6 @@ extension FavoriteCardViewController {
         ]
 
         nav.modalPresentationStyle = .fullScreen
-
         present(nav, animated: true)
     }
 
@@ -314,10 +304,10 @@ extension FavoriteCardViewController {
 
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         tableView.registerCellWithNib(
             identifier: FavoriteCardTableViewCell.identifier,
             bundle: nil)
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
     }
 }

@@ -31,7 +31,7 @@ class SwipeViewController: UIViewController {
         color: .white,
         labelTitle: "分享",
         labelColor: .gray)
-    private let likeButton = ImageButton(image: UIImage.sfsymbol(.colletionStroke), color: .white)
+    private let likeButton = ImageButton(image: UIImage.sfsymbol(.bookmarkNormal), color: .white)
     private let writeButton = ImageButton(
         image: UIImage.sfsymbol(.writeCardPost),
         color: .white,

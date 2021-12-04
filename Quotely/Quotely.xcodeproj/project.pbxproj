@@ -324,13 +324,13 @@
 			isa = PBXGroup;
 			children = (
 				5C54F4D527322ABD00E62DBF /* Quotely.entitlements */,
+				5C2C72F8271D12E100F8B9EC /* AppDelegate.swift */,
+				5C8A04B52722911800289431 /* SceneDelegate.swift */,
 				5CD765FB271ECE08008E8D00 /* ThirdPartyWrapper */,
 				5C2C7317271D1C4E00F8B9EC /* Extension */,
 				5C2C730E271D17A100F8B9EC /* Model */,
 				5C2C730F271D17A800F8B9EC /* Controller */,
 				5C2C7310271D17B800F8B9EC /* View */,
-				5C2C72F8271D12E100F8B9EC /* AppDelegate.swift */,
-				5C8A04B52722911800289431 /* SceneDelegate.swift */,
 				5C8C0E93272436380054480A /* Resource */,
 				5C2C7303271D12E300F8B9EC /* LaunchScreen.storyboard */,
 				5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */,

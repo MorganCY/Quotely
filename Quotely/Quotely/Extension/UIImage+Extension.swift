@@ -31,39 +31,42 @@ enum SFSymbol: String {
     case lightbulbSelected = "lightbulb.fill"
     case personNormal = "person"
     case personSelected = "person.fill"
+    case quoteNormal = "quote.bubble"
+    case quoteSelected = "quote.bubble.fill"
 
     // Journal
-    case calendar = "calendar"
     case smile = "face.smiling"
     case book = "book"
     case umbrella = "umbrella"
     case moon = "moon"
     case fire = "flame"
     case music = "music.note"
-    case color = "paintpalette"
+    case calendar = "calendar"
     case collapse = "arrow.up.circle"
 
-    case writeCardPost = "square.and.pencil"
+    // Swipe Card
     case reset = "arrow.clockwise"
+    case bookmarkNormal = "bookmark"
+    case bookmarkSlashed = "bookmark.slash"
     case shareNormal = "square.and.arrow.up"
-    case cameraNormal = "camera"
-    case photo = "photo"
     case heartNormal = "heart"
     case heartSelected = "heart.fill"
-    case send = "paperplane.fill"
-    case closeButton = "xmark.circle.fill"
-    case comment = "text.bubble"
-    case textScanner = "text.viewfinder"
-    case fileScanner = "doc.text.viewfinder"
-    case addPost = "plus.square"
-    case delete = "trash"
-    case dislike = "heart.slash"
-
-    case colletionStroke = "bookmark"
-    case collection = "bookmark.fill"
-    case quoteNormal = "quote.bubble"
-    case quoteSelected = "quote.bubble.fill"
     case download = "icloud.and.arrow.down"
+
+    // Add Post
+    case addPost = "plus.square"
+    case writeCardPost = "square.and.pencil"
+    case camera = "camera"
+    case photo = "photo"
+    case fileScanner = "doc.text.viewfinder"
+
+    // Post Action
+    case comment = "text.bubble"
+    case send = "paperplane.fill"
+    case delete = "trash"
+
+    // General
+    case closeButton = "xmark.circle.fill"
     case settings = "gearshape"
     case next = "chevron.right"
     case report = "exclamationmark.bubble"
