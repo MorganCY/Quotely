@@ -17,8 +17,15 @@ protocol SwipeCardViewDelegate: AnyObject {
 
 class SwipeCardView: UIView {
 
-    weak var delegate: SwipeCardViewDelegate?
+    // Configure position
+    private var originPoint = CGPoint.zero
+    private var xCenter: CGFloat = 0.0
+    private var yCenter: CGFloat = 0.0
+    private let thresholdMargin = (UIScreen.main.bounds.size.width/2) * 0.75
+    private let stength: CGFloat = 4
+    private let range: CGFloat = 0.90
 
+    // Configutre layout
     private let backgroundImageView = UIImageView()
     private let textBackgroundView = UIView()
     let contentLabel = UILabel()
@@ -26,14 +33,10 @@ class SwipeCardView: UIView {
     private let likeImageView = UIImageView()
     private let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3, .bg4]
 
-    private var hasLiked = true
+    // Determine whether the card is liked by user
+    private var isLike = true
 
-    private let theresoldMargin = (UIScreen.main.bounds.size.width/2) * 0.75
-    private let stength: CGFloat = 4
-    private let range: CGFloat = 0.90
-    private var xCenter: CGFloat = 0.0
-    private var yCenter: CGFloat = 0.0
-    private var originPoint = CGPoint.zero
+    weak var delegate: SwipeCardViewDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,19 +50,6 @@ class SwipeCardView: UIView {
         super.init(coder: coder)
     }
 
-    private func setupLikeStatus(isLeft: Bool) {
-
-        likeImageView.image = isLeft
-        ? UIImage.asset(.dislike) : UIImage.asset(.like)
-
-        likeImageView.tintColor = .M1
-
-        guard let superview = superview else { return }
-
-        likeImageView.alpha = abs(center.x - superview.center.x) / superview.center.x
-    }
-
-    // When card goes left
     private func goesLeft() {
 
         let finishPoint = CGPoint(
@@ -69,19 +59,14 @@ class SwipeCardView: UIView {
         delegate?.cardGoesLeft(self)
 
         UIView.animate(withDuration: 1 / 2) {
-
             self.center = finishPoint
-
         } completion: { _ in
-
             self.removeFromSuperview()
-
         }
 
-        hasLiked = false
+        isLike = false
     }
 
-    // When card goes right
     private func goesRight() {
 
         let finishPoint = CGPoint(
@@ -91,62 +76,20 @@ class SwipeCardView: UIView {
         delegate?.cardGoesRight(self)
 
         UIView.animate(withDuration: 1 / 2) {
-
             self.center = finishPoint
-
         } completion: { _ in
-
             self.removeFromSuperview()
         }
 
-        hasLiked = true
-    }
-}
-
-extension SwipeCardView: UIGestureRecognizerDelegate {
-
-    @objc func dragCard(_ sender: UIPanGestureRecognizer) {
-
-        xCenter = sender.translation(in: self).x
-        yCenter = sender.translation(in: self).y
-
-        if xCenter < 0 {
-            setupLikeStatus(isLeft: true)
-        } else if xCenter > 0 {
-            setupLikeStatus(isLeft: false)
-        }
-
-        switch sender.state {
-
-        case .began:
-            originPoint = self.center
-
-        case .changed:
-            let rotationStrength = min(xCenter / UIScreen.main.bounds.size.width, 1)
-            let rotationAngel = .pi / 8 * rotationStrength
-            let scale = max(1 - abs(rotationStrength) / stength, range)
-            center = CGPoint(x: originPoint.x + xCenter, y: originPoint.y + yCenter)
-
-            let transforms = CGAffineTransform(rotationAngle: rotationAngel)
-            let scaleTransform: CGAffineTransform = transforms.scaledBy(x: scale, y: scale)
-            self.transform = scaleTransform
-
-        case .ended:
-            afterSwipeAction()
-
-        case .possible: break
-        case .cancelled: break
-        case .failed: break
-        default:
-            fatalError()
-        }
+        isLike = true
     }
 
+    // Define events after a swipe ends
     private func afterSwipeAction() {
 
-        if xCenter > theresoldMargin {
+        if xCenter > thresholdMargin {
             goesRight()
-        } else if xCenter < -theresoldMargin {
+        } else if xCenter < -thresholdMargin {
             goesLeft()
         } else {
             UIView.animate(withDuration: 0.3, delay: 0.0, animations: {
@@ -158,18 +101,79 @@ extension SwipeCardView: UIGestureRecognizerDelegate {
     }
 }
 
+extension SwipeCardView: UIGestureRecognizerDelegate {
+
+    @objc func dragCard(_ sender: UIPanGestureRecognizer) {
+
+        // Center point (zero orignally) is equal to the translation distance
+        xCenter = sender.translation(in: self).x
+        yCenter = sender.translation(in: self).y
+
+        // Like and Dislike images change according to card moving state
+        if xCenter < 0 {
+            setupImageDisplayOnCard(isLeft: true)
+        } else if xCenter > 0 {
+            setupImageDisplayOnCard(isLeft: false)
+        }
+
+        switch sender.state {
+
+        // Swipe begins
+        case .began:
+            originPoint = self.center
+
+        // Keep swiping
+        case .changed:
+            // The View rotates itself as its x axis changes
+            let rotationStrength = min(xCenter / UIScreen.main.bounds.size.width, 1)
+            let rotationAngel = .pi / 8 * rotationStrength
+
+            // The View scales slightly when being swiped
+            let scale = max(1 - abs(rotationStrength) / stength, range)
+
+            center = CGPoint(x: originPoint.x + xCenter, y: originPoint.y + yCenter)
+
+            let transforms = CGAffineTransform(rotationAngle: rotationAngel)
+            let scaleTransform: CGAffineTransform = transforms.scaledBy(x: scale, y: scale)
+            self.transform = scaleTransform
+
+        // Swipe ends
+        case .ended:
+            afterSwipeAction()
+
+        case .possible: break
+        case .cancelled: break
+        case .failed: break
+        default: break
+        }
+    }
+}
+
 extension SwipeCardView {
 
+    private func setupImageDisplayOnCard(isLeft: Bool) {
+
+        likeImageView.image = isLeft
+        ? UIImage.asset(.dislike) : UIImage.asset(.like)
+
+        likeImageView.tintColor = .M1
+
+        guard let superview = superview else { return }
+
+        likeImageView.alpha = abs(center.x - superview.center.x) / superview.center.x
+    }
+
     private func setupView() {
+
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragCard(_:)))
+        panGestureRecognizer.delegate = self
+        addGestureRecognizer(panGestureRecognizer)
+
         cornerRadius = CornerRadius.standard.rawValue
         layer.shadowRadius = 3
         layer.shouldRasterize = true
         borderWidth = 0.5
         borderColor = .gray
-
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragCard(_:)))
-        panGestureRecognizer.delegate = self
-        addGestureRecognizer(panGestureRecognizer)
     }
 
     private func setupBackground() {

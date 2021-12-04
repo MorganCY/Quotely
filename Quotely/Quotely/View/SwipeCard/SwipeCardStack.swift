@@ -27,7 +27,6 @@ protocol SwipeCardStackViewDelegate: AnyObject {
 class SwipeCardStackView: UIStackView {
 
     weak var dataSource: SwipeCardStackViewDataSource? {
-
         didSet {
             setupCards()
         }
@@ -36,14 +35,6 @@ class SwipeCardStackView: UIStackView {
     weak var delegate: SwipeCardStackViewDelegate?
 
     var nextCardIndex = 0
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
 
     private func setupCards() {
 
@@ -60,12 +51,11 @@ class SwipeCardStackView: UIStackView {
                 self,
                 index: index)
                 .replacingOccurrences(of: "\\n", with: "\n")
-
             swipeCard.authorLabel.text = dataSource.authorForCardsIn(self, index: index)
 
-            addSubview(swipeCard)
-
             swipeCard.translatesAutoresizingMaskIntoConstraints = false
+            
+            addSubview(swipeCard)
 
             NSLayoutConstraint.activate([
 
