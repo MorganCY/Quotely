@@ -16,7 +16,7 @@ class ShareViewController: BaseImagePickerViewController {
         case fullImage, halfImage, smallImage
     }
 
-    var currentTemplateType: TemplateType = .fullImage {
+    private var currentTemplateType: TemplateType = .fullImage {
         didSet {
             fullImageTemplateView.isHidden = !(currentTemplateType == .fullImage)
             halfImageTemplateView.isHidden = !(currentTemplateType == .halfImage)
@@ -24,18 +24,18 @@ class ShareViewController: BaseImagePickerViewController {
         }
     }
 
-    var fullImageTemplateView = ShareTemplateView(type: .fullImage, content: "", author: "")
-    var halfImageTemplateView = ShareTemplateView(type: .halfImage, content: "", author: "")
-    var smallImageTemplateView = ShareTemplateView(type: .smallImage, content: "", author: "")
-    var templateViews: [ShareTemplateView] {
+    private var fullImageTemplateView = ShareTemplateView(type: .fullImage, content: "", author: "")
+    private var halfImageTemplateView = ShareTemplateView(type: .halfImage, content: "", author: "")
+    private var smallImageTemplateView = ShareTemplateView(type: .smallImage, content: "", author: "")
+    private var templateViews: [ShareTemplateView] {
 
         return [fullImageTemplateView, halfImageTemplateView, smallImageTemplateView]
     }
-    let templateSelectionView = SelectionView()
-    let selectionViewBackground = UIView()
+    private let templateSelectionView = SelectionView()
+    private let selectionViewBackground = UIView()
 
-    var sharingImage = UIImage()
-    var templateImage: UIImage?
+    private var sharingImage = UIImage()
+    private var templateImage: UIImage?
     var templateContent: [String] = [] {
         didSet {
             fullImageTemplateView = ShareTemplateView(
@@ -56,36 +56,36 @@ class ShareViewController: BaseImagePickerViewController {
         }
     }
 
-    let bg1ImageButton = UIButton()
-    let bg2ImageButton = UIButton()
-    let bg3ImageButton = UIButton()
-    let bg4ImageButton = UIButton()
-    let uploadImageButton = ImageButton(image: UIImage.sfsymbol(.photo), color: .white, bgColor: .black)
-    let imageButtonStackView = UIStackView()
-    var imageButtons: [UIButton] {
+    private let bg1ImageButton = UIButton()
+    private let bg2ImageButton = UIButton()
+    private let bg3ImageButton = UIButton()
+    private let bg4ImageButton = UIButton()
+    private let uploadImageButton = ImageButton(image: UIImage.sfsymbol(.photo), color: .white, bgColor: .black)
+    private let imageButtonStackView = UIStackView()
+    private var imageButtons: [UIButton] {
         return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton, uploadImageButton]
     }
 
-    let dimmingView = UIView()
-    let shareOptionPanel = UIView()
-    let instagramButton = RowButton(image: UIImage.asset(.instagram), imageColor: .M2, text: "Instagram 限時動態")
-    let savePhotoButton = RowButton(image: UIImage.sfsymbol(.download), imageColor: .M2, text: "下載至裝置")
-    var optionPanelViews: [UIView] {
+    private let dimmingView = UIView()
+    private let shareOptionPanel = UIView()
+    private let instagramButton = RowButton(image: UIImage.asset(.instagram), imageColor: .M2, text: "Instagram 限時動態")
+    private let savePhotoButton = RowButton(image: UIImage.sfsymbol(.download), imageColor: .M2, text: "下載至裝置")
+    private var optionPanelViews: [UIView] {
 
         return [dimmingView, shareOptionPanel, instagramButton, savePhotoButton]
     }
-    var isSharing = false {
+    private var isSharing = false {
         didSet {
             self.optionPanelViews.forEach { $0.isHidden = !self.isSharing }
             if isSharing { optionPanelViews.forEach { view.bringSubviewToFront($0) } }
         }
     }
-    var isLayoutFirstTime = true
+    private var isLayoutFirstTime = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .BG
-        navigationItem.title = "分享隻字片語"
+        navigationItem.title = "分享片語"
         setupNavigaiton()
         layoutTemplateView()
         layoutSelectionView()
