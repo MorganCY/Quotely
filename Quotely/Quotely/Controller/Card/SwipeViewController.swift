@@ -135,6 +135,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -157,6 +158,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -177,6 +179,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
