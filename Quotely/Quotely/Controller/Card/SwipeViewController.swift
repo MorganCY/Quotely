@@ -62,6 +62,7 @@ class SwipeViewController: UIViewController {
         initialLoadingCards()
         setupNavigation()
         setupCardView()
+        setupLoadingAnimationView()
         setupButtons()
         setupResetButton()
         view.backgroundColor = .BG
@@ -298,21 +299,27 @@ extension SwipeViewController {
 
     func setupCardView() {
 
-        view.addSubview(loadingAnimationView)
         view.addSubview(cardStack)
         cardStack.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
+        ])
+    }
+
+    func setupLoadingAnimationView() {
+
+        view.addSubview(loadingAnimationView)
         loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-
-            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6)
         ])
     }
 

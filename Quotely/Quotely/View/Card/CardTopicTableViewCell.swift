@@ -21,12 +21,10 @@ class CardTopicTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         userImageView.clipsToBounds = true
-        backgroundColor = .white.withAlphaComponent(0.7)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
@@ -37,31 +35,24 @@ class CardTopicTableViewCell: UITableViewCell {
 
     func layoutCell(user: User, post: Post) {
 
-        if let userImageUrl = user.profileImageUrl {
-
-            userImageView.loadImage(userImageUrl, placeHolder: nil)
-
+        if user.uid == UserManager.shared.visitorUserInfo?.uid {
+            optionMenuButton.isHidden = true
         } else {
+            optionMenuButton.isHidden = false
+        }
 
+        if let userImageUrl = user.profileImageUrl {
+            userImageView.loadImage(userImageUrl, placeHolder: nil)
+        } else {
             userImageView.image = UIImage.asset(.logo)
         }
 
-        if user.uid == UserManager.shared.visitorUserInfo?.uid {
-
-            optionMenuButton.isHidden = true
-
-        } else {
-
-            optionMenuButton.isHidden = false
+        if let editTime = post.editTime {
+            timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
         }
 
         userNameLabel.text = user.name
         timeLabel.text = Date.init(milliseconds: post.createdTime).timeAgoDisplay()
         contentLabel.text = post.content
-
-        guard let editTime = post.editTime else { return }
-
-        timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
     }
-
 }
