@@ -253,7 +253,7 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
         let share = UIAction(title: "分享至社群",
                              image: UIImage.sfsymbol(.shareNormal)) { _ in
 
-            self.goToSharePage(content: self.journals[indexPath.row].content, author: "Morgan Yu")
+            self.goToSharePage(content: self.journals[indexPath.row].content, author: UserManager.shared.visitorUserInfo?.name ?? "")
         }
 
         let delete = UIAction(title: "刪除",
