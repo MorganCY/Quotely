@@ -136,6 +136,16 @@ class PostDetailViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)
         let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
+        if let popoverController = optionAlert.popoverPresentationController {
+
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+
         optionAlert.addAction(blockUserAction)
         optionAlert.addAction(cancelAction)
 
@@ -470,10 +480,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         guard post != nil, postAuthor != nil else { fatalError("Cannot fetch post data") }
 
-        header.layoutHeader(post: post,
-                            postAuthor: postAuthor,
-                            isAuthor: self.isAuthor,
-                            isLike: isLikePost)
+        header.layoutHeader(post: post, postAuthor: postAuthor, isAuthor: self.isAuthor, isLike: isLikePost)
 
         header.likeHandler = { [weak self] in
 
@@ -587,8 +594,17 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
                 self.deletePost(postID: postID)
             }
-
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
+
+            if let popoverController = alert.popoverPresentationController {
+
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(
+                    x: self.view.bounds.midX,
+                    y: self.view.bounds.midY,
+                    width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+            }
 
             alert.addAction(cancelAction)
             alert.addAction(okAction)
@@ -662,6 +678,16 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
+
+            if let popoverController = alert.popoverPresentationController {
+
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(
+                    x: self.view.bounds.midX,
+                    y: self.view.bounds.midY,
+                    width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+            }
 
             alert.addAction(cancelAction)
             alert.addAction(okAction)
