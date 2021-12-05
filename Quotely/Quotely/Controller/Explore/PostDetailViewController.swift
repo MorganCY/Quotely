@@ -532,6 +532,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
             if let imageUrl = self.post?.imageUrl {
                 writeVC.imageUrl = imageUrl
+                writeVC.uploadedImage = header.postImageView.image
                 writeVC.hasPostImage = true
             }
 
