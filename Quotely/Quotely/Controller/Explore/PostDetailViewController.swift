@@ -11,29 +11,29 @@ import UIKit
 class PostDetailViewController: UIViewController {
 
     // MARK: Post Data
-    var author: User? {
+    private var author: User? {
         didSet {
             tableView.reloadData()
         }
     }
     var post: Post?
     var postAuthor: User?
-    var likeNumber: Int?
-    var comments: [Comment] = []
-    var commentUserList: [User] = [] {
+    private var likeNumber: Int?
+    private var comments: [Comment] = []
+    private var commentUserList: [User] = [] {
         didSet {
             tableView.reloadData()
         }
     }
-    var isAuthor = false
+    private var isAuthor = false
     var isLikePost = false
 
     // MARK: Interface
-    let tableView = UITableView(frame: .zero, style: .grouped)
-    let commentPanel = UIView()
-    let userImageView = UIImageView()
-    let commentTextField = CommentTextField()
-    let submitCommentButton = ImageButton(image: UIImage.sfsymbol(.send), color: .M2)
+    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let commentPanel = UIView()
+    private let userImageView = UIImageView()
+    private let commentTextField = CommentTextField()
+    private let submitCommentButton = ImageButton(image: UIImage.sfsymbol(.send), color: .M2)
 
     override func viewDidLoad() {
         super.viewDidLoad()
