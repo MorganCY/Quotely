@@ -477,7 +477,6 @@ extension ExploreViewController {
 
         view.addSubview(filterView)
         filterView.translatesAutoresizingMaskIntoConstraints = false
-
         filterView.delegate = self
         filterView.dataSource = self
 

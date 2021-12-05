@@ -21,10 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let _ = (scene as? UIWindowScene) else { return }
 
-        if let visitorUid = Auth.auth().currentUser?.uid {
+//        if let visitorUid = Auth.auth().currentUser?.uid {
 
             userListener = UserManager.shared.listenToUserUpdate(
-                uid: visitorUid
+                uid: "testuser001"
             ) { result in
 
                 switch result {
@@ -41,24 +41,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                     print(error)
                 }
-            }
+//            }
 
-        } else {
-
-            if let windowScene = scene as? UIWindowScene {
-
-                let window = UIWindow(windowScene: windowScene)
-
-                guard let authVC =
-                        UIStoryboard.auth.instantiateViewController(
-                            withIdentifier: AuthViewController.identifier
-                        ) as? AuthViewController
-                else { return }
-
-                window.rootViewController = authVC
-
-                self.window = window
-            }
+//        } else {
+//
+//            if let windowScene = scene as? UIWindowScene {
+//
+//                let window = UIWindow(windowScene: windowScene)
+//
+//                guard let authVC =
+//                        UIStoryboard.auth.instantiateViewController(
+//                            withIdentifier: AuthViewController.identifier
+//                        ) as? AuthViewController
+//                else { return }
+//
+//                window.rootViewController = authVC
+//
+//                self.window = window
+//            }
         }
     }
 
@@ -71,28 +71,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
 
-        if Auth.auth().currentUser?.uid != nil {
-
-            userListener = UserManager.shared.listenToUserUpdate(
-                uid: SignInManager.shared.visitorUid ?? ""
-            ) { result in
-
-                switch result {
-
-                case .success(let user):
-
-                    print(user)
-
-                    UserManager.shared.visitorUserInfo = user
-
-                    SignInManager.shared.visitorUid = user.uid
-
-                case .failure(let error):
-
-                    print(error)
-                }
-            }
-        }
+//        if Auth.auth().currentUser?.uid != nil {
+//
+//            userListener = UserManager.shared.listenToUserUpdate(
+//                uid: SignInManager.shared.visitorUid ?? ""
+//            ) { result in
+//
+//                switch result {
+//
+//                case .success(let user):
+//
+//                    print(user)
+//
+//                    UserManager.shared.visitorUserInfo = user
+//
+//                    SignInManager.shared.visitorUid = user.uid
+//
+//                case .failure(let error):
+//
+//                    print(error)
+//                }
+//            }
+//        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
