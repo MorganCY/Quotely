@@ -29,6 +29,7 @@ class AuthViewController: UIViewController {
         authViews.forEach { $0.fadeInAnimation(duration: 2.0) }
     }
 
+    // swiftlint:disable function_body_length
     func configureAuthVC() {
         let claimerLabel = UILabel()
         let privacyPolicyButton = UIButton()

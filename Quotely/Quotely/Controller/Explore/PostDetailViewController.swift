@@ -198,7 +198,9 @@ class PostDetailViewController: UIViewController {
 
     func createComment() {
 
-        guard commentTextField.text != "" else {
+        guard let text = commentTextField.text else { return }
+
+        guard !text.isEmpty else {
 
             Toast.showFailure(text: ToastText.remindInput.rawValue)
             return

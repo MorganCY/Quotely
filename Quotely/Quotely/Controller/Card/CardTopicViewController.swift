@@ -300,7 +300,7 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
         cell.hideSelectionStyle()
 
         cell.optionHandler = { [weak self] in
-            
+
             guard let self = self else { return }
 
             self.openOptionMenu(

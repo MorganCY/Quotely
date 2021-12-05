@@ -31,7 +31,7 @@ class BlockListTableViewCell: UITableViewCell {
 
     var unblockHandler: () -> Void = {}
 
-    @IBAction func tapUnblockButton(_ sender: UIButton) {
+    @IBAction private func tapUnblockButton(_ sender: UIButton) {
 
         unblockHandler()
     }

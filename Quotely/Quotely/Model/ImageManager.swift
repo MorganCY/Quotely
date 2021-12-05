@@ -36,9 +36,9 @@ class ImageManager {
 
         let uploadTask = imageStorageRef.putData(imageData, metadata: metadata)
 
-        uploadTask.observe(.success) { (snapshot) in
+        uploadTask.observe(.success) { snapshot in
 
-            snapshot.reference.downloadURL(completion: { (url, error) in
+            snapshot.reference.downloadURL(completion: { url, error in
 
                 guard let urlString = url?.absoluteString else {
                     return
@@ -52,7 +52,7 @@ class ImageManager {
             })
         }
 
-        uploadTask.observe(.failure) { (snapshot) in
+        uploadTask.observe(.failure) { snapshot in
             if let error = snapshot.error {
                 print(error)
             }
@@ -64,7 +64,7 @@ class ImageManager {
         completion: @escaping StatusCompletion
     ) {
 
-        if imageUrl == "" {
+        if imageUrl.isEmpty {
 
             completion(.success("There was no image so no need to delete"))
 

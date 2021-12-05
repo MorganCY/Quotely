@@ -12,6 +12,7 @@ extension UIViewController {
 
     enum TabBarIndex: Int {
 
+        // swiftlint:disable identifier_name
         case journal = 0
         case card = 1
         case explore = 2

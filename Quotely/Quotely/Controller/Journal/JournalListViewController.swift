@@ -239,7 +239,7 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
         } else if row >= 1 {
 
-            cell.checkIfHideLabel(row: journals[row], previousRow: journals[row-1])
+            cell.checkIfHideLabel(row: journals[row], previousRow: journals[row - 1])
         }
 
         return cell
@@ -254,7 +254,9 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
             guard let self = self else { return }
 
-            self.goToSharePage(content: self.journals[indexPath.row].content, author: UserManager.shared.visitorUserInfo?.name ?? "")
+            self.goToSharePage(
+                content: self.journals[indexPath.row].content,
+                author: UserManager.shared.visitorUserInfo?.name ?? "")
         }
 
         let delete = UIAction(title: "刪除",

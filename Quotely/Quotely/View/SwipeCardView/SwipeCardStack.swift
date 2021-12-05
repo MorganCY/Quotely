@@ -54,7 +54,6 @@ class SwipeCardStackView: UIStackView {
             swipeCard.authorLabel.text = dataSource.authorForCardsIn(self, index: index)
 
             swipeCard.translatesAutoresizingMaskIntoConstraints = false
-            
             addSubview(swipeCard)
 
             NSLayoutConstraint.activate([

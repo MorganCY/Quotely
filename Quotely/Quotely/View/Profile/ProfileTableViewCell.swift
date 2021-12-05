@@ -15,7 +15,7 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var postImageView: UIImageView!
 
     override func awakeFromNib() {
-
+        super.awakeFromNib()
         postImageView.cornerRadius = CornerRadius.standard.rawValue * 2 / 3
     }
 

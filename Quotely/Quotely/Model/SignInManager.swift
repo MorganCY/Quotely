@@ -16,7 +16,7 @@ class SignInManager: NSObject {
 
     var visitorUid = Auth.auth().currentUser?.uid
 
-    private override init() { super.init() }
+    override private init() { super.init() }
 
     fileprivate var currentNonce: String?
 
@@ -153,7 +153,7 @@ extension SignInManager: ASAuthorizationControllerDelegate {
                 rawNonce: nonce
             )
 
-            Auth.auth().signIn(with: credential) { (authResult, error) in
+            Auth.auth().signIn(with: credential) { authResult, error in
 
                 if let user = authResult?.user {
 

@@ -23,7 +23,7 @@ extension UITableView {
         register(nib, forHeaderFooterViewReuseIdentifier: identifier)
     }
 
-    func fadeInCells(cell: UITableViewCell,duration: CGFloat, delay: CGFloat, row: Int) {
+    func fadeInCells(cell: UITableViewCell, duration: CGFloat, delay: CGFloat, row: Int) {
 
         cell.alpha = 0
 

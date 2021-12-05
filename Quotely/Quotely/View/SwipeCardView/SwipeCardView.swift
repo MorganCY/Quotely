@@ -21,7 +21,7 @@ class SwipeCardView: UIView {
     private var originPoint = CGPoint.zero
     private var xCenter: CGFloat = 0.0
     private var yCenter: CGFloat = 0.0
-    private let thresholdMargin = (UIScreen.main.bounds.size.width/2) * 0.75
+    private let thresholdMargin = (UIScreen.main.bounds.size.width / 2) * 0.75
     private let stength: CGFloat = 4
     private let range: CGFloat = 0.90
 

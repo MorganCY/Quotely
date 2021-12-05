@@ -1,5 +1,5 @@
 included:
-  - Source
+  - Quotely
   - Tests
 excluded:
   - Tests/SwiftLintFrameworkTests/Resources
@@ -12,8 +12,6 @@ analyzer_rules:
 opt_in_rules:
   - anyobject_protocol
   - array_init
-  - attributes
-  - closure_end_indentation
   - closure_spacing
   - collection_alignment
   - contains_over_filter_count
@@ -23,19 +21,14 @@ opt_in_rules:
   - discouraged_none_name
   - discouraged_object_literal
   - empty_collection_literal
-  - empty_count
   - empty_string
   - empty_xctest_method
   - enum_case_associated_values_count
-  - explicit_init
   - extension_access_modifier
   - fallthrough
-  - fatal_error_message
   - file_header
-  - file_name
   - first_where
   - flatmap_over_map_reduce
-  - identical_operands
   - joined_default_parameter
   - last_where
   - legacy_multiple
@@ -46,16 +39,10 @@ opt_in_rules:
   - nimble_operator
   - nslocalizedstring_key
   - number_separator
-  - object_literal
   - operator_usage_whitespace
   - overridden_super_call
-  - override_in_extension
   - pattern_matching_keywords
   - prefer_self_type_over_type_of_self
-  - private_action
-  - private_outlet
-  - prohibited_interface_builder
-  - prohibited_super_call
   - quick_discouraged_call
   - quick_discouraged_focused_test
   - quick_discouraged_pending_test
@@ -64,18 +51,12 @@ opt_in_rules:
   - redundant_type_annotation
   - single_test_class
   - sorted_first_last
-  - sorted_imports
   - static_operator
-  - strong_iboutlet
   - test_case_accessibility
   - toggle_bool
-  - unavailable_function
   - unneeded_parentheses_in_closure_argument
   - unowned_variable_capture
   - untyped_error_in_catch
-  - vertical_parameter_alignment_on_call
-  - vertical_whitespace_closing_braces
-  - vertical_whitespace_opening_braces
   - xct_specific_matcher
   - yoda_condition
 
@@ -84,13 +65,6 @@ identifier_name:
     - id
 number_separator:
   minimum_length: 5
-file_name:
-  excluded:
-    - main.swift
-    - LinuxMain.swift
-    - TestHelpers.swift
-    - shim.swift
-    - AutomaticRuleTests.generated.swift
 
 custom_rules:
   rule_id:
@@ -98,14 +72,6 @@ custom_rules:
     name: Rule ID
     message: Rule IDs must be all lowercase, snake case and not end with `rule`
     regex: identifier:\s*("\w+_rule"|"\S*[^a-z_]\S*")
-    severity: error
-  fatal_error:
-    name: Fatal Error
-    excluded: "Tests/*"
-    message: Prefer using `queuedFatalError` over `fatalError` to avoid leaking compiler host machine paths.
-    regex: \bfatalError\b
-    match_kinds:
-      - identifier
     severity: error
   rule_test_function:
     included: Tests/SwiftLintFrameworkTests/RulesTests.swift

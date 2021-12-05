@@ -196,7 +196,7 @@ class MyViewController: BaseProfileViewController {
 
         for result in results {
 
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { image, error in
 
                 guard let selectedImage = image as? UIImage else {
 

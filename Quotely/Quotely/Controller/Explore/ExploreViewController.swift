@@ -313,11 +313,8 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: ExploreTableViewCell.identifier,
-            for: indexPath) as? ExploreTableViewCell else {
-
-                fatalError("Cannot create cell.")
-            }
+            withIdentifier: ExploreTableViewCell.identifier, for: indexPath
+        ) as? ExploreTableViewCell else { fatalError("Cannot create cell.") }
 
         let post = postList[indexPath.row]
 
@@ -327,14 +324,9 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             isLikePost = false
         }
 
-        guard let userList = userList else {
-            return UITableViewCell()
-        }
+        guard let userList = userList else { return UITableViewCell() }
 
-        cell.layoutCell(
-            userInfo: userList[indexPath.row],
-            post: post,
-            isLikePost: self.isLikePost)
+        cell.layoutCell(userInfo: userList[indexPath.row], post: post, isLikePost: self.isLikePost)
 
         cell.hideSelectionStyle()
 
@@ -349,14 +341,11 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
             guard let postID = post.postID else { return }
 
-            let likeAction: FirebaseAction = self.isLikePost
-            ? .negative : .positive
+            let likeAction: FirebaseAction = self.isLikePost ? .negative : .positive
 
             cell.likeButton.isEnabled = false
 
-            self.updatePostLike(postID: postID, likeAction: likeAction) {
-                cell.likeButton.isEnabled = true
-            }
+            self.updatePostLike(postID: postID, likeAction: likeAction) { cell.likeButton.isEnabled = true }
         }
 
         cell.commentHandler = { [weak self] in
@@ -411,12 +400,14 @@ extension ExploreViewController {
 
         guard let profileVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)) as? ProfileViewController
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+                ) as? ProfileViewController
         else { return }
 
         guard let myVC = UIStoryboard
                 .profile
-                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)) as? MyViewController
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
+                ) as? MyViewController
         else { return }
 
         guard let currentRow = gestureRecognizer.view?.tag else { return }

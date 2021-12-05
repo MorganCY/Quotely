@@ -26,7 +26,7 @@ class CardManager {
         cards
             .whereField("cardID", isGreaterThanOrEqualTo: randomID)
             .limit(to: limitNumber)
-            .getDocuments { (querySnapshot, error) in
+            .getDocuments { querySnapshot, error in
 
                 if let error = error {
                     completion(.failure(error))
@@ -76,7 +76,7 @@ class CardManager {
         completion: @escaping StatusCompletion
     ) {
 
-        cards.whereField("cardID", isEqualTo: cardID).getDocuments { (querySnapshot, error) in
+        cards.whereField("cardID", isEqualTo: cardID).getDocuments { querySnapshot, error in
 
             if let error = error {
                 completion(.failure(error))
@@ -101,7 +101,7 @@ class CardManager {
         completion: @escaping StatusCompletion
     ) {
 
-        cards.whereField("postList", arrayContains: postID).getDocuments { (querySnapshot, error) in
+        cards.whereField("postList", arrayContains: postID).getDocuments { querySnapshot, error in
 
             if let error = error {
                 completion(.failure(error))

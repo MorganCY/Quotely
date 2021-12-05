@@ -12,7 +12,6 @@ import PhotosUI
 class ShareViewController: BaseImagePickerViewController {
 
     enum TemplateType {
-        
         case fullImage, halfImage, smallImage
     }
 
@@ -223,7 +222,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         for result in results {
 
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { image, error in
 
                 if let error = error {
 

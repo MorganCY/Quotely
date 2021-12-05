@@ -10,7 +10,6 @@ import UIKit
 import PhotosUI
 import Vision
 
-// swiftlint:disable type_body_length
 class BaseAddPostViewController: BaseImagePickerViewController {
 
     // MARK: Post Content
@@ -276,7 +275,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
         for result in results {
 
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { image, error in
 
                 if let error = error {
 
@@ -336,7 +335,7 @@ extension BaseAddPostViewController {
     func setupNavigation() {
 
         if postID != nil {
-            
+
             navigationTitle = ["title": "編輯", "buttonTitle": "更新"]
         }
 

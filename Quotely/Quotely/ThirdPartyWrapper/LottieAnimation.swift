@@ -39,7 +39,7 @@ class LottieAnimationView: UIView {
 
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
-        animationView.animationSpeed =  1.5
+        animationView.animationSpeed = 1.5
         animationView.play()
     }
 }

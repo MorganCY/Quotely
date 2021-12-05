@@ -78,7 +78,7 @@ class PostDetailCommentCell: UITableViewCell {
         timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
     }
 
-    var editHandler: (String) -> Void = {_ in}
+    var editHandler: (String) -> Void = { _ in }
 
     var deleteHandler: () -> Void = {}
 

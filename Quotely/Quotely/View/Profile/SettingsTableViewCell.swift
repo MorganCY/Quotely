@@ -13,7 +13,7 @@ class SettingsTableViewCell: UITableViewCell {
     @IBOutlet weak var optionButton: UIButton!
 
     override func awakeFromNib() {
-
+        super.awakeFromNib()
         backgroundColor = .clear
         optionButton.cornerRadius = CornerRadius.standard.rawValue
     }

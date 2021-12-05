@@ -55,7 +55,7 @@ class PostManager {
         posts
             .whereField("cardID", isEqualTo: cardID)
             .order(by: "createdTime", descending: true)
-            .getDocuments { [self] (querySnapshot, error) in
+            .getDocuments { [self] querySnapshot, error in
 
                 if let error = error {
                     completion(.failure(error))
@@ -101,7 +101,7 @@ class PostManager {
 
         case .latest:
 
-            return query.addSnapshotListener { [self] (documentSnapshot, error) in
+            return query.addSnapshotListener { [self] documentSnapshot, error in
 
                 if let error = error {
                     completion(.failure(error))
@@ -126,7 +126,7 @@ class PostManager {
 
         default:
 
-            return query.addSnapshotListener { (documentSnapshot, error) in
+            return query.addSnapshotListener { documentSnapshot, error in
 
                 if let error = error {
                     completion(.failure(error))
@@ -157,7 +157,7 @@ class PostManager {
         completion: @escaping StatusCompletion
     ) {
 
-        posts.whereField("postID", isEqualTo: postID).getDocuments { (querySnapshot, error) in
+        posts.whereField("postID", isEqualTo: postID).getDocuments { querySnapshot, error in
 
             if let error = error {
                 completion(.failure(error))

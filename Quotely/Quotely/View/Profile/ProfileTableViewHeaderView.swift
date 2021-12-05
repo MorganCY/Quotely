@@ -51,7 +51,7 @@ class ProfileTableViewHeaderView: UITableViewHeaderFooterView {
     }
 
     var editImageHandler: () -> Void = {}
-    var editNameHandler: ((String) -> Void) = {_ in }
+    var editNameHandler: ((String) -> Void) = { _ in }
     var followHandler: (() -> Void) = {}
     var blockHanlder: (() -> Void) = {}
 

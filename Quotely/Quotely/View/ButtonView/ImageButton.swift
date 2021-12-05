@@ -30,7 +30,11 @@ class ImageButton: UIButton {
         super.init(coder: coder)
     }
 
-    private func setUpButton(image: UIImage, tintColor: UIColor, labelTitle: String?, labelColor: UIColor?, fontSize: CGFloat) {
+    private func setUpButton(image: UIImage,
+                             tintColor: UIColor,
+                             labelTitle: String?,
+                             labelColor: UIColor?,
+                             fontSize: CGFloat) {
 
         addSubview(iconImageView)
         iconImageView.translatesAutoresizingMaskIntoConstraints = false

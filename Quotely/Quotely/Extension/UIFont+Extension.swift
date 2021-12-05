@@ -8,7 +8,6 @@
 import UIKit
 
 extension UIFont {
-
     private enum FontName: String {
 
         case regular = "PingfangTC-Regular"
