@@ -1,4 +1,4 @@
-# Quotely
+# 隻字片語 Quotely
 
 <p align="center">
     <img width="150" height="150" src="https://github.com/MorganCY/Quotely/blob/main/Quotely/Quotely/Resource/Assets.xcassets/AppIcon.appiconset/1024.png"/>
@@ -18,7 +18,7 @@
     <span>
         我們常常在生活中接觸到讓人很有感觸的「句子」，無論是追劇、看電影、看書，或是聽別人說，<br>
         比起發人深省的長篇大論，這些句子往往非常簡短，卻能在轉眼之間觸及我們心底深處。</br>
-        隻字片語便是一個幫助用戶收集這些靈感、找到更多句子和分享感觸的App。
+        <b>隻字片語</b>便是一個幫助用戶收集這些靈感、找到更多句子和分享感觸的App。
     </span>
 </p>
 
@@ -35,7 +35,8 @@
     <span style="color:gray">‧</span>
     <a href="https://github.com/MorganCY/Quotely/tree/readme#contact">Contact</a>
     <span style="color:gray">‧</span>
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#license">License</a>
+    <a href="https://github.com/MorganCY/Quotely/tree/readme#license">License</a></br></br>
+    <a href="https://apps.apple.com/tw/app/id1591812700"><img src="https://www.dashsuites.com/wp-content/uploads/2017/07/app-store-logo-1024x353.png" height="50"></a>
 </p>
 
 # Features
@@ -59,43 +60,40 @@
 
 <b>Customize SwipeCardView</b>
 
-- Create naturally swipeable style with UIPanGesTureRecognizer
+- Create swipeable card with `UIPanGesTureRecognizer`
 ```swift
 @objc func dragCard(_ sender: UIPanGestureRecognizer) {
 
-        xCenter = sender.translation(in: self).x
-        yCenter = sender.translation(in: self).y
+    switch sender.state {
 
-        if xCenter < 0 {
-            setupLikeStatus(isLeft: true)
-        } else if xCenter > 0 {
-            setupLikeStatus(isLeft: false)
-        }
+    // Swipe begins
+    case .began:
+        originPoint = self.center
 
-        switch sender.state {
+    // Keep swiping
+    case .changed:
+        // The View rotates itself as its x axis changes
+        let rotationStrength = min(xCenter / UIScreen.main.bounds.size.width, 1)
+        let rotationAngel = .pi / 8 * rotationStrength
 
-        case .began:
-            originPoint = self.center
+        // The View scales slightly when being swiped
+        let scale = max(1 - abs(rotationStrength) / stength, range)
 
-        case .changed:
-            let rotationStrength = min(xCenter / UIScreen.main.bounds.size.width, 1)
-            let rotationAngel = .pi / 8 * rotationStrength
-            let scale = max(1 - abs(rotationStrength) / stength, range)
-            center = CGPoint(x: originPoint.x + xCenter, y: originPoint.y + yCenter)
+        center = CGPoint(x: originPoint.x + xCenter, y: originPoint.y + yCenter)
 
-            let transforms = CGAffineTransform(rotationAngle: rotationAngel)
-            let scaleTransform: CGAffineTransform = transforms.scaledBy(x: scale, y: scale)
-            self.transform = scaleTransform
+        let transforms = CGAffineTransform(rotationAngle: rotationAngel)
+        let scaleTransform: CGAffineTransform = transforms.scaledBy(x: scale, y: scale)
+        self.transform = scaleTransform
 
-        case .ended:
-            afterSwipeAction()
+    // Swipe ends
+    case .ended:
+        afterSwipeAction()
 
-        ...
-        }
+    ...
     }
+}
 ```
-- Create SwipeCardStackView to encapsulate SwipeCardView and generate index for the card views.
-- Implement protocol to manage the views
+- Create SwipeCardStackView to encapsulate SwipeCardView and generate index for the card views, and implement `protocols` to manage the views
 ```Swift
 protocol SwipeCardStackViewDataSource: AnyObject {
 
@@ -147,40 +145,40 @@ protocol SwipeCardStackViewDelegate: AnyObject {
     <img src="https://i.imgur.com/xEz1Hk2.gif"/>
 </p>
 
-- Apply Vision framework to realize text recoginition
+- Apply `Vision framework` to realize text recoginition
 ```Swift
 func recognizeText(image: UIImage?,
-                   textHandler: @escaping (_ text: String) -> Void) {
+                    textHandler: @escaping (_ text: String) -> Void) {
 
-    guard let cgImage = image?.cgImage else { return }
+    guard let cgImage = image?.cgImage else {
+        return
+    }
     ...
+
     let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+
     let request = VNRecognizeTextRequest { request, error in
 
         guard let observations = request.results as? [VNRecognizedTextObservation],
-              error == nil else {
-                  ...
-                  return
-              }
+            error == nil else {
+
+             Toast.showFailure(text: ToastText.failToScan.rawValue)
+            return
+        }
 
         let text = observations.compactMap {
             $0.topCandidates(1).first?.string
         }.joined()
         ...
-    }
+        }
 
     request.recognitionLanguages = ["zh-Hant", "en"]
-
-    do {
-        try VNRecognizeTextRequest.supportedRecognitionLanguages(for: .accurate, revision: 2)
-    } catch {
-        print(error)
-    }
 
     do {
         try handler.perform([request])
     } catch {
         print(error)
+        ...
     }
 }
 ```
@@ -192,7 +190,7 @@ func recognizeText(image: UIImage?,
     <img src="https://i.imgur.com/JXoDUvJ.png"/>
 </p>
 
-- Utilize DispathGroup to ensure post data are processed after all API calls are executed
+- Utilize `DispathGroup` to ensure post data are processed after all API calls are executed
 ```Swift
 func fetchUserList(postList: [Post]) {
 
@@ -226,7 +224,7 @@ func fetchUserList(postList: [Post]) {
 }
 ```
 
-- Implement real-time post update by Firestore SnapShotListener
+- Implement real-time post update by `Firestore SnapShotListener`
 ```Swift
 query.addSnapshotListener { [self] (documentSnapshot, error) in
 
@@ -263,7 +261,7 @@ query.addSnapshotListener { [self] (documentSnapshot, error) in
     <img src="https://i.imgur.com/Pc8aaOf.gif"/>
 </p>
 
-- Instantiate customized SelectionView for selecting icons and implement protocol to manage the view
+- Instantiate customized SelectionView for selecting icons and implement `protocols` to manage the view
 ```Swift
 protocol SelectionViewDataSource: AnyObject {
 
@@ -288,19 +286,19 @@ protocol SelectionViewDataSource: AnyObject {
 ```
 
 # Technical Highlights
-- Wrote readable, idiomatic and maintainable code using <b>OOP</b> and <b>MVC</b> patterns
+- Wrote readable, idiomatic and maintainable code using `OOP` and `MVC` patterns
 - Programmed Auto Layout with codes for most of the views to make the app compatible for different devices
-- Created flexibly reusable UITableviewCell and UICollectionViewCell via <b>nib</b> file
-- Designed <b>custom views</b> and managed the views with <b>protocols</b>
-- Implemented <b>Sign in with Apple</b> and integrated user account into <b>Firebase Auth</b>
-- Applied <b>Vision framework</b> to realize text recognition for users to input scanned text through camera and photos
-- Established responsive news feed which updates posts data in real time by monitoring data changes through <b>Firebase Snapshot Listener</b>
-- Utilized <b>DispatchGroup</b> to ensure data was processed after API calls were executed
-- Used <b>Singleton</b> pattern to ensure objects access the single instance of model managers
-- Integrated <b>Firestore</b> to manage data, and processed image by <b>Firebase Storage</b>
-- Achieved displaying new user guide during first-time launch with <b>UserDefaults</b> by saving a one-time flag
-- Detected screenshot behavior on device using <b>NotificationCenter</b>
-- Integrated <b>Crashlytics</b> to track stability issues effectively
+- Created flexibly reusable UITableviewCell and UICollectionViewCell via `nib` file
+- Designed `custom views` and managed the views with `protocols`
+- Implemented `Sign in with Apple` and integrated user account into `Firebase Auth`
+- Applied `Vision framework` to realize text recognition for users to input scanned text through camera and photos
+- Established responsive news feed which updates posts data in real time by monitoring data changes through `Firebase Snapshot Listener`
+- Utilized `DispatchGroup` to ensure data was processed after API calls were executed
+- Used `Singleton` pattern to ensure objects access the single instance of model managers
+- Integrated `Firestore` to manage data, and processed image by `Firebase Storage`
+- Achieved displaying new user guide during first-time launch with `UserDefaults` by saving a one-time flag
+- Detected screenshot behavior on device using `NotificationCenter`
+- Integrated `Crashlytics` to track stability issues effectively
 
 # Release Note
 <img src="https://img.shields.io/badge/current-v1.1.8-green"/>
@@ -329,7 +327,7 @@ protocol SelectionViewDataSource: AnyObject {
 
 # Contact
 
-Morgan Yu nihao0705@gmail.com
+Morgan Yu | nihao0705@gmail.com
 
 # License
 
