@@ -21,20 +21,77 @@ class MyViewController: BaseProfileViewController {
             text: nil,
             target: self,
             action: #selector(tapSettingsButton(_:)),
-            color: .M1
-        )
+            color: .M1)
+    }
+
+    func createImage(image: UIImage, imagePicker: UIImagePickerController) {
+
+        ImageManager.shared.createImage(image: image) { result in
+
+            switch result {
+
+            case .success(let url):
+                Toast.shared.hud.dismiss()
+                self.updateUserInfo(imageUrl: url, userName: nil)
+
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                imagePicker.dismiss(animated: true)
+            }
+        }
+    }
+
+    func updateUserInfo(imageUrl: String?, userName: String?) {
+
+        UserManager.shared.updateUserInfo(
+            profileImageUrl: imageUrl,
+            userName: userName
+        ) { result in
+
+            switch result {
+
+            case .success(let success):
+                print(success)
+
+                if imageUrl != nil {
+                    self.fetchVisitedUserInfo(uid: UserManager.shared.visitorUserInfo?.uid ?? "")
+                    Toast.shared.hud.dismiss()
+                }
+
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
+            }
+        }
+    }
+
+    @available(iOS 14, *)
+    func createImage(image: UIImage, phpicker: PHPickerViewController) {
+
+        ImageManager.shared.createImage(image: image) { result in
+
+            switch result {
+
+            case .success(let url):
+                Toast.shared.hud.dismiss()
+                self.updateUserInfo(imageUrl: url, userName: nil)
+
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                phpicker.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 
     @objc func tapSettingsButton(_ sender: UIBarButtonItem) {
 
         guard let settingsVC =
-                UIStoryboard.profile
-                .instantiateViewController(
-                    withIdentifier: String(describing: SettingsViewController.self)
-                ) as? SettingsViewController else {
-
-                    return
-                }
+                UIStoryboard.profile.instantiateViewController(
+                    withIdentifier: SettingsViewController.identifier
+                ) as? SettingsViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: settingsVC)
 
@@ -52,7 +109,7 @@ class MyViewController: BaseProfileViewController {
             fatalError("Cannot create header view")
         }
 
-        guard let userInfo = visitedUserInfo else {
+        guard let userInfo = UserManager.shared.visitorUserInfo else {
 
             return UITableViewHeaderFooterView()
         }
@@ -61,34 +118,18 @@ class MyViewController: BaseProfileViewController {
 
         let goToFollowListGesture = UITapGestureRecognizer(
             target: self,
-            action: #selector(goToFollowList(_:))
-        )
+            action: #selector(tapFollowNumberLabel(_:)))
 
         header.followStackView.addGestureRecognizer(goToFollowListGesture)
         header.followStackView.isUserInteractionEnabled = true
-
-        header.editImageHandler = {
-
+        header.editImageHandler = { [weak self] in
+            guard let self = self else { return }
             self.openImagePicker()
         }
 
-        header.editNameHandler = { userName in
-
-            UserManager.shared.updateUserInfo(
-                uid: userInfo.uid,
-                profileImageUrl: nil,
-                userName: userName
-            ) { result in
-
-                switch result {
-
-                case .success(let success):
-                    print(success)
-
-                case .failure(let error):
-                    print(error)
-                }
-            }
+        header.editNameHandler = { [weak self] userName in
+            guard let self = self else { return }
+            self.updateUserInfo(imageUrl: nil, userName: userName)
         }
 
         return header
@@ -122,71 +163,24 @@ class MyViewController: BaseProfileViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: "上傳中")
+        Toast.showLoading(text: ToastText.uploading.rawValue)
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
             return
         }
 
-        // remove original image from firebase storage
-
         ImageManager.shared.deleteImage(
             imageUrl: self.visitedUserInfo?.profileImageUrl ?? "") { result in
 
                 switch result {
 
-                case .failure(let error): print(error)
-
                 case .success(let success):
-
                     print(success)
+                    self.createImage(image: selectedImage, imagePicker: picker)
 
-                    // upload new image to firebase storage
-
-                    ImageManager.shared.uploadImage(image: selectedImage) { result in
-
-                        switch result {
-
-                        case .success(let url):
-
-                            Toast.shared.hud.dismiss()
-
-                            // update user profile image in firestore
-
-                            UserManager.shared.updateUserInfo(
-                                uid: self.visitedUserInfo?.uid ?? "",
-                                profileImageUrl: url,
-                                userName: nil
-                            ) { result in
-
-                                    switch result {
-
-                                    case .success(let success):
-
-                                        print(success)
-
-                                        self.fetchVisitedUserInfo(uid: self.visitedUserInfo?.uid ?? "")
-
-                                        Toast.shared.hud.dismiss()
-
-                                    case .failure(let error):
-
-                                        print(error)
-
-                                        Toast.showFailure(text: "上傳失敗")
-                                    }
-                                }
-
-                        case .failure(let error):
-
-                            print(error)
-
-                            Toast.showFailure(text: "上傳失敗")
-
-                            picker.dismiss(animated: true)
-                        }
-                    }
+                case .failure(let error):
+                    print(error)
                 }
             }
     }
@@ -196,7 +190,7 @@ class MyViewController: BaseProfileViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: "上傳中")
+        Toast.showLoading(text: ToastText.uploading.rawValue)
 
         guard !results.isEmpty else { return }
 
@@ -214,64 +208,17 @@ class MyViewController: BaseProfileViewController {
                     return
                 }
 
-                // remove original image from firebase storage
-
                 ImageManager.shared.deleteImage(
                     imageUrl: self.visitedUserInfo?.profileImageUrl ?? "") { result in
 
                         switch result {
 
-                        case .failure(let error): print(error)
-
                         case .success(let success):
-
                             print(success)
+                            self.createImage(image: selectedImage, phpicker: picker)
 
-                            // upload new image to firebase storage
-
-                            ImageManager.shared.uploadImage(image: selectedImage) { result in
-
-                                switch result {
-
-                                case .success(let url):
-
-                                    Toast.shared.hud.dismiss()
-
-                                    // update profile image in firestore
-
-                                    UserManager.shared.updateUserInfo(
-                                        uid: self.visitedUserInfo?.uid ?? "",
-                                        profileImageUrl: url,
-                                        userName: nil
-                                    ) { result in
-
-                                            switch result {
-
-                                            case .success(let success):
-
-                                                print(success)
-
-                                                self.fetchVisitedUserInfo(uid: self.visitedUserInfo?.uid ?? "")
-
-                                                Toast.shared.hud.dismiss()
-
-                                            case .failure(let error):
-
-                                                print(error)
-
-                                                Toast.showFailure(text: "上傳失敗")
-                                            }
-                                        }
-
-                                case .failure(let error):
-
-                                    print(error)
-
-                                    Toast.showFailure(text: "上傳失敗")
-
-                                    picker.dismiss(animated: true)
-                                }
-                            }
+                        case .failure(let error):
+                            print(error)
                         }
                     }
             })

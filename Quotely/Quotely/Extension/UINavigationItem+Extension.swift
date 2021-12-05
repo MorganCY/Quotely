@@ -10,7 +10,13 @@ import UIKit
 
 extension UINavigationItem {
 
-    func setupRightBarButton(image: UIImage?, text: String?, target: UIViewController, action: Selector?, color: UIColor) {
+    func setupRightBarButton(
+        image: UIImage?,
+        text: String?,
+        target: UIViewController,
+        action: Selector?,
+        color: UIColor
+    ) {
 
         let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .default)
 

@@ -7,111 +7,71 @@
 
 import Foundation
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class JournalManager {
 
-    static let shared = JournalManager()
-
     private init() {}
+
+    static let shared = JournalManager()
 
     let journals = Firestore.firestore().collection("journals")
 
-    func addJournal(
+    func createJournal(
         journal: inout Journal,
-        createdMonth: String = Date().getCurrentTime(format: .MM),
-        createdYear: String = Date().getCurrentTime(format: .yyyy),
-        completion: @escaping (Result<String, Error>) -> Void
+        completion: @escaping StatusCompletion
     ) {
 
         let document = journals.document()
 
         journal.journalID = document.documentID
-        journal.createdMonth = createdMonth
-        journal.createdYear = createdYear
+        journal.createdMonth = Date().getCurrentTime(format: .MM)
+        journal.createdYear = Date().getCurrentTime(format: .yyyy)
 
         do {
-
             _ = try journals.addDocument(from: journal, encoder: Firestore.Encoder(), completion: { error in
-
                 if let error = error {
-
                     completion(.failure(error))
-
                 } else {
-
                     completion(.success("Added journal"))
                 }
             })
-
         } catch {
-
             completion(.failure(error))
         }
     }
 
     func fetchJournal(
-        uid: String,
         month: String,
         year: String,
         completion: @escaping (Result<[Journal], Error>) -> Void
     ) {
 
         journals
-            .whereField("uid", isEqualTo: uid)
+            .whereField("uid", isEqualTo: UserManager.shared.visitorUserInfo?.uid ?? "")
             .whereField("createdMonth", isEqualTo: month)
             .whereField("createdYear", isEqualTo: year)
             .order(by: "createdTime", descending: true)
             .getDocuments { (querySnapshot, error) in
 
                 if let error = error {
-
                     completion(.failure(error))
-
-                } else {
-
-                    var journals = [Journal]()
-
-                    for document in querySnapshot!.documents {
-
-                        do {
-
-                            if let journal = try document.data(as: Journal.self, decoder: Firestore.Decoder()
-                            ) {
-
-                                journals.append(journal)
-                            }
-
-                        } catch {
-
-                            completion(.failure(error))
-                        }
-                    }
-
-                    completion(.success(journals))
                 }
+
+                var journals = [Journal]()
+
+                guard let querySnapshot = querySnapshot else { return }
+
+                for document in querySnapshot.documents {
+
+                    do {
+                        if let journal = try document.data(as: Journal.self, decoder: Firestore.Decoder()) {
+                            journals.append(journal)
+                        }
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+                completion(.success(journals))
             }
-    }
-
-    func deleteJournal(
-        journalID: String,
-        completion: @escaping (Result<String, Error>) -> Void
-    ) {
-
-        journals.whereField("journalID", isEqualTo: journalID).getDocuments { querySnapshot, error in
-
-            if let error = error {
-
-                completion(.failure(error))
-
-            } else {
-
-                let targetPost = querySnapshot?.documents.first
-
-                targetPost?.reference.delete()
-
-                completion(.success("Deleted journal"))
-            }
-        }
     }
 }

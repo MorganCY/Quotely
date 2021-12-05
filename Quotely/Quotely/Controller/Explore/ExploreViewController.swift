@@ -8,115 +8,53 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
-import SwiftUI
 
 class ExploreViewController: UIViewController {
 
-    var listener: ListenerRegistration?
-
+    // MARK: Post Data
+    var postListener: ListenerRegistration?
     var visitorFollowingList: [String] = []
-
-    let filters: [PostManager.FilterType] = [.latest, .following]
-    var currentFilter: PostManager.FilterType = .latest {
+    let filters: [PostManager.PilterType] = [.latest, .following]
+    var currentFilter: PostManager.PilterType = .latest {
         didSet {
-            if currentFilter == .following,
-               visitorFollowingList.count > 0 {
-                listener = addPostListener(
-                    type: currentFilter,
-                    uid: SignInManager.shared.visitorUid,
-                    followingList: visitorFollowingList
-                )
-            } else {
-                listener = addPostListener(type: currentFilter, uid: nil, followingList: nil)
-            }
-
-            if currentFilter == .following,
-               visitorFollowingList.count == 0 {
-                setupEmptyAnimation()
-            } else {
-                emptyReminderView.removeFromSuperview()
-            }
+            setupFilterResult()
         }
     }
-
-    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
-    let emptyReminderView = LottieAnimationView(animationName: "empty")
-
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            tableView.registerCellWithNib(
-                identifier: ExploreTableViewCell.identifier,
-                bundle: nil
-            )
-            tableView.separatorStyle = .none
-
-            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
-        }
-    }
-
-    let filterView = SelectionView()
-
     var postList: [Post] = []
-
-    var userList: [User?] = [] {
+    var userList: [User]? {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
             tableView.reloadData()
         }
     }
-
     var isLikePost = false
 
-    // MARK: LifeCycle
+    // MARK: Interface
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
+    let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
+    let emptyReminderView = LottieAnimationView(animationName: "empty")
+    let filterView = SelectionView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "想法"
-
-        filterView.delegate = self
-        filterView.dataSource = self
-
-        navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.addPost),
-            text: nil,
-            target: self,
-            action: #selector(addPost(_:)),
-            color: .white
-        )
-
+        setupNavigation()
         setupFilterView()
-
-        setupLoadingAnimation()
-
-        view.backgroundColor = .M1
-
         currentFilter = .latest
+        setupLoadingAnimation()
+        view.backgroundColor = .M1
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         visitorFollowingList = UserManager.shared.visitorUserInfo?.followingList ?? [""]
-
-        if visitorFollowingList.count > 0 {
-            listener = addPostListener(
-                type: currentFilter,
-                uid: SignInManager.shared.visitorUid,
-                followingList: visitorFollowingList
-            )
-        } else if visitorFollowingList.count == 0 {
-            listener = addPostListener(
-                type: currentFilter,
-                uid: nil,
-                followingList: nil
-            )
-        }
+        addPostListenerAccordingToFollowingList()
     }
 
-    // MARK: Data
     func addPostListener(
-        type: PostManager.FilterType,
+        type: PostManager.PilterType,
         uid: String?,
         followingList: [String]?
     ) -> ListenerRegistration {
@@ -130,20 +68,13 @@ class ExploreViewController: UIViewController {
             switch result {
 
             case .success(let posts):
-
                 self.postList = posts
-
                 self.fetchUserList(postList: posts)
 
             case .failure(let error):
-
                 print(error)
-
                 self.loadingAnimationView.removeFromSuperview()
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -165,19 +96,12 @@ class ExploreViewController: UIViewController {
                     switch result {
 
                     case .success(let user):
-
                         userList[index] = user
-
                         group.leave()
 
                     case .failure(let error):
-
                         print(error)
-
-                        DispatchQueue.main.async {
-                            Toast.showFailure(text: "資料載入異常")
-                        }
-
+                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
                         group.leave()
                     }
                 }
@@ -192,83 +116,51 @@ class ExploreViewController: UIViewController {
         }
     }
 
-    @objc func addPost(_ sender: UIBarButtonItem) {
+    func setupFilterResult() {
 
-        guard let writeVC =
-                UIStoryboard.write
-                .instantiateViewController(
-                    withIdentifier: String(describing: ExploreWriteViewController.self)
-                ) as? ExploreWriteViewController else {
-
-                    return
-                }
-
-        let nav = BaseNavigationController(rootViewController: writeVC)
-
-        nav.modalPresentationStyle = .fullScreen
-
-        present(nav, animated: true)
-    }
-
-    @objc func goToProfile(_ gestureRecognizer: UITapGestureRecognizer) {
-
-        guard let profileVC = UIStoryboard
-                .profile
-                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
-        ) as? ProfileViewController else {
-
-            return
+        if currentFilter == .following,
+           visitorFollowingList.count > 0 {
+            postListener = addPostListener(type: currentFilter,
+                                       uid: SignInManager.shared.visitorUid,
+                                       followingList: visitorFollowingList)
+        } else {
+            postListener = addPostListener(type: currentFilter, uid: nil,
+                                       followingList: nil)
         }
 
-        guard let myVC = UIStoryboard
-                .profile
-                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)
-        ) as? MyViewController else {
+        if currentFilter == .following,
+           visitorFollowingList.count == 0 {
 
-            return
-        }
-
-        guard let currentRow = gestureRecognizer.view?.tag else { return }
-
-        profileVC.visitedUid = postList[currentRow].uid
-
-        if postList[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
-
-            navigationController?.pushViewController(myVC, animated: true)
+            setupEmptyReminderView()
 
         } else {
 
-            navigationController?.pushViewController(profileVC, animated: true)
+            emptyReminderView.removeFromSuperview()
         }
     }
 
-    @objc func goToCardTopicPage(_ gestureRecognizer: UITapGestureRecognizer) {
+    func addPostListenerAccordingToFollowingList() {
 
-        guard let cardTopicVC = UIStoryboard
-                .card
-                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)
-        ) as? CardTopicViewController else {
-
-            return
+        if visitorFollowingList.count > 0 {
+            postListener = addPostListener(
+                type: currentFilter,
+                uid: SignInManager.shared.visitorUid,
+                followingList: visitorFollowingList)
+        } else if visitorFollowingList.count == 0 {
+            postListener = addPostListener(
+                type: currentFilter,
+                uid: nil,
+                followingList: nil)
         }
-
-        guard let currentRow = gestureRecognizer.view?.tag else { return }
-
-        cardTopicVC.cardID = postList[currentRow].cardID
-
-        navigationController?.pushViewController(cardTopicVC, animated: true)
     }
 
     func goToPostDetail(index: Int) {
 
         guard let detailVC =
-                UIStoryboard.explore
-                .instantiateViewController(
-                    withIdentifier: String(describing: PostDetailViewController.self)
-                ) as? PostDetailViewController else {
-
-                    return
-                }
+                UIStoryboard.explore.instantiateViewController(
+                    withIdentifier: PostDetailViewController.identifier
+                ) as? PostDetailViewController
+        else { return }
 
         if let likeUserList = postList[index].likeUser {
 
@@ -279,9 +171,13 @@ class ExploreViewController: UIViewController {
             isLikePost = false
         }
 
+        guard let userList = userList else {
+            return
+        }
+
         detailVC.post = postList[index]
         detailVC.postAuthor = userList[index]
-        detailVC.isLike = isLikePost
+        detailVC.isLikePost = isLikePost
 
         navigationController?.pushViewController(detailVC, animated: true)
     }
@@ -298,31 +194,26 @@ class ExploreViewController: UIViewController {
                 self.unfollowUser(index: index)
             }
 
-            UserManager.shared.updateUserBlockList(
-                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
-                visitedUid: self.userList[index]?.uid ?? "",
-                blockAction: .block
+            UserManager.shared.updateUserList(
+                userAction: .block,
+                visitedUid: self.userList?[index].uid ?? "",
+                action: .positive
             ) { result in
 
                 switch result {
 
                 case .success(let success):
-
                     print(success)
-
-                    self.listener = self.addPostListener(type: self.currentFilter, uid: nil, followingList: nil)
+                    self.postListener = self.addPostListener(type: self.currentFilter, uid: nil, followingList: nil)
 
                 case .failure(let error):
-
                     print(error)
-
-                    Toast.showFailure(text: "封鎖失敗")
+                    Toast.showFailure(text: ToastText.failToBlock.rawValue)
                 }
             }
         }
 
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)
-
         let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         optionAlert.addAction(blockUserAction)
@@ -332,17 +223,42 @@ class ExploreViewController: UIViewController {
     }
 
     func unfollowUser(index: Int) {
-        UserManager.shared.updateUserFollow(
-            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
-            visitedUid: self.userList[index]?.uid ?? "",
-            followAction: .unfollow
+
+        UserManager.shared.updateUserList(
+            userAction: .follow,
+            visitedUid: self.userList?[index].uid ?? "",
+            action: .negative
         ) { result in
 
             switch result {
 
-            case . success(let success): print(success)
+            case . success(let success):
+                print(success)
 
-            case .failure(let error): print(error)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+    func updatePostLike(postID: String, likeAction: FirebaseAction, completion: @escaping () -> Void) {
+
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .posts,
+            targetID: postID,
+            action: likeAction,
+            updateType: .like
+        ) { result in
+
+            switch result {
+
+            case .success(let successStatus):
+                print(successStatus)
+                completion()
+
+            case .failure(let error):
+                print(error)
+                completion()
             }
         }
     }
@@ -354,7 +270,7 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
 
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String { filters[index].rawValue }
+    func buttonTitle(_ view: SelectionView, index: Int) -> String? { filters[index].rawValue }
 
     func buttonColor(_ view: SelectionView) -> UIColor { .white }
 
@@ -367,13 +283,13 @@ extension ExploreViewController: SelectionViewDataSource, SelectionViewDelegate 
         switch index {
 
         case 0:
-            listener?.remove()
+            postListener?.remove()
             currentFilter = .latest
         case 1:
-            listener?.remove()
+            postListener?.remove()
             currentFilter = .following
         default:
-            listener?.remove()
+            postListener?.remove()
             currentFilter = .latest        }
     }
 
@@ -387,12 +303,14 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { UITableView.automaticDimension }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
 
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ExploreTableViewCell.identifier,
@@ -404,89 +322,66 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         let post = postList[indexPath.row]
 
         if let likeUserList = post.likeUser {
-
             isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
-
         } else {
-
             isLikePost = false
         }
 
+        guard let userList = userList else {
+            return UITableViewCell()
+        }
+
         cell.layoutCell(
-            userInfo: userList[indexPath.row]!,
+            userInfo: userList[indexPath.row],
             post: post,
-            isLikePost: self.isLikePost
-        )
+            isLikePost: self.isLikePost)
 
         cell.hideSelectionStyle()
 
-        cell.likeHandler = {
-
-            // When tapping on the like button, check if the user has likedPost
+        cell.likeHandler = { [weak self] in
+            guard let self = self else { return }
 
             if let likeUserList = post.likeUser {
-
                 self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
-
             } else {
-
                 self.isLikePost = false
             }
 
             guard let postID = post.postID else { return }
 
-            let likeAction: LikeAction = self.isLikePost
-            ? .dislike : .like
+            let likeAction: FirebaseAction = self.isLikePost
+            ? .negative : .positive
 
             cell.likeButton.isEnabled = false
 
-            PostManager.shared.updateLikes(
-                postID: postID, likeAction: likeAction
-            ) { result in
-
-                switch result {
-
-                case .success(let action):
-
-                    print(action)
-
-                    cell.likeButton.isEnabled = true
-
-                case .failure(let error):
-
-                    print(error)
-
-                    cell.likeButton.isEnabled = true
-                }
+            self.updatePostLike(postID: postID, likeAction: likeAction) {
+                cell.likeButton.isEnabled = true
             }
         }
 
-        cell.commentHandler = { self.goToPostDetail(index: indexPath.row) }
+        cell.commentHandler = { [weak self] in
+            guard let self = self else { return }
+            self.goToPostDetail(index: indexPath.row)
+        }
 
-        cell.optionHandler = {
+        cell.optionHandler = { [weak self] in
+            guard let self = self else { return }
             self.openOptionMenu(index: indexPath.row)
         }
 
-        // go to user's profile when tapping image, name, and time
+        let goToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(tapUserProfile(_:)))
+        let goToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(tapCardTopicView(_:)))
+        let goToImageDetailGesture = UITapGestureRecognizer(target: self, action: #selector(tapPostImageView(_:)))
 
-        let tapGoToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
-        let tapGoToProfileGesture2 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
-        let tapGoToProfileGesture3 = UITapGestureRecognizer(target: self, action: #selector(goToProfile(_:)))
-        let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(goToCardTopicPage(_:)))
-
-        cell.userImageView.addGestureRecognizer(tapGoToProfileGesture)
-        cell.userImageView.isUserInteractionEnabled = true
-        cell.userNameLabel.addGestureRecognizer(tapGoToProfileGesture2)
-        cell.userNameLabel.isUserInteractionEnabled = true
-        cell.timeLabel.addGestureRecognizer(tapGoToProfileGesture3)
-        cell.timeLabel.isUserInteractionEnabled = true
-        cell.cardStackView.addGestureRecognizer(tapGoToCardTopicGesture)
+        cell.userStackView.addGestureRecognizer(goToProfileGesture)
+        cell.userStackView.isUserInteractionEnabled = true
+        cell.userStackView.tag = indexPath.row
+        cell.cardStackView.addGestureRecognizer(goToCardTopicGesture)
         cell.cardStackView.isUserInteractionEnabled = true
-
-        cell.userImageView.tag = indexPath.row
-        cell.userNameLabel.tag = indexPath.row
-        cell.timeLabel.tag = indexPath.row
         cell.cardStackView.tag = indexPath.row
+        cell.postImageView.addGestureRecognizer(goToImageDetailGesture)
+        cell.postImageView.isUserInteractionEnabled = true
+        cell.postImageView.tag = indexPath.row
 
         return cell
     }
@@ -499,10 +394,91 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ExploreViewController {
 
+    @objc func tapAddPostButton(_ sender: UIBarButtonItem) {
+
+        guard let writeVC =
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: AddPostViewController.identifier
+                ) as? AddPostViewController
+        else { return }
+
+        let nav = BaseNavigationController(rootViewController: writeVC)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
+    }
+
+    @objc func tapUserProfile(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let profileVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)) as? ProfileViewController
+        else { return }
+
+        guard let myVC = UIStoryboard
+                .profile
+                .instantiateViewController(withIdentifier: String(describing: MyViewController.self)) as? MyViewController
+        else { return }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+
+        profileVC.visitedUid = postList[currentRow].uid
+
+        if postList[currentRow].uid == UserManager.shared.visitorUserInfo?.uid {
+            navigationController?.pushViewController(myVC, animated: true)
+        } else {
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
+    }
+
+    @objc func tapCardTopicView(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let cardTopicVC = UIStoryboard
+                .card
+                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)) as? CardTopicViewController
+        else { return }
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+        cardTopicVC.cardID = postList[currentRow].cardID
+        navigationController?.pushViewController(cardTopicVC, animated: true)
+    }
+
+    @objc func tapPostImageView(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let currentRow = gestureRecognizer.view?.tag else { return }
+        guard let postImageUrl = postList[currentRow].imageUrl else { return }
+        let imageDetailVC = ImageDetailViewController(imageUrl: postImageUrl)
+        navigationController?.pushViewController(imageDetailVC, animated: true)
+    }
+
+    func setupNavigation() {
+
+        navigationItem.title = "想法"
+
+        navigationItem.setupRightBarButton(
+            image: UIImage.sfsymbol(.addPost),
+            text: nil,
+            target: self,
+            action: #selector(tapAddPostButton(_:)),
+            color: .white)
+    }
+
+    func setupTableView() {
+
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.registerCellWithNib(
+                identifier: ExploreTableViewCell.identifier,
+                bundle: nil)
+            tableView.separatorStyle = .none
+            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
+    }
+
     func setupFilterView() {
 
         view.addSubview(filterView)
         filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.delegate = self
+        filterView.dataSource = self
 
         NSLayoutConstraint.activate([
             filterView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -525,7 +501,7 @@ extension ExploreViewController {
         ])
     }
 
-    func setupEmptyAnimation() {
+    func setupEmptyReminderView() {
 
         let reminderLabel = UILabel()
 
@@ -537,7 +513,7 @@ extension ExploreViewController {
 
         reminderLabel.text = "還沒有追蹤的用戶...QQ"
         reminderLabel.textColor = .gray
-        reminderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        reminderLabel.font = UIFont.setBold(size: 20)
 
         NSLayoutConstraint.activate([
             emptyReminderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

@@ -10,13 +10,15 @@ import UIKit
 
 class CardTopicViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.visitorUid ?? ""
+    private var visitorUid: String?
+
+    @IBOutlet weak var backgroundImageView: UIImageView!
 
     // if user comes from explore page, get card ID
 
     var cardID: String? {
         didSet {
-            guard let cardID = cardID else {return }
+            guard let cardID = cardID else { return }
             fetchCardData(cardID: cardID)
         }
     }
@@ -30,20 +32,20 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    var postList: [Post]?
-
-    var userList: [User]? {
+    private var postList: [Post]?
+    private var userList: [User]? {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
             tableView.reloadData()
         }
     }
+    private var isLikePost = false
 
-    var isLikePost = false
+    private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
             tableView.registerCellWithNib(identifier: CardTopicTableViewCell.identifier, bundle: nil)
             tableView.registerHeaderWithNib(identifier: CardTopicTableViewHeader.identifier, bundle: nil)
             tableView.setSpecificCorner(corners: [.topLeft, .topRight])
@@ -51,20 +53,12 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    @IBOutlet weak var backgroundImageView: UIImageView!
-
     override func viewDidLoad() {
-
+        super.viewDidLoad()
+        visitorUid = UserManager.shared.visitorUserInfo?.uid ?? ""
         setupBackgroundImage()
-
-        setupBackButton()
-    }
-
-    func setupBackgroundImage() {
-
-        let images = [UIImage.asset(.bg1), UIImage.asset(.bg2), UIImage.asset(.bg3), UIImage.asset(.bg4)]
-
-        backgroundImageView.image = images[Int.random(in: 0...3)]
+        setupNavigationBackButton()
+        setupLoadingAnimationView()
     }
 
     func fetchCardData(cardID: String) {
@@ -74,18 +68,12 @@ class CardTopicViewController: UIViewController {
             switch result {
 
             case .success(let card):
-
                 self.card = card
-
                 self.fetchPostList(cardID: card.cardID ?? "")
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "片語資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -97,20 +85,14 @@ class CardTopicViewController: UIViewController {
             switch result {
 
             case .success(let postList):
-
+                self.loadingAnimationView.removeFromSuperview()
                 guard let postList = postList else { return }
-
                 self.postList = postList
-
                 self.fetchUserList(postList: postList)
 
             case .failure(let error):
-
                 print(error)
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "想法資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -132,15 +114,11 @@ class CardTopicViewController: UIViewController {
                     switch result {
 
                     case .success(let user):
-
                         userList[index] = user
-
                         group.leave()
 
                     case .failure(let error):
-
                         print(error)
-
                         group.leave()
                     }
                 }
@@ -153,10 +131,9 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    func updateUserLikeCardList(cardID: String, likeAction: LikeAction) {
+    func updateUserLikeCardList(cardID: String, likeAction: FirebaseAction) {
 
         UserManager.shared.updateFavoriteCard(
-            uid: visitorUid,
             cardID: cardID,
             likeAction: likeAction
         ) { result in
@@ -172,115 +149,24 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    func updateCard(cardID: String, likeAction: LikeAction) {
+    func updateCard(cardID: String, likeAction: FirebaseAction) {
 
-        CardManager.shared.updateCards(cardID: cardID, likeAction: likeAction, uid: visitorUid) { result in
+        FirebaseManager.shared.updateFieldNumber(
+            collection: .cards,
+            targetID: cardID,
+            action: likeAction,
+            updateType: .like
+        ) { result in
 
             switch result {
 
-            case .success(let success):
-                print(success)
+            case .success(let successStatus):
+                print(successStatus)
 
             case .failure(let error):
                 print(error)
             }
         }
-    }
-
-    func goToCardPostPage(index: Int) {
-
-        guard let cardPostVC =
-                UIStoryboard.explore
-                .instantiateViewController(
-                    withIdentifier: String(describing: PostDetailViewController.self)
-                ) as? PostDetailViewController else {
-
-                    return
-                }
-
-        let post = postList?[index]
-        let user = userList?[index]
-
-        cardPostVC.post = post
-        cardPostVC.postAuthor = user
-        cardPostVC.isLike = isLikePost
-
-        navigationController?.pushViewController(cardPostVC, animated: true)
-    }
-
-    func goToSharePage() {
-
-        guard let shareVC =
-                UIStoryboard.share
-                .instantiateViewController(
-                    withIdentifier: String(describing: ShareViewController.self)
-                ) as? ShareViewController else {
-
-            return
-        }
-
-        let navigationVC = BaseNavigationController(rootViewController: shareVC)
-
-        guard let card = card else { return }
-
-        shareVC.templateContent = [
-            card.content.replacingOccurrences(of: "\\n", with: "\n"),
-            card.author
-        ]
-
-        navigationVC.modalPresentationStyle = .fullScreen
-
-        present(navigationVC, animated: true)
-    }
-
-    func goToWritePage() {
-
-        guard let writeVC =
-                UIStoryboard.write
-                .instantiateViewController(
-                    withIdentifier: String(describing: CardWriteViewController.self)
-                ) as? CardWriteViewController else {
-
-                    return
-                }
-
-        let nav = BaseNavigationController(rootViewController: writeVC)
-
-        writeVC.card = card
-
-        nav.modalPresentationStyle = .fullScreen
-
-        present(nav, animated: true)
-    }
-
-    func tapLikeButton() {
-
-        guard let cardID = card?.cardID else {
-
-            DispatchQueue.main.async { Toast.showFailure(text: "收藏失敗") }
-
-            return
-        }
-
-        updateUserLikeCardList(cardID: cardID, likeAction: .like)
-        updateCard(cardID: cardID, likeAction: .like)
-        card?.likeNumber += 1
-
-        DispatchQueue.main.async { Toast.showSuccess(text: "已收藏") }
-    }
-
-    func setupBackButton() {
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage.asset(.back).withRenderingMode(.alwaysOriginal),
-            style: .plain,
-            target: self,
-            action: #selector(backToPreviousVC(_:))
-        )
-    }
-
-    @objc func backToPreviousVC(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
     }
 
     func openOptionMenu(
@@ -302,10 +188,10 @@ class CardTopicViewController: UIViewController {
                 }
             }
 
-            UserManager.shared.updateUserBlockList(
-                visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+            UserManager.shared.updateUserList(
+                userAction: .block,
                 visitedUid: blockedUid,
-                blockAction: .block
+                action: .positive
             ) { result in
 
                 switch result {
@@ -327,10 +213,8 @@ class CardTopicViewController: UIViewController {
                     }
 
                 case .failure(let error):
-
                     print(error)
-
-                    Toast.showFailure(text: "封鎖失敗")
+                    Toast.showFailure(text: ToastText.failToBlock.rawValue)
                 }
             }
         }
@@ -346,10 +230,10 @@ class CardTopicViewController: UIViewController {
     }
 
     func unfollowUser(blockedUid: String) {
-        UserManager.shared.updateUserFollow(
-            visitorUid: UserManager.shared.visitorUserInfo?.uid ?? "",
+        UserManager.shared.updateUserList(
+            userAction: .follow,
             visitedUid: blockedUid,
-            followAction: .unfollow
+            action: .negative
         ) { result in
 
             switch result {
@@ -376,16 +260,25 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         guard let card = card else {
 
-            fatalError("Cannot create header")
+            return UIView()
         }
 
         header.layoutHeader(card: card)
 
-        header.shareHandler = { self.goToSharePage() }
+        header.shareHandler = { [weak self] in
+            guard let self = self else { return }
+            self.tapShareButton()
+        }
 
-        header.likeHandler = { self.tapLikeButton() }
+        header.likeHandler = { [weak self] in
+            guard let self = self else { return }
+            self.tapLikeButton()
+        }
 
-        header.writeHandler = { self.goToWritePage() }
+        header.writeHandler = { [weak self] in
+            guard let self = self else { return }
+            self.tapWriteButton()
+        }
 
         return header
     }
@@ -406,7 +299,9 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.hideSelectionStyle()
 
-        cell.optionHandler = {
+        cell.optionHandler = { [weak self] in
+            
+            guard let self = self else { return }
 
             self.openOptionMenu(
                 blockedUid: self.userList?[indexPath.row].uid ?? "",
@@ -423,14 +318,14 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let likeUserList = post?.likeUser {
 
-            isLikePost = likeUserList.contains(visitorUid)
+            isLikePost = likeUserList.contains(visitorUid ?? "")
 
         } else {
 
             isLikePost = false
         }
 
-        goToCardPostPage(index: indexPath.row)
+        goToPostDetail(index: indexPath.row)
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat { 250 }
@@ -441,5 +336,112 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
+    }
+}
+
+extension CardTopicViewController {
+
+    @objc func backToPreviousVC(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    func goToPostDetail(index: Int) {
+
+        guard let cardPostVC =
+                UIStoryboard.explore.instantiateViewController(
+                    withIdentifier: PostDetailViewController.identifier
+                ) as? PostDetailViewController
+        else { return }
+
+        let post = postList?[index]
+        let user = userList?[index]
+
+        cardPostVC.post = post
+        cardPostVC.postAuthor = user
+        cardPostVC.isLikePost = isLikePost
+
+        navigationController?.pushViewController(cardPostVC, animated: true)
+    }
+
+    func tapShareButton() {
+
+        guard let shareVC =
+                UIStoryboard.share.instantiateViewController(
+                    withIdentifier: ShareViewController.identifier
+                ) as? ShareViewController
+        else { return }
+
+        let navigationVC = BaseNavigationController(rootViewController: shareVC)
+
+        guard let card = card else { return }
+
+        shareVC.templateContent = [
+            card.content.replacingOccurrences(of: "\\n", with: "\n"),
+            card.author
+        ]
+
+        navigationVC.modalPresentationStyle = .fullScreen
+
+        present(navigationVC, animated: true)
+    }
+
+    func tapLikeButton() {
+
+        guard let cardID = card?.cardID else {
+
+            Toast.showFailure(text: ToastText.failToLike.rawValue)
+            return
+        }
+
+        updateUserLikeCardList(cardID: cardID, likeAction: .positive)
+        updateCard(cardID: cardID, likeAction: .positive)
+        card?.likeNumber += 1
+        Toast.showSuccess(text: ToastText.successLike.rawValue)
+    }
+
+    func tapWriteButton() {
+
+        guard let writeVC =
+                UIStoryboard.write.instantiateViewController(
+                    withIdentifier: AddCardPostViewController.identifier
+                ) as? AddCardPostViewController
+        else { return }
+
+        let nav = BaseNavigationController(rootViewController: writeVC)
+
+        writeVC.card = card
+
+        nav.modalPresentationStyle = .fullScreen
+
+        present(nav, animated: true)
+    }
+
+    func setupBackgroundImage() {
+
+        let images = [UIImage.asset(.bg1), UIImage.asset(.bg2), UIImage.asset(.bg3), UIImage.asset(.bg4)]
+        backgroundImageView.image = images[Int.random(in: 0...3)]
+    }
+
+    func setupNavigationBackButton() {
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage.asset(.back).withRenderingMode(.alwaysOriginal),
+            style: .plain,
+            target: self,
+            action: #selector(backToPreviousVC(_:))
+        )
+    }
+
+    func setupLoadingAnimationView() {
+
+        view.addSubview(loadingAnimationView)
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6)
+        ])
     }
 }

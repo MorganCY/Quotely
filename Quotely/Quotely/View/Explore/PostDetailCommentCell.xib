@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PostDetailCommentCell" customModule="Quotely" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7tu-pI-aUC">
+                    <rect key="frame" x="16" y="17.5" width="50" height="47.5"/>
+                    <color key="tintColor" systemColor="secondaryLabelColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="7tu-pI-aUC" secondAttribute="height" multiplier="1:1" id="HIk-VJ-IAu"/>
+                        <constraint firstAttribute="width" constant="50" id="ZsI-Dt-4Rk"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="載入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDb-sm-b5E">
+                    <rect key="frame" x="82" y="12" width="62" height="23"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yaq-N3-3Xi">
+                    <rect key="frame" x="82" y="41" width="316" height="128"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="載入中..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4a-QK-DKQ">
+                    <rect key="frame" x="82" y="37" width="316" height="136"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SgV-B3-cc4">
+                    <rect key="frame" x="82" y="175" width="30.5" height="17"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yd0-Dd-P4T">
+                    <rect key="frame" x="352.5" y="13.5" width="45.5" height="20"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                    <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="編輯" image="square.and.pencil" catalog="system">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font">
+                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                        </preferredSymbolConfiguration>
+                    </state>
+                    <connections>
+                        <action selector="edit:" destination="iN0-l3-epB" eventType="touchUpInside" id="lOD-cs-lQB"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRa-XF-aC5">
+                    <rect key="frame" x="367" y="90" width="31" height="30"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="完成">
+                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="doneEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="tTq-Fk-auM"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O4c-Yl-bEP">
+                    <rect key="frame" x="293" y="13.5" width="43.5" height="20"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                    <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="刪除" image="trash" catalog="system">
+                        <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font">
+                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
+                        </preferredSymbolConfiguration>
+                    </state>
+                    <connections>
+                        <action selector="deleteComment:" destination="iN0-l3-epB" eventType="touchUpInside" id="FgI-uW-B6Z"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rbe-ui-pR9">
+                    <rect key="frame" x="372.5" y="17" width="25.5" height="13"/>
+                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="ellipsis" catalog="system">
+                        <attributedString key="attributedTitle">
+                            <fragment content=" ">
+                                <attributes>
+                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <font key="NSFont" metaFont="smallSystem"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                    </state>
+                    <connections>
+                        <action selector="tapOptionMenuButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="BKt-Gq-35q"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="kRa-XF-aC5" firstAttribute="centerY" secondItem="Yaq-N3-3Xi" secondAttribute="centerY" id="5h2-Ui-gY7"/>
+                <constraint firstItem="Yd0-Dd-P4T" firstAttribute="leading" secondItem="O4c-Yl-bEP" secondAttribute="trailing" constant="16" id="7Cf-nf-FaQ"/>
+                <constraint firstItem="Yd0-Dd-P4T" firstAttribute="centerY" secondItem="LDb-sm-b5E" secondAttribute="centerY" id="9Ar-n8-axY"/>
+                <constraint firstItem="SgV-B3-cc4" firstAttribute="top" secondItem="g4a-QK-DKQ" secondAttribute="bottom" constant="2" id="9qg-pp-FCs"/>
+                <constraint firstItem="rbe-ui-pR9" firstAttribute="centerY" secondItem="Yd0-Dd-P4T" secondAttribute="centerY" id="A3i-vf-rqB"/>
+                <constraint firstItem="g4a-QK-DKQ" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" id="BTz-rP-2Y0"/>
+                <constraint firstItem="Yaq-N3-3Xi" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="6" id="Cvg-BY-DhV"/>
+                <constraint firstItem="7tu-pI-aUC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="CwH-5q-va4"/>
+                <constraint firstItem="7tu-pI-aUC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="EhO-8y-akc"/>
+                <constraint firstItem="g4a-QK-DKQ" firstAttribute="leading" secondItem="LDb-sm-b5E" secondAttribute="leading" id="F9V-pT-Aq6"/>
+                <constraint firstItem="SgV-B3-cc4" firstAttribute="top" secondItem="Yaq-N3-3Xi" secondAttribute="bottom" constant="6" id="Imd-Oa-Xxd"/>
+                <constraint firstItem="kRa-XF-aC5" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" id="Lpc-Ct-gvf"/>
+                <constraint firstItem="Yaq-N3-3Xi" firstAttribute="leading" secondItem="g4a-QK-DKQ" secondAttribute="leading" id="Ni9-Sc-f1O"/>
+                <constraint firstItem="rbe-ui-pR9" firstAttribute="trailing" secondItem="g4a-QK-DKQ" secondAttribute="trailing" id="RSN-xB-bgX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Yaq-N3-3Xi" secondAttribute="trailing" constant="16" id="XSe-Ph-QPQ"/>
+                <constraint firstItem="SgV-B3-cc4" firstAttribute="leading" secondItem="LDb-sm-b5E" secondAttribute="leading" id="Zpj-9H-Pos"/>
+                <constraint firstItem="g4a-QK-DKQ" firstAttribute="top" secondItem="LDb-sm-b5E" secondAttribute="bottom" constant="2" id="fHp-ZX-1mZ"/>
+                <constraint firstItem="LDb-sm-b5E" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="nBM-zd-uNc"/>
+                <constraint firstItem="O4c-Yl-bEP" firstAttribute="centerY" secondItem="LDb-sm-b5E" secondAttribute="centerY" id="p5r-3W-Ig6"/>
+                <constraint firstAttribute="bottom" secondItem="SgV-B3-cc4" secondAttribute="bottom" constant="8" id="rfQ-ay-5mh"/>
+                <constraint firstItem="LDb-sm-b5E" firstAttribute="leading" secondItem="7tu-pI-aUC" secondAttribute="trailing" constant="16" id="ukt-Gr-ibq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Yd0-Dd-P4T" secondAttribute="trailing" constant="16" id="ykB-jR-fsn"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="contentLabel" destination="g4a-QK-DKQ" id="fri-c9-pmg"/>
+                <outlet property="deleteButton" destination="O4c-Yl-bEP" id="ChT-mr-ho0"/>
+                <outlet property="doneEditingButton" destination="kRa-XF-aC5" id="Pua-F6-976"/>
+                <outlet property="editButton" destination="Yd0-Dd-P4T" id="SdB-uO-p1n"/>
+                <outlet property="editTextField" destination="Yaq-N3-3Xi" id="fP7-j0-kmg"/>
+                <outlet property="nameLabel" destination="LDb-sm-b5E" id="cbt-mE-sii"/>
+                <outlet property="optionMenuButton" destination="rbe-ui-pR9" id="ocs-cM-Yox"/>
+                <outlet property="timeLabel" destination="SgV-B3-cc4" id="5Qv-cq-VGD"/>
+                <outlet property="userImageView" destination="7tu-pI-aUC" id="KG8-Ew-egc"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="138.61607142857142"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="person" catalog="system" width="128" height="117"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="115"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

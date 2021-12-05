@@ -20,14 +20,12 @@ class AuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .BG
         configureAuthVC()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         authViews.forEach { $0.fadeInAnimation(duration: 2.0) }
     }
 
@@ -60,12 +58,12 @@ class AuthViewController: UIViewController {
 
         labels.forEach {
             $0.textColor = .gray
-            $0.font = UIFont(name: "PingfangTC-Regular", size: 12)
+            $0.font = UIFont.setRegular(size: 12)
         }
 
         buttons.forEach {
             $0.setTitleColor(.M1, for: .normal)
-            $0.titleLabel?.font = UIFont(name: "PingfangTC-Semibold", size: 12)
+            $0.titleLabel?.font = UIFont.setBold(size: 12)
         }
 
         claimerLabel.text = "點擊下方按鈕登入代表您同意"
@@ -101,13 +99,10 @@ class AuthViewController: UIViewController {
 
     @objc func tapPrivacyPolicyButton(_ sender: UIButton) {
         guard let policyVC =
-                UIStoryboard.auth
-                .instantiateViewController(
-                    withIdentifier: String(describing: PrivacyPolicyViewController.self)
-                ) as? PrivacyPolicyViewController else {
-
-                    return
-                }
+                UIStoryboard.auth.instantiateViewController(
+                    withIdentifier: PrivacyPolicyViewController.identifier
+                ) as? PrivacyPolicyViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: policyVC)
 
@@ -117,13 +112,10 @@ class AuthViewController: UIViewController {
     @objc func tapEulaButton(_ sender: UIButton) {
 
         guard let eulaVC =
-                UIStoryboard.auth
-                .instantiateViewController(
-                    withIdentifier: String(describing: EULAViewController.self)
-                ) as? EULAViewController else {
-
-                    return
-                }
+                UIStoryboard.auth.instantiateViewController(
+                    withIdentifier: EULAViewController.identifier
+                ) as? EULAViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: eulaVC)
 

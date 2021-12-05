@@ -7,15 +7,12 @@
 
 import Foundation
 
-enum Format: String {
-
-    // swiftlint:disable identifier_name
-    case yyyy
-    case MM
-    case dd
-}
-
 extension Date {
+
+    enum Format: String {
+        // swiftlint:disable identifier_name
+        case yyyy, MM, dd
+    }
 
     init(milliseconds: Int64) {
         self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
@@ -25,43 +22,24 @@ extension Date {
         return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
     }
 
-    func currentTimeMillis() -> Int64 {
-        return Int64(self.timeIntervalSince1970 * 1000)
-    }
-
-    static var fullDateFormatter: DateFormatter {
-
-        let formatter = DateFormatter()
-
-        formatter.dateFormat = "yyyy年MM月dd日 HH:mm"
-
-        return formatter
-    }
-
     static var dateFormatter: DateFormatter {
 
         let formatter = DateFormatter()
-
         formatter.dateFormat = "dd"
-
         return formatter
     }
 
     static var monthFormatter: DateFormatter {
 
         let formatter = DateFormatter()
-
         formatter.dateFormat = "MM"
-
         return formatter
     }
 
     static var timeFormatter: DateFormatter {
 
         let formatter = DateFormatter()
-
         formatter.dateFormat = "h:mm a"
-
         return formatter
     }
 
@@ -97,10 +75,9 @@ extension Date {
 
         let month = calendar.dateComponents([.month], from: start, to: end).month ?? 0
 
-        for i in 0...month {
+        for index in 0...month {
 
-            if let date = calendar.date(byAdding: .month, value: i, to: start) {
-
+            if let date = calendar.date(byAdding: .month, value: index, to: start) {
                 allMonths.append(Date.monthFormatter.string(from: date))
             }
         }

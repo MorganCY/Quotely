@@ -7,30 +7,21 @@
 
 import Foundation
 import UIKit
-import SwiftUI
-import MapKit
 
 class JournalListViewController: UIViewController {
 
-    let visitorUid = SignInManager.shared.visitorUid ?? ""
-
-    var journals = [Journal]() {
+    private var journals = [Journal]() {
         didSet {
-            if journals.count == 0 {
-                setupEmptyReminder()
-            } else {
-                emptyReminderView.removeFromSuperview()
-            }
-            tableView.reloadData()
+            displayEmptyReminderView()
         }
     }
-    var selectedMonth = Date().getCurrentTime(format: .MM) {
+    private var selectedMonth = Date().getCurrentTime(format: .MM) {
         didSet {
-            fetchJournals(visitorUid: visitorUid)
+            fetchJournals()
         }
     }
-    var selectedYear = Date().getCurrentTime(format: .yyyy)
-    var userRegisterDate: Date? {
+    private var selectedYear = Date().getCurrentTime(format: .yyyy)
+    private var userRegisterDate: Date? {
         didSet {
             collectionView.reloadData()
             collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .left)
@@ -41,58 +32,39 @@ class JournalListViewController: UIViewController {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
-            collectionView.dataSource = self
-            collectionView.delegate = self
-            collectionView.backgroundColor = .clear
-            collectionView.registerCellWithNib(identifier: JournalListCollectionViewCell.identifier, bundle: nil)
-            collectionView.showsHorizontalScrollIndicator = false
+            setupCollectionView()
         }
     }
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
-            tableView.registerCellWithNib(
-                identifier: JournalListTableViewCell.identifier,
-                bundle: nil
-            )
-            tableView.backgroundColor = .M3
-            tableView.separatorStyle = .none
-            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
+            setupTableView()
         }
     }
-
-    let emptyReminderView = LottieAnimationView(animationName: "empty")
-    let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
+    private let emptyReminderView = LottieAnimationView(animationName: "empty")
+    private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         userRegisterDate = Date.init(milliseconds: UserManager.shared.visitorUserInfo?.registerTime ?? 0)
-
         navigationController?.setupBackButton(color: .white)
         tabBarController?.tabBar.isHidden = true
-        backgroundImageView.image = UIImage.asset(.bg4)
-        backgroundImageView.alpha = 0.8
+        setupBackgroundImageView()
         setupLoadingAnimation()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        fetchJournals(visitorUid: visitorUid)
+        fetchJournals()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         tabBarController?.tabBar.isHidden = false
     }
 
-    func fetchJournals(visitorUid: String) {
+    func fetchJournals() {
 
         JournalManager.shared.fetchJournal(
-            uid: visitorUid,
             month: self.selectedMonth,
             year: self.selectedYear
         ) { result in
@@ -100,50 +72,42 @@ class JournalListViewController: UIViewController {
             switch result {
 
             case .success(let journals):
-
                 self.journals = journals
-
                 self.loadingAnimationView.removeFromSuperview()
 
             case .failure(let error):
-
                 print(error)
-
                 self.loadingAnimationView.removeFromSuperview()
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
 
     func deleteJournal(journalID: String) {
 
-        JournalManager.shared.deleteJournal(
-            journalID: journalID) { result in
+        FirebaseManager.shared.deleteDocument(
+            collection: .journals,
+            targetID: journalID
+        ) { result in
 
-                switch result {
+            switch result {
 
-                case .success(let success):
-                    print(success)
+            case .success(let successStatus):
+                print(successStatus)
 
-                case .failure(let error):
-                    print(error)
-                }
+            case .failure(let error):
+                print(error)
             }
+        }
     }
 
     func goToSharePage(content: String, author: String) {
 
         guard let shareVC =
-                UIStoryboard.share
-                .instantiateViewController(
-                    withIdentifier: String(describing: ShareViewController.self)
-                ) as? ShareViewController else {
-
-            return
-        }
+                UIStoryboard.share.instantiateViewController(
+                    withIdentifier: ShareViewController.identifier
+                ) as? ShareViewController
+        else { return }
 
         let nav = BaseNavigationController(rootViewController: shareVC)
 
@@ -160,7 +124,8 @@ class JournalListViewController: UIViewController {
 
 extension JournalListViewController: UICollectionViewDataSource {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
 
         guard let userRegisterDate = userRegisterDate else { return 0 }
 
@@ -172,13 +137,10 @@ extension JournalListViewController: UICollectionViewDataSource {
         return monthlist.count
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let userRegisterDate = userRegisterDate else { fatalError("Cannot create item")
-        }
+        guard let userRegisterDate = userRegisterDate else { fatalError("Cannot create item") }
 
         let monthlist = Date.getMonthAndYearBetween(
             from: userRegisterDate,
@@ -188,10 +150,8 @@ extension JournalListViewController: UICollectionViewDataSource {
         guard let item = collectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: JournalListCollectionViewCell.self),
             for: indexPath
-        ) as? JournalListCollectionViewCell else {
-
-            fatalError("Cannot create item")
-        }
+        ) as? JournalListCollectionViewCell
+        else { fatalError("Cannot create item") }
 
         item.layoutItem(month: monthlist[indexPath.item])
 
@@ -221,14 +181,11 @@ extension JournalListViewController: UICollectionViewDelegate {
         item.setSelectedStyle()
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        willDisplay cell: UICollectionViewCell,
-        forItemAt indexPath: IndexPath
-    ) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
 
         cell.alpha = 0
-
         UIView.animate(
             withDuration: 0.5,
             delay: 0.1 * Double(indexPath.row),
@@ -241,13 +198,11 @@ extension JournalListViewController: UICollectionViewDelegate {
 
 extension JournalListViewController: UICollectionViewDelegateFlowLayout {
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.12)
+        CGSize(width: view.frame.width * 0.22, height: view.frame.height * 0.12)
     }
 
 }
@@ -256,9 +211,7 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.3, delayFactor: 0.1)
-        let animator = Animator(animation: animation)
-            animator.animate(cell: cell, at: indexPath, in: tableView)
+        tableView.fadeInCells(cell: cell, duration: 0.3, delay: 0.1, row: indexPath.row)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -292,16 +245,16 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
         return cell
     }
 
-    func tableView(
-        _ tableView: UITableView,
-        contextMenuConfigurationForRowAt indexPath: IndexPath,
-        point: CGPoint
-    ) -> UIContextMenuConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
 
         let share = UIAction(title: "分享至社群",
-                             image: UIImage.sfsymbol(.shareNormal)) { _ in
+                             image: UIImage.sfsymbol(.shareNormal)) { [weak self] _ in
 
-            self.goToSharePage(content: self.journals[indexPath.row].content, author: "Morgan Yu")
+            guard let self = self else { return }
+
+            self.goToSharePage(content: self.journals[indexPath.row].content, author: UserManager.shared.visitorUserInfo?.name ?? "")
         }
 
         let delete = UIAction(title: "刪除",
@@ -309,17 +262,16 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
                               attributes: .destructive) { _ in
 
             let alert = UIAlertController(title: "要刪除嗎？", message: nil, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "刪除", style: .destructive) { [weak self] _ in
 
-            let alertAction = UIAlertAction(title: "刪除", style: .destructive) { _ in
+                guard let self = self else { return }
 
                 self.deleteJournal(journalID: self.journals[indexPath.row].journalID ?? "")
                 self.journals.remove(at: indexPath.row)
             }
 
             alert.addAction(UIAlertAction.init(title: "取消", style: .cancel, handler: nil))
-
             alert.addAction(alertAction)
-
             self.present(alert, animated: true, completion: nil)
         }
 
@@ -337,6 +289,43 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension JournalListViewController {
 
+    func setupCollectionView() {
+
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .clear
+        collectionView.registerCellWithNib(identifier: JournalListCollectionViewCell.identifier, bundle: nil)
+        collectionView.showsHorizontalScrollIndicator = false
+    }
+
+    func setupTableView() {
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.registerCellWithNib(
+            identifier: JournalListTableViewCell.identifier,
+            bundle: nil)
+        tableView.backgroundColor = .M3
+        tableView.separatorStyle = .none
+        tableView.setSpecificCorner(corners: [.topLeft, .topRight])
+    }
+
+    func displayEmptyReminderView() {
+
+        if journals.count == 0 {
+            setupEmptyReminderView()
+        } else {
+            emptyReminderView.removeFromSuperview()
+        }
+        tableView.reloadData()
+    }
+
+    func setupBackgroundImageView() {
+
+        backgroundImageView.image = UIImage.asset(.bg4)
+        backgroundImageView.alpha = 0.8
+    }
+
     func setupLoadingAnimation() {
 
         view.addSubview(loadingAnimationView)
@@ -350,7 +339,7 @@ extension JournalListViewController {
         ])
     }
 
-    func setupEmptyReminder() {
+    func setupEmptyReminderView() {
 
         let titleLabel = UILabel()
 
@@ -362,7 +351,7 @@ extension JournalListViewController {
 
         titleLabel.text = "還沒有任何隻字，快回首頁新增一則吧！"
         titleLabel.textColor = .black
-        titleLabel.font = UIFont(name: "Pingfang TC Bold", size: 22)
+        titleLabel.font = UIFont.setBold(size: 16)
 
         NSLayoutConstraint.activate([
             emptyReminderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),

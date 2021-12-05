@@ -16,24 +16,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hex-QY-Jy9">
-                    <rect key="frame" x="72.5" y="24" width="269" height="65"/>
+                    <rect key="frame" x="72.5" y="16" width="269" height="81"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="65" id="OCK-Xf-fha"/>
-                    </constraints>
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="20"/>
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Button">
-                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="28"/>
-                    </buttonConfiguration>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="Hex-QY-Jy9" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="5H9-hJ-Rk8"/>
-                <constraint firstAttribute="bottom" secondItem="Hex-QY-Jy9" secondAttribute="bottom" constant="24" id="ZyQ-ib-nMz"/>
-                <constraint firstItem="Hex-QY-Jy9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="m5K-RL-DX8"/>
+                <constraint firstAttribute="bottom" secondItem="Hex-QY-Jy9" secondAttribute="bottom" constant="16" id="ZyQ-ib-nMz"/>
+                <constraint firstItem="Hex-QY-Jy9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="m5K-RL-DX8"/>
                 <constraint firstItem="Hex-QY-Jy9" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.65" id="nBG-4b-fX5"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

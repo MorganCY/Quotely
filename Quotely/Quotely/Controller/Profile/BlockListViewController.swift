@@ -11,9 +11,7 @@ import UIKit
 class BlockListViewController: UIViewController {
 
     var visitorUserInfo = UserManager.shared.visitorUserInfo
-
     var blockUidList = UserManager.shared.visitorUserInfo?.blockList
-
     var blockUserList: [User]? {
         didSet {
             tableView.dataSource = self
@@ -31,15 +29,7 @@ class BlockListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "封鎖名單"
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .close,
-            target: self,
-            action: #selector(dismissSelf(_:))
-        )
-
+        setupNavigation()
         fetchBlockListContent()
     }
 
@@ -85,12 +75,10 @@ class BlockListViewController: UIViewController {
 
     func updateUserBlock(visitedUid: String) {
 
-        guard let visitorUid = visitorUserInfo?.uid else { return }
-
-        UserManager.shared.updateUserBlockList(
-            visitorUid: visitorUid,
+        UserManager.shared.updateUserList(
+            userAction: .block,
             visitedUid: visitedUid,
-            blockAction: .unblock
+            action: .negative
         ) { result in
 
             switch result {
@@ -147,5 +135,16 @@ extension BlockListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
+    }
+}
+
+extension BlockListViewController {
+
+    func setupNavigation() {
+        navigationItem.title = "封鎖名單"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:)))
     }
 }

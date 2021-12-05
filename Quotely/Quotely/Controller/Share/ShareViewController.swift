@@ -11,12 +11,12 @@ import PhotosUI
 
 class ShareViewController: BaseImagePickerViewController {
 
-    /*
-     * Templates
-     */
-    enum TemplateType { case fullImage, halfImage, smallImage }
+    enum TemplateType {
+        
+        case fullImage, halfImage, smallImage
+    }
 
-    var currentTemplateType: TemplateType = .fullImage {
+    private var currentTemplateType: TemplateType = .fullImage {
         didSet {
             fullImageTemplateView.isHidden = !(currentTemplateType == .fullImage)
             halfImageTemplateView.isHidden = !(currentTemplateType == .halfImage)
@@ -24,23 +24,18 @@ class ShareViewController: BaseImagePickerViewController {
         }
     }
 
-    var fullImageTemplateView = ShareTemplateView(type: .fullImage, content: "", author: "")
-    var halfImageTemplateView = ShareTemplateView(type: .halfImage, content: "", author: "")
-    var smallImageTemplateView = ShareTemplateView(type: .smallImage, content: "", author: "")
-    var templateViews: [ShareTemplateView] {
+    private var fullImageTemplateView = ShareTemplateView(type: .fullImage, content: "", author: "")
+    private var halfImageTemplateView = ShareTemplateView(type: .halfImage, content: "", author: "")
+    private var smallImageTemplateView = ShareTemplateView(type: .smallImage, content: "", author: "")
+    private var templateViews: [ShareTemplateView] {
 
         return [fullImageTemplateView, halfImageTemplateView, smallImageTemplateView]
     }
-    let templateSelectionView = SelectionView()
-    let selectionViewBackground = UIView()
+    private let templateSelectionView = SelectionView()
+    private let selectionViewBackground = UIView()
 
-    /*
-     * Template content
-     */
-    var sharingImage = UIImage()
-
-    var templateImage: UIImage?
-
+    private var sharingImage = UIImage()
+    private var templateImage: UIImage?
     var templateContent: [String] = [] {
         didSet {
             fullImageTemplateView = ShareTemplateView(
@@ -61,55 +56,48 @@ class ShareViewController: BaseImagePickerViewController {
         }
     }
 
-    let bg1ImageButton = UIButton()
-    let bg2ImageButton = UIButton()
-    let bg3ImageButton = UIButton()
-    let bg4ImageButton = UIButton()
-    let uploadImageButton = ImageButton(image: UIImage.sfsymbol(.photo), color: .white, bgColor: .black)
-    let imageButtonStackView = UIStackView()
-    var imageButtons: [UIButton] {
+    private let bg1ImageButton = UIButton()
+    private let bg2ImageButton = UIButton()
+    private let bg3ImageButton = UIButton()
+    private let bg4ImageButton = UIButton()
+    private let uploadImageButton = ImageButton(image: UIImage.sfsymbol(.photo), color: .white, bgColor: .black)
+    private let imageButtonStackView = UIStackView()
+    private var imageButtons: [UIButton] {
         return [bg1ImageButton, bg2ImageButton, bg3ImageButton, bg4ImageButton, uploadImageButton]
     }
 
-    /*
-     * Share to social media
-     */
-    let dimmingView = UIView()
-    let shareOptionPanel = UIView()
-    let instagramButton = RowButton(image: UIImage.asset(.instagram), imageColor: .M2, text: "Instagram 限時動態")
-    let savePhotoButton = RowButton(image: UIImage.sfsymbol(.download), imageColor: .M2, text: "下載至裝置")
-    var optionPanelViews: [UIView] {
+    private let dimmingView = UIView()
+    private let shareOptionPanel = UIView()
+    private let instagramButton = RowButton(image: UIImage.asset(.instagram), imageColor: .M2, text: "Instagram 限時動態")
+    private let savePhotoButton = RowButton(image: UIImage.sfsymbol(.download), imageColor: .M2, text: "下載至裝置")
+    private var optionPanelViews: [UIView] {
 
         return [dimmingView, shareOptionPanel, instagramButton, savePhotoButton]
     }
-    var isSharing = false {
+    private var isSharing = false {
         didSet {
             self.optionPanelViews.forEach { $0.isHidden = !self.isSharing }
             if isSharing { optionPanelViews.forEach { view.bringSubviewToFront($0) } }
         }
     }
-
-    var isLayoutFirstTime = true
+    private var isLayoutFirstTime = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .BG
-        navigationItem.title = "分享隻字片語"
-
+        navigationItem.title = "分享片語"
         setupNavigaiton()
         layoutTemplateView()
         layoutSelectionView()
-        configureImageButtons(templateType: .fullImage)
+        configureImageButtons()
+        switchTemplateContent(templateType: .fullImage)
         configureShareOption()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         templateViews.forEach { $0.dropShadow(opacity: 0.5) }
         imageButtons.forEach { $0.cornerRadius = $0.frame.width / 2 }
-
         if isLayoutFirstTime {
             currentTemplateType = .fullImage
             isLayoutFirstTime = false
@@ -118,7 +106,6 @@ class ShareViewController: BaseImagePickerViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         imageButtonStackView.subviews.forEach { $0.cornerRadius = $0.frame.width / 2 }
     }
 
@@ -127,10 +114,7 @@ class ShareViewController: BaseImagePickerViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc func expandOptionPanel(_ sender: UIBarButtonItem) {
-
-        isSharing = true
-    }
+    @objc func expandOptionPanel(_ sender: UIBarButtonItem) { isSharing = true }
 
     @objc func collapseOptionPanel(_ sender: UITapGestureRecognizer) { isSharing = false }
 
@@ -169,7 +153,7 @@ class ShareViewController: BaseImagePickerViewController {
 
             } else {
 
-                Toast.showFailure(text: "裝置未安裝Instagram")
+                Toast.showFailure(text: ToastText.noInstagram.rawValue)
                 print("User doesn't have instagram on their device.")
             }
         }
@@ -188,7 +172,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         UIImageWriteToSavedPhotosAlbum(sharingImage, nil, nil, nil)
         isSharing = false
-        Toast.showSuccess(text: "已下載")
+        Toast.showSuccess(text: ToastText.successSave.rawValue)
     }
 
     @objc func changeTemplateImageToBg1(_ sender: UIButton) {
@@ -210,18 +194,19 @@ class ShareViewController: BaseImagePickerViewController {
 
     override func imagePickerController(
         _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
 
         picker.dismiss(animated: true)
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
-            Toast.showFailure(text: "圖片載入異常")
-            fatalError("Cannot load image")
+            Toast.showFailure(text: ToastText.remindImage.rawValue)
+            return
         }
 
         self.templateImage = selectedImage
+
         templateViews.forEach { $0.dataSource = self }
     }
 
@@ -232,16 +217,23 @@ class ShareViewController: BaseImagePickerViewController {
 
         guard !results.isEmpty else {
 
-            Toast.showFailure(text: "圖片載入異常")
+            Toast.showFailure(text: ToastText.remindImage.rawValue)
             return
         }
 
         for result in results {
 
-            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, _) in
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (image, error) in
+
+                if let error = error {
+
+                    print(error)
+                    Toast.showFailure(text: ToastText.remindImage.rawValue)
+                }
 
                 guard let selectedImage = image as? UIImage else {
 
+                    picker.dismiss(animated: true)
                     return
                 }
 
@@ -254,18 +246,16 @@ class ShareViewController: BaseImagePickerViewController {
 
 extension ShareViewController: ShareTemplateViewDataSource {
 
-    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage {
-
-        return templateImage ?? UIImage.asset(.bg4)
-    }
+    func imageOfTemplateContent(_ view: ShareTemplateView) -> UIImage { templateImage ?? UIImage.asset(.bg4) }
 }
 
 extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
+
     func buttonStyle(_ view: SelectionView) -> ButtonStyle { .text }
 
     func numberOfButtonsAt(_ view: SelectionView) -> Int { templateViews.count }
 
-    func buttonTitle(_ view: SelectionView, index: Int) -> String {
+    func buttonTitle(_ view: SelectionView, index: Int) -> String? {
 
         let titles = ["滿版圖片", "半張圖片", "小張圖片"]
 
@@ -291,17 +281,20 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
 
         case 0:
 
-            configureImageButtons(templateType: .fullImage)
+            configureImageButtons()
+            switchTemplateContent(templateType: .fullImage)
             currentTemplateType = .fullImage
 
         case 1:
 
-            configureImageButtons(templateType: .halfImage)
+            configureImageButtons()
+            switchTemplateContent(templateType: .halfImage)
             currentTemplateType = .halfImage
 
         case 2:
 
-            configureImageButtons(templateType: .smallImage)
+            configureImageButtons()
+            switchTemplateContent(templateType: .smallImage)
             currentTemplateType = .smallImage
 
         default: break
@@ -309,9 +302,6 @@ extension ShareViewController: SelectionViewDataSource, SelectionViewDelegate {
     }
 }
 
-/*
- * Layout views
- */
 extension ShareViewController {
 
     func setupNavigaiton() {
@@ -371,7 +361,8 @@ extension ShareViewController {
 
             templateSelectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             templateSelectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            templateSelectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+            templateSelectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                                          constant: -24),
             templateSelectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05),
             selectionViewBackground.topAnchor.constraint(equalTo: templateSelectionView.topAnchor, constant: -12),
             selectionViewBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -380,7 +371,7 @@ extension ShareViewController {
         ])
     }
 
-    func configureImageButtons(templateType: TemplateType) {
+    func configureImageButtons() {
 
         imageButtons.forEach {
             view.addSubview($0)
@@ -403,6 +394,9 @@ extension ShareViewController {
         bg3ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg3(_:)), for: .touchUpInside)
         bg4ImageButton.addTarget(self, action: #selector(changeTemplateImageToBg4(_:)), for: .touchUpInside)
         uploadImageButton.addTarget(self, action: #selector(openImagePicker(_:)), for: .touchUpInside)
+    }
+
+    func switchTemplateContent(templateType: TemplateType) {
 
         switch templateType {
 
@@ -489,7 +483,7 @@ extension ShareViewController {
 
             instagramButton.leadingAnchor.constraint(equalTo: shareOptionPanel.leadingAnchor),
             instagramButton.trailingAnchor.constraint(equalTo: shareOptionPanel.trailingAnchor),
-            instagramButton.topAnchor.constraint(equalTo: shareOptionPanel.topAnchor),
+            instagramButton.topAnchor.constraint(equalTo: shareOptionPanel.topAnchor, constant: 10),
             instagramButton.heightAnchor.constraint(equalTo: shareOptionPanel.heightAnchor, multiplier: 0.4),
 
             savePhotoButton.leadingAnchor.constraint(equalTo: instagramButton.leadingAnchor),

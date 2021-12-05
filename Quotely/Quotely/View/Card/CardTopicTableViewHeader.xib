@@ -17,22 +17,22 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="片語" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-Bu-Xp4">
-                    <rect key="frame" x="24" y="36" width="36" height="25.5"/>
+                    <rect key="frame" x="24" y="60" width="36" height="25.5"/>
                     <fontDescription key="fontDescription" name="PingFangTC-Medium" family="PingFang TC" pointSize="18"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCW-Jg-q8E">
-                    <rect key="frame" x="24" y="73.5" width="370" height="191"/>
+                    <rect key="frame" x="24" y="97.5" width="370" height="167"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PkO-Ba-Meg">
-                            <rect key="frame" x="24" y="36" width="322" height="75"/>
+                            <rect key="frame" x="24" y="36" width="322" height="51"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5y-ZC-kvC">
-                            <rect key="frame" x="24" y="135" width="35.5" height="20"/>
+                            <rect key="frame" x="24" y="111" width="35.5" height="20"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -60,16 +60,16 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="cNh-xt-2wH">
-                    <rect key="frame" x="213" y="0.0" width="181" height="49.5"/>
+                    <rect key="frame" x="213" y="24" width="181" height="49.5"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kyg-ph-2aw">
                             <rect key="frame" x="0.0" y="0.0" width="49.5" height="49.5"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="tintColor" name="M1"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.up" catalog="system" title="">
-                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" weight="regular"/>
-                            </buttonConfiguration>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="" image="square.and.arrow.up" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="28" weight="regular"/>
+                            </state>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                     <real key="value" value="10"/>
@@ -86,10 +86,10 @@
                                 <constraint firstAttribute="width" secondItem="P3Y-j0-p12" secondAttribute="height" multiplier="1:1" id="0xj-bx-FnJ"/>
                             </constraints>
                             <color key="tintColor" name="M1"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title="">
-                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" weight="regular"/>
-                            </buttonConfiguration>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="" image="heart" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="28" weight="regular"/>
+                            </state>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                     <real key="value" value="10"/>
@@ -106,10 +106,10 @@
                                 <constraint firstAttribute="width" secondItem="L1w-Kc-q3Z" secondAttribute="height" multiplier="1:1" id="MT0-nr-clm"/>
                             </constraints>
                             <color key="tintColor" name="M1"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="square.and.pencil" catalog="system" title="">
-                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" weight="regular"/>
-                            </buttonConfiguration>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="" image="square.and.pencil" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="28" weight="regular"/>
+                            </state>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                     <real key="value" value="10"/>
@@ -122,14 +122,12 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="kyg-ph-2aw" firstAttribute="width" secondItem="kyg-ph-2aw" secondAttribute="height" multiplier="1:1" id="V9Z-aN-PlQ"/>
-                        <constraint firstItem="L1w-Kc-q3Z" firstAttribute="width" secondItem="L1w-Kc-q3Z" secondAttribute="height" multiplier="1:1" id="sMi-fX-WIg"/>
                     </constraints>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="cNh-xt-2wH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="EYr-NO-5Ij"/>
                 <constraint firstItem="FCW-Jg-q8E" firstAttribute="top" secondItem="wW5-Bu-Xp4" secondAttribute="bottom" constant="12" id="GTl-c3-Sdi"/>
                 <constraint firstItem="FCW-Jg-q8E" firstAttribute="trailing" secondItem="cNh-xt-2wH" secondAttribute="trailing" id="MET-pT-DP3"/>
                 <constraint firstItem="W7e-AH-O1S" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="Oci-HP-qm9"/>
@@ -138,6 +136,7 @@
                 <constraint firstItem="P3Y-j0-p12" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.12" id="gWx-o8-Dac"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="W7e-AH-O1S" secondAttribute="bottom" constant="12" id="hYQ-1G-nDX"/>
                 <constraint firstItem="FCW-Jg-q8E" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="lhj-OF-42t"/>
+                <constraint firstItem="cNh-xt-2wH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="pX0-HF-6vd"/>
                 <constraint firstItem="W7e-AH-O1S" firstAttribute="top" secondItem="FCW-Jg-q8E" secondAttribute="bottom" constant="48" id="rTN-wi-5Yd"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cNh-xt-2wH" secondAttribute="trailing" constant="20" id="tKe-6o-fiX"/>
                 <constraint firstItem="kyg-ph-2aw" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.12" id="yPi-uU-8pl"/>

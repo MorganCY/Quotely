@@ -21,15 +21,21 @@ private enum Tab {
 
         var controller: UIViewController
 
+        guard let journalStoryboard = UIStoryboard.journal.instantiateInitialViewController(),
+              let cardStoryboard = UIStoryboard.card.instantiateInitialViewController(),
+              let exploreStoryboard = UIStoryboard.explore.instantiateInitialViewController(),
+              let profileStoryboard = UIStoryboard.profile.instantiateInitialViewController()
+        else { return UIViewController() }
+
         switch self {
 
-        case .journal: controller = UIStoryboard.journal.instantiateInitialViewController()!
+        case .journal: controller = journalStoryboard
 
-        case .card: controller = UIStoryboard.card.instantiateInitialViewController()!
+        case .card: controller = cardStoryboard
 
-        case .explore: controller = UIStoryboard.explore.instantiateInitialViewController()!
+        case .explore: controller = exploreStoryboard
 
-        case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
+        case .profile: controller = profileStoryboard
         }
 
         controller.tabBarItem = tabBarItem()
@@ -86,11 +92,13 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         delegate = self
 
         setupTabbarStyle()
-
-        tabBar.tintColor = .M1
     }
 
     func setupTabbarStyle() {
+
+        tabBar.tintColor = .M1
+
+        tabBar.barTintColor = .white
 
         if #available(iOS 15, *) {
 
@@ -102,9 +110,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
             tabBar.scrollEdgeAppearance = tabBarAppearance
 
-        } else {
-
-            tabBar.barTintColor = .white
         }
     }
 }

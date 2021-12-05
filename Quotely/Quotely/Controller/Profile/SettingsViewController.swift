@@ -7,43 +7,27 @@
 
 import Foundation
 import UIKit
-import SwiftUI
 
 class SettingsViewController: UIViewController {
-    let logoImageView = UIImageView()
-
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
-            tableView.backgroundColor = .clear
-            tableView.separatorStyle = .none
-            tableView.showsHorizontalScrollIndicator = false
-            tableView.registerCellWithNib(identifier: SettingsTableViewCell.identifier, bundle: nil)
-        }
-    }
 
     let options = ["封鎖名單", "隱私權政策", "登出", "刪除帳號"]
 
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
+    let logoImageView = UIImageView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "設定"
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .close,
-            target: self,
-            action: #selector(dismissSelf(_:))
-        )
-
-        layoutLogoImageView()
-
+        setupNavigation()
+        setupImageView()
         view.backgroundColor = .BG
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         logoImageView.fadeInAnimation(duration: 2.0)
     }
 
@@ -57,13 +41,10 @@ class SettingsViewController: UIViewController {
                 print(success)
 
                 guard let authVC =
-                        UIStoryboard.auth
-                        .instantiateViewController(
-                            withIdentifier: String(describing: AuthViewController.self)
-                        ) as? AuthViewController else {
-
-                            return
-                        }
+                        UIStoryboard.auth.instantiateViewController(
+                            withIdentifier: AuthViewController.identifier
+                        ) as? AuthViewController
+                else { return }
 
                 let window = UIApplication.shared.windows.first
 
@@ -78,13 +59,10 @@ class SettingsViewController: UIViewController {
     func tapBlockListButton() {
 
         guard let blockListVC =
-                UIStoryboard.profile
-                .instantiateViewController(
-                    withIdentifier: String(describing: BlockListViewController.self)
-                ) as? BlockListViewController else {
-
-                    return
-                }
+                UIStoryboard.profile.instantiateViewController(
+                    withIdentifier: BlockListViewController.identifier
+                ) as? BlockListViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: blockListVC)
 
@@ -94,16 +72,13 @@ class SettingsViewController: UIViewController {
     func tapSignOutButton() {
 
         let alert = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
-
-        let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
-
+        let confirm = UIAlertAction(title: "確定登出", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
             self.performSignOut()
         }
-
         let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
 
         alert.addAction(confirm)
-
         alert.addAction(cancel)
 
         present(alert, animated: true, completion: nil)
@@ -121,22 +96,14 @@ class SettingsViewController: UIViewController {
     func tapPrivacyPolicyButton() {
 
         guard let policyVC =
-                UIStoryboard.auth
-                .instantiateViewController(
-                    withIdentifier: String(describing: PrivacyPolicyViewController.self)
-                ) as? PrivacyPolicyViewController else {
-
-                    return
-                }
+                UIStoryboard.auth.instantiateViewController(
+                    withIdentifier: PrivacyPolicyViewController.identifier
+                ) as? PrivacyPolicyViewController
+        else { return }
 
         let navigationVC = BaseNavigationController(rootViewController: policyVC)
 
         present(navigationVC, animated: true)
-    }
-
-    @objc func dismissSelf(_ sender: UIBarButtonItem) {
-
-        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -153,7 +120,6 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         cell.layoutCell(buttonTitle: options[indexPath.row])
-
         cell.hideSelectionStyle()
 
         cell.buttonHandler = {
@@ -161,11 +127,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             switch indexPath.row {
 
             case 0: self.tapBlockListButton()
-
             case 1: self.tapPrivacyPolicyButton()
-
             case 2: self.tapSignOutButton()
-
             case 3: self.tapDeleteAccountButton()
 
             default: break
@@ -174,11 +137,39 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         return cell
     }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
 }
 
 extension SettingsViewController {
 
-    func layoutLogoImageView() {
+    @objc func dismissSelf(_ sender: UIBarButtonItem) {
+
+        dismiss(animated: true, completion: nil)
+    }
+
+    func setupNavigation() {
+
+        navigationItem.title = "設定"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:)))
+    }
+
+    func setupTableView() {
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.registerCellWithNib(identifier: SettingsTableViewCell.identifier, bundle: nil)
+    }
+
+    func setupImageView() {
 
         view.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false

@@ -10,41 +10,31 @@ import UIKit
 
 class BaseProfileViewController: BaseImagePickerViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-
-    // the user who is visited by others
-
     var visitedUid: String?
-
     var visitedUserInfo: User? {
         didSet {
             tableView.reloadData()
         }
     }
-
     var visitedUserPostList: [Post]? {
         didSet {
             tableView.reloadData()
         }
     }
 
+    @IBOutlet weak var tableView: UITableView!
     let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupLoadingAnimation()
-
         setupTableView()
-
         navigationItem.title = "個人資訊"
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         fetchVisitedUserInfo(uid: visitedUid ?? "")
-
         listenToVisitedUserPost(uid: visitedUid ?? "")
     }
 
@@ -53,21 +43,18 @@ class BaseProfileViewController: BaseImagePickerViewController {
         if tableView == nil {
 
             let tableView = UITableView(frame: .zero, style: .insetGrouped)
-
             view.stickSubView(tableView)
-
             self.tableView = tableView
         }
+        tableView.delegate = self
+        tableView.backgroundColor = .M3
+        tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
+        tableView.registerCellWithNib(identifier: ProfileTableViewCell.identifier, bundle: nil)
 
         if #available(iOS 15.0, *) {
 
           tableView.sectionHeaderTopPadding = 0
         }
-
-        tableView.delegate = self
-        tableView.backgroundColor = .M3
-        tableView.registerHeaderWithNib(identifier: ProfileTableViewHeaderView.identifier, bundle: nil)
-        tableView.registerCellWithNib(identifier: ProfileTableViewCell.identifier, bundle: nil)
     }
 
     func fetchVisitedUserInfo(uid: String) {
@@ -77,22 +64,14 @@ class BaseProfileViewController: BaseImagePickerViewController {
             switch result {
 
             case .success(let userInfo):
-
-                self.visitedUserInfo = userInfo
-
                 self.tableView.dataSource = self
-
+                self.visitedUserInfo = userInfo
                 self.loadingAnimationView.removeFromSuperview()
 
             case .failure(let error):
-
                 print(error)
-
                 self.loadingAnimationView.removeFromSuperview()
-
-                DispatchQueue.main.async {
-                    Toast.showFailure(text: "資料載入異常")
-                }
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -104,30 +83,12 @@ class BaseProfileViewController: BaseImagePickerViewController {
             switch result {
 
             case .success(let posts):
-
                 self.visitedUserPostList = posts
 
             case .failure(let error):
-
                 print(error)
             }
         }
-    }
-
-    @objc func goToFollowList(_ gestureRecognizer: UITapGestureRecognizer) {
-
-        guard let followVC =
-                UIStoryboard.profile
-                .instantiateViewController(
-                    withIdentifier: String(describing: FollowListViewController.self)
-                ) as? FollowListViewController else {
-
-                    return
-                }
-
-        followVC.visitedUid = visitedUid
-
-        navigationController?.pushViewController(followVC, animated: true)
     }
 }
 
@@ -166,13 +127,10 @@ extension BaseProfileViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         guard let detailVC =
-                UIStoryboard.explore
-                .instantiateViewController(
-                    withIdentifier: String(describing: PostDetailViewController.self)
-                ) as? PostDetailViewController else {
-
-                    return
-                }
+                UIStoryboard.explore.instantiateViewController(
+                    withIdentifier: PostDetailViewController.identifier
+                ) as? PostDetailViewController
+        else { return }
 
         let row = indexPath.row
 
@@ -181,7 +139,7 @@ extension BaseProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         if let likeUserList = visitedUserPostList?[row].likeUser {
 
-            detailVC.isLike = likeUserList.contains(UserManager.shared.visitorUserInfo?.uid ?? "")
+            detailVC.isLikePost = likeUserList.contains(UserManager.shared.visitorUserInfo?.uid ?? "")
         }
 
         navigationController?.pushViewController(detailVC, animated: true)
@@ -194,6 +152,19 @@ extension BaseProfileViewController: UITableViewDataSource, UITableViewDelegate 
 }
 
 extension BaseProfileViewController {
+
+    @objc func tapFollowNumberLabel(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard let followVC =
+                UIStoryboard.profile.instantiateViewController(
+                    withIdentifier: FollowListViewController.identifier
+                ) as? FollowListViewController
+        else { return }
+
+        followVC.visitedUid = visitedUid
+
+        navigationController?.pushViewController(followVC, animated: true)
+    }
 
     func setupLoadingAnimation() {
 

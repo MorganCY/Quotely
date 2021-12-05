@@ -88,4 +88,3 @@ iOSInjectionProject/
 ### Google API plist file ###
 **/GoogleService-Info.plist
 **/*.entitlements
-

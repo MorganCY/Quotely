@@ -19,7 +19,7 @@ private struct StoryboardCategory {
 
     static let explore = "Explore"
 
-    static let write = "Write"
+    static let addPost = "AddPost"
 
     static let profile = "Profile"
 
@@ -38,7 +38,7 @@ extension UIStoryboard {
 
     static var explore: UIStoryboard { return getStoryboard(name: StoryboardCategory.explore) }
 
-    static var write: UIStoryboard { return getStoryboard(name: StoryboardCategory.write) }
+    static var write: UIStoryboard { return getStoryboard(name: StoryboardCategory.addPost) }
 
     static var profile: UIStoryboard { return getStoryboard(name: StoryboardCategory.profile) }
 

@@ -17,3 +17,17 @@ struct Comment: Codable {
     var cardCommentID: String?
     var postCommentID: String?
 }
+
+// Custom initializer
+extension Comment {
+
+    init(content: String,
+         postID: String?
+    ) {
+        self.uid = UserManager.shared.visitorUserInfo?.uid ?? ""
+        self.createdTime = Date().millisecondsSince1970
+        self.editTime = nil
+        self.content = content
+        self.postID = postID
+    }
+}
