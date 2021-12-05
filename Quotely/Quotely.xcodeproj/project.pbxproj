@@ -328,7 +328,6 @@
 				5C2C730F271D17A800F8B9EC /* Controller */,
 				5C2C7310271D17B800F8B9EC /* View */,
 				5C8C0E93272436380054480A /* Resource */,
-				5C2C7303271D12E300F8B9EC /* LaunchScreen.storyboard */,
 				5CA65BF7271D69A600B877FB /* GoogleService-Info.plist */,
 				5C2C7306271D12E300F8B9EC /* Info.plist */,
 			);
@@ -375,10 +374,11 @@
 		5C2C7310271D17B800F8B9EC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5C5186C7273233E4007C5221 /* Auth.storyboard */,
+				5C2C7303271D12E300F8B9EC /* LaunchScreen.storyboard */,
 				5CBB57702727AE6E0035EB87 /* SelectionView.swift */,
 				5C4B969C2721575B008B21C7 /* CommentTextField.swift */,
 				5C2846DF2727EEB400393562 /* ContentTextView.swift */,
+				5C5109BC275CE7EB0052AC35 /* Auth */,
 				5C46F25D273CABFC007E951D /* SwipeCardView */,
 				5C46F25E273CAC11007E951D /* ButtonView */,
 				5C4B968B271FA75E008B21C7 /* Base */,
@@ -467,6 +467,14 @@
 				5C2C72FE271D12E100F8B9EC /* Main.storyboard */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		5C5109BC275CE7EB0052AC35 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				5C5186C7273233E4007C5221 /* Auth.storyboard */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		5C54F4D62732337500E62DBF /* Auth */ = {
