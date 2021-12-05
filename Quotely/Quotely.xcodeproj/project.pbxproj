@@ -188,7 +188,6 @@
 		5C60F1CD27575D9800E48528 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5C6CC7E627300E3B00B71DA8 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
-		5C78570127507B9200305443 /* QuotelyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotelyTests.swift; sourceTree = "<group>"; };
 		5C7AF0E82748D08800476567 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
 		5C7AF0EA2748D24300476567 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5C7B6394272A798700E18B96 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -301,7 +300,6 @@
 			isa = PBXGroup;
 			children = (
 				5C2C72F7271D12E100F8B9EC /* Quotely */,
-				5C78570027507B9200305443 /* QuotelyTests */,
 				5C2C72F6271D12E100F8B9EC /* Products */,
 				81480211F51DEE3E19D91963 /* Pods */,
 				5021B01E70D8ECD3D96001EF /* Frameworks */,
@@ -523,14 +521,6 @@
 				5C6CC7E427300D1A00B71DA8 /* ShareViewController.swift */,
 			);
 			path = Share;
-			sourceTree = "<group>";
-		};
-		5C78570027507B9200305443 /* QuotelyTests */ = {
-			isa = PBXGroup;
-			children = (
-				5C78570127507B9200305443 /* QuotelyTests.swift */,
-			);
-			path = QuotelyTests;
 			sourceTree = "<group>";
 		};
 		5C7B6398272A84D500E18B96 /* Card */ = {
