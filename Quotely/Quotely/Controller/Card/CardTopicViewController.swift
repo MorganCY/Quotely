@@ -220,8 +220,14 @@ class CardTopicViewController: UIViewController {
         }
 
         let cancelAction = UIAlertAction(title: "取消", style: .cancel)
-
         let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        if let popoverController = optionAlert.popoverPresentationController {
+
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
 
         optionAlert.addAction(blockUserAction)
         optionAlert.addAction(cancelAction)

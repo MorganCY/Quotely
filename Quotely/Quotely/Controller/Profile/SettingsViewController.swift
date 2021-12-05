@@ -78,6 +78,16 @@ class SettingsViewController: UIViewController {
         }
         let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
 
+        if let popoverController = alert.popoverPresentationController {
+
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+
         alert.addAction(confirm)
         alert.addAction(cancel)
 
@@ -87,6 +97,16 @@ class SettingsViewController: UIViewController {
     func tapDeleteAccountButton() {
 
         let alert = UIAlertController(title: "刪除帳號", message: "請聯繫 nihao0705@gmail.com", preferredStyle: .alert)
+
+        if let popoverController = alert.popoverPresentationController {
+
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 
