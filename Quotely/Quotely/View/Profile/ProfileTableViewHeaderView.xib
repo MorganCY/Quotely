@@ -63,11 +63,10 @@
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHh-Of-L8w">
                                     <rect key="frame" x="0.0" y="0.0" width="103.5" height="34.5"/>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
                                     <color key="tintColor" name="M2"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title="封鎖他">
-                                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
-                                    </buttonConfiguration>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="封鎖他"/>
                                     <connections>
                                         <action selector="tapBlockButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="MJd-VA-ku7"/>
                                     </connections>
@@ -77,11 +76,10 @@
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="bOO-Ws-b6W" secondAttribute="height" multiplier="3:1" id="Bja-5w-Rph"/>
                                     </constraints>
+                                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
                                     <color key="tintColor" name="M1"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title="追蹤他">
-                                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
-                                    </buttonConfiguration>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="追蹤他"/>
                                     <connections>
                                         <action selector="tapFollowButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="bgt-dj-KTz"/>
                                     </connections>
@@ -96,10 +94,11 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="8dU-OT-KB1" secondAttribute="height" multiplier="1:1" id="jtH-hj-bsS"/>
                     </constraints>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" image="photo" catalog="system">
-                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </buttonConfiguration>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="photo" catalog="system">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
                     <connections>
                         <action selector="editImage:" destination="iN0-l3-epB" eventType="touchUpInside" id="6XJ-Oo-XST"/>
                     </connections>
@@ -109,11 +108,12 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Pdp-Hl-Jjz" secondAttribute="height" multiplier="1:1" id="8dd-rM-s7a"/>
                     </constraints>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" image="square.and.pencil" catalog="system">
-                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="18"/>
-                        <color key="baseForegroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </buttonConfiguration>
+                    <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title=" " image="square.and.pencil" catalog="system">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18"/>
+                    </state>
                     <connections>
                         <action selector="editName:" destination="iN0-l3-epB" eventType="touchUpInside" id="hwo-Zf-oyf"/>
                     </connections>
@@ -124,12 +124,11 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3M-7Y-8aS">
-                    <rect key="frame" x="331" y="230.5" width="60" height="39.5"/>
+                    <rect key="frame" x="339" y="231.5" width="36" height="38"/>
+                    <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
                     <color key="tintColor" name="M1"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="完成">
-                        <fontDescription key="titleFontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
-                    </buttonConfiguration>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="完成"/>
                     <connections>
                         <action selector="doneEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ou2-OK-S95"/>
                     </connections>
@@ -160,7 +159,7 @@
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="centerX" secondItem="ez7-go-5eO" secondAttribute="centerX" id="sgU-fh-Wou"/>
                 <constraint firstItem="ytA-gX-6Vh" firstAttribute="height" secondItem="ez7-go-5eO" secondAttribute="height" id="stl-0K-1eb"/>
                 <constraint firstItem="Pie-XK-PW3" firstAttribute="centerY" secondItem="aLR-Xb-dVD" secondAttribute="centerY" id="voj-Lf-hTM"/>
-                <constraint firstItem="o3M-7Y-8aS" firstAttribute="leading" secondItem="Pie-XK-PW3" secondAttribute="trailing" id="wBy-Ho-bUb"/>
+                <constraint firstItem="o3M-7Y-8aS" firstAttribute="leading" secondItem="Pie-XK-PW3" secondAttribute="trailing" constant="8" id="wBy-Ho-bUb"/>
                 <constraint firstItem="aLR-Xb-dVD" firstAttribute="top" secondItem="ez7-go-5eO" secondAttribute="bottom" constant="32" id="x39-Vz-D9h"/>
                 <constraint firstItem="Pdp-Hl-Jjz" firstAttribute="centerY" secondItem="aLR-Xb-dVD" secondAttribute="centerY" id="xCL-xB-fk3"/>
                 <constraint firstItem="ez7-go-5eO" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" id="zKU-qU-G1a"/>

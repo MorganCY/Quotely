@@ -113,24 +113,6 @@
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="125.89285714285714"/>
         </scene>
-        <!--Base Navigation Controller-->
-        <scene sceneID="V17-ca-yi4">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UHH-Jg-ZdU" customClass="BaseNavigationController" customModule="Quotely" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bez-tw-AJ0">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="6xz-F0-8he" kind="relationship" relationship="rootViewController" id="i4t-pU-3lC"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nz3-je-Oel" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2886.9565217391305" y="125.89285714285714"/>
-        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
