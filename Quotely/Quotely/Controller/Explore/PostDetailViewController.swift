@@ -502,9 +502,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
                 }
         }
 
-        header.editHandler = { [weak self] in
-
-            guard let self = self else { return }
+        header.editHandler = {
 
             var writeVC: BaseAddPostViewController?
 
@@ -536,26 +534,20 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
             writeVC.editContentHandler = { content, editTime, postImage in
 
                 self.post?.content = content
-
                 self.post?.editTime = editTime
 
                 if self.post?.cardID != nil {
-
                     header.cardImageView.image = postImage
                     header.cardImageView.layoutIfNeeded()
-
                 } else {
-
                     if postImage == nil {
-
                         header.postImageView.isHidden = true
                     } else {
-
                         header.postImageView.image = postImage
                     }
-
                     header.postImageView.layoutIfNeeded()
                 }
+                self.tableView.reloadData()
             }
 
             if let cardID = self.post?.cardID {
