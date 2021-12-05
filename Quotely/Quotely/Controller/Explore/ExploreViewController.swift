@@ -338,7 +338,9 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.hideSelectionStyle()
 
-        cell.likeHandler = {
+        cell.likeHandler = { [weak self] in
+            guard let self = self else { return }
+
             if let likeUserList = post.likeUser {
                 self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
             } else {
@@ -357,9 +359,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
-        cell.commentHandler = { self.goToPostDetail(index: indexPath.row) }
+        cell.commentHandler = { [weak self] in
+            guard let self = self else { return }
+            self.goToPostDetail(index: indexPath.row)
+        }
 
-        cell.optionHandler = {
+        cell.optionHandler = { [weak self] in
+            guard let self = self else { return }
             self.openOptionMenu(index: indexPath.row)
         }
 

@@ -271,11 +271,20 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         header.layoutHeader(card: card)
 
-        header.shareHandler = { self.tapShareButton() }
+        header.shareHandler = { [weak self] in
+            guard let self = self else { return }
+            self.tapShareButton()
+        }
 
-        header.likeHandler = { self.tapLikeButton() }
+        header.likeHandler = { [weak self] in
+            guard let self = self else { return }
+            self.tapLikeButton()
+        }
 
-        header.writeHandler = { self.tapWriteButton() }
+        header.writeHandler = { [weak self] in
+            guard let self = self else { return }
+            self.tapWriteButton()
+        }
 
         return header
     }
@@ -296,7 +305,9 @@ extension CardTopicViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.hideSelectionStyle()
 
-        cell.optionHandler = {
+        cell.optionHandler = { [weak self] in
+            
+            guard let self = self else { return }
 
             self.openOptionMenu(
                 blockedUid: self.userList?[indexPath.row].uid ?? "",

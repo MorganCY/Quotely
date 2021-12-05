@@ -59,10 +59,10 @@ class SwipeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLoadingAnimationView()
         initialLoadingCards()
         setupNavigation()
         setupCardView()
-        setupLoadingAnimationView()
         setupButtons()
         setupResetButton()
         view.backgroundColor = .BG

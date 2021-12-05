@@ -72,8 +72,8 @@ class SettingsViewController: UIViewController {
     func tapSignOutButton() {
 
         let alert = UIAlertController(title: "確定要登出嗎？", message: nil, preferredStyle: .alert)
-        let confirm = UIAlertAction(title: "確定登出", style: .destructive) { _ in
-
+        let confirm = UIAlertAction(title: "確定登出", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
             self.performSignOut()
         }
         let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
@@ -149,7 +149,6 @@ extension SettingsViewController {
     func setupNavigation() {
 
         navigationItem.title = "設定"
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
             target: self,

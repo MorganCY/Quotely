@@ -10,18 +10,6 @@ import UIKit
 
 class JournalListViewController: UIViewController {
 
-    @IBOutlet weak var backgroundImageView: UIImageView!
-    @IBOutlet weak var collectionView: UICollectionView! {
-        didSet {
-            setupCollectionView()
-        }
-    }
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            setupTableView()
-        }
-    }
-
     private var journals = [Journal]() {
         didSet {
             displayEmptyReminderView()
@@ -41,6 +29,17 @@ class JournalListViewController: UIViewController {
         }
     }
 
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            setupCollectionView()
+        }
+    }
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
     private let emptyReminderView = LottieAnimationView(animationName: "empty")
     private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
 
@@ -251,7 +250,9 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
                    point: CGPoint) -> UIContextMenuConfiguration? {
 
         let share = UIAction(title: "分享至社群",
-                             image: UIImage.sfsymbol(.shareNormal)) { _ in
+                             image: UIImage.sfsymbol(.shareNormal)) { [weak self] _ in
+
+            guard let self = self else { return }
 
             self.goToSharePage(content: self.journals[indexPath.row].content, author: UserManager.shared.visitorUserInfo?.name ?? "")
         }
@@ -261,7 +262,9 @@ extension JournalListViewController: UITableViewDataSource, UITableViewDelegate 
                               attributes: .destructive) { _ in
 
             let alert = UIAlertController(title: "要刪除嗎？", message: nil, preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "刪除", style: .destructive) { _ in
+            let alertAction = UIAlertAction(title: "刪除", style: .destructive) { [weak self] _ in
+
+                guard let self = self else { return }
 
                 self.deleteJournal(journalID: self.journals[indexPath.row].journalID ?? "")
                 self.journals.remove(at: indexPath.row)

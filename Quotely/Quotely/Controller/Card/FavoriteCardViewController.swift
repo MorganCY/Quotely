@@ -11,13 +11,11 @@ import UIKit
 class FavoriteCardViewController: UIViewController {
 
     private var visitorUid: String?
-
     private var likeCardList = [Card]() {
         didSet {
             tableView.reloadData()
         }
     }
-
     var isFromWriteVC = false {
         didSet {
             navigationTitle = isFromWriteVC ? "點選引用片語" : "收藏清單"
@@ -177,13 +175,17 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
     ) -> UIContextMenuConfiguration? {
 
         let comment = UIAction(title: "查看討論",
-                               image: UIImage.sfsymbol(.comment)) { _ in
+                               image: UIImage.sfsymbol(.comment)) { [weak self] _ in
+
+            guard let self = self else { return }
 
             self.goToCardTopicPage(index: indexPath.row)
         }
 
         let share = UIAction(title: "分享至社群",
-                             image: UIImage.sfsymbol(.shareNormal)) { _ in
+                             image: UIImage.sfsymbol(.shareNormal)) {[weak self] _ in
+
+            guard let self = self else { return }
 
             self.goToSharePage(
                 content: self.likeCardList[indexPath.row].content,
@@ -193,7 +195,9 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         let delete = UIAction(title: "取消收藏",
                               image: UIImage.sfsymbol(.bookmarkSlashed),
-                              attributes: .destructive) { _ in
+                              attributes: .destructive) {[weak self] _ in
+
+            guard let self = self else { return }
 
             self.disLikeCard(index: indexPath.row)
         }
@@ -201,7 +205,6 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
 
             UIMenu(title: "", children: [comment, share, delete])
-
         }
     }
 
