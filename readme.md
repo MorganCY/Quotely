@@ -23,19 +23,19 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#features">Features</a>
+    <a href="https://github.com/MorganCY/Quotely#features">Features</a>
     <span style="color:gray">‧</span>
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#technical-highlights">Technical Highlights</a>
+    <a href="https://github.com/MorganCY/Quotely/#technical-highlights">Technical Highlights</a>
     <span style="color:gray">‧</span>
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#release-note">Release Note</a>
+    <a href="https://github.com/MorganCY/Quotely/#release-note">Release Note</a>
     <span style="color:gray">‧</span>
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#requirement">Requirement</a>
+    <a href="https://github.com/MorganCY/Quotely/#requirement">Requirement</a>
     <span style="color:gray">‧</span>
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#libraries">Libraries</a>
+    <a href="https://github.com/MorganCY/Quotely/#libraries">Libraries</a>
     <span style="color:gray">‧</span>
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#contact">Contact</a>
+    <a href="https://github.com/MorganCY/Quotely/#contact">Contact</a>
     <span style="color:gray">‧</span>
-    <a href="https://github.com/MorganCY/Quotely/tree/readme#license">License</a></br></br>
+    <a href="https://github.com/MorganCY/Quotely/#license">License</a></br></br>
     <a href="https://apps.apple.com/tw/app/id1591812700"><img src="https://www.dashsuites.com/wp-content/uploads/2017/07/app-store-logo-1024x353.png" height="50"></a>
 </p>
 
@@ -332,4 +332,4 @@ Morgan Yu | nihao0705@gmail.com
 
 # License
 
-This project is licensed under the terms of the [MIT license](https://github.com/MorganCY/Quotely/blob/license/LICENSE).
+This project is licensed under the terms of the [MIT license](https://github.com/MorganCY/Quotely/blob/main/LICENSE).
