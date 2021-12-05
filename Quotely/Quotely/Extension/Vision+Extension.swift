@@ -46,21 +46,10 @@ extension BaseImagePickerViewController {
         request.recognitionLanguages = ["zh-Hant", "en"]
 
         do {
-
-            try VNRecognizeTextRequest.supportedRecognitionLanguages(for: .accurate, revision: 2)
-
-        } catch {
-
-            print(error)
-        }
-
-        do {
-
             try handler.perform([request])
-
         } catch {
-
             print(error)
+            Toast.showFailure(text: ToastText.failToScan.rawValue)
         }
     }
 }

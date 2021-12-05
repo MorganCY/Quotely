@@ -22,16 +22,17 @@ extension UITableView {
 
         register(nib, forHeaderFooterViewReuseIdentifier: identifier)
     }
-}
 
-extension UITableView {
+    func fadeInCells(cell: UITableViewCell,duration: CGFloat, delay: CGFloat, row: Int) {
 
-    func isLastVisibleCell(at indexPath: IndexPath) -> Bool {
-        guard let lastIndexPath = indexPathsForVisibleRows?.last else {
-            return false
-        }
+        cell.alpha = 0
 
-        return lastIndexPath == indexPath
+        UIView.animate(
+            withDuration: duration,
+            delay: delay * Double(row),
+            animations: {
+                cell.alpha = 1
+        })
     }
 }
 

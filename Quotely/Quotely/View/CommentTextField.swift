@@ -21,7 +21,6 @@ class CommentTextField: UITextField {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         cornerRadius = self.frame.height / 2
     }
 

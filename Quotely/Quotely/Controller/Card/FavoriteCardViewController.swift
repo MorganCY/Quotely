@@ -11,13 +11,11 @@ import UIKit
 class FavoriteCardViewController: UIViewController {
 
     private var visitorUid: String?
-
     private var likeCardList = [Card]() {
         didSet {
             tableView.reloadData()
         }
     }
-
     var isFromWriteVC = false {
         didSet {
             navigationTitle = isFromWriteVC ? "點選引用片語" : "收藏清單"
@@ -156,8 +154,7 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         cell.layoutCell(
             content: likeCardList[indexPath.row].content.replacingOccurrences(of: "\\n", with: "\n"),
-            author: likeCardList[indexPath.row].author
-        )
+            author: likeCardList[indexPath.row].author)
 
         cell.hideSelectionStyle()
 
@@ -168,13 +165,9 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
 
         switch isFromWriteVC {
 
-        case true:
+        case true: goToCardWritePage(index: indexPath.row)
 
-            goToCardWritePage(index: indexPath.row)
-
-        case false:
-
-            goToCardTopicPage(index: indexPath.row)
+        case false: goToCardTopicPage(index: indexPath.row)
         }
     }
 
@@ -182,13 +175,17 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
     ) -> UIContextMenuConfiguration? {
 
         let comment = UIAction(title: "查看討論",
-                               image: UIImage.sfsymbol(.comment)) { _ in
+                               image: UIImage.sfsymbol(.comment)) { [weak self] _ in
+
+            guard let self = self else { return }
 
             self.goToCardTopicPage(index: indexPath.row)
         }
 
         let share = UIAction(title: "分享至社群",
-                             image: UIImage.sfsymbol(.shareNormal)) { _ in
+                             image: UIImage.sfsymbol(.shareNormal)) {[weak self] _ in
+
+            guard let self = self else { return }
 
             self.goToSharePage(
                 content: self.likeCardList[indexPath.row].content,
@@ -196,9 +193,11 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
             )
         }
 
-        let delete = UIAction(title: "不喜歡",
-                              image: UIImage.sfsymbol(.dislike),
-                              attributes: .destructive) { _ in
+        let delete = UIAction(title: "取消收藏",
+                              image: UIImage.sfsymbol(.bookmarkSlashed),
+                              attributes: .destructive) {[weak self] _ in
+
+            guard let self = self else { return }
 
             self.disLikeCard(index: indexPath.row)
         }
@@ -206,15 +205,12 @@ extension FavoriteCardViewController: UITableViewDataSource, UITableViewDelegate
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
 
             UIMenu(title: "", children: [comment, share, delete])
-
         }
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        let animation = AnimationFactory.takeTurnsFadingIn(duration: 0.5, delayFactor: 0.1)
-        let animator = Animator(animation: animation)
-        animator.animate(cell: cell, at: indexPath, in: tableView)
+        tableView.fadeInCells(cell: cell, duration: 0.3, delay: 0.1, row: indexPath.row)
     }
 }
 
@@ -232,9 +228,7 @@ extension FavoriteCardViewController {
         let navVC = BaseNavigationController(rootViewController: writeVC)
 
         writeVC.card = card
-
         navVC.modalPresentationStyle = .fullScreen
-
         present(navVC, animated: true)
     }
 
@@ -247,9 +241,7 @@ extension FavoriteCardViewController {
         else { return }
 
         let card = likeCardList[index]
-
         cardTopicVC.card = card
-
         navigationController?.pushViewController(cardTopicVC, animated: true)
     }
 
@@ -269,7 +261,6 @@ extension FavoriteCardViewController {
         ]
 
         nav.modalPresentationStyle = .fullScreen
-
         present(nav, animated: true)
     }
 
@@ -314,10 +305,10 @@ extension FavoriteCardViewController {
 
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         tableView.registerCellWithNib(
             identifier: FavoriteCardTableViewCell.identifier,
             bundle: nil)
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
     }
 }

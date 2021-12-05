@@ -29,14 +29,7 @@ class BlockListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "封鎖名單"
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .close,
-            target: self,
-            action: #selector(dismissSelf(_:)))
-
+        setupNavigation()
         fetchBlockListContent()
     }
 
@@ -142,5 +135,16 @@ extension BlockListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
+    }
+}
+
+extension BlockListViewController {
+
+    func setupNavigation() {
+        navigationItem.title = "封鎖名單"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissSelf(_:)))
     }
 }

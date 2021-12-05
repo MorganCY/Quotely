@@ -122,13 +122,13 @@ class MyViewController: BaseProfileViewController {
 
         header.followStackView.addGestureRecognizer(goToFollowListGesture)
         header.followStackView.isUserInteractionEnabled = true
-        header.editImageHandler = {
-
+        header.editImageHandler = { [weak self] in
+            guard let self = self else { return }
             self.openImagePicker()
         }
 
-        header.editNameHandler = { userName in
-
+        header.editNameHandler = { [weak self] userName in
+            guard let self = self else { return }
             self.updateUserInfo(imageUrl: nil, userName: userName)
         }
 

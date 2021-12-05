@@ -13,7 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ExploreTableViewCell" customModule="Quotely" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="800"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ooz-cK-VlN">
@@ -26,17 +26,20 @@
                                 <constraint firstAttribute="width" secondItem="V06-TB-5VX" secondAttribute="height" multiplier="1:1" id="awT-os-zaA"/>
                             </constraints>
                         </imageView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="5ar-y4-gqo">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="5ar-y4-gqo">
                             <rect key="frame" x="53.5" y="0.0" width="61.5" height="37.5"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="載入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REG-jv-IH2">
-                                    <rect key="frame" x="0.0" y="0.0" width="61.5" height="14.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="載入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REG-jv-IH2">
+                                    <rect key="frame" x="0.0" y="0.0" width="61.5" height="23"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="23" id="pzV-Ju-f8W"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="載入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lZ-sK-zid">
-                                    <rect key="frame" x="0.0" y="20.5" width="61.5" height="17"/>
+                                    <rect key="frame" x="0.0" y="23" width="61.5" height="14.5"/>
                                     <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="12"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -46,7 +49,7 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ir4-NF-jdk">
-                    <rect key="frame" x="69.5" y="77.5" width="320.5" height="552"/>
+                    <rect key="frame" x="69.5" y="77.5" width="320.5" height="646.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="載入中..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecz-KL-Z7I">
                             <rect key="frame" x="0.0" y="0.0" width="320.5" height="22.5"/>
@@ -55,13 +58,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kvo-5i-dXf">
-                            <rect key="frame" x="0.0" y="70.5" width="253" height="253"/>
+                            <rect key="frame" x="0.0" y="117.5" width="253" height="253"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="kvo-5i-dXf" secondAttribute="height" multiplier="1:1" id="Gue-DQ-X9w"/>
                             </constraints>
                         </imageView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zTH-9E-fB5">
-                            <rect key="frame" x="0.0" y="371.5" width="320.5" height="180.5"/>
+                            <rect key="frame" x="0.0" y="466" width="320.5" height="180.5"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6Zg-QR-xdW">
                                     <rect key="frame" x="0.0" y="0.0" width="320.5" height="22.5"/>
@@ -141,40 +144,39 @@
                     </constraints>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="l2i-0Z-bvY">
-                    <rect key="frame" x="69.5" y="649.5" width="113" height="25.5"/>
+                    <rect key="frame" x="69.5" y="744" width="123.5" height="31"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hy4-Kz-RvS">
-                            <rect key="frame" x="0.0" y="1.5" width="26.5" height="22.5"/>
+                            <rect key="frame" x="0.0" y="2" width="31.5" height="27.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <color key="tintColor" systemColor="systemGray2Color"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title="">
-                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="18"/>
-                                <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                            </buttonConfiguration>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="" image="heart" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
+                            </state>
                             <connections>
                                 <action selector="tapLikeButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="InC-ph-cZl"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYt-Ab-Z3L">
-                            <rect key="frame" x="36.5" y="0.0" width="11" height="25.5"/>
+                            <rect key="frame" x="41.5" y="3" width="11" height="25.5"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
                             <color key="textColor" systemColor="systemGray2Color"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uJW-fK-M5k">
-                            <rect key="frame" x="57.5" y="0.0" width="28.5" height="25.5"/>
+                            <rect key="frame" x="62.5" y="0.0" width="34" height="31"/>
                             <color key="tintColor" systemColor="systemGray2Color"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="message" catalog="system" title="">
-                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="18"/>
-                                <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                            </buttonConfiguration>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="" image="message" catalog="system">
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
+                            </state>
                             <connections>
                                 <action selector="tapCommentButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="Wne-zz-VoL"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fx-f2-uA2">
-                            <rect key="frame" x="96" y="0.0" width="17" height="25.5"/>
+                            <rect key="frame" x="106.5" y="3" width="17" height="25.5"/>
                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="18"/>
                             <color key="textColor" systemColor="systemGray2Color"/>
                             <nil key="highlightedColor"/>
@@ -182,23 +184,22 @@
                     </subviews>
                 </stackView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fG-j4-NTp">
-                    <rect key="frame" x="69.5" y="699" width="344.5" height="1"/>
+                    <rect key="frame" x="69.5" y="799" width="344.5" height="1"/>
                     <color key="backgroundColor" systemColor="systemGray5Color"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="I0z-W4-XY4"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ayb-Sg-P8b">
-                    <rect key="frame" x="360" y="20" width="30" height="24"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ayb-Sg-P8b">
+                    <rect key="frame" x="357" y="20" width="33" height="18"/>
                     <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system">
-                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="ellipsis" catalog="system">
                         <attributedString key="attributedTitle">
                             <fragment content=" "/>
                         </attributedString>
-                        <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                    </buttonConfiguration>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
+                    </state>
                     <connections>
                         <action selector="tapOptionButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="ljQ-kc-eVN"/>
                     </connections>

@@ -338,7 +338,9 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.hideSelectionStyle()
 
-        cell.likeHandler = {
+        cell.likeHandler = { [weak self] in
+            guard let self = self else { return }
+
             if let likeUserList = post.likeUser {
                 self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
             } else {
@@ -357,9 +359,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
-        cell.commentHandler = { self.goToPostDetail(index: indexPath.row) }
+        cell.commentHandler = { [weak self] in
+            guard let self = self else { return }
+            self.goToPostDetail(index: indexPath.row)
+        }
 
-        cell.optionHandler = {
+        cell.optionHandler = { [weak self] in
+            guard let self = self else { return }
             self.openOptionMenu(index: indexPath.row)
         }
 
@@ -369,14 +375,13 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.userStackView.addGestureRecognizer(goToProfileGesture)
         cell.userStackView.isUserInteractionEnabled = true
+        cell.userStackView.tag = indexPath.row
         cell.cardStackView.addGestureRecognizer(goToCardTopicGesture)
         cell.cardStackView.isUserInteractionEnabled = true
+        cell.cardStackView.tag = indexPath.row
         cell.postImageView.addGestureRecognizer(goToImageDetailGesture)
         cell.postImageView.isUserInteractionEnabled = true
-
-        cell.subviews.forEach {
-            $0.tag = indexPath.row
-        }
+        cell.postImageView.tag = indexPath.row
 
         return cell
     }
@@ -472,7 +477,6 @@ extension ExploreViewController {
 
         view.addSubview(filterView)
         filterView.translatesAutoresizingMaskIntoConstraints = false
-
         filterView.delegate = self
         filterView.dataSource = self
 

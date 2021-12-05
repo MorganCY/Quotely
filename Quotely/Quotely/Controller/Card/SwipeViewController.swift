@@ -31,7 +31,7 @@ class SwipeViewController: UIViewController {
         color: .white,
         labelTitle: "分享",
         labelColor: .gray)
-    private let likeButton = ImageButton(image: UIImage.sfsymbol(.colletionStroke), color: .white)
+    private let likeButton = ImageButton(image: UIImage.sfsymbol(.bookmarkNormal), color: .white)
     private let writeButton = ImageButton(
         image: UIImage.sfsymbol(.writeCardPost),
         color: .white,
@@ -59,6 +59,7 @@ class SwipeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLoadingAnimationView()
         initialLoadingCards()
         setupNavigation()
         setupCardView()
@@ -135,6 +136,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -157,6 +159,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -177,6 +180,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
     }
@@ -295,21 +299,27 @@ extension SwipeViewController {
 
     func setupCardView() {
 
-        view.addSubview(loadingAnimationView)
         view.addSubview(cardStack)
         cardStack.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
+        ])
+    }
+
+    func setupLoadingAnimationView() {
+
+        view.addSubview(loadingAnimationView)
         loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             loadingAnimationView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-
-            cardStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            cardStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            cardStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6)
+            loadingAnimationView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6)
         ])
     }
 
@@ -456,7 +466,7 @@ extension SwipeViewController {
 
         navigationItem.title = "片語"
         navigationItem.setupRightBarButton(
-            image: UIImage.sfsymbol(.collection),
+            image: UIImage.sfsymbol(.bookmarkSelected),
             text: nil, target: self,
             action: #selector(tapFavoriteButton(_:)),
             color: .M1)

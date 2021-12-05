@@ -58,11 +58,8 @@ class ProfileViewController: BaseProfileViewController {
             switch result {
 
             case .success(let success):
-
                 print(success)
-
                 self.isBlock = blockAction == .positive
-
                 self.fetchVisitedUserInfo(uid: visitedUid)
 
             case .failure(let error):
@@ -120,14 +117,18 @@ class ProfileViewController: BaseProfileViewController {
         header.followStackView.addGestureRecognizer(goToFollowListGesture)
         header.followStackView.isUserInteractionEnabled = true
 
-        header.blockHanlder = {
+        header.blockHanlder = { [weak self] in
+
+            guard let self = self else { return }
 
             var blockAction: FirebaseAction = .positive
             blockAction = self.isBlock ? .negative : .positive
             self.updateUserBlock(blockAction: blockAction)
         }
 
-        header.followHandler = {
+        header.followHandler = { [weak self] in
+
+            guard let self = self else { return }
 
             var followAction: FirebaseAction = .positive
             followAction = self.isFollow ? .negative : .positive

@@ -30,15 +30,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 switch result {
 
                 case .success(let user):
-
                     print(user)
-
                     UserManager.shared.visitorUserInfo = user
-
                     SignInManager.shared.visitorUid = user.uid
 
                 case .failure(let error):
-
                     print(error)
                 }
             }
@@ -110,7 +106,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
 

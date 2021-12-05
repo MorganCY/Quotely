@@ -29,11 +29,7 @@ class PostDetailViewController: UIViewController {
     var isLikePost = false
 
     // MARK: Interface
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            setupTableView()
-        }
-    }
+    let tableView = UITableView(frame: .zero, style: .grouped)
     let commentPanel = UIView()
     let userImageView = UIImageView()
     let commentTextField = CommentTextField()
@@ -41,9 +37,10 @@ class PostDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCommentPanel()
+        setupTableView()
         setupNavigation()
         setupTableView()
-        setupCommentPanel()
         fetchComments()
     }
 
@@ -532,6 +529,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
             if let imageUrl = self.post?.imageUrl {
                 writeVC.imageUrl = imageUrl
+                writeVC.uploadedImage = header.postImageView.image
                 writeVC.hasPostImage = true
             }
 
@@ -740,6 +738,8 @@ extension PostDetailViewController {
     }
 
     func setupTableView() {
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
         tableView.registerHeaderWithNib(
@@ -748,10 +748,16 @@ extension PostDetailViewController {
         tableView.registerCellWithNib(
             identifier: PostDetailCommentCell.identifier, bundle: nil)
         tableView.backgroundColor = .white
-
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0
         }
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: commentPanel.topAnchor)
+        ])
     }
 
     func setupCommentPanel() {
