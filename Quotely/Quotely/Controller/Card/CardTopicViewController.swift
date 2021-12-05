@@ -32,12 +32,7 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    private var postList: [Post]? {
-        didSet {
-            guard let postList = postList else { return }
-            if postList.count > 0 { loadingAnimationView.removeFromSuperview() }
-        }
-    }
+    private var postList: [Post]?
     private var userList: [User]? {
         didSet {
             tableView.reloadData()
@@ -90,9 +85,8 @@ class CardTopicViewController: UIViewController {
             switch result {
 
             case .success(let postList):
-
+                self.loadingAnimationView.removeFromSuperview()
                 guard let postList = postList else { return }
-
                 self.postList = postList
                 self.fetchUserList(postList: postList)
 
