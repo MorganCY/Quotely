@@ -187,6 +187,8 @@ func recognizeText(image: UIImage?,
 - Like other users' posts and leave a comment
 
 <p>
+    <img src="https://i.imgur.com/tk6WYoz.gif"/>
+    <span>   </span>
     <img src="https://i.imgur.com/JXoDUvJ.png"/>
 </p>
 
@@ -265,7 +267,6 @@ query.addSnapshotListener { [self] (documentSnapshot, error) in
 ```Swift
 protocol SelectionViewDataSource: AnyObject {
 
-    // swiftlint:disable identifier_name
     func numberOfButtonsAt(_ view: SelectionView) -> Int
     ...
     func buttonImage(_ view: SelectionView, index: Int) -> UIImage?
