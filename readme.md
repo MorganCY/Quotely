@@ -197,58 +197,36 @@ func recognizeText(image: UIImage?,
 func fetchUserList(postList: [Post]) {
 
     var userList: [User] = Array(repeating: User.default, count: postList.count)
+
     let group = DispatchGroup()
 
-    DispatchQueue.main.async {
+    DispatchQueue.global().async {
 
         for (index, post) in postList.enumerated() {
 
             group.enter()
-                
+
             UserManager.shared.fetchUserInfo(uid: post.uid) { result in
+
                 switch result {
+
                 case .success(let user):
                     userList[index] = user
                     group.leave()
 
                 case .failure(let error):
                     print(error)
-                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                    ...
                     group.leave()
                 }
             }
         }
+
         group.notify(queue: DispatchQueue.main) {
             self.userList = userList
             ...
         }
     }
-}
-```
-
-- Implement real-time post update by `Firestore SnapShotListener`
-```Swift
-query.addSnapshotListener { [self] (documentSnapshot, error) in
-
-    if let error = error {
-                    completion(.failure(error))
-    }
-
-    var posts = [Post]()
-    
-    guard let documentSnapshot = documentSnapshot else { return }
-
-    for document in documentSnapshot.documents {
-
-        do {
-           if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()) {
-                filterOutBlockedUser(post: post, posts: &posts)
-            }
-        } catch {
-            completion(.failure(error))
-        }
-    }
-    completion(.success(posts))
 }
 ```
 
