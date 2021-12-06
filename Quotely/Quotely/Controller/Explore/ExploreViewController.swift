@@ -85,32 +85,29 @@ class ExploreViewController: UIViewController {
 
         let group = DispatchGroup()
 
-        DispatchQueue.global().async {
+        for (index, post) in postList.enumerated() {
 
-            for (index, post) in postList.enumerated() {
+            group.enter()
 
-                group.enter()
+            UserManager.shared.fetchUserInfo(uid: post.uid) { result in
 
-                UserManager.shared.fetchUserInfo(uid: post.uid) { result in
+                switch result {
 
-                    switch result {
+                case .success(let user):
+                    userList[index] = user
+                    group.leave()
 
-                    case .success(let user):
-                        userList[index] = user
-                        group.leave()
-
-                    case .failure(let error):
-                        print(error)
-                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
-                        group.leave()
-                    }
+                case .failure(let error):
+                    print(error)
+                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                    group.leave()
                 }
             }
+        }
 
-            group.notify(queue: DispatchQueue.main) {
-                self.userList = userList
-                self.loadingAnimationView.removeFromSuperview()
-            }
+        group.notify(queue: DispatchQueue.main) {
+            self.userList = userList
+            self.loadingAnimationView.removeFromSuperview()
         }
     }
 

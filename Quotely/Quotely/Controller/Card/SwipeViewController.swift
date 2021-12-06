@@ -91,38 +91,35 @@ class SwipeViewController: UIViewController {
 
     func initialLoadingCards() {
 
-        DispatchQueue.global().async {
+        let group = DispatchGroup()
 
-            let group = DispatchGroup()
+        group.enter()
 
-            group.enter()
+        CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
 
-            CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
+            switch result {
 
-                switch result {
+            case .success(let cards):
+                self.cards = cards
+                self.cardStack.dataSource = self
+                self.cardStack.delegate = self
+                group.leave()
 
-                case .success(let cards):
-                    self.cards = cards
-                    self.cardStack.dataSource = self
-                    self.cardStack.delegate = self
-                    group.leave()
-
-                case .failure(let error):
-                    print(error)
-                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
-                    group.leave()
-                }
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                group.leave()
             }
-
-            group.notify(queue: DispatchQueue.main, execute: {
-
-                self.loadingAnimationView.removeFromSuperview()
-                self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
-                self.shareButton.isEnabled = true
-                self.likeButton.isEnabled = true
-                self.writeButton.isEnabled = true
-            })
         }
+
+        group.notify(queue: DispatchQueue.main, execute: {
+
+            self.loadingAnimationView.removeFromSuperview()
+            self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
+            self.shareButton.isEnabled = true
+            self.likeButton.isEnabled = true
+            self.writeButton.isEnabled = true
+        })
     }
 
     func fetchCards() {
