@@ -85,7 +85,7 @@ class ExploreViewController: UIViewController {
 
         let group = DispatchGroup()
 
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
 
             for (index, post) in postList.enumerated() {
 
@@ -108,9 +108,7 @@ class ExploreViewController: UIViewController {
             }
 
             group.notify(queue: DispatchQueue.main) {
-
                 self.userList = userList
-
                 self.loadingAnimationView.removeFromSuperview()
             }
         }

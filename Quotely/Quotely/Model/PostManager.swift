@@ -101,7 +101,7 @@ class PostManager {
 
         case .latest:
 
-            return query.addSnapshotListener { [self] documentSnapshot, error in
+            return query.addSnapshotListener { documentSnapshot, error in
 
                 if let error = error {
                     completion(.failure(error))
@@ -115,7 +115,7 @@ class PostManager {
 
                     do {
                         if let post = try document.data(as: Post.self, decoder: Firestore.Decoder()) {
-                            filterOutBlockedUser(post: post, posts: &posts)
+                            self.filterOutBlockedUser(post: post, posts: &posts)
                         }
                     } catch {
                         completion(.failure(error))
