@@ -91,10 +91,6 @@ class SwipeViewController: UIViewController {
 
     func initialLoadingCards() {
 
-        let group = DispatchGroup()
-
-        group.enter()
-
         CardManager.shared.fetchRandomCards(limitNumber: 6) { result in
 
             switch result {
@@ -103,23 +99,18 @@ class SwipeViewController: UIViewController {
                 self.cards = cards
                 self.cardStack.dataSource = self
                 self.cardStack.delegate = self
-                group.leave()
+
+                self.loadingAnimationView.removeFromSuperview()
+                self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
+                self.shareButton.isEnabled = true
+                self.likeButton.isEnabled = true
+                self.writeButton.isEnabled = true
 
             case .failure(let error):
                 print(error)
                 Toast.showFailure(text: ToastText.failToDownload.rawValue)
-                group.leave()
             }
         }
-
-        group.notify(queue: DispatchQueue.main, execute: {
-
-            self.loadingAnimationView.removeFromSuperview()
-            self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
-            self.shareButton.isEnabled = true
-            self.likeButton.isEnabled = true
-            self.writeButton.isEnabled = true
-        })
     }
 
     func fetchCards() {
