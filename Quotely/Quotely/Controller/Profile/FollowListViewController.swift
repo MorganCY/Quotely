@@ -82,33 +82,30 @@ class FollowListViewController: UIViewController {
 
         let group = DispatchGroup()
 
-        DispatchQueue.main.async {
+        for (index, uid) in uid.enumerated() {
 
-            for (index, uid) in uid.enumerated() {
+            group.enter()
 
-                group.enter()
+            UserManager.shared.fetchUserInfo(uid: uid) { result in
 
-                UserManager.shared.fetchUserInfo(uid: uid) { result in
+                switch result {
 
-                    switch result {
+                case .success(let user):
+                    userList[index] = user
+                    group.leave()
 
-                    case .success(let user):
-                        userList[index] = user
-                        group.leave()
-
-                    case .failure(let error):
-                        print(error)
-                        group.leave()
-                    }
+                case .failure(let error):
+                    print(error)
+                    group.leave()
                 }
             }
+        }
 
-            group.notify(queue: DispatchQueue.main) {
+        group.notify(queue: DispatchQueue.main) {
 
-                switch listType {
-                case .follower: self.followerList = userList
-                case .following: self.followingList = userList
-                }
+            switch listType {
+            case .follower: self.followerList = userList
+            case .following: self.followingList = userList
             }
         }
     }

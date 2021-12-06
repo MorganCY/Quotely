@@ -41,7 +41,7 @@ class BlockListViewController: UIViewController {
 
         let group = DispatchGroup()
 
-        blockUidList.forEach {_ in
+        blockUidList.forEach { _ in
 
             for (index, uid) in blockUidList.enumerated() {
 

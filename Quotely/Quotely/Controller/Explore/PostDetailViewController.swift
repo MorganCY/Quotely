@@ -84,32 +84,29 @@ class PostDetailViewController: UIViewController {
 
         let group = DispatchGroup()
 
-        DispatchQueue.main.async {
+        for (index, comment) in commentList.enumerated() {
 
-            for (index, comment) in commentList.enumerated() {
+            group.enter()
 
-                group.enter()
+            UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
 
-                UserManager.shared.fetchUserInfo(uid: comment.uid) { result in
+                switch result {
 
-                    switch result {
+                case .success(let user):
+                    userList[index] = user
+                    group.leave()
 
-                    case .success(let user):
-                        userList[index] = user
-                        group.leave()
-
-                    case .failure(let error):
-                        print(error)
-                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
-                        group.leave()
-                    }
+                case .failure(let error):
+                    print(error)
+                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                    group.leave()
                 }
             }
+        }
 
-            group.notify(queue: DispatchQueue.main) {
+        group.notify(queue: DispatchQueue.main) {
 
-                self.commentUserList = userList
-            }
+            self.commentUserList = userList
         }
     }
 
