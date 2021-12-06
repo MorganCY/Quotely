@@ -55,26 +55,23 @@ class FavoriteCardViewController: UIViewController {
 
         let group = DispatchGroup()
 
-        DispatchQueue.global().async {
+        UserManager.shared.visitorUserInfo?.likeCardList?.forEach {
 
-            UserManager.shared.visitorUserInfo?.likeCardList?.forEach {
+            group.enter()
 
-                group.enter()
+            CardManager.shared.fetchSpecificCard(cardID: $0
+            ) { result in
 
-                CardManager.shared.fetchSpecificCard(cardID: $0
-                ) { result in
+                switch result {
 
-                    switch result {
+                case .success(let card):
+                    self.likeCardList.append(card)
+                    group.leave()
 
-                    case .success(let card):
-                        self.likeCardList.append(card)
-                        group.leave()
-
-                    case .failure(let error):
-                        print(error)
-                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
-                        group.leave()
-                    }
+                case .failure(let error):
+                    print(error)
+                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                    group.leave()
                 }
             }
 
