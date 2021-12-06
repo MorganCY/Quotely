@@ -200,32 +200,29 @@ func fetchUserList(postList: [Post]) {
 
     let group = DispatchGroup()
 
-    DispatchQueue.global().async {
+    for (index, post) in postList.enumerated() {
 
-        for (index, post) in postList.enumerated() {
+        group.enter()
+        
+        UserManager.shared.fetchUserInfo(uid: post.uid) { result in
 
-            group.enter()
+            switch result {
 
-            UserManager.shared.fetchUserInfo(uid: post.uid) { result in
+            case .success(let user):
+                userList[index] = user
+                group.leave()
 
-                switch result {
-
-                case .success(let user):
-                    userList[index] = user
-                    group.leave()
-
-                case .failure(let error):
-                    print(error)
-                    ...
-                    group.leave()
-                }
+            case .failure(let error):
+                print(error)
+                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                group.leave()
             }
         }
+    }
 
-        group.notify(queue: DispatchQueue.main) {
-            self.userList = userList
-            ...
-        }
+    group.notify(queue: DispatchQueue.main) {
+        self.userList = userList
+        self.loadingAnimationView.removeFromSuperview()
     }
 }
 ```
