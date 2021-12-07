@@ -45,16 +45,12 @@ class JournalListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchJournals()
         userRegisterDate = Date.init(milliseconds: UserManager.shared.visitorUserInfo?.registerTime ?? 0)
         navigationController?.setupBackButton(color: .white)
         tabBarController?.tabBar.isHidden = true
         setupBackgroundImageView()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         setupLoadingAnimation()
-        fetchJournals()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
