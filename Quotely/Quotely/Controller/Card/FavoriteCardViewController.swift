@@ -24,7 +24,6 @@ class FavoriteCardViewController: UIViewController {
     private var navigationTitle = "收藏清單"
     private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
     private let emptyReminderView = LottieAnimationView(animationName: "empty")
-
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             setupTableView()
