@@ -24,7 +24,6 @@ class FavoriteCardViewController: UIViewController {
     private var navigationTitle = "收藏清單"
     private let loadingAnimationView = LottieAnimationView(animationName: "whiteLoading")
     private let emptyReminderView = LottieAnimationView(animationName: "empty")
-
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             setupTableView()
@@ -55,35 +54,41 @@ class FavoriteCardViewController: UIViewController {
 
         let group = DispatchGroup()
 
-        UserManager.shared.visitorUserInfo?.likeCardList?.forEach {
+        guard let likeCardList = UserManager.shared.visitorUserInfo?.likeCardList else {
+            return
+        }
 
-            group.enter()
+        if likeCardList.count == 0 {
 
-            CardManager.shared.fetchSpecificCard(cardID: $0
-            ) { result in
+            self.loadingAnimationView.removeFromSuperview()
+            self.setupEmptyReminder()
 
-                switch result {
+        } else {
 
-                case .success(let card):
-                    self.likeCardList.append(card)
-                    group.leave()
+            likeCardList.forEach {
 
-                case .failure(let error):
-                    print(error)
-                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
-                    group.leave()
+                group.enter()
+
+                CardManager.shared.fetchSpecificCard(cardID: $0
+                ) { result in
+
+                    switch result {
+
+                    case .success(let card):
+                        self.likeCardList.append(card)
+                        group.leave()
+
+                    case .failure(let error):
+                        print(error)
+                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                        group.leave()
+                    }
                 }
-            }
 
-            group.notify(queue: DispatchQueue.main) {
-
-                if self.likeCardList.count == 0 {
-
-                    self.setupEmptyReminder()
+                group.notify(queue: DispatchQueue.main) {
+                    self.loadingAnimationView.removeFromSuperview()
+                    self.tableView.reloadData()
                 }
-
-                self.loadingAnimationView.removeFromSuperview()
-                self.tableView.reloadData()
             }
         }
     }

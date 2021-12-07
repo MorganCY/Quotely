@@ -27,7 +27,6 @@ class BaseProfileViewController: BaseImagePickerViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLoadingAnimation()
         setupTableView()
         navigationItem.title = "個人資訊"
     }
@@ -58,6 +57,8 @@ class BaseProfileViewController: BaseImagePickerViewController {
     }
 
     func fetchVisitedUserInfo(uid: String) {
+
+        setupLoadingAnimation()
 
         UserManager.shared.fetchUserInfo(uid: uid) { result in
 
