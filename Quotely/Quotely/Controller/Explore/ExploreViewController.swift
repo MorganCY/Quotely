@@ -214,7 +214,10 @@ class ExploreViewController: UIViewController {
         if let popoverController = optionAlert.popoverPresentationController {
 
             popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0, height: 0)
             popoverController.permittedArrowDirections = []
         }
 
@@ -427,7 +430,9 @@ extension ExploreViewController {
 
         guard let cardTopicVC = UIStoryboard
                 .card
-                .instantiateViewController(withIdentifier: String(describing: CardTopicViewController.self)) as? CardTopicViewController
+                .instantiateViewController(
+                    withIdentifier: String(describing: CardTopicViewController.self)
+                ) as? CardTopicViewController
         else { return }
 
         guard let currentRow = gestureRecognizer.view?.tag else { return }

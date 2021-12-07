@@ -10,7 +10,7 @@ import Lottie
 
 class LottieAnimationView: UIView {
 
-    let animationView: AnimationView
+    private var animationView: AnimationView
 
     init(animationName: String) {
         self.animationView = AnimationView(name: animationName)

@@ -14,8 +14,8 @@ class ImageDetailViewController: UIViewController {
     var imageUrl: String?
 
     convenience init(imageUrl: String) {
-      self.init()
-      self.imageUrl = imageUrl
+        self.init()
+        self.imageUrl = imageUrl
     }
 
     override func viewDidLoad() {
