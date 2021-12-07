@@ -44,12 +44,7 @@ class CardTopicViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
-            tableView.registerCellWithNib(identifier: CardTopicTableViewCell.identifier, bundle: nil)
-            tableView.registerHeaderWithNib(identifier: CardTopicTableViewHeader.identifier, bundle: nil)
-            tableView.setSpecificCorner(corners: [.topLeft, .topRight])
-            tableView.backgroundColor = .M3
+            setupTableView()
         }
     }
 
@@ -73,6 +68,7 @@ class CardTopicViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                self.loadingAnimationView.removeFromSuperview()
                 Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
@@ -85,13 +81,13 @@ class CardTopicViewController: UIViewController {
             switch result {
 
             case .success(let postList):
-                self.loadingAnimationView.removeFromSuperview()
                 guard let postList = postList else { return }
                 self.postList = postList
                 self.fetchUserList(postList: postList)
 
             case .failure(let error):
                 print(error)
+                self.loadingAnimationView.removeFromSuperview()
                 Toast.showFailure(text: ToastText.failToDownload.rawValue)
             }
         }
@@ -122,8 +118,8 @@ class CardTopicViewController: UIViewController {
             }
 
             group.notify(queue: DispatchQueue.main) {
-
                 self.userList = userList
+                self.loadingAnimationView.removeFromSuperview()
             }
         }
     }
@@ -222,7 +218,10 @@ class CardTopicViewController: UIViewController {
         if let popoverController = optionAlert.popoverPresentationController {
 
             popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0, height: 0)
             popoverController.permittedArrowDirections = []
         }
 
@@ -384,7 +383,6 @@ extension CardTopicViewController {
         ]
 
         navigationVC.modalPresentationStyle = .fullScreen
-
         present(navigationVC, animated: true)
     }
 
@@ -411,12 +409,19 @@ extension CardTopicViewController {
         else { return }
 
         let nav = BaseNavigationController(rootViewController: writeVC)
-
         writeVC.card = card
-
         nav.modalPresentationStyle = .fullScreen
-
         present(nav, animated: true)
+    }
+
+    func setupTableView() {
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.registerCellWithNib(identifier: CardTopicTableViewCell.identifier, bundle: nil)
+        tableView.registerHeaderWithNib(identifier: CardTopicTableViewHeader.identifier, bundle: nil)
+        tableView.setSpecificCorner(corners: [.topLeft, .topRight])
+        tableView.backgroundColor = .M3
     }
 
     func setupBackgroundImage() {
