@@ -463,6 +463,8 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
             withIdentifier: PostDetailTableViewHeader.identifier
         ) as? PostDetailTableViewHeader else { fatalError("Cannot load header view.") }
 
+        header.delegate = self
+
         let tapGoToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(tapCardTopicView(_:)))
         let tapGoToPostImageDetailGesture = UITapGestureRecognizer(
             target: self,
@@ -478,145 +480,6 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
         guard post != nil, postAuthor != nil else { fatalError("Cannot fetch post data") }
 
         header.layoutHeader(post: post, postAuthor: postAuthor, isAuthor: self.isAuthor, isLike: isLikePost)
-
-        header.likeHandler = { [weak self] in
-
-            guard let self = self else { return }
-
-            guard let postID = self.post?.postID else { return }
-
-            let likeAction: FirebaseAction = self.isLikePost ? .negative : .positive
-
-            header.likeButton.isEnabled = false
-
-            self.updatePostLike(
-                postID: postID,
-                likeAction: likeAction) {
-                    if likeAction == .positive {
-                        self.post?.likeNumber += 1
-                        self.isLikePost = true
-                    } else if likeAction == .negative {
-                        self.post?.likeNumber -= 1
-                        self.isLikePost = false
-                    }
-                    header.likeButton.isEnabled = true
-                    tableView.reloadData()
-
-                } errorHandler: {
-
-                    header.likeButton.isEnabled = true
-                }
-        }
-
-        header.editHandler = {
-
-            var writeVC: BaseAddPostViewController?
-
-            writeVC = self.post?.cardID == nil
-            ?
-            UIStoryboard.write.instantiateViewController(
-                withIdentifier: AddPostViewController.identifier
-            ) as? AddPostViewController :
-            UIStoryboard.write.instantiateViewController(
-                withIdentifier: AddCardPostViewController.identifier
-            ) as? AddCardPostViewController
-
-            guard let writeVC = writeVC else { return }
-
-            let navigationVC = UINavigationController(rootViewController: writeVC)
-
-            navigationVC.modalPresentationStyle = .fullScreen
-
-            writeVC.contentTextView.text = self.post?.content
-
-            writeVC.postID = self.post?.postID
-
-            if let imageUrl = self.post?.imageUrl {
-                writeVC.imageUrl = imageUrl
-                writeVC.uploadedImage = header.postImageView.image
-                writeVC.hasPostImage = true
-            }
-
-            writeVC.editContentHandler = { content, editTime, postImage in
-
-                self.post?.content = content
-                self.post?.editTime = editTime
-
-                if self.post?.cardID != nil {
-                    header.cardImageView.image = postImage
-                    header.cardImageView.layoutIfNeeded()
-                } else {
-                    if postImage == nil {
-                        header.postImageView.isHidden = true
-                    } else {
-                        header.postImageView.image = postImage
-                    }
-                    header.postImageView.layoutIfNeeded()
-                }
-                self.tableView.reloadData()
-            }
-
-            if let cardID = self.post?.cardID {
-
-                writeVC.uploadedImage = header.cardImageView.image
-
-                self.fetchCard(cardID: cardID) { result in
-
-                    switch result {
-
-                    case .success(let card):
-                        writeVC.card = card
-                        self.navigationController?.present(navigationVC, animated: true)
-
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
-
-            } else {
-
-                self.navigationController?.present(navigationVC, animated: true)
-            }
-        }
-
-        header.deleteHandler = { [weak self] in
-
-            guard let self = self else { return }
-
-            let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
-
-            let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
-
-                guard let postID = self.post?.postID else { return }
-
-                self.deletePost(postID: postID)
-            }
-            let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
-
-            if let popoverController = alert.popoverPresentationController {
-
-                popoverController.sourceView = self.view
-                popoverController.sourceRect = CGRect(
-                    x: self.view.bounds.midX,
-                    y: self.view.bounds.midY,
-                    width: 0, height: 0)
-                popoverController.permittedArrowDirections = []
-            }
-
-            alert.addAction(cancelAction)
-            alert.addAction(okAction)
-            self.present(alert, animated: true, completion: nil)
-        }
-
-        header.optionHandler = { [weak self] in
-
-            guard let self = self else { return }
-
-            self.openOptionMenu(blockedUid: self.post?.uid ?? "", index: nil) {
-
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
 
         let tapGoToProfileGesture = UITapGestureRecognizer(
             target: self, action: #selector(goToProfileFromHeader(_:))
@@ -730,6 +593,138 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         UITableView.automaticDimension
+    }
+}
+
+extension PostDetailViewController: PostDetailTableViewHeaderDelegate {
+
+    func likePostHeader(_ header: PostDetailTableViewHeader) {
+
+        guard let postID = self.post?.postID else { return }
+
+        let likeAction: FirebaseAction = self.isLikePost ? .negative : .positive
+
+        header.likeButton.isEnabled = false
+
+        self.updatePostLike(
+            postID: postID,
+            likeAction: likeAction
+        ) {
+            if likeAction == .positive {
+                self.post?.likeNumber += 1
+                self.isLikePost = true
+            } else if likeAction == .negative {
+                self.post?.likeNumber -= 1
+                self.isLikePost = false
+            }
+            header.likeButton.isEnabled = true
+            self.tableView.reloadData()
+
+        } errorHandler: {
+
+            header.likeButton.isEnabled = true
+        }
+    }
+
+    func editPostHeader(_ header: PostDetailTableViewHeader) {
+
+        var writeVC: BaseAddPostViewController?
+
+        writeVC = self.post?.cardID == nil
+        ?
+        UIStoryboard.write.instantiateViewController(
+            withIdentifier: AddPostViewController.identifier
+        ) as? AddPostViewController :
+        UIStoryboard.write.instantiateViewController(
+            withIdentifier: AddCardPostViewController.identifier
+        ) as? AddCardPostViewController
+
+        guard let writeVC = writeVC else { return }
+
+        let navigationVC = UINavigationController(rootViewController: writeVC)
+
+        navigationVC.modalPresentationStyle = .fullScreen
+
+        writeVC.contentTextView.text = self.post?.content
+
+        writeVC.postID = self.post?.postID
+
+        if let imageUrl = self.post?.imageUrl {
+            writeVC.imageUrl = imageUrl
+            writeVC.uploadedImage = header.postImageView.image
+            writeVC.hasPostImage = true
+        }
+
+        writeVC.editContentHandler = { content, editTime, postImage in
+
+            self.post?.content = content
+            self.post?.editTime = editTime
+
+            if self.post?.cardID != nil {
+                header.cardImageView.image = postImage
+                header.cardImageView.layoutIfNeeded()
+            } else {
+                if postImage == nil {
+                    header.postImageView.isHidden = true
+                } else { header.postImageView.image = postImage }
+                header.postImageView.layoutIfNeeded()
+            }
+            self.tableView.reloadData()
+        }
+
+        if let cardID = self.post?.cardID {
+
+            writeVC.uploadedImage = header.cardImageView.image
+
+            self.fetchCard(cardID: cardID) { result in
+
+                switch result {
+
+                case .success(let card):
+                    writeVC.card = card
+                    self.navigationController?.present(navigationVC, animated: true)
+
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        } else {
+            self.navigationController?.present(navigationVC, animated: true)
+        }
+    }
+
+    func deletePost(_ header: PostDetailTableViewHeader) {
+
+        let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "刪除", style: .default) { _ in
+
+            guard let postID = self.post?.postID else { return }
+
+            self.deletePost(postID: postID)
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
+
+        if let popoverController = alert.popoverPresentationController {
+
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    func optionMenuOfPost(_ header: PostDetailTableViewHeader) {
+
+        self.openOptionMenu(blockedUid: self.post?.uid ?? "", index: nil) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

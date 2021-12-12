@@ -51,10 +51,6 @@ class ExploreTableViewCell: UITableViewCell {
         userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
-    var likeHandler: () -> Void = {}
-    var commentHandler: () -> Void = {}
-    var optionHandler: () -> Void = {}
-
     @IBAction func tapLikeButton(_ sender: Any) {
         delegate?.likeOnRow(self)
     }
