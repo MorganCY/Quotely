@@ -159,7 +159,7 @@
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
                             </state>
                             <connections>
-                                <action selector="like:" destination="iN0-l3-epB" eventType="touchUpInside" id="Nnp-QI-Ims"/>
+                                <action selector="tapLikeButton:" destination="-2" eventType="touchUpInside" id="XgW-oC-vAb"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YeF-He-MIl">
@@ -189,7 +189,7 @@
                         </preferredSymbolConfiguration>
                     </state>
                     <connections>
-                        <action selector="edit:" destination="iN0-l3-epB" eventType="touchUpInside" id="HIk-fU-5lL"/>
+                        <action selector="tapEditButton:" destination="-2" eventType="touchUpInside" id="vhv-fd-sKt"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d55-xn-7rn">
@@ -204,7 +204,7 @@
                         </preferredSymbolConfiguration>
                     </state>
                     <connections>
-                        <action selector="deleteComment:" destination="iN0-l3-epB" eventType="touchUpInside" id="NxX-15-2bD"/>
+                        <action selector="tapDeleteButton:" destination="-2" eventType="touchUpInside" id="9vd-Rm-NR3"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" id="1zD-Pb-1mq">

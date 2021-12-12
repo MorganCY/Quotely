@@ -58,7 +58,7 @@
                         </preferredSymbolConfiguration>
                     </state>
                     <connections>
-                        <action selector="edit:" destination="iN0-l3-epB" eventType="touchUpInside" id="lOD-cs-lQB"/>
+                        <action selector="tapEditButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="6WJ-sV-kd0"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRa-XF-aC5">

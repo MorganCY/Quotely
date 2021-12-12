@@ -324,44 +324,16 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
         let post = postList[indexPath.row]
 
         if let likeUserList = post.likeUser {
-            isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
+            self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
         } else {
-            isLikePost = false
+            self.isLikePost = false
         }
 
         guard let userList = userList else { return UITableViewCell() }
 
         cell.layoutCell(userInfo: userList[indexPath.row], post: post, isLikePost: self.isLikePost)
 
-        cell.hideSelectionStyle()
-
-        cell.likeHandler = { [weak self] in
-            guard let self = self else { return }
-
-            if let likeUserList = post.likeUser {
-                self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
-            } else {
-                self.isLikePost = false
-            }
-
-            guard let postID = post.postID else { return }
-
-            let likeAction: FirebaseAction = self.isLikePost ? .negative : .positive
-
-            cell.likeButton.isEnabled = false
-
-            self.updatePostLike(postID: postID, likeAction: likeAction) { cell.likeButton.isEnabled = true }
-        }
-
-        cell.commentHandler = { [weak self] in
-            guard let self = self else { return }
-            self.goToPostDetail(index: indexPath.row)
-        }
-
-        cell.optionHandler = { [weak self] in
-            guard let self = self else { return }
-            self.openOptionMenu(index: indexPath.row)
-        }
+        cell.delegate = self
 
         let goToProfileGesture = UITapGestureRecognizer(target: self, action: #selector(tapUserProfile(_:)))
         let goToCardTopicGesture = UITapGestureRecognizer(target: self, action: #selector(tapCardTopicView(_:)))
@@ -383,6 +355,48 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         goToPostDetail(index: indexPath.row)
+    }
+}
+
+extension ExploreViewController: ExploreTableViewCellDelegate {
+
+    func likeOnRow(_ cell: ExploreTableViewCell) {
+
+        guard let row = tableView.indexPath(for: cell)?.row else {
+            return
+        }
+
+        let post = postList[row]
+
+        if let likeUserList = post.likeUser {
+            self.isLikePost = likeUserList.contains(SignInManager.shared.visitorUid ?? "")
+        } else {
+            self.isLikePost = false
+        }
+
+        guard let postID = post.postID else { return }
+
+        let likeAction: FirebaseAction = self.isLikePost ? .negative : .positive
+
+        cell.likeButton.isEnabled = false
+
+        self.updatePostLike(postID: postID, likeAction: likeAction) {
+            cell.likeButton.isEnabled = true
+        }
+    }
+
+    func commentOnRow(_ cell: ExploreTableViewCell) {
+        guard let row = tableView.indexPath(for: cell)?.row else {
+            return
+        }
+        goToPostDetail(index: row)
+    }
+
+    func optionOnRow(_ cell: ExploreTableViewCell) {
+        guard let row = tableView.indexPath(for: cell)?.row else {
+            return
+        }
+        openOptionMenu(index: row)
     }
 }
 
