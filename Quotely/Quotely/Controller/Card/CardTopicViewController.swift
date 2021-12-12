@@ -84,6 +84,7 @@ class CardTopicViewController: UIViewController {
                 guard let postList = postList else { return }
                 self.postList = postList
                 self.fetchUserList(postList: postList)
+                if postList.count == 0 { self.loadingAnimationView.removeFromSuperview() }
 
             case .failure(let error):
                 print(error)
