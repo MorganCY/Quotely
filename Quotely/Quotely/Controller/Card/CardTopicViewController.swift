@@ -32,7 +32,11 @@ class CardTopicViewController: UIViewController {
         }
     }
 
-    private var postList: [Post]?
+    private var postList: [Post]? {
+        didSet {
+            loadingAnimationView.removeFromSuperview()
+        }
+    }
     private var userList: [User]? {
         didSet {
             tableView.reloadData()
@@ -68,8 +72,10 @@ class CardTopicViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                self.loadingAnimationView.removeFromSuperview()
                 Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                DispatchQueue.main.async {
+                    self.loadingAnimationView.removeFromSuperview()
+                }
             }
         }
     }
@@ -87,8 +93,10 @@ class CardTopicViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                self.loadingAnimationView.removeFromSuperview()
                 Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                DispatchQueue.main.async {
+                    self.loadingAnimationView.removeFromSuperview()
+                }
             }
         }
     }

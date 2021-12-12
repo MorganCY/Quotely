@@ -8,6 +8,14 @@
 import Foundation
 import UIKit
 
+protocol PostDetailTableViewHeaderDelegate: AnyObject {
+
+    func likePostHeader(_ header: PostDetailTableViewHeader)
+    func editPostHeader(_ header: PostDetailTableViewHeader)
+    func deletePost(_ header: PostDetailTableViewHeader)
+    func optionMenuOfPost(_ header: PostDetailTableViewHeader)
+}
+
 class PostDetailTableViewHeader: UITableViewHeaderFooterView {
 
     @IBOutlet weak var userStackView: UIStackView!
@@ -26,6 +34,8 @@ class PostDetailTableViewHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var likeNumberLabel: UILabel!
     @IBOutlet weak var optionMenuButton: UIButton!
 
+    weak var delegate: PostDetailTableViewHeaderDelegate?
+
     var hasUserInfo = false {
         didSet {
             userImageView.isHidden = !hasUserInfo
@@ -36,24 +46,20 @@ class PostDetailTableViewHeader: UITableViewHeaderFooterView {
 
     var isEnableEdit = false
 
-    var profileHandler: () -> Void = {}
+    @IBAction func tapLikeButton(_ sender: UIButton) {
+        delegate?.likePostHeader(self)
+    }
 
-    var editHandler: () -> Void = {}
+    @IBAction func tapEditButton(_ sender: UIButton) {
+        delegate?.editPostHeader(self)
+    }
 
-    var deleteHandler: () -> Void = {}
-
-    var likeHandler: () -> Void = {}
-
-    var optionHandler: () -> Void = {}
-
-    @IBAction func like(_ sender: UIButton) { likeHandler() }
-
-    @IBAction func edit(_ sender: UIButton) { editHandler() }
-
-    @IBAction func deleteComment(_ sender: UIButton) { deleteHandler() }
+    @IBAction func tapDeleteButton(_ sender: UIButton) {
+        delegate?.deletePost(self)
+    }
 
     @IBAction func tapOptionMenuButton(_ sender: UIButton) {
-        optionHandler()
+        delegate?.optionMenuOfPost(self)
     }
 
     override func awakeFromNib() {

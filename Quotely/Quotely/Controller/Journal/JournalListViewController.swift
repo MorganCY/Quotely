@@ -13,6 +13,7 @@ class JournalListViewController: UIViewController {
     private var journals = [Journal]() {
         didSet {
             displayEmptyReminderView()
+            loadingAnimationView.removeFromSuperview()
         }
     }
     private var selectedMonth = Date().getCurrentTime(format: .MM) {
@@ -69,12 +70,13 @@ class JournalListViewController: UIViewController {
 
             case .success(let journals):
                 self.journals = journals
-                self.loadingAnimationView.removeFromSuperview()
 
             case .failure(let error):
                 print(error)
-                self.loadingAnimationView.removeFromSuperview()
                 Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                DispatchQueue.main.async {
+                    self.loadingAnimationView.removeFromSuperview()
+                }
             }
         }
     }

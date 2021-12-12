@@ -18,6 +18,7 @@ class SwipeViewController: UIViewController {
         didSet {
             if cards.count >= 1 {
                 likeNumberLabel.text = "\(cards[currentCardIndex].likeNumber)"
+                loadingAnimationView.removeFromSuperview()
             }
         }
     }
@@ -99,8 +100,6 @@ class SwipeViewController: UIViewController {
                 self.cards = cards
                 self.cardStack.dataSource = self
                 self.cardStack.delegate = self
-
-                self.loadingAnimationView.removeFromSuperview()
                 self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
                 self.shareButton.isEnabled = true
                 self.likeButton.isEnabled = true
