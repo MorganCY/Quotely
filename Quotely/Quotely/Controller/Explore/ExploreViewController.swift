@@ -333,8 +333,6 @@ extension ExploreViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.layoutCell(userInfo: userList[indexPath.row], post: post, isLikePost: self.isLikePost)
 
-        cell.hideSelectionStyle()
-
         cell.likeHandler = { [weak self] in
             guard let self = self else { return }
 

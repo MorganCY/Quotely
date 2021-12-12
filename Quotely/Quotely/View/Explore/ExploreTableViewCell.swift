@@ -62,33 +62,25 @@ class ExploreTableViewCell: UITableViewCell {
         let buttonImage: UIImage = isLikePost ? UIImage.sfsymbol(.heartSelected) : UIImage.sfsymbol(.heartNormal)
         let buttonColor: UIColor = isLikePost ? UIColor.M2 : .gray
 
-        if let profileImageUrl = userInfo.profileImageUrl {
-
-            userImageView.loadImage(profileImageUrl, placeHolder: nil)
-
-        } else {
-
-            userImageView.image = UIImage.asset(.logo)
-        }
-
         userNameLabel.text = userInfo.name
         timeLabel.text = Date.init(milliseconds: post.createdTime).timeAgoDisplay()
         contentLabel.text = post.content
-
         likeButton.setImage(buttonImage, for: .normal)
         likeButton.tintColor = buttonColor
         likeNumberLabel.text = "\(post.likeNumber)"
         commentNumberLabel.text = "\(post.commentNumber)"
+        hideSelectionStyle()
+
+        if let profileImageUrl = userInfo.profileImageUrl {
+            userImageView.loadImage(profileImageUrl, placeHolder: nil)
+        } else {
+            userImageView.image = UIImage.asset(.logo)
+        }
 
         if let postImageUrl = post.imageUrl {
-
-            // Define postImageView display state in case of wrongly reusing cell
-
             postImageView.isHidden = false
             postImageView.loadImage(postImageUrl, placeHolder: nil)
-
         } else {
-
             postImageView.isHidden = true
         }
 
@@ -102,23 +94,17 @@ class ExploreTableViewCell: UITableViewCell {
             cardContentLabel.text = cardContent.replacingOccurrences(of: "\\n", with: "\n")
             cardAuthorLabel.text = cardAuthor
             cardImageView.loadImage(cardImageUrl, placeHolder: nil)
-
         } else {
-
             cardStackView.isHidden = true
         }
 
         if let editTime = post.editTime {
-
             timeLabel.text = "已編輯 \(Date.init(milliseconds: editTime).timeAgoDisplay())"
         }
 
         if userInfo.uid == UserManager.shared.visitorUserInfo?.uid {
-
             optionMenuButton.isHidden = true
-
         } else {
-
             optionMenuButton.isHidden = false
         }
     }

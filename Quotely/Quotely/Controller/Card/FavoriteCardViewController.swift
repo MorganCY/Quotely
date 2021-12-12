@@ -60,8 +60,10 @@ class FavoriteCardViewController: UIViewController {
 
         if likeCardList.count == 0 {
 
-            self.loadingAnimationView.removeFromSuperview()
             self.setupEmptyReminder()
+            DispatchQueue.main.async {
+                self.loadingAnimationView.removeFromSuperview()
+            }
 
         } else {
 
