@@ -498,6 +498,8 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? PostDetailCommentCell
         else { fatalError("Cannot create cell.") }
 
+        cell.delegate = self
+
         let comment = comments[indexPath.row]
         let commentUser = commentUserList[indexPath.row]
         var isCommentAuthor = false
@@ -521,44 +523,6 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
                 self.updateComment(postCommentID: postCommentID, text: text)
             }
-        }
-
-        cell.deleteHandler = { [weak self] in
-
-            guard let self = self else { return }
-
-            guard let postCommentID = comment.postCommentID else { return }
-
-            let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
-
-            let okAction = UIAlertAction(title: "刪除", style: .destructive
-            ) { _ in
-
-                self.deleteComment(idType: .postCommentID, targetID: postCommentID)
-            }
-
-            let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
-
-            if let popoverController = alert.popoverPresentationController {
-
-                popoverController.sourceView = self.view
-                popoverController.sourceRect = CGRect(
-                    x: self.view.bounds.midX,
-                    y: self.view.bounds.midY,
-                    width: 0, height: 0)
-                popoverController.permittedArrowDirections = []
-            }
-
-            alert.addAction(cancelAction)
-            alert.addAction(okAction)
-            self.present(alert, animated: true, completion: nil)
-        }
-
-        cell.optionHandler = { [weak self] in
-
-            guard let self = self else { return }
-
-            self.openOptionMenu(blockedUid: commentUser.uid, index: indexPath.row, completion: nil)
         }
 
         let tapGoToProfileGesture = UITapGestureRecognizer(
@@ -725,6 +689,51 @@ extension PostDetailViewController: PostDetailTableViewHeaderDelegate {
         self.openOptionMenu(blockedUid: self.post?.uid ?? "", index: nil) {
             self.navigationController?.popViewController(animated: true)
         }
+    }
+}
+
+extension PostDetailViewController: PostDetailCommentCellDelegate {
+
+    func deleteCommentCell(_ cell: PostDetailCommentCell) {
+
+        guard let row = tableView.indexPath(for: cell)?.row else { return }
+
+        let comment = comments[row]
+
+        guard let postCommentID = comment.postCommentID else { return }
+
+        let alert = UIAlertController(title: "確定要刪除嗎？", message: nil, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "刪除", style: .destructive
+        ) { _ in
+
+            self.deleteComment(idType: .postCommentID, targetID: postCommentID)
+        }
+
+        let cancelAction = UIAlertAction(title: "取消", style: .default, handler: nil)
+
+        if let popoverController = alert.popoverPresentationController {
+
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(
+                x: self.view.bounds.midX,
+                y: self.view.bounds.midY,
+                width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    func openOptionMenu(_ cell: PostDetailCommentCell) {
+
+        guard let row = tableView.indexPath(for: cell)?.row else { return }
+
+        let commentUser = commentUserList[row]
+
+        openOptionMenu(blockedUid: commentUser.uid, index: row, completion: nil)
     }
 }
 

@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+protocol PostDetailCommentCellDelegate: AnyObject {
+    func deleteCommentCell(_ cell: PostDetailCommentCell)
+    func openOptionMenu(_ cell: PostDetailCommentCell)
+}
+
 class PostDetailCommentCell: UITableViewCell {
 
     @IBOutlet weak var userImageView: UIImageView!
@@ -20,6 +25,8 @@ class PostDetailCommentCell: UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var optionMenuButton: UIButton!
 
+    weak var delegate: PostDetailCommentCellDelegate?
+
     var isEnableEdit = false {
         didSet {
             contentLabel.isHidden = isEnableEdit
@@ -30,14 +37,10 @@ class PostDetailCommentCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        self.backgroundColor = .clear
-
+        backgroundColor = .clear
         userImageView.clipsToBounds = true
-
         editButton.tintColor = .gray
         deleteButton.tintColor = .gray
-
         contentLabel.isHidden = isEnableEdit
         editTextField.isHidden = !isEnableEdit
         doneEditingButton.isHidden = !isEnableEdit
@@ -45,7 +48,6 @@ class PostDetailCommentCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
@@ -57,18 +59,14 @@ class PostDetailCommentCell: UITableViewCell {
     ) {
 
         if let profileImageUrl = userImageUrl {
-
             userImageView.loadImage(profileImageUrl, placeHolder: nil)
-
         } else {
-
             userImageView.image = UIImage.asset(.logo)
         }
 
         nameLabel.text = userName
         timeLabel.text = Date.init(milliseconds: comment.createdTime).timeAgoDisplay()
         contentLabel.text = comment.content
-
         editButton.isHidden = !isAuthor
         deleteButton.isHidden = !isAuthor
         optionMenuButton.isHidden = isAuthor
@@ -80,11 +78,7 @@ class PostDetailCommentCell: UITableViewCell {
 
     var editHandler: (String) -> Void = { _ in }
 
-    var deleteHandler: () -> Void = {}
-
-    var optionHandler: () -> Void = {}
-
-    @IBAction func edit(_ sender: UIButton) {
+    @IBAction func tapEditButton(_ sender: UIButton) {
 
         isEnableEdit = true
         editTextField.text = contentLabel.text
@@ -104,12 +98,10 @@ class PostDetailCommentCell: UITableViewCell {
     }
 
     @IBAction func deleteComment(_ sender: UIButton) {
-
-        deleteHandler()
+        delegate?.deleteCommentCell(self)
     }
 
     @IBAction func tapOptionMenuButton(_ sender: UIButton) {
-
-        optionHandler()
+        delegate?.openOptionMenu(self)
     }
 }
