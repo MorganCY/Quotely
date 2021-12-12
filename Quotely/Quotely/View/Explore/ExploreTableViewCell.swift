@@ -9,6 +9,13 @@ import Foundation
 import UIKit
 import Kingfisher
 
+protocol ExploreTableViewCellDelegate: AnyObject {
+
+    func likeOnRow(_ cell: ExploreTableViewCell)
+    func commentOnRow(_ cell: ExploreTableViewCell)
+    func optionOnRow(_ cell: ExploreTableViewCell)
+}
+
 class ExploreTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userStackView: UIStackView!
@@ -28,6 +35,8 @@ class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var commentNumberLabel: UILabel!
     @IBOutlet weak var optionMenuButton: UIButton!
 
+    weak var delegate: ExploreTableViewCellDelegate?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -39,7 +48,6 @@ class ExploreTableViewCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         userImageView.cornerRadius = userImageView.frame.width / 2
     }
 
@@ -47,10 +55,14 @@ class ExploreTableViewCell: UITableViewCell {
     var commentHandler: () -> Void = {}
     var optionHandler: () -> Void = {}
 
-    @IBAction func tapLikeButton(_ sender: Any) { likeHandler() }
-    @IBAction func tapCommentButton(_ sender: Any) { commentHandler() }
+    @IBAction func tapLikeButton(_ sender: Any) {
+        delegate?.likeOnRow(self)
+    }
+    @IBAction func tapCommentButton(_ sender: Any) {
+        delegate?.commentOnRow(self)
+    }
     @IBAction func tapOptionButton(_ sender: Any) {
-        optionHandler()
+        delegate?.optionOnRow(self)
     }
 
     func layoutCell(
