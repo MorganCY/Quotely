@@ -85,8 +85,8 @@ class SwipeViewController: UIViewController {
             name: UIApplication.userDidTakeScreenshotNotification, object: nil)
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         notificationCenter.removeObserver(self)
     }
 
