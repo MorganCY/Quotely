@@ -100,7 +100,7 @@ class SwipeViewController: UIViewController {
                 self.cards = cards
                 self.cardStack.dataSource = self
                 self.cardStack.delegate = self
-                self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
+                self.likeNumberLabel.text = "收藏數 \(self.cards[0].likeNumber)"
                 self.shareButton.isEnabled = true
                 self.likeButton.isEnabled = true
                 self.writeButton.isEnabled = true
@@ -191,7 +191,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         if nextIndex < cards.count {
 
-            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
+            likeNumberLabel.text = "收藏數 \(cards[nextIndex].likeNumber)"
             currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
@@ -212,7 +212,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         if nextIndex < cards.count {
 
-            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
+            likeNumberLabel.text = "收藏數 \(cards[nextIndex].likeNumber)"
             currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
