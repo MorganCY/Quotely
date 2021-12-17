@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class PostManager {
+final class PostManager {
 
     private init() {}
 

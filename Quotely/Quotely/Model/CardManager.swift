@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-class CardManager {
+final class CardManager {
 
     private init() {}
 

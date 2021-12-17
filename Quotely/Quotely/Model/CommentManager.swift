@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-class CommentManager {
+final class CommentManager {
 
     private init() {}
 

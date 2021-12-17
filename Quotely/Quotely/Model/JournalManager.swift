@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-class JournalManager {
+final class JournalManager {
 
     private init() {}
 
