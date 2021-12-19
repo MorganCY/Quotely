@@ -10,21 +10,21 @@ import UIKit
 
 protocol SwipeCardStackViewDataSource: AnyObject {
 
-    func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int
+    func numbersOfCardsIn(_ stack: SwipeCardContainerView) -> Int
 
-    func cardForStackIn(_ stack: SwipeCardStackView, index: Int) -> String
+    func cardForStackIn(_ stack: SwipeCardContainerView, index: Int) -> String
 
-    func authorForCardsIn(_ stack: SwipeCardStackView, index: Int) -> String
+    func authorForCardsIn(_ stack: SwipeCardContainerView, index: Int) -> String
 }
 
 protocol SwipeCardStackViewDelegate: AnyObject {
 
-    func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int)
+    func cardGoesLeft(_ stack: SwipeCardContainerView, currentIndex: Int, nextIndex: Int)
 
-    func cardGoesRight(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int)
+    func cardGoesRight(_ stack: SwipeCardContainerView, currentIndex: Int, nextIndex: Int)
 }
 
-class SwipeCardStackView: UIStackView {
+class SwipeCardContainerView: UIView {
 
     weak var dataSource: SwipeCardStackViewDataSource? {
         didSet {
@@ -34,6 +34,8 @@ class SwipeCardStackView: UIStackView {
 
     weak var delegate: SwipeCardStackViewDelegate?
 
+    var cardIndexForContent = 0
+
     var nextCardIndex = 0
 
     private func setupCards() {
@@ -42,17 +44,11 @@ class SwipeCardStackView: UIStackView {
 
         for index in 0..<(dataSource.numbersOfCardsIn(self)) {
 
+            cardIndexForContent = index
+
             let swipeCard = SwipeCardView()
-
             swipeCard.delegate = self
-            swipeCard.dropShadow()
-
-            swipeCard.contentLabel.text = dataSource.cardForStackIn(
-                self,
-                index: index)
-                .replacingOccurrences(of: "\\n", with: "\n")
-            swipeCard.authorLabel.text = dataSource.authorForCardsIn(self, index: index)
-
+            swipeCard.dataSource = self
             swipeCard.translatesAutoresizingMaskIntoConstraints = false
             addSubview(swipeCard)
 
@@ -77,7 +73,7 @@ class SwipeCardStackView: UIStackView {
     }
 }
 
-extension SwipeCardStackView: SwipeCardViewDelegate {
+extension SwipeCardContainerView: SwipeCardViewDelegate, SwipeCardViewDataSource {
 
     func cardGoesRight(_ card: SwipeCardView) {
 
@@ -91,5 +87,22 @@ extension SwipeCardStackView: SwipeCardViewDelegate {
         calculateIndex()
 
         self.delegate?.cardGoesLeft(self, currentIndex: nextCardIndex - 1, nextIndex: nextCardIndex)
+    }
+
+    func contentForCard(_ card: SwipeCardView) -> String {
+        guard let dataSource = dataSource else {
+            return ""
+        }
+
+        return dataSource.cardForStackIn(
+            self, index: cardIndexForContent).replacingOccurrences(of: "\\n", with: "\n")
+    }
+
+    func authorForCard(_ card: SwipeCardView) -> String {
+        guard let dataSource = dataSource else {
+            return ""
+        }
+
+        return dataSource.authorForCardsIn(self, index: cardIndexForContent)
     }
 }

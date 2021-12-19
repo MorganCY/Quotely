@@ -26,7 +26,7 @@ class SwipeViewController: UIViewController {
     // MARK: Interface
     private let loadingAnimationView = LottieAnimationView(animationName: "greenLoading")
     private let educationDimmingView = UIView()
-    private var cardStack = SwipeCardStackView()
+    private var cardStack = SwipeCardContainerView()
     private let shareButton = ImageButton(
         image: UIImage.sfsymbol(.shareNormal),
         color: .white,
@@ -85,8 +85,8 @@ class SwipeViewController: UIViewController {
             name: UIApplication.userDidTakeScreenshotNotification, object: nil)
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         notificationCenter.removeObserver(self)
     }
 
@@ -100,7 +100,7 @@ class SwipeViewController: UIViewController {
                 self.cards = cards
                 self.cardStack.dataSource = self
                 self.cardStack.delegate = self
-                self.likeNumberLabel.text = "\(self.cards[0].likeNumber)"
+                self.likeNumberLabel.text = "收藏數 \(self.cards[0].likeNumber)"
                 self.shareButton.isEnabled = true
                 self.likeButton.isEnabled = true
                 self.writeButton.isEnabled = true
@@ -175,13 +175,13 @@ class SwipeViewController: UIViewController {
 
 extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewDelegate {
 
-    func numbersOfCardsIn(_ stack: SwipeCardStackView) -> Int { cards.count }
+    func numbersOfCardsIn(_ stack: SwipeCardContainerView) -> Int { cards.count }
 
-    func authorForCardsIn(_ stack: SwipeCardStackView, index: Int) -> String { cards.reversed()[index].author }
+    func authorForCardsIn(_ stack: SwipeCardContainerView, index: Int) -> String { cards.reversed()[index].author }
 
-    func cardForStackIn(_ card: SwipeCardStackView, index: Int) -> String { cards.reversed()[index].content }
+    func cardForStackIn(_ card: SwipeCardContainerView, index: Int) -> String { cards.reversed()[index].content }
 
-    func cardGoesLeft(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
+    func cardGoesLeft(_ stack: SwipeCardContainerView, currentIndex: Int, nextIndex: Int) {
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
@@ -191,7 +191,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         if nextIndex < cards.count {
 
-            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
+            likeNumberLabel.text = "收藏數 \(cards[nextIndex].likeNumber)"
             currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
@@ -202,7 +202,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
         }
     }
 
-    func cardGoesRight(_ stack: SwipeCardStackView, currentIndex: Int, nextIndex: Int) {
+    func cardGoesRight(_ stack: SwipeCardContainerView, currentIndex: Int, nextIndex: Int) {
 
         guard let cardID = cards[currentIndex].cardID else { return }
 
@@ -212,7 +212,7 @@ extension SwipeViewController: SwipeCardStackViewDataSource, SwipeCardStackViewD
 
         if nextIndex < cards.count {
 
-            likeNumberLabel.text = "\(cards[nextIndex].likeNumber)"
+            likeNumberLabel.text = "收藏數 \(cards[nextIndex].likeNumber)"
             currentCardIndex = nextIndex
 
         } else if nextIndex == cards.count {
