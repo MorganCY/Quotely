@@ -15,7 +15,7 @@ enum FirebaseAction: Int64 {
     case negative = -1
 }
 
-class FirebaseManager {
+final class FirebaseManager {
 
     private init() {}
 

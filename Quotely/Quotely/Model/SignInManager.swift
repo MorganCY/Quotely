@@ -10,7 +10,7 @@ import AuthenticationServices
 import FirebaseAuth
 import CryptoKit
 
-class SignInManager: NSObject {
+final class SignInManager: NSObject {
 
     static let shared = SignInManager()
 

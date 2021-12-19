@@ -15,6 +15,13 @@ protocol SwipeCardViewDelegate: AnyObject {
     func cardGoesLeft(_ card: SwipeCardView)
 }
 
+protocol SwipeCardViewDataSource: AnyObject {
+
+    func contentForCard(_ card: SwipeCardView) -> String
+
+    func authorForCard(_ card: SwipeCardView) -> String
+}
+
 class SwipeCardView: UIView {
 
     // Configure position
@@ -28,8 +35,8 @@ class SwipeCardView: UIView {
     // Configutre layout
     private let backgroundImageView = UIImageView()
     private let textBackgroundView = UIView()
-    let contentLabel = UILabel()
-    let authorLabel = UILabel()
+    private let contentLabel = UILabel()
+    private let authorLabel = UILabel()
     private let likeImageView = UIImageView()
     private let backgroundImages: [ImageAsset] = [.bg1, .bg2, .bg3, .bg4]
 
@@ -37,12 +44,16 @@ class SwipeCardView: UIView {
     private var isLike = true
 
     weak var delegate: SwipeCardViewDelegate?
+    weak var dataSource: SwipeCardViewDataSource? {
+        didSet {
+            setupContent()
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
         setupBackground()
-        setupContent()
         setupLikeImageView()
     }
 
@@ -216,10 +227,12 @@ extension SwipeCardView {
         contentLabel.textColor = .black
         contentLabel.font = UIFont.setRegular(size: 16)
         contentLabel.numberOfLines = 0
+        contentLabel.text = dataSource?.contentForCard(self)
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.textColor = .gray
         authorLabel.font = UIFont.setRegular(size: 12)
         authorLabel.numberOfLines = 1
+        authorLabel.text = dataSource?.authorForCard(self)
 
         NSLayoutConstraint.activate([
             contentLabel.leadingAnchor.constraint(equalTo: textBackgroundView.leadingAnchor, constant: 24),
