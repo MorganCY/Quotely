@@ -82,7 +82,7 @@ class FavoriteCardViewController: UIViewController {
 
                     case .failure(let error):
                         print(error)
-                        Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                        Toast.shared.showFailure(text: .failToDownload)
                         group.leave()
                     }
                 }
@@ -113,7 +113,7 @@ class FavoriteCardViewController: UIViewController {
 
                 case .failure(let error):
                     print(error)
-                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                    Toast.shared.showFailure(text: .failToDownload)
                 }
             }
     }

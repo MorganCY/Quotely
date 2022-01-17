@@ -81,7 +81,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToAdd.rawValue)
+                Toast.shared.showFailure(text: .failToAdd)
             }
         }
     }
@@ -102,7 +102,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
                 print(success)
 
                 self.dismiss(animated: true) {
-                    Toast.showSuccess(text: ToastText.successUpdated.rawValue)
+                    Toast.shared.showSuccess(text: .successUpdated)
 
                     self.editContentHandler?(
                         self.contentTextView.text,
@@ -112,7 +112,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
+                Toast.shared.showFailure(text: .failToUpdate)
             }
         }
     }
@@ -138,7 +138,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                Toast.shared.showFailure(text: .failToUpload)
             }
         }
     }
@@ -147,11 +147,11 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
         guard !contentTextView.text.isEmpty else {
 
-            Toast.showFailure(text: ToastText.remindInput.rawValue)
+            Toast.shared.showFailure(text: .remindInput)
             return
         }
 
-        Toast.showLoading(text: ToastText.uploading.rawValue)
+        Toast.shared.showLoading(text: .uploading)
 
         if let postID = self.postID {
 
@@ -167,7 +167,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
                     case .failure(let error):
                         print(error)
-                        Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                        Toast.shared.showFailure(text: .failToUpload)
                     }
                 }
             } else {
@@ -203,7 +203,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
                 case .failure(let error):
                     print(error)
-                    Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                    Toast.shared.showFailure(text: .failToUpload)
                 }
             }
         } else {
@@ -239,11 +239,11 @@ class BaseAddPostViewController: BaseImagePickerViewController {
     ) {
 
         picker.dismiss(animated: true)
-        Toast.showLoading(text: ToastText.uploading.rawValue)
+        Toast.shared.showLoading(text: .uploading)
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
-            Toast.showFailure(text: ToastText.remindImage.rawValue)
+            Toast.shared.showFailure(text: .remindImage)
             return
         }
 
@@ -265,11 +265,11 @@ class BaseAddPostViewController: BaseImagePickerViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: ToastText.uploading.rawValue)
+        Toast.shared.showLoading(text: .uploading)
 
         guard !results.isEmpty else {
 
-            Toast.showFailure(text: ToastText.remindImage.rawValue)
+            Toast.shared.showFailure(text: .remindImage)
             return
         }
 
@@ -280,7 +280,7 @@ class BaseAddPostViewController: BaseImagePickerViewController {
                 if let error = error {
 
                     print(error)
-                    Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                    Toast.shared.showFailure(text: .failToUpload)
                 }
 
                 guard let selectedImage = image as? UIImage else {

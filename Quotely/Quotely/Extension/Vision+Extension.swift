@@ -18,7 +18,7 @@ extension BaseImagePickerViewController {
             return
         }
 
-        Toast.showLoading(text: ToastText.scanning.rawValue)
+        Toast.shared.showLoading(text: .scanning)
 
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
 
@@ -27,7 +27,7 @@ extension BaseImagePickerViewController {
             guard let observations = request.results as? [VNRecognizedTextObservation],
                   error == nil else {
 
-                      Toast.showFailure(text: ToastText.failToScan.rawValue)
+                      Toast.shared.showFailure(text: .failToScan)
                       return
                   }
 
@@ -49,7 +49,7 @@ extension BaseImagePickerViewController {
             try handler.perform([request])
         } catch {
             print(error)
-            Toast.showFailure(text: ToastText.failToScan.rawValue)
+            Toast.shared.showFailure(text: .failToScan)
         }
     }
 }

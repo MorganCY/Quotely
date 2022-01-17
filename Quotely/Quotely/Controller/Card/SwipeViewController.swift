@@ -107,7 +107,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }
@@ -123,7 +123,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }
@@ -146,7 +146,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }
@@ -167,7 +167,7 @@ class SwipeViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }
@@ -250,13 +250,13 @@ extension SwipeViewController {
     @objc func tapLikeButton(_ sender: UIButton) {
 
         guard let cardID = cards[currentCardIndex].cardID else {
-            return Toast.showFailure(text: ToastText.failToLike.rawValue)
+            return Toast.shared.showFailure(text: .failToLike)
         }
 
         updateUserLikeCardList(visitorUid: SignInManager.shared.visitorUid ?? "", cardID: cardID, likeAction: .positive)
         updateCard(cardID: cardID, likeAction: .positive)
         cards[currentCardIndex].likeNumber += 1
-        Toast.showSuccess(text: ToastText.successLike.rawValue)
+        Toast.shared.showSuccess(text: ToastText.successLike)
     }
 
     @objc func tapWriteButton(_ sender: UIButton) {

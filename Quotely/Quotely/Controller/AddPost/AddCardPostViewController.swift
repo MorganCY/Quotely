@@ -75,7 +75,7 @@ class AddCardPostViewController: BaseAddPostViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                Toast.shared.showFailure(text: .failToUpload)
             }
         }
     }

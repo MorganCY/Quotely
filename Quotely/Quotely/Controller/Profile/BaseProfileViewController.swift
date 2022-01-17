@@ -72,7 +72,7 @@ class BaseProfileViewController: BaseImagePickerViewController {
             case .failure(let error):
                 print(error)
                 self.loadingAnimationView.removeFromSuperview()
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }

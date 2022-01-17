@@ -36,7 +36,7 @@ class MyViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                Toast.shared.showFailure(text: .failToUpload)
                 imagePicker.dismiss(animated: true)
             }
         }
@@ -61,7 +61,7 @@ class MyViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
+                Toast.shared.showFailure(text: .failToUpdate)
             }
         }
     }
@@ -79,7 +79,7 @@ class MyViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpload.rawValue)
+                Toast.shared.showFailure(text: .failToUpload)
                 phpicker.dismiss(animated: true, completion: nil)
             }
         }
@@ -163,7 +163,7 @@ class MyViewController: BaseProfileViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: ToastText.uploading.rawValue)
+        Toast.shared.showLoading(text: .uploading)
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
@@ -190,7 +190,7 @@ class MyViewController: BaseProfileViewController {
 
         picker.dismiss(animated: true)
 
-        Toast.showLoading(text: ToastText.uploading.rawValue)
+        Toast.shared.showLoading(text: .uploading)
 
         guard !results.isEmpty else { return }
 
