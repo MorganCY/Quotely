@@ -74,7 +74,7 @@ class ExploreViewController: UIViewController {
             case .failure(let error):
                 print(error)
                 self.loadingAnimationView.removeFromSuperview()
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }
@@ -99,7 +99,7 @@ class ExploreViewController: UIViewController {
 
                 case .failure(let error):
                     print(error)
-                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                    Toast.shared.showFailure(text: .failToDownload)
                     group.leave()
                 }
             }
@@ -203,7 +203,7 @@ class ExploreViewController: UIViewController {
 
                 case .failure(let error):
                     print(error)
-                    Toast.showFailure(text: ToastText.failToBlock.rawValue)
+                    Toast.shared.showFailure(text: .failToBlock)
                 }
             }
         }

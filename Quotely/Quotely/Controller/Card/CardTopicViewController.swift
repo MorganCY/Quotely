@@ -72,7 +72,7 @@ class CardTopicViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
                 DispatchQueue.main.async {
                     self.loadingAnimationView.removeFromSuperview()
                 }
@@ -93,7 +93,7 @@ class CardTopicViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
                 DispatchQueue.main.async {
                     self.loadingAnimationView.removeFromSuperview()
                 }
@@ -215,7 +215,7 @@ class CardTopicViewController: UIViewController {
 
                 case .failure(let error):
                     print(error)
-                    Toast.showFailure(text: ToastText.failToBlock.rawValue)
+                    Toast.shared.showFailure(text: .failToBlock)
                 }
             }
         }
@@ -398,14 +398,14 @@ extension CardTopicViewController {
 
         guard let cardID = card?.cardID else {
 
-            Toast.showFailure(text: ToastText.failToLike.rawValue)
+            Toast.shared.showFailure(text: .failToLike)
             return
         }
 
         updateUserLikeCardList(cardID: cardID, likeAction: .positive)
         updateCard(cardID: cardID, likeAction: .positive)
         card?.likeNumber += 1
-        Toast.showSuccess(text: ToastText.successLike.rawValue)
+        Toast.shared.showSuccess(text: .successLike)
     }
 
     func tapWriteButton() {

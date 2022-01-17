@@ -72,7 +72,7 @@ class BaseImagePickerViewController: UIViewController,
 
         } else {
 
-            Toast.showFailure(text: ToastText.noCamera.rawValue)
+            Toast.shared.showFailure(text: .noCamera)
         }
     }
 
@@ -100,7 +100,7 @@ class BaseImagePickerViewController: UIViewController,
 
             } else {
 
-                Toast.showFailure(text: ToastText.noCamera.rawValue)
+                Toast.shared.showFailure(text: .noCamera)
             }
         }
     }

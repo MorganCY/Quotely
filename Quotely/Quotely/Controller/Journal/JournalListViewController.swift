@@ -73,7 +73,7 @@ class JournalListViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
                 DispatchQueue.main.async {
                     self.loadingAnimationView.removeFromSuperview()
                 }
