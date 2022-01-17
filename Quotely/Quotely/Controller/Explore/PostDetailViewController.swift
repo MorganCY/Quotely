@@ -73,7 +73,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }
@@ -98,7 +98,7 @@ class PostDetailViewController: UIViewController {
 
                 case .failure(let error):
                     print(error)
-                    Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                    Toast.shared.showFailure(text: .failToDownload)
                     group.leave()
                 }
             }
@@ -164,7 +164,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
             }
         }
     }
@@ -198,7 +198,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToBlock.rawValue)
+                Toast.shared.showFailure(text: .failToBlock)
             }
         }
     }
@@ -209,7 +209,7 @@ class PostDetailViewController: UIViewController {
 
         guard !text.isEmpty else {
 
-            Toast.showFailure(text: ToastText.remindInput.rawValue)
+            Toast.shared.showFailure(text: .remindInput)
             return
         }
 
@@ -239,7 +239,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToAdd.rawValue)
+                Toast.shared.showFailure(text: .failToAdd)
                 self.submitCommentButton.isEnabled = true
             }
         }
@@ -325,7 +325,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
+                Toast.shared.showFailure(text: .failToUpdate)
             }
         }
     }
@@ -351,7 +351,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDownload.rawValue)
+                Toast.shared.showFailure(text: .failToDownload)
                 errorHandler()
             }
         }
@@ -375,7 +375,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDelete.rawValue)
+                Toast.shared.showFailure(text: .failToDelete)
             }
         }
     }
@@ -395,7 +395,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDelete.rawValue)
+                Toast.shared.showFailure(text: .failToDelete)
             }
         }
     }
@@ -411,7 +411,7 @@ class PostDetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToDelete.rawValue)
+                Toast.shared.showFailure(text: .failToDelete)
             }
         }
     }

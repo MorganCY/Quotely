@@ -152,7 +152,7 @@ class ShareViewController: BaseImagePickerViewController {
 
             } else {
 
-                Toast.showFailure(text: ToastText.noInstagram.rawValue)
+                Toast.shared.showFailure(text: .noInstagram)
                 print("User doesn't have instagram on their device.")
             }
         }
@@ -171,7 +171,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         UIImageWriteToSavedPhotosAlbum(sharingImage, nil, nil, nil)
         isSharing = false
-        Toast.showSuccess(text: ToastText.successSave.rawValue)
+        Toast.shared.showSuccess(text: .successSave)
     }
 
     @objc func changeTemplateImageToBg1(_ sender: UIButton) {
@@ -200,7 +200,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         guard let selectedImage = info[.editedImage] as? UIImage else {
 
-            Toast.showFailure(text: ToastText.remindImage.rawValue)
+            Toast.shared.showFailure(text: .remindImage)
             return
         }
 
@@ -216,7 +216,7 @@ class ShareViewController: BaseImagePickerViewController {
 
         guard !results.isEmpty else {
 
-            Toast.showFailure(text: ToastText.remindImage.rawValue)
+            Toast.shared.showFailure(text: .remindImage)
             return
         }
 
@@ -227,7 +227,7 @@ class ShareViewController: BaseImagePickerViewController {
                 if let error = error {
 
                     print(error)
-                    Toast.showFailure(text: ToastText.remindImage.rawValue)
+                    Toast.shared.showFailure(text: .remindImage)
                 }
 
                 guard let selectedImage = image as? UIImage else {

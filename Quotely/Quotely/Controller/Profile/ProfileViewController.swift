@@ -64,7 +64,7 @@ class ProfileViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
+                Toast.shared.showFailure(text: .failToUpdate)
             }
         }
     }
@@ -88,7 +88,7 @@ class ProfileViewController: BaseProfileViewController {
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToUpdate.rawValue)
+                Toast.shared.showFailure(text: .failToUpdate)
             }
         }
     }

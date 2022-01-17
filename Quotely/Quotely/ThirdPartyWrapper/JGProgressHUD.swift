@@ -35,7 +35,7 @@ enum ToastText: String {
     case noInstagram = "無法開啟Instagram"
 }
 
-class Toast {
+final class Toast {
 
     static let shared = Toast()
 
@@ -45,67 +45,67 @@ class Toast {
 
     var view = UIViewController.getLastPresentedViewController()?.view
 
-    static func showSuccess(text: String) {
+    func showSuccess(text: ToastText) {
 
         if !Thread.isMainThread {
 
             DispatchQueue.main.async {
-                showSuccess(text: text)
+                self.showSuccess(text: text)
             }
 
             return
         }
 
-        shared.hud.textLabel.text = text
+        hud.textLabel.text = text.rawValue
 
-        shared.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
 
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
-        shared.hud.show(in: sceneDelegate?.window ?? UIView())
+        hud.show(in: sceneDelegate?.window ?? UIView())
 
-        shared.hud.dismiss(afterDelay: 1.5)
+        hud.dismiss(afterDelay: 1.5)
     }
 
-    static func showLoading(text: String) {
+    func showLoading(text: ToastText) {
 
         if !Thread.isMainThread {
 
             DispatchQueue.main.async {
-                showLoading(text: text)
+                self.showLoading(text: text)
             }
 
             return
         }
 
-        shared.hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
+        hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
 
-        shared.hud.textLabel.text = text
+        hud.textLabel.text = text.rawValue
 
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
-        shared.hud.show(in: sceneDelegate?.window ?? UIView())
+        hud.show(in: sceneDelegate?.window ?? UIView())
     }
 
-    static func showFailure(text: String) {
+    func showFailure(text: ToastText) {
 
         if !Thread.isMainThread {
 
             DispatchQueue.main.async {
-                showFailure(text: text)
+                self.showFailure(text: text)
             }
 
             return
         }
 
-        shared.hud.textLabel.text = text
+        hud.textLabel.text = text.rawValue
 
-        shared.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+        hud.indicatorView = JGProgressHUDErrorIndicatorView()
 
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
 
-        shared.hud.show(in: sceneDelegate?.window ?? UIView())
+        hud.show(in: sceneDelegate?.window ?? UIView())
 
-        shared.hud.dismiss(afterDelay: 1.5)
+        hud.dismiss(afterDelay: 1.5)
     }
 }

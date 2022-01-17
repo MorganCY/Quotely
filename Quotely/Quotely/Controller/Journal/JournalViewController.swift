@@ -204,11 +204,11 @@ extension JournalViewController {
                 print(success)
                 self.isEditPanelExpand = false
                 self.journalTextView.text.removeAll()
-                Toast.showSuccess(text: ToastText.successAdd.rawValue)
+                Toast.shared.showSuccess(text: .successAdd)
 
             case .failure(let error):
                 print(error)
-                Toast.showFailure(text: ToastText.failToAdd.rawValue)
+                Toast.shared.showFailure(text: .failToAdd)
             }
         }
     }
